@@ -1,105 +1,89 @@
-# Environment Variables
+# Environment Configuration
 
-This document explains how to set up environment variables for Elovayne.
+This document explains how to set up the Elovayne environment variables.
 
 ---
 
 ## Required Variables
 
-### Supabase
-
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_jwt_anon_key_here
 ```
 
-**Where to find these:**
-1. Go to [supabase.com](https://supabase.com) and sign in
-2. Select your project (or create a new one)
-3. Go to **Settings** → **API**
-4. Copy the **Project URL** and **anon public** key
+### Finding Your Supabase Credentials
 
----
+1. Go to [Supabase Dashboard](https://app.supabase.com)
+2. Select your project
+3. Go to **Project Settings** → **API**
+4. Copy the **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
+5. Copy the **anon public** key (starts with `eyJ...`) → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-## Setup Instructions
-
-### 1. Create Supabase Project
-
-1. Visit [supabase.com](https://supabase.com)
-2. Click "New Project"
-3. Choose a project name (e.g., `elovayne`)
-4. Set a database password
-5. Select a region close to your users
-6. Click "Create new project"
-
-### 2. Run Database Schema
-
-1. In your Supabase dashboard, go to **SQL Editor**
-2. Click "New query"
-3. Paste the contents of `supabase/schema.sql`
-4. Click "Run"
-
-### 3. Get API Credentials
-
-1. Go to **Settings** → **API**
-2. Copy the **Project URL**
-3. Copy the **anon public** key
-
-### 4. Create Environment File
-
-```bash
-# In the project root
-cp .env.local.example .env.local
-```
-
-Edit `.env.local` with your values:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-```
-
-### 5. Restart Development Server
-
-```bash
-npm run dev
-```
+> **Important:** Use the `anon` key (JWT format), NOT the `publishable` key. The JavaScript client requires the JWT format to work correctly.
 
 ---
 
 ## Vercel Deployment
 
-When deploying to Vercel:
+Environment variables are configured in the Vercel dashboard:
 
-1. Go to your project on [vercel.com](https://vercel.com)
-2. Go to **Settings** → **Environment Variables**
-3. Add each variable:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-4. Set the environment to **Production** (and **Preview** if needed)
-5. Redeploy the project
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard) → Project → Settings → Environment Variables
+2. Add both variables for all environments (Production, Preview, Development)
+3. Trigger a redeploy after setting them
 
 ---
 
-## Security Notes
+## Supabase Project Details
 
-- Never commit `.env.local` to git
-- The `NEXT_PUBLIC_` prefix makes variables available in the browser (required for Supabase client)
-- The anon key is safe to expose — Row Level Security (RLS) protects your data
-- Never expose your `service_role` key in client-side code
+| Property | Value |
+|----------|-------|
+| Project ID | `vqkvrdevzsfewexonjck` |
+| Region | AWS (default) |
+| Dashboard URL | https://app.supabase.com/project/vqkvrdevzsfewexonjck |
+
+---
+
+## Domain Configuration
+
+| Domain | Provider | Status |
+|--------|----------|--------|
+| `elovayne.com` | Namecheap | ✅ Live |
+| `www.elovayne.com` | Vercel | ✅ Live |
+
+DNS Configuration (Namecheap):
+- **A Record:** `@` → `76.76.21.21` (Vercel)
+- **CNAME Record:** `www` → `cname.vercel-dns.com`
+
+---
+
+## Local Development
+
+Create `.env.local` in the project root:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://vqkvrdevzsfewexonjck.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_actual_jwt_anon_key
+```
+
+Never commit `.env.local` to git (it's in `.gitignore`).
 
 ---
 
 ## Troubleshooting
 
+### "Supabase URL is required" error
+- Ensure `NEXT_PUBLIC_SUPABASE_URL` is set in `.env.local`
+- Restart the dev server after changing env vars
+
 ### "Invalid API key" error
-- Check that your `.env.local` file exists and has the correct values
-- Restart the development server after changing environment variables
+- Use the **anon** key (JWT), not the **publishable** key
+- The anon key starts with `eyJ` (it's a JWT)
 
-### Supabase connection failed
-- Verify your project URL is correct
-- Check that your Supabase project is not paused (free tier pauses after inactivity)
+### Posts not saving
+- Check the Vercel function logs for errors
+- Ensure RLS policies allow inserts (see `supabase/schema.sql`)
+- The user must be authenticated (anonymous auth is automatic)
 
-### Build fails on Vercel
-- Ensure environment variables are added in Vercel dashboard
-- Check build logs for missing variable errors
+### Build fails with SSR error
+- The Supabase client uses a function call pattern (`supabase()`) to avoid SSR/browser API conflicts
+- Never import `supabase` directly as a static object — always call it as a function

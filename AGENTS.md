@@ -1,9 +1,3 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
-
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
-
 # Elovayne — Agent Instructions
 
 ## Project Overview
@@ -63,6 +57,11 @@ Elovayne is an immersive artistic community website. It's a dreamlike escape fro
 - Utilities: camelCase (`supabase.ts`)
 - CSS classes: Tailwind utilities + custom classes from `globals.css`
 
+### Supabase Client
+- The Supabase client is exported as a **function** (`supabase()`) from `src/lib/supabase.ts`
+- Always call it: `const client = supabase()` — never import as a static object
+- This avoids SSR/browser API conflicts
+
 ---
 
 ## Emotional Rooms
@@ -90,8 +89,10 @@ Each room has its own atmosphere:
 - `GlowingPortal.tsx` — Breathing portal with exit transition
 - `PostCreator.tsx` — Post creation with identity selector
 - `PostCard.tsx` — Post display with 5 meaningful reactions
-- `SanctuaryFeed.tsx` — Feed component
+- `SanctuaryFeed.tsx` — Feed component (Supabase-powered, uses `supabase()` function)
 - `ElovayneLogo.tsx` — Animated logo
+- `AuthProvider.tsx` — Anonymous auth + user profile creation (context provider)
+- `ClientLayout.tsx` — Client wrapper for AuthProvider
 
 ---
 
@@ -106,6 +107,30 @@ The 5 reactions (not "likes"):
 
 ---
 
+## Supabase Integration
+
+### Auth
+- Anonymous auth via `supabase.auth.signInAnonymously()`
+- User profile auto-created in `users` table on first visit
+- `useAuth()` hook provides `userId` and `ensureUserProfile()`
+
+### Database Tables
+- `rooms` — 10 emotional rooms (pre-populated)
+- `users` — User profiles (anonymous/alias/real identity)
+- `posts` — Content with types (text/poem/story)
+- `reactions` — 5 meaningful reaction types
+- `saves` — Bookmarked posts (Phase 3)
+- `reports` — Content moderation
+- `journals` — Private user journals (Phase 3)
+
+### RLS Policies
+- Rooms: Anyone can view
+- Posts: Anyone can read, only author can modify
+- Reactions: Anyone can read, one per user per post per type
+- Users: Public read, insert allowed
+
+---
+
 ## Important Rules
 
 1. **Never add public popularity metrics** — No follower counts, like counts, or engagement scores
@@ -113,6 +138,7 @@ The 5 reactions (not "likes"):
 3. **Keep it slow and dreamlike** — No fast, jarring animations
 4. **Protect vulnerable users** — Strong moderation, reporting, and blocking
 5. **Meaningful over viral** — Design for depth, not engagement
+6. **Never commit secrets** — No API keys, passwords, or sensitive data in git
 
 ---
 
@@ -123,4 +149,14 @@ npm run dev      # Start development server
 npm run build    # Build for production
 npm run start    # Start production server
 npm run lint     # Run ESLint
+vercel --prod    # Deploy to production
 ```
+
+---
+
+## Project Status
+
+- **Phase 1:** ✅ Complete — Foundation (starfield, nebula, portal, homepage)
+- **Phase 2:** ✅ Complete — Community Heart (posts, reactions, Supabase integration)
+- **Phase 3:** 🔄 In Progress — Personal Space (user profiles, bookmarks, journals)
+- **Phase 4:** ⏳ Pending — Polish & Launch (sound, moderation, 404)
