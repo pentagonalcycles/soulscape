@@ -56,6 +56,20 @@ create table users (
   display_name text,
   avatar_url text,
   bio text,
+  contact_info text,
+  contact_type text check (contact_type in ('email', 'discord', 'website', 'other')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+-- User preferences table (UI personalization)
+create table user_preferences (
+  user_id uuid primary key references users(id) on delete cascade,
+  accent_color text not null default '#9d7cd8',
+  show_starfield boolean not null default true,
+  nebula_intensity text not null default 'normal' check (nebula_intensity in ('off', 'subtle', 'normal', 'vivid')),
+  animation_speed text not null default 'normal' check (animation_speed in ('minimal', 'normal')),
+  compact_mode boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -121,6 +135,7 @@ create index reactions_post_id_idx on reactions(post_id);
 create index reactions_user_id_idx on reactions(user_id);
 create index saves_user_id_idx on saves(user_id);
 create index journals_user_id_idx on journals(user_id);
+create index user_preferences_user_id_idx on user_preferences(user_id);
 
 -- Row Level Security (RLS)
 alter table users enable row level security;
@@ -129,9 +144,10 @@ alter table reactions enable row level security;
 alter table saves enable row level security;
 alter table reports enable row level security;
 alter table journals enable row level security;
+alter table user_preferences enable row level security;
 
 -- Users policies
-create policy "Users can view own profile" on users for select using (auth.uid() = id);
+create policy "Anyone can view user profiles" on users for select using (true);
 create policy "Users can update own profile" on users for update using (auth.uid() = id);
 create policy "Users can insert own profile" on users for insert with check (auth.uid() = id);
 
@@ -160,3 +176,8 @@ create policy "Users can view own journals" on journals for select using (auth.u
 create policy "Authenticated users can create journals" on journals for insert with check (auth.uid() = user_id);
 create policy "Users can update own journals" on journals for update using (auth.uid() = user_id);
 create policy "Users can delete own journals" on journals for delete using (auth.uid() = user_id);
+
+-- User preferences policies
+create policy "Users can view own preferences" on user_preferences for select using (auth.uid() = user_id);
+create policy "Authenticated users can create preferences" on user_preferences for insert with check (auth.uid() = user_id);
+create policy "Users can update own preferences" on user_preferences for update using (auth.uid() = user_id);

@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import SaveButton from "./SaveButton";
 
 type ReactionType = "understanding" | "hope" | "company" | "less_alone" | "comfort";
 
@@ -140,34 +141,37 @@ export default function PostCard({
           </div>
         </div>
 
-        {/* Report button */}
-        <div className="relative">
-          <button
-            onClick={() => setShowReportMenu(!showReportMenu)}
-            className="text-elovayne-dim hover:text-elovayne-muted transition-colors opacity-0 group-hover:opacity-100"
-          >
-            ···
-          </button>
-          <AnimatePresence>
-            {showReportMenu && (
-              <motion.div
-                className="absolute right-0 top-8 glass rounded-xl p-2 min-w-[150px] z-20"
-                initial={{ opacity: 0, scale: 0.95, y: -5 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -5 }}
-              >
-                <button
-                  onClick={() => {
-                    onReport?.(id);
-                    setShowReportMenu(false);
-                  }}
-                  className="w-full text-left px-3 py-2 text-sm text-elovayne-muted hover:text-elovayne-cosmic-pink hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          <SaveButton postId={id} />
+          <div className="relative">
+            <button
+              onClick={() => setShowReportMenu(!showReportMenu)}
+              className="text-elovayne-dim hover:text-elovayne-muted transition-colors opacity-0 group-hover:opacity-100"
+            >
+              ···
+            </button>
+            <AnimatePresence>
+              {showReportMenu && (
+                <motion.div
+                  className="absolute right-0 top-8 glass rounded-xl p-2 min-w-[150px] z-20"
+                  initial={{ opacity: 0, scale: 0.95, y: -5 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: -5 }}
                 >
-                  Report this post
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  <button
+                    onClick={() => {
+                      onReport?.(id);
+                      setShowReportMenu(false);
+                    }}
+                    className="w-full text-left px-3 py-2 text-sm text-elovayne-muted hover:text-elovayne-cosmic-pink hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
+                  >
+                    Report this post
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
 

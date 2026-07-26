@@ -43,8 +43,11 @@ export default function Sanctuary() {
               <Link href="/rooms" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
                 Rooms
               </Link>
-              <Link href="/journal" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Journal
+              <Link href="/profile" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
+                Profile
+              </Link>
+              <Link href="/settings" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
+                Settings
               </Link>
             </nav>
           </div>

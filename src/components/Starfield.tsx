@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useAuth } from "./AuthProvider";
 
 interface Star {
   x: number;
@@ -17,8 +18,11 @@ export default function Starfield() {
   const starsRef = useRef<Star[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
   const animationRef = useRef<number>(0);
+  const { userPreferences } = useAuth();
 
   useEffect(() => {
+    if (!userPreferences.show_starfield) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -90,7 +94,9 @@ export default function Starfield() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [userPreferences.show_starfield]);
+
+  if (!userPreferences.show_starfield) return null;
 
   return (
     <canvas

@@ -173,8 +173,11 @@ export default function RoomPage({
               <Link href="/rooms" className="text-elovayne-light glow-text">
                 Rooms
               </Link>
-              <Link href="/journal" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Journal
+              <Link href="/profile" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
+                Profile
+              </Link>
+              <Link href="/settings" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
+                Settings
               </Link>
             </nav>
           </div>
