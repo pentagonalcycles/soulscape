@@ -11,12 +11,14 @@ export default function ElovayneLogo() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      {/* Logo image — mix-blend-mode removes black background */}
+      {/* Logo image — mask fades edges, screen blend removes black */}
       <motion.div
         className="relative w-40 h-40 md:w-52 md:h-52"
         style={{
-          mixBlendMode: "screen",
-          isolation: "auto",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 70% 70% at 50% 50%, black 40%, transparent 70%)",
+          maskImage:
+            "radial-gradient(ellipse 70% 70% at 50% 50%, black 40%, transparent 70%)",
         }}
         animate={{
           filter: [

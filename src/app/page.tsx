@@ -25,7 +25,7 @@ export default function Home() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center gap-8 md:gap-12 px-6" style={{ isolation: "isolate" }}>
+      <div className="relative z-10 flex flex-col items-center gap-8 md:gap-12 px-6">
         {/* Logo */}
         <ElovayneLogo />
 
