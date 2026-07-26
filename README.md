@@ -20,14 +20,15 @@ The website feels emotional, dreamlike, welcoming, mysterious, and visually arti
 ## Features
 
 ### Core Experience
-- **Immersive Homepage** — Canvas starfield particles with mouse parallax, animated nebula gradient blobs, glowing portal with breathing animation and exit transition
-- **Community Sanctuary** — A safe space for sharing stories, emotions, and creative expressions. Posts are saved to Supabase and persist across sessions.
-- **Emotional Rooms** — Themed spaces for Healing, Hope, Loneliness, Grief, Creativity, Love, Anxiety, New Beginnings, and Self-Discovery — each with unique color atmospheres and ambient sound
+- **Immersive Homepage** — Canvas starfield particles with mouse parallax, animated nebula gradient blobs, glowing portal with breathing animation and exit transition, descriptive subtitle, and "How it works" link
+- **Community Sanctuary** — A safe space for sharing stories, emotions, and creative expressions. Posts are saved to Supabase and persist across sessions. Daily emotional prompts and community stats.
+- **Emotional Rooms** — 15 themed spaces including Healing, Hope, Loneliness, Grief, Creativity, Love, Anxiety, New Beginnings, Self-Discovery, Small Wins, Dreams, Gratitude, Art & Poetry, and A Place to Breathe — each with unique color atmospheres and ambient sound
 
 ### Meaningful Connections
 - **5 Meaningful Reactions** — "I understand", "This gave me hope", "I'm here with you", "Less alone", "This comforted me" — saved to database, toggleable
 - **Identity Options** — Post anonymously, with a creative alias, or your real identity
 - **Content Types** — Share thoughts, poems, stories, or artwork
+- **Room Selector** — Choose which room to post to when creating content
 
 ### Personal Space
 - **User Profiles** — Control your identity, bio, and optional contact details
@@ -40,6 +41,12 @@ The website feels emotional, dreamlike, welcoming, mysterious, and visually arti
 - **Moderation Dashboard** — Review, dismiss, or remove reported posts
 - **Post Deletion** — Authors can delete their own posts
 - **Anonymous by Default** — No identity required to participate
+
+### Trust & Clarity
+- **Welcome Modal** — First-time visitor onboarding with quick actions
+- **About Page** — Privacy, community guidelines, safety info, and crisis support
+- **Privacy Nudge** — Reassurance in post creator that identity is always protected
+- **Footer** — Persistent links to About, Guidelines, Privacy, and Crisis Support
 
 ### Authentication
 - **Anonymous Auth** — Every visitor gets a unique user ID automatically
@@ -124,7 +131,8 @@ soulscape/
 │   │   ├── layout.tsx                # Root layout with fonts + AuthProvider
 │   │   ├── page.tsx                  # Immersive homepage with portal
 │   │   ├── not-found.tsx             # Custom 404 page
-│   │   ├── sanctuary/page.tsx        # Community sanctuary with feed
+│   │   ├── about/page.tsx            # About, privacy, guidelines, safety
+│   │   ├── sanctuary/page.tsx        # Community sanctuary with feed + daily prompt
 │   │   ├── profile/page.tsx          # User profile (edit identity, bio, contact)
 │   │   ├── settings/page.tsx         # UI personalization controls
 │   │   ├── saves/page.tsx            # Bookmarked/saved posts
@@ -132,29 +140,35 @@ soulscape/
 │   │   ├── login/page.tsx            # Email magic link authentication
 │   │   ├── moderation/page.tsx       # Moderation dashboard
 │   │   └── rooms/
-│   │       ├── page.tsx              # Rooms grid
+│   │       ├── page.tsx              # Rooms grid (15 rooms)
 │   │       └── [slug]/page.tsx       # Dynamic room pages with room-specific nebula + sound
 │   ├── components/
 │   │   ├── Starfield.tsx             # Canvas particle starfield (toggleable)
 │   │   ├── Nebula.tsx                # Animated nebula (intensity-aware)
-│   │   ├── ElovayneLogo.tsx          # Animated SVG logo with glow
+│   │   ├── ElovayneLogo.tsx          # Logo image with glow animation
 │   │   ├── GlowingPortal.tsx         # Breathing portal with exit transition
 │   │   ├── Navigation.tsx            # Shared navigation header
-│   │   ├── PostCreator.tsx           # Post creation with identity selector
+│   │   ├── Footer.tsx                # Site-wide footer with links
+│   │   ├── WelcomeModal.tsx          # First-time visitor onboarding
+│   │   ├── PostCreator.tsx           # Post creation with identity + room selector
 │   │   ├── PostCard.tsx              # Post display with reactions + save + delete
-│   │   ├── SanctuaryFeed.tsx         # Feed component (Supabase-powered)
+│   │   ├── SanctuaryFeed.tsx         # Feed component (Supabase-powered, with stats)
 │   │   ├── SaveButton.tsx            # Bookmark/save toggle on posts
 │   │   ├── LoadingSkeleton.tsx       # Animated loading placeholders
 │   │   ├── AmbientSound.tsx          # Web Audio API ambient tones per room
 │   │   ├── AuthProvider.tsx           # Auth (anonymous + email) + profile + preferences
 │   │   ├── ThemeContext.tsx           # Dynamic CSS variable theming
-│   │   └── ClientLayout.tsx          # Client-side layout wrapper
+│   │   └── ClientLayout.tsx          # Client-side layout wrapper + Footer + WelcomeModal
 │   └── lib/
 │       └── supabase.ts               # Supabase client (SSR-safe)
 ├ supabase/
 │   ├── schema.sql                    # Full database schema with RLS
-│   └── migration_phase3.sql          # Phase 3 migration (run in SQL Editor)
-├ public/                           # Static assets
+│   ├── migration_phase3.sql          # Phase 3 migration
+│   ├── migration_phase4.sql          # Phase 4 migration (sound preferences)
+│   └── migration_new_rooms.sql       # New positive rooms migration
+├ public/
+│   ├── logo.jpeg                     # Elovayne logo
+│   └── ...
 ├ ENVIRONMENT.md                    # Environment setup guide
 ├ AGENTS.md                         # AI agent instructions
 └ package.json
@@ -194,7 +208,7 @@ The Supabase database includes:
 
 | Table | Description |
 |-------|-------------|
-| `rooms` | 10 emotional rooms with themes and ambient settings |
+| `rooms` | 15 emotional rooms with themes and ambient settings |
 | `users` | User profiles (identity, bio, contact details) |
 | `posts` | Content with types (text/poem/story/art/voice) |
 | `reactions` | 5 meaningful reaction types per user per post |
@@ -244,6 +258,18 @@ See `supabase/schema.sql` for the full schema.
 - [x] Report system with reason selection
 - [x] Art content type (voice coming soon)
 - [x] Room-specific feeds (each room shows only its posts)
+
+### Phase 5 ✅ — Trust, Clarity & Engagement
+- [x] Homepage clarity (descriptive subtitle + "How it works" link)
+- [x] About page (privacy, guidelines, safety, crisis support)
+- [x] Welcome modal for first-time visitors
+- [x] Privacy nudge in post creator
+- [x] 5 new positive rooms (Small Wins, Dreams, Gratitude, Art & Poetry, Breathe)
+- [x] Daily emotional prompts in sanctuary
+- [x] Community stats (total stories + reactions)
+- [x] Room selector in post creator
+- [x] Site-wide footer with links
+- [x] Custom logo image
 
 ### Future Phases
 - [ ] Voice recordings

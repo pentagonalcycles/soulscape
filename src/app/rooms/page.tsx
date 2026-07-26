@@ -77,6 +77,41 @@ const rooms = [
     icon: "🔮",
     colors: { primary: "#c084fc", secondary: "#e879f6", glow: "#f0abfc" },
   },
+  {
+    name: "Small Wins",
+    slug: "small-wins",
+    description: "Every step forward matters",
+    icon: "🎉",
+    colors: { primary: "#fbbf24", secondary: "#f59e0b", glow: "#fde68a" },
+  },
+  {
+    name: "Dreams",
+    slug: "dreams",
+    description: "Share what your heart envisions",
+    icon: "🌙",
+    colors: { primary: "#818cf8", secondary: "#6366f1", glow: "#c7d2fe" },
+  },
+  {
+    name: "Gratitude",
+    slug: "gratitude",
+    description: "The light that exists even in darkness",
+    icon: "🙏",
+    colors: { primary: "#f5d062", secondary: "#eab308", glow: "#fef3c7" },
+  },
+  {
+    name: "Art & Poetry",
+    slug: "art-poetry",
+    description: "Words, colors, and sounds of the soul",
+    icon: "🎭",
+    colors: { primary: "#f472b6", secondary: "#ec4899", glow: "#fbcfe8" },
+  },
+  {
+    name: "A Place to Breathe",
+    slug: "breathe",
+    description: "A quiet space with nothing to prove",
+    icon: "🫧",
+    colors: { primary: "#5eead4", secondary: "#2dd4bf", glow: "#99f6e4" },
+  },
 ];
 
 export default function Rooms() {

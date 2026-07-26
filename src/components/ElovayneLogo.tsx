@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function ElovayneLogo() {
   return (
@@ -10,14 +11,14 @@ export default function ElovayneLogo() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      {/* Logo symbol */}
+      {/* Logo image */}
       <motion.div
-        className="relative w-16 h-16 md:w-20 md:h-20"
+        className="relative w-40 h-40 md:w-52 md:h-52"
         animate={{
           filter: [
-            "drop-shadow(0 0 10px rgba(157, 124, 216, 0.5))",
-            "drop-shadow(0 0 20px rgba(157, 124, 216, 0.8))",
-            "drop-shadow(0 0 10px rgba(157, 124, 216, 0.5))",
+            "drop-shadow(0 0 15px rgba(157, 124, 216, 0.4))",
+            "drop-shadow(0 0 30px rgba(157, 124, 216, 0.7))",
+            "drop-shadow(0 0 15px rgba(157, 124, 216, 0.4))",
           ],
         }}
         transition={{
@@ -25,55 +26,15 @@ export default function ElovayneLogo() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
+        style={{ mixBlendMode: "screen" }}
       >
-        <svg viewBox="0 0 100 100" className="w-full h-full">
-          {/* Outer circle */}
-          <circle
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            stroke="url(#logoGradient)"
-            strokeWidth="1.5"
-            opacity="0.6"
-          />
-          {/* Inner orbit */}
-          <ellipse
-            cx="50"
-            cy="50"
-            rx="30"
-            ry="15"
-            fill="none"
-            stroke="url(#logoGradient)"
-            strokeWidth="1"
-            opacity="0.4"
-            transform="rotate(-30 50 50)"
-          />
-          <ellipse
-            cx="50"
-            cy="50"
-            rx="30"
-            ry="15"
-            fill="none"
-            stroke="url(#logoGradient)"
-            strokeWidth="1"
-            opacity="0.4"
-            transform="rotate(30 50 50)"
-          />
-          {/* Center dot */}
-          <circle cx="50" cy="50" r="3" fill="url(#logoGradient)" opacity="0.8" />
-          {/* Orbiting dots */}
-          <circle cx="50" cy="5" r="2" fill="#e879a8" opacity="0.7" />
-          <circle cx="85" cy="68" r="1.5" fill="#f5d062" opacity="0.6" />
-          <circle cx="15" cy="68" r="1.5" fill="#9d7cd8" opacity="0.6" />
-          <defs>
-            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#9d7cd8" />
-              <stop offset="50%" stopColor="#e879a8" />
-              <stop offset="100%" stopColor="#f5d062" />
-            </linearGradient>
-          </defs>
-        </svg>
+        <Image
+          src="/logo.jpeg"
+          alt="Elovayne"
+          fill
+          className="object-contain"
+          priority
+        />
       </motion.div>
 
       {/* Logo text */}

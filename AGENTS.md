@@ -80,6 +80,11 @@ Each room has its own atmosphere:
 | Anxiety | Indigo/Blue | Subtle flicker |
 | New Beginnings | Dawn colors | Rising particles |
 | Self-Discovery | Kaleidoscope | Shifting patterns |
+| Small Wins | Gold/Amber | Celebratory sparkle |
+| Dreams | Indigo/Blue | Slow, drifting |
+| Gratitude | Gold/Yellow | Warm, rising |
+| Art & Poetry | Pink/Rose | Creative, flowing |
+| A Place to Breathe | Teal/Cyan | Calm, minimal |
 
 ---
 
@@ -89,16 +94,18 @@ Each room has its own atmosphere:
 - `Nebula.tsx` — Animated nebula gradient blobs (intensity-aware)
 - `GlowingPortal.tsx` — Breathing portal with exit transition
 - `Navigation.tsx` — Shared navigation header (replaces duplicated headers)
-- `PostCreator.tsx` — Post creation with identity selector (text/poem/story/art)
+- `PostCreator.tsx` — Post creation with identity selector (text/poem/story/art) + room selector
 - `PostCard.tsx` — Post display with 5 meaningful reactions, save, delete, report
-- `SanctuaryFeed.tsx` — Feed component (Supabase-powered, uses `supabase()` function)
+- `SanctuaryFeed.tsx` — Feed component (Supabase-powered, uses `supabase()` function, includes community stats)
 - `SaveButton.tsx` — Bookmark/save toggle on posts
 - `LoadingSkeleton.tsx` — Animated loading placeholders for feeds
 - `AmbientSound.tsx` — Web Audio API procedural ambient tones per room
-- `ElovayneLogo.tsx` — Animated logo
+- `ElovayneLogo.tsx` — Animated logo with glow
 - `AuthProvider.tsx` — Auth (anonymous + email magic link) + user profile + preferences (context provider)
 - `ThemeContext.tsx` — Dynamic CSS variable theming based on user preferences
-- `ClientLayout.tsx` — Client wrapper for AuthProvider + ThemeProvider
+- `ClientLayout.tsx` — Client wrapper for AuthProvider + ThemeProvider + Footer + WelcomeModal
+- `Footer.tsx` — Site-wide footer with links (About, Guidelines, Privacy, Crisis Support)
+- `WelcomeModal.tsx` — First-time visitor onboarding with quick actions
 
 ---
 
@@ -122,7 +129,7 @@ The 5 reactions (not "likes"):
 - `useAuth()` hook provides `userId`, `userProfile`, `userPreferences`, `refreshProfile()`, `updateProfile()`, `updatePreferences()`, `signInWithEmail()`, `signOut()`, `isAnonymous`
 
 ### Database Tables
-- `rooms` — 10 emotional rooms (pre-populated)
+- `rooms` — 15 emotional rooms (pre-populated)
 - `users` — User profiles (anonymous/alias/real identity)
 - `posts` — Content with types (text/poem/story/art/voice)
 - `reactions` — 5 meaningful reaction types
@@ -193,3 +200,4 @@ vercel --prod    # Deploy to production
 - **Phase 2:** ✅ Complete — Community Heart (posts, reactions, Supabase integration)
 - **Phase 3:** ✅ Complete — Personal Space (profiles, saves, UI personalization)
 - **Phase 4:** ✅ Complete — Polish & Launch (email auth, journals, sound, moderation, 404)
+- **Phase 5:** ✅ Complete — Trust, Clarity & Engagement (about page, welcome modal, new rooms, footer, prompts, logo)

@@ -78,6 +78,36 @@ const rooms: Record<
     icon: "🔮",
     colors: { primary: "#c084fc", secondary: "#e879f6", glow: "#f0abfc", bg: "#1a0a2e" },
   },
+  "small-wins": {
+    name: "Small Wins",
+    description: "Every step forward matters",
+    icon: "🎉",
+    colors: { primary: "#fbbf24", secondary: "#f59e0b", glow: "#fde68a", bg: "#1a1a0e" },
+  },
+  dreams: {
+    name: "Dreams",
+    description: "Share what your heart envisions",
+    icon: "🌙",
+    colors: { primary: "#818cf8", secondary: "#6366f1", glow: "#c7d2fe", bg: "#0a0a2e" },
+  },
+  gratitude: {
+    name: "Gratitude",
+    description: "The light that exists even in darkness",
+    icon: "🙏",
+    colors: { primary: "#f5d062", secondary: "#eab308", glow: "#fef3c7", bg: "#1a1a0e" },
+  },
+  "art-poetry": {
+    name: "Art & Poetry",
+    description: "Words, colors, and sounds of the soul",
+    icon: "🎭",
+    colors: { primary: "#f472b6", secondary: "#ec4899", glow: "#fbcfe8", bg: "#1a0a1e" },
+  },
+  breathe: {
+    name: "A Place to Breathe",
+    description: "A quiet space with nothing to prove",
+    icon: "🫧",
+    colors: { primary: "#5eead4", secondary: "#2dd4bf", glow: "#99f6e4", bg: "#0a1a1e" },
+  },
 };
 
 export default function RoomPage({

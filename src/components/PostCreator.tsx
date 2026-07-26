@@ -6,13 +6,33 @@ import { useState } from "react";
 type IdentityType = "anonymous" | "alias" | "real";
 type ContentType = "text" | "poem" | "story" | "art" | "voice";
 
+const roomOptions = [
+  { slug: "sanctuary", label: "Sanctuary", icon: "🌌" },
+  { slug: "healing", label: "Healing", icon: "💚" },
+  { slug: "hope", label: "Hope", icon: "✨" },
+  { slug: "loneliness", label: "Loneliness", icon: "🌙" },
+  { slug: "grief", label: "Grief", icon: "🩶" },
+  { slug: "creativity", label: "Creativity", icon: "🎨" },
+  { slug: "love", label: "Love", icon: "💗" },
+  { slug: "anxiety", label: "Anxiety", icon: "🌊" },
+  { slug: "new-beginnings", label: "New Beginnings", icon: "🌅" },
+  { slug: "self-discovery", label: "Self-Discovery", icon: "🔮" },
+  { slug: "small-wins", label: "Small Wins", icon: "🎉" },
+  { slug: "dreams", label: "Dreams", icon: "🌙" },
+  { slug: "gratitude", label: "Gratitude", icon: "🙏" },
+  { slug: "art-poetry", label: "Art & Poetry", icon: "🎭" },
+  { slug: "breathe", label: "Breathe", icon: "🫧" },
+];
+
 interface PostCreatorProps {
+  roomId?: string;
   onSubmit?: (post: {
     content: string;
     contentType: ContentType;
     identityType: IdentityType;
     displayName?: string;
     isAnonymous: boolean;
+    roomId?: string;
   }) => void;
 }
 
@@ -30,12 +50,13 @@ const identityOptions = [
   { value: "real" as IdentityType, label: "Real Identity", description: "Show your true self" },
 ];
 
-export default function PostCreator({ onSubmit }: PostCreatorProps) {
+export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCreatorProps) {
   const [content, setContent] = useState("");
   const [contentType, setContentType] = useState<ContentType>("text");
   const [identityType, setIdentityType] = useState<IdentityType>("anonymous");
   const [alias, setAlias] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState(defaultRoomId || "sanctuary");
 
   const handleSubmit = () => {
     if (!content.trim()) return;
@@ -46,6 +67,7 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
       identityType,
       displayName: identityType === "alias" ? alias : undefined,
       isAnonymous: identityType === "anonymous",
+      roomId: selectedRoom,
     });
 
     setContent("");
@@ -134,6 +156,27 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
               ))}
             </div>
 
+            {/* Room selector */}
+            <div className="mb-4">
+              <p className="text-xs text-elovayne-dim mb-2">Post to room:</p>
+              <div className="flex gap-2 flex-wrap">
+                {roomOptions.map((room) => (
+                  <button
+                    key={room.slug}
+                    onClick={() => setSelectedRoom(room.slug)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all duration-300 ${
+                      selectedRoom === room.slug
+                        ? "bg-elovayne-nebula/30 text-elovayne-light border border-elovayne-violet/30"
+                        : "bg-elovayne-deep/50 text-elovayne-dim hover:text-elovayne-muted border border-transparent"
+                    }`}
+                  >
+                    <span>{room.icon}</span>
+                    <span>{room.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Content textarea */}
             <textarea
               value={content}
@@ -148,7 +191,16 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
 
             {/* Identity selector */}
             <div className="mt-4">
-              <p className="text-sm text-elovayne-muted mb-3">How would you like to appear?</p>
+              <div className="flex items-center gap-2 mb-3">
+                <p className="text-sm text-elovayne-muted">Your identity is always protected. Choose how you&apos;d like to appear.</p>
+                <a
+                  href="/about"
+                  target="_blank"
+                  className="text-xs text-elovayne-violet hover:text-elovayne-light transition-colors whitespace-nowrap"
+                >
+                  Learn more →
+                </a>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {identityOptions.map((option) => (
                   <button

@@ -29,6 +29,7 @@ interface SanctuaryFeedProps {
 export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({ posts: 0, reactions: 0 });
   const { userId } = useAuth();
 
   const fetchPosts = useCallback(async () => {
@@ -98,6 +99,20 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
     );
 
     setPosts(postsWithReactions);
+
+    // Fetch stats
+    const { count: postCount } = await client
+      .from("posts")
+      .select("*", { count: "exact", head: true });
+    const { count: reactionCount } = await client
+      .from("reactions")
+      .select("*", { count: "exact", head: true });
+
+    setStats({
+      posts: postCount ?? 0,
+      reactions: reactionCount ?? 0,
+    });
+
     setLoading(false);
   }, [roomId, userId]);
 
@@ -111,17 +126,19 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
     identityType: "anonymous" | "alias" | "real";
     displayName?: string;
     isAnonymous: boolean;
+    roomId?: string;
   }) => {
     if (!userId) return;
 
     const client = supabase();
 
     let resolvedRoomId = null;
-    if (roomId) {
+    const postRoomSlug = newPost.roomId || roomId;
+    if (postRoomSlug) {
       const { data: room } = await client
         .from("rooms")
         .select("id")
-        .eq("slug", roomId)
+        .eq("slug", postRoomSlug)
         .single();
       resolvedRoomId = room?.id ?? null;
     }
@@ -192,7 +209,21 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      <PostCreator onSubmit={handleNewPost} />
+      <PostCreator onSubmit={handleNewPost} roomId={roomId} />
+
+      {/* Community stats */}
+      {(stats.posts > 0 || stats.reactions > 0) && (
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <p className="text-elovayne-dim text-xs font-body">
+            {stats.posts.toLocaleString()} stories shared · {stats.reactions.toLocaleString()} moments of connection
+          </p>
+        </motion.div>
+      )}
 
       {loading ? (
         <LoadingSkeleton />
