@@ -105,23 +105,29 @@ soulscape/
 │   │   ├── layout.tsx                # Root layout with fonts + AuthProvider
 │   │   ├── page.tsx                  # Immersive homepage with portal
 │   │   ├── sanctuary/page.tsx        # Community sanctuary with feed
+│   │   ├── profile/page.tsx          # User profile (edit identity, bio, contact)
+│   │   ├── settings/page.tsx         # UI personalization controls
+│   │   ├── saves/page.tsx            # Bookmarked/saved posts
 │   │   └── rooms/
 │   │       ├── page.tsx              # Rooms grid
 │   │       └── [slug]/page.tsx       # Dynamic room pages with room-specific nebula
 │   ├── components/
-│   │   ├── Starfield.tsx             # Canvas particle starfield with mouse parallax
-│   │   ├── Nebula.tsx                # Animated nebula gradient blobs
+│   │   ├── Starfield.tsx             # Canvas particle starfield (toggleable)
+│   │   ├── Nebula.tsx                # Animated nebula (intensity-aware)
 │   │   ├── ElovayneLogo.tsx          # Animated SVG logo with glow
 │   │   ├── GlowingPortal.tsx         # Breathing portal with exit transition
 │   │   ├── PostCreator.tsx           # Post creation with identity selector
-│   │   ├── PostCard.tsx              # Post display with 5 meaningful reactions
+│   │   ├── PostCard.tsx              # Post display with reactions + save button
 │   │   ├── SanctuaryFeed.tsx         # Feed component (Supabase-powered)
-│   │   ├── AuthProvider.tsx           # Anonymous auth + user profile creation
+│   │   ├── SaveButton.tsx            # Bookmark/save toggle on posts
+│   │   ├── AuthProvider.tsx           # Anonymous auth + profile + preferences
+│   │   ├── ThemeContext.tsx           # Dynamic CSS variable theming
 │   │   └── ClientLayout.tsx          # Client-side layout wrapper
 │   └── lib/
 │       └── supabase.ts               # Supabase client (SSR-safe)
 ├── supabase/
-│   └── schema.sql                    # Database schema with RLS policies
+│   ├── schema.sql                    # Full database schema with RLS
+│   └── migration_phase3.sql          # Phase 3 migration (run in SQL Editor)
 ├── public/                           # Static assets
 ├── ENVIRONMENT.md                    # Environment setup guide
 ├── AGENTS.md                         # AI agent instructions
@@ -163,12 +169,13 @@ The Supabase database includes:
 | Table | Description |
 |-------|-------------|
 | `rooms` | 10 emotional rooms with themes and ambient settings |
-| `users` | User profiles with identity type (anonymous/alias/real) |
+| `users` | User profiles (identity, bio, contact details) |
 | `posts` | Content with types (text/poem/story/art/voice) |
 | `reactions` | 5 meaningful reaction types per user per post |
-| `saves` | Bookmarked posts (Phase 3) |
+| `saves` | Bookmarked posts |
 | `reports` | Content moderation |
-| `journals` | Private user journals (Phase 3) |
+| `journals` | Private user journals |
+| `user_preferences` | UI personalization (colors, animations, layout) |
 
 Row Level Security (RLS) is enabled on all tables with appropriate policies.
 
@@ -193,14 +200,16 @@ See `supabase/schema.sql` for the full schema.
 - [x] Supabase integration (anonymous auth, database, RLS)
 - [x] Domain: elovayne.com
 
-### Phase 3 — Personal Space
-- [ ] User accounts with email (upgrade from anonymous)
-- [ ] Save/bookmark experiences
-- [ ] Personal creative journal
-- [ ] User profile page
-- [ ] History of interactions
+### Phase 3 ✅ — Personal Space
+- [x] User profile page (identity, bio, optional contact details)
+- [x] Save/bookmark posts
+- [x] UI personalization (accent color, starfield, nebula, animation speed, compact mode)
+- [x] Dynamic theme system (CSS variable injection)
+- [x] User preferences persistence via Supabase
 
 ### Phase 4 — Polish & Launch
+- [ ] User accounts with email (upgrade from anonymous)
+- [ ] Personal creative journal
 - [ ] Ambient sound options per room
 - [ ] Performance optimization
 - [ ] Moderation dashboard
