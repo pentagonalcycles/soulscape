@@ -152,7 +152,7 @@ export default function JournalPage() {
                 Your Journal
               </h1>
               <p className="font-accent text-xl text-elovayne-muted">
-                A private space for your thoughts, feelings, and creative sparks.
+                A quiet constellation only you can see
               </p>
             </motion.div>
 
@@ -172,7 +172,7 @@ export default function JournalPage() {
                     <span className="text-elovayne-violet text-lg">✦</span>
                   </div>
                   <span className="text-elovayne-muted font-body">
-                    Write a new journal entry...
+                    Capture a new whisper of thought...
                   </span>
                 </button>
               ) : (
@@ -193,14 +193,14 @@ export default function JournalPage() {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Give this entry a title..."
+                    placeholder="                    Name this constellation..."
                     className="w-full bg-elovayne-deep/50 border border-elovayne-violet/20 rounded-xl px-4 py-3 text-elovayne-light placeholder-elovayne-dim focus:outline-none focus:border-elovayne-violet/50 transition-colors font-heading"
                   />
 
                   <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    placeholder="Let your thoughts flow freely..."
+                    placeholder="                    Let your thoughts drift like stardust..."
                     rows={6}
                     className="w-full bg-elovayne-deep/50 border border-elovayne-violet/20 rounded-xl px-4 py-3 text-elovayne-light placeholder-elovayne-dim focus:outline-none focus:border-elovayne-violet/50 transition-colors resize-none font-body"
                   />
@@ -208,7 +208,7 @@ export default function JournalPage() {
                   {/* Mood Selector */}
                   <div>
                     <p className="text-xs text-elovayne-dim uppercase tracking-wider mb-2">
-                      How are you feeling?
+                      What constellation of feeling are you in?
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {moods.map((m) => (
@@ -262,7 +262,7 @@ export default function JournalPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                <p className="text-elovayne-dim text-sm font-body">Loading your journal...</p>
+                <p className="text-elovayne-dim text-sm font-body">Gathering your constellations...</p>
               </motion.div>
             ) : entries.length === 0 ? (
               <motion.div
@@ -272,7 +272,7 @@ export default function JournalPage() {
               >
                 <span className="text-4xl block mb-4">📝</span>
                 <p className="text-elovayne-dim text-sm font-body">
-                  Your journal is empty. Start writing to capture your thoughts.
+                  Your constellation is empty. Begin writing to map your inner cosmos.
                 </p>
               </motion.div>
             ) : (

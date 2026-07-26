@@ -9,47 +9,47 @@ import Navigation from "@/components/Navigation";
 const sections = [
   {
     title: "What is Elovayne?",
-    content: `Elovayne is a quiet, artistic community where people escape everyday reality to share feelings, stories, and creative expressions. It's a place to be heard without judgment, to connect through empathy, and to find comfort in knowing you're not alone.`,
+    content: `Elovayne is a quiet constellation where drifting souls gather to share feelings, stories, and creative whispers. It's a place to be heard without judgment, to connect through empathy, and to find comfort in knowing the stars above hold space for you.`,
   },
   {
     title: "Your privacy matters",
     items: [
-      "You can post completely anonymously — no name, no email, no trace required.",
-      "Anonymous posts cannot be traced back to you. There is no hidden identifier.",
-      "You can delete any of your posts at any time, and they are permanently removed.",
-      "Your journal is completely private — only you can see it.",
-      "We never sell your data. There are no ads, no tracking, no algorithms.",
+      "You can speak completely anonymously — no name, no email, no trace required.",
+      "Anonymous whispers cannot be traced back to you. There is no hidden thread.",
+      "You can dissolve any of your words at any time, and they are permanently released.",
+      "Your journal exists in its own quiet corner — only you can see it.",
+      "We never sell your words. There are no ads, no tracking, no algorithms watching.",
     ],
   },
   {
     title: "Community guidelines",
     items: [
-      "Be kind. Everyone here is navigating something difficult.",
-      "No harassment, hate speech, or discrimination of any kind.",
+      "Be gentle. Everyone here is navigating something tender.",
+      "No cruelty, no hate speech, no discrimination of any kind.",
       "No unsolicited advice unless someone asks for it. Sometimes people just need to be heard.",
-      "No identifying information about others without their consent.",
+      "No revealing information about others without their consent.",
       "No spam, self-promotion, or commercial content.",
       "Respect boundaries. If someone asks for space, give it.",
     ],
   },
   {
     title: "Safety & support",
-    content: `Elovayne is designed to be a safe space, but it is not a substitute for professional help. If you or someone you know is in crisis, please reach out to a professional service.`,
+    content: `Elovayne is designed to be a gentle refuge, but it is not a substitute for professional care. If you or someone you know is in crisis, please reach out to a professional service.`,
     items: [
-      "You can report any post that feels harmful, inappropriate, or violates our guidelines.",
-      "Reports are reviewed promptly and action is taken to protect the community.",
+      "You can report any whisper that feels harmful, inappropriate, or violates our guidelines.",
+      "Reports are reviewed with care and action is taken to protect the community.",
       "If you're in immediate danger, please contact your local emergency services.",
     ],
   },
   {
-    title: "How it works",
+    title: "How it drifts",
     items: [
-      "Enter the Sanctuary to read and share stories with the community.",
-      "Explore emotional rooms — each has its own atmosphere and focus.",
-      "React with meaning: 'I understand', 'This gave me hope', 'I'm here with you', and more.",
-      "Keep a private journal for your personal thoughts and reflections.",
-      "Save posts that resonate with you to revisit later.",
-      "Personalize your experience with custom colors, ambient sounds, and animation settings.",
+      "Step into the Sanctuary to read and share whispers with the community.",
+      "Wander through emotional rooms — each has its own atmosphere and heartbeat.",
+      "React with meaning: 'I see you in the dark', 'Your words became light', 'I'm here with you', and more.",
+      "Keep a private journal for your constellations of thought and reflection.",
+      "Save whispers that resonate with you to revisit later.",
+      "Tune your experience with custom colors, ambient sounds, and animation settings.",
     ],
   },
 ];
@@ -83,7 +83,7 @@ export default function AboutPage() {
                 About Elovayne
               </h1>
               <p className="font-accent text-xl text-elovayne-muted">
-                Everything you need to know before you enter.
+                Before you drift further, a few gentle whispers
               </p>
             </motion.div>
 

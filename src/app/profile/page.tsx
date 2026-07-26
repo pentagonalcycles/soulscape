@@ -16,9 +16,9 @@ const contactTypes = [
 ];
 
 const identityTypes = [
-  { value: "anonymous", label: "Anonymous", description: "No identity shown" },
-  { value: "alias", label: "Alias", description: "Show a creative name" },
-  { value: "real", label: "Real Name", description: "Show your real name" },
+  { value: "anonymous", label: "Anonymous", description: "A shadow among stars" },
+  { value: "alias", label: "Alias", description: "A name you choose" },
+  { value: "real", label: "Real Name", description: "Your true light" },
 ];
 
 export default function ProfilePage() {
@@ -83,7 +83,7 @@ export default function ProfilePage() {
                 Your Profile
               </h1>
               <p className="font-accent text-xl text-elovayne-muted">
-                Control how you appear to others. Share only what you want.
+                How the universe sees you
               </p>
             </motion.div>
 
@@ -96,12 +96,12 @@ export default function ProfilePage() {
               {!editing ? (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
-                    <h2 className="font-heading text-xl text-elovayne-light">Your Identity</h2>
+                    <h2 className="font-heading text-xl text-elovayne-light">                    Your Constellation</h2>
                     <button
                       onClick={handleStartEditing}
                       className="text-sm text-elovayne-violet hover:text-elovayne-light transition-colors"
                     >
-                      Edit Profile
+                      Refine your glow
                     </button>
                   </div>
 
@@ -140,7 +140,7 @@ export default function ProfilePage() {
               ) : (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
-                    <h2 className="font-heading text-xl text-elovayne-light">Edit Profile</h2>
+                    <h2 className="font-heading text-xl text-elovayne-light">Refine Your Glow</h2>
                     <button
                       onClick={() => setEditing(false)}
                       className="text-sm text-elovayne-dim hover:text-elovayne-light transition-colors"
@@ -152,7 +152,7 @@ export default function ProfilePage() {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-xs text-elovayne-dim uppercase tracking-wider mb-2">
-                        How do you want to appear?
+                        How do you wish to appear in the cosmos?
                       </label>
                       <div className="grid grid-cols-3 gap-3">
                         {identityTypes.map((type) => (
@@ -181,7 +181,7 @@ export default function ProfilePage() {
                           type="text"
                           value={displayName}
                           onChange={(e) => setDisplayName(e.target.value)}
-                          placeholder="How should we call you?"
+                          placeholder="What name do the stars call you?"
                           className="w-full bg-elovayne-deep/50 border border-elovayne-violet/20 rounded-xl px-4 py-3 text-elovayne-light placeholder-elovayne-dim focus:outline-none focus:border-elovayne-violet/50 transition-colors"
                         />
                       </div>
@@ -194,7 +194,7 @@ export default function ProfilePage() {
                       <textarea
                         value={bio}
                         onChange={(e) => setBio(e.target.value)}
-                        placeholder="Tell us about yourself... or don't. Anonymity is beautiful too."
+                        placeholder="Whisper about yourself... or don't. Silence is beautiful too."
                         rows={3}
                         className="w-full bg-elovayne-deep/50 border border-elovayne-violet/20 rounded-xl px-4 py-3 text-elovayne-light placeholder-elovayne-dim focus:outline-none focus:border-elovayne-violet/50 transition-colors resize-none"
                       />
@@ -205,7 +205,7 @@ export default function ProfilePage() {
                         Contact Details (optional)
                       </label>
                       <p className="text-xs text-elovayne-dim mb-3">
-                        Only shown if you choose to share. Leave empty to stay private.
+                        Only shown if you choose to share. Leave empty to remain a mystery.
                       </p>
                       <div className="flex gap-3">
                         <select
@@ -246,23 +246,23 @@ export default function ProfilePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h2 className="font-heading text-lg text-elovayne-light mb-4">Account</h2>
+              <h2 className="font-heading text-lg text-elovayne-light mb-4">Your Cosmos</h2>
               {isAnonymous ? (
                 <div className="space-y-3">
                   <p className="text-sm text-elovayne-muted">
-                    You&apos;re using an anonymous account. Upgrade to keep your stories and journal forever.
+                    You&apos;re drifting as a shadow. Anchor your whispers to the stars to keep them forever.
                   </p>
                   <Link
                     href="/login"
                     className="block w-full py-3 rounded-xl bg-elovayne-nebula/40 hover:bg-elovayne-nebula/60 text-elovayne-light font-heading tracking-wider text-center transition-all"
                   >
-                    Upgrade to Permanent Account
+                    Anchor to the Stars
                   </Link>
                 </div>
               ) : (
                 <div className="space-y-3">
                   <p className="text-sm text-elovayne-muted">
-                    Your account is permanent. Your data is safe.
+                    Your constellation is anchored. Your whispers are safe among the stars.
                   </p>
                   <button
                     onClick={signOut}

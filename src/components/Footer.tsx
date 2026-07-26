@@ -37,7 +37,7 @@ export default function Footer() {
           )}
         </div>
         <p className="text-elovayne-dim font-accent text-sm">
-          Built with love for those who need an escape
+          Woven with love for drifting souls
         </p>
       </div>
     </footer>

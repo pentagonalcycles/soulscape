@@ -37,8 +37,7 @@ export default function Home() {
           transition={{ duration: 1, delay: 0.3 }}
         >
           <p className="font-body text-lg md:text-xl text-elovayne-muted leading-relaxed">
-            A quiet community for sharing feelings, stories and creative expressions
-            with people who understand.
+            A place where stardust meets silence, and every whisper finds an ear.
           </p>
         </motion.div>
 
@@ -55,7 +54,7 @@ export default function Home() {
             href="/about"
             className="font-body text-sm text-elovayne-dim hover:text-elovayne-muted transition-colors tracking-wide"
           >
-            How Elovayne works →
+            drift deeper →
           </Link>
         </motion.div>
 
@@ -67,7 +66,7 @@ export default function Home() {
           transition={{ duration: 1.5, delay: 2 }}
         >
           <p className="font-body text-sm text-elovayne-dim tracking-wide">
-            An artistic community for those who seek something more
+            A sanctuary for drifting souls seeking something more
           </p>
         </motion.div>
       </div>

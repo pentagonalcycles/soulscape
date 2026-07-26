@@ -17,14 +17,14 @@ interface Reaction {
 const reactions: Reaction[] = [
   {
     type: "understanding",
-    label: "I understand",
+    label: "I see you in the dark",
     icon: "🤍",
     description: "I see you and I understand",
     color: "#9d7cd8",
   },
   {
     type: "hope",
-    label: "This gave me hope",
+    label: "Your words became light",
     icon: "✨",
     description: "Your words brought light",
     color: "#f5d062",
@@ -40,14 +40,14 @@ const reactions: Reaction[] = [
     type: "less_alone",
     label: "Less alone",
     icon: "🌌",
-    description: "You made me feel less alone",
+    description: "Your whisper made the void feel smaller",
     color: "#60a5fa",
   },
   {
     type: "comfort",
     label: "This comforted me",
     icon: "💫",
-    description: "Your words brought comfort",
+    description: "Your words wrapped around me like warmth",
     color: "#e879a8",
   },
 ];
@@ -145,7 +145,7 @@ export default function PostCard({
 
           <div>
             <p className="text-elovayne-light text-sm font-body">
-              {isAnonymous ? "Anonymous Soul" : displayName || "Anonymous Soul"}
+              {isAnonymous ? "Anonymous Soul" : displayName || "Stardust Wanderer"}
             </p>
             <p className="text-elovayne-dim text-xs">
               {getTimeAgo(createdAt)}
@@ -177,7 +177,7 @@ export default function PostCard({
                     <>
                       {confirmDelete ? (
                         <div className="px-3 py-2">
-                          <p className="text-xs text-elovayne-muted mb-2">Delete this post?</p>
+                          <p className="text-xs text-elovayne-muted mb-2">Dissolve this whisper?</p>
                           <div className="flex gap-2">
                             <button
                               onClick={() => {
@@ -202,14 +202,14 @@ export default function PostCard({
                           onClick={() => setConfirmDelete(true)}
                           className="w-full text-left px-3 py-2 text-sm text-elovayne-muted hover:text-elovayne-cosmic-pink hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
                         >
-                          Delete this post
+                          Dissolve this whisper
                         </button>
                       )}
                     </>
                   )}
                   {showReportReason ? (
                     <div className="px-3 py-2 space-y-2">
-                      <p className="text-xs text-elovayne-muted">Why are you reporting this?</p>
+                      <p className="text-xs text-elovayne-muted">Why does this whisper disturb the void?</p>
                       {["Spam", "Inappropriate", "Harmful", "Other"].map((reason) => (
                         <button
                           key={reason}
@@ -231,7 +231,7 @@ export default function PostCard({
                           onClick={() => setShowReportReason(true)}
                           className="w-full text-left px-3 py-2 text-sm text-elovayne-muted hover:text-elovayne-cosmic-pink hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
                         >
-                          Report this post
+                          Report this whisper
                         </button>
                       )}
                     </>
@@ -299,7 +299,7 @@ export default function PostCard({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
               >
-                <p className="text-xs text-elovayne-dim mb-2">How did this make you feel?</p>
+                <p className="text-xs text-elovayne-dim mb-2">How did this whisper resonate?</p>
                 <div className="grid grid-cols-1 gap-1">
                   {reactions.map((reaction) => (
                     <motion.button

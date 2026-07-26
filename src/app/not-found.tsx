@@ -42,12 +42,12 @@ export default function NotFound() {
           </motion.span>
 
           <h1 className="font-heading text-6xl md:text-7xl text-elovayne-light glow-text-strong mb-4">
-            Lost in the void
+            You&apos;ve wandered beyond the edge of the map
           </h1>
 
           <p className="font-accent text-xl text-elovayne-muted mb-10 max-w-md mx-auto">
-            This corner of the universe hasn&apos;t been created yet.
-            But there are plenty of worlds waiting for you.
+            This corner of the cosmos hasn&apos;t been mapped yet.
+            But there are infinite constellations waiting for you.
           </p>
 
           <Link href="/sanctuary">
@@ -78,7 +78,7 @@ export default function NotFound() {
                 },
               }}
             >
-              Return to the Sanctuary
+              Drift back to the Sanctuary
             </motion.span>
           </Link>
         </motion.div>

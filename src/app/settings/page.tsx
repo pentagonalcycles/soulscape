@@ -56,10 +56,10 @@ export default function SettingsPage() {
               transition={{ duration: 0.8 }}
             >
               <h1 className="font-heading text-3xl md:text-4xl text-elovayne-light glow-text-strong mb-4">
-                Personalize Your Space
+                Tune the Cosmos to Your Heartbeat
               </h1>
               <p className="font-accent text-xl text-elovayne-muted">
-                Make Elovayne feel like yours.
+                Make Elovayne breathe with you.
               </p>
             </motion.div>
 
@@ -138,9 +138,9 @@ export default function SettingsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <h2 className="font-heading text-lg text-elovayne-light mb-4">Nebula Background</h2>
+                <h2 className="font-heading text-lg text-elovayne-light mb-4">Nebula Glow</h2>
                 <p className="text-xs text-elovayne-dim mb-4">
-                  The soft, drifting gradient blobs behind everything.
+                  The soft, drifting nebula clouds that dance behind everything.
                 </p>
                 <div className="grid grid-cols-2 gap-3">
                   {nebulaIntensities.map((intensity) => (
@@ -167,9 +167,9 @@ export default function SettingsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <h2 className="font-heading text-lg text-elovayne-light mb-4">Animation Speed</h2>
+                <h2 className="font-heading text-lg text-elovayne-light mb-4">Celestial Motion</h2>
                 <p className="text-xs text-elovayne-dim mb-4">
-                  Control how much motion you see across the site.
+                  How fast the stars drift and the cosmos breathes.
                 </p>
                 <div className="grid grid-cols-2 gap-3">
                   {animationSpeeds.map((speed) => (
@@ -223,13 +223,13 @@ export default function SettingsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                <h2 className="font-heading text-lg text-elovayne-light mb-4">Ambient Sound</h2>
+                <h2 className="font-heading text-lg text-elovayne-light mb-4">Ambient Whispers</h2>
                 <p className="text-xs text-elovayne-dim mb-4">
-                  Soft background tones that match each room&apos;s atmosphere.
+                  Soft cosmic tones that echo each room&apos;s heartbeat.
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-elovayne-muted">Enable sounds</span>
+                    <span className="text-sm text-elovayne-muted">Enable whispers</span>
                     <button
                       onClick={() => updatePreferences({ ambient_sound: !userPreferences.ambient_sound })}
                       className={`relative w-14 h-7 rounded-full transition-all ${

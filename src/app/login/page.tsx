@@ -67,10 +67,10 @@ export default function LoginPage() {
           {isAnonymous ? (
             <>
               <h1 className="font-heading text-2xl text-elovayne-light glow-text text-center mb-2">
-                Make Your Mark Permanent
+                Anchor Your Whispers to the Stars
               </h1>
               <p className="text-elovayne-muted text-sm text-center mb-8">
-                Upgrade your anonymous account to keep your stories, journal, and saved posts forever.
+                Upgrade your anonymous constellation to keep your stories, journal, and saved whispers forever.
               </p>
 
               {sent ? (
@@ -84,8 +84,8 @@ export default function LoginPage() {
                     Check your inbox
                   </h2>
                   <p className="text-elovayne-muted text-sm">
-                    We sent a magic link to <span className="text-elovayne-light">{email}</span>.
-                    Click the link to sign in.
+                    A stardust message is on its way to <span className="text-elovayne-light">{email}</span>.
+                    Follow the light to sign in.
                   </p>
                 </motion.div>
               ) : (
@@ -123,11 +123,11 @@ export default function LoginPage() {
                     whileHover={email.trim() ? { scale: 1.02 } : {}}
                     whileTap={email.trim() ? { scale: 0.98 } : {}}
                   >
-                    {sending ? "Sending magic link..." : "Send Magic Link"}
+                    {sending ? "Sending stardust..." : "Send a stardust message"}
                   </motion.button>
 
                   <p className="text-xs text-elovayne-dim text-center">
-                    No password needed. We&apos;ll send you a link to sign in.
+                    No passwords here. We&apos;ll send you a stardust message to sign in.
                   </p>
                 </form>
               )}
@@ -139,7 +139,7 @@ export default function LoginPage() {
                 You&apos;re Signed In
               </h1>
               <p className="text-elovayne-muted text-sm mb-6">
-                Your account is permanent. Your stories and journal are safe.
+                Your constellation is permanent. Your stories and journal are safe among the stars.
               </p>
               {userProfile?.display_name && (
                 <p className="text-elovayne-light text-sm mb-2">
@@ -166,7 +166,7 @@ export default function LoginPage() {
             href="/sanctuary"
             className="text-sm text-elovayne-dim hover:text-elovayne-muted transition-colors"
           >
-            Continue anonymously →
+            Drift onward →
           </Link>
         </motion.div>
       </div>

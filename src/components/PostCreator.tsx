@@ -45,9 +45,9 @@ const contentTypes = [
 ];
 
 const identityOptions = [
-  { value: "anonymous" as IdentityType, label: "Anonymous", description: "No name, just your words" },
-  { value: "alias" as IdentityType, label: "Creative Alias", description: "Choose a unique name" },
-  { value: "real" as IdentityType, label: "Real Identity", description: "Show your true self" },
+  { value: "anonymous" as IdentityType, label: "Anonymous", description: "A shadow among stars" },
+  { value: "alias" as IdentityType, label: "Creative Alias", description: "A name you choose" },
+  { value: "real" as IdentityType, label: "True Self", description: "Your true light" },
 ];
 
 export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCreatorProps) {
@@ -76,10 +76,10 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
   };
 
   const placeholders = {
-    text: "What's on your mind?",
-    poem: "Let your words flow like stardust...",
-    story: "Share your story with the universe...",
-    art: "Describe your artwork or share a link...",
+    text: "What stardust lives in you today?",
+    poem: "Let your words drift like stardust...",
+    story: "Share your story with the cosmos...",
+    art: "Describe your creation or share a link...",
     voice: "Voice recordings coming soon...",
   };
 
@@ -106,7 +106,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
                 <span className="text-elovayne-violet">✦</span>
               </div>
               <span className="text-elovayne-muted font-body">
-                Share something with the sanctuary...
+                Release your stardust into the void
               </span>
             </div>
           </motion.button>
@@ -124,7 +124,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-heading text-lg text-elovayne-light glow-text">
-                Share with the Sanctuary
+                Whisper to the Sanctuary
               </h3>
               <button
                 onClick={() => setIsExpanded(false)}
@@ -158,7 +158,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
 
             {/* Room selector */}
             <div className="mb-4">
-              <p className="text-xs text-elovayne-dim mb-2">Post to room:</p>
+              <p className="text-xs text-elovayne-dim mb-2">Send to which constellation:</p>
               <div className="flex gap-2 flex-wrap">
                 {roomOptions.map((room) => (
                   <button
@@ -192,7 +192,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
             {/* Identity selector */}
             <div className="mt-4">
               <div className="flex items-center gap-2 mb-3">
-                <p className="text-sm text-elovayne-muted">Your identity is always protected. Choose how you&apos;d like to appear.</p>
+                <p className="text-sm text-elovayne-muted">Your light is always protected. Choose how you wish to appear in the cosmos.</p>
                 <a
                   href="/about"
                   target="_blank"
@@ -241,7 +241,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
                       type="text"
                       value={alias}
                       onChange={(e) => setAlias(e.target.value)}
-                      placeholder="Choose your creative alias..."
+                      placeholder="Name your stardust..."
                       className="w-full mt-3 bg-elovayne-deep/50 border border-elovayne-nebula/20 rounded-xl px-4 py-3 text-elovayne-light placeholder-elovayne-dim focus:outline-none focus:border-elovayne-violet/40 transition-colors font-body"
                     />
                   </motion.div>

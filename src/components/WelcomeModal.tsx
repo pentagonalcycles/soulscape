@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 const WELCOME_KEY = "elovayne_welcomed";
 
 const quickActions = [
-  { label: "Share something", icon: "✍️", href: "/sanctuary" },
-  { label: "Explore rooms", icon: "🌌", href: "/rooms" },
-  { label: "Read stories", icon: "📖", href: "/sanctuary" },
+  { label: "Leave your stardust", icon: "✍️", href: "/sanctuary" },
+  { label: "Wander the rooms", icon: "🌌", href: "/rooms" },
+  { label: "Listen to whispers", icon: "📖", href: "/sanctuary" },
 ];
 
 export default function WelcomeModal() {
@@ -64,11 +64,11 @@ export default function WelcomeModal() {
           >
             <div className="text-center mb-8">
               <h2 className="font-heading text-2xl text-elovayne-light glow-text-strong mb-3">
-                Welcome to Elovayne
+                Welcome to the dream
               </h2>
               <p className="text-elovayne-muted font-body text-sm leading-relaxed">
-                You can share anonymously, explore a room, or simply look around.
-                There&apos;s no pressure here — take your time.
+                You&apos;ve drifted somewhere softer. Speak, or simply listen.
+                The void holds no judgment here.
               </p>
             </div>
 
@@ -98,7 +98,7 @@ export default function WelcomeModal() {
                   className="w-4 h-4 rounded border-elovayne-violet/30 bg-elovayne-deep/50 text-elovayne-violet focus:ring-elovayne-violet/50 focus:ring-offset-0"
                 />
                 <span className="text-elovayne-dim font-body text-xs">
-                  Don&apos;t show this again
+                  I&apos;ll remember this path
                 </span>
               </label>
 
@@ -106,7 +106,7 @@ export default function WelcomeModal() {
                 onClick={dismiss}
                 className="text-elovayne-dim hover:text-elovayne-muted font-body text-sm transition-colors"
               >
-                Continue anonymously
+                Drift onward
               </button>
             </div>
           </motion.div>

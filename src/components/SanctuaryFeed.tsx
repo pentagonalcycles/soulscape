@@ -220,7 +220,7 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
           transition={{ delay: 0.3 }}
         >
           <p className="text-elovayne-dim text-xs font-body">
-            {stats.posts.toLocaleString()} stories shared · {stats.reactions.toLocaleString()} moments of connection
+            {stats.posts.toLocaleString()} whispers shared · {stats.reactions.toLocaleString()} moments of light
           </p>
         </motion.div>
       )}
@@ -237,7 +237,7 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
           {posts.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-elovayne-dim text-sm font-body">
-                No stories yet. Be the first to share.
+                No whispers yet. Be the first to release stardust.
               </p>
             </div>
           ) : (
@@ -276,7 +276,7 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
         transition={{ delay: 0.5 }}
       >
         <p className="text-elovayne-dim text-sm font-body">
-          The universe holds more stories...
+          The cosmos holds more whispers...
         </p>
       </motion.div>
     </div>

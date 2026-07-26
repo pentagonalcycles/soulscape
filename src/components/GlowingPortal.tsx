@@ -79,7 +79,7 @@ export default function GlowingPortal() {
               ease: "easeInOut",
             }}
           >
-            Enter
+            Step through
           </motion.span>
         </div>
       </motion.button>

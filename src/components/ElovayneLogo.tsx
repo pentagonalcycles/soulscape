@@ -60,7 +60,7 @@ export default function ElovayneLogo() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, delay: 1 }}
       >
-        beyond reality
+        where stardust whispers
       </motion.p>
     </motion.div>
   );

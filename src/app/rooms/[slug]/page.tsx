@@ -20,91 +20,91 @@ const rooms: Record<
 > = {
   sanctuary: {
     name: "Sanctuary",
-    description: "A safe space for all expressions",
+    description: "Where whispers gather and find their way home",
     icon: "🌌",
     colors: { primary: "#6b3fa0", secondary: "#9d7cd8", glow: "#e879a8", bg: "#0a0a2e" },
   },
   healing: {
     name: "Healing",
-    description: "A room for those on the path to healing",
+    description: "Where broken pieces learn to glow again",
     icon: "💚",
     colors: { primary: "#2dd4a8", secondary: "#5eead4", glow: "#99f6e4", bg: "#0a1a2e" },
   },
   hope: {
     name: "Hope",
-    description: "A room for those seeking and sharing hope",
+    description: "A lantern lit in the darkest hour",
     icon: "✨",
     colors: { primary: "#f5d062", secondary: "#fbbf24", glow: "#fde68a", bg: "#1a1a2e" },
   },
   loneliness: {
     name: "Loneliness",
-    description: "You are not alone here",
+    description: "Even in the vast silence, you are not alone",
     icon: "🌙",
     colors: { primary: "#60a5fa", secondary: "#93c5fd", glow: "#bfdbfe", bg: "#0a0a2e" },
   },
   grief: {
     name: "Grief",
-    description: "A space to sit with loss and find gentle company",
+    description: "A soft place to sit with loss and find gentle company",
     icon: "🩶",
     colors: { primary: "#a78bfa", secondary: "#c4b5fd", glow: "#ddd6fe", bg: "#0f0f2e" },
   },
   creativity: {
     name: "Creativity",
-    description: "Let your imagination flow freely",
+    description: "Let your imagination bloom like stardust in motion",
     icon: "🎨",
     colors: { primary: "#f472b6", secondary: "#fb7185", glow: "#fda4af", bg: "#1a0a2e" },
   },
   love: {
     name: "Love",
-    description: "A room for all forms of love",
+    description: "Every form of love finds a home here",
     icon: "💗",
     colors: { primary: "#fb7185", secondary: "#fda4af", glow: "#fecdd3", bg: "#1a0a1e" },
   },
   anxiety: {
     name: "Anxiety",
-    description: "Breathe. You are safe here",
+    description: "Breathe. The stars are patient with you",
     icon: "🌊",
     colors: { primary: "#818cf8", secondary: "#a5b4fc", glow: "#c7d2fe", bg: "#0a0a2e" },
   },
   "new-beginnings": {
     name: "New Beginnings",
-    description: "Every ending is a new beginning",
+    description: "Every ending seeds a new constellation",
     icon: "🌅",
     colors: { primary: "#fb923c", secondary: "#fdba74", glow: "#fed7aa", bg: "#1a1a1e" },
   },
   "self-discovery": {
     name: "Self-Discovery",
-    description: "Explore the depths of who you are",
+    description: "Drift deeper into the galaxy of who you are",
     icon: "🔮",
     colors: { primary: "#c084fc", secondary: "#e879f6", glow: "#f0abfc", bg: "#1a0a2e" },
   },
   "small-wins": {
     name: "Small Wins",
-    description: "Every step forward matters",
+    description: "Every glimmer of light deserves to be celebrated",
     icon: "🎉",
     colors: { primary: "#fbbf24", secondary: "#f59e0b", glow: "#fde68a", bg: "#1a1a0e" },
   },
   dreams: {
     name: "Dreams",
-    description: "Share what your heart envisions",
+    description: "Share the visions that live behind your closed eyes",
     icon: "🌙",
     colors: { primary: "#818cf8", secondary: "#6366f1", glow: "#c7d2fe", bg: "#0a0a2e" },
   },
   gratitude: {
     name: "Gratitude",
-    description: "The light that exists even in darkness",
+    description: "The light that glows even in the deepest darkness",
     icon: "🙏",
     colors: { primary: "#f5d062", secondary: "#eab308", glow: "#fef3c7", bg: "#1a1a0e" },
   },
   "art-poetry": {
     name: "Art & Poetry",
-    description: "Words, colors, and sounds of the soul",
+    description: "Where words, colors, and sounds become the soul's language",
     icon: "🎭",
     colors: { primary: "#f472b6", secondary: "#ec4899", glow: "#fbcfe8", bg: "#1a0a1e" },
   },
   breathe: {
     name: "A Place to Breathe",
-    description: "A quiet space with nothing to prove",
+    description: "A quiet space where nothing needs to be proven",
     icon: "🫧",
     colors: { primary: "#5eead4", secondary: "#2dd4bf", glow: "#99f6e4", bg: "#0a1a1e" },
   },
@@ -124,10 +124,10 @@ export default function RoomPage({
       <main className="relative min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="font-heading text-4xl text-elovayne-light mb-4">
-            Room not found
+            This constellation does not exist yet
           </h1>
           <Link href="/rooms" className="text-elovayne-violet hover:underline">
-            Return to rooms
+            Return to the rooms
           </Link>
         </div>
       </main>
