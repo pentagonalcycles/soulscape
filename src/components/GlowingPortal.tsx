@@ -87,11 +87,11 @@ export default function GlowingPortal() {
       {/* Exit animation overlay */}
       {isExiting && (
         <motion.div
-          className="fixed inset-0 bg-elovayne-void"
+          className="fixed inset-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, ease: "easeInOut" }}
-          style={{ zIndex: 100 }}
+          style={{ background: 'linear-gradient(135deg, #120a2e 0%, #0f1545 25%, #0a1a3a 50%, #0d2030 75%, #050510 100%)', zIndex: 100 }}
         />
       )}
     </motion.div>

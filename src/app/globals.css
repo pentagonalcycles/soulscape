@@ -3,6 +3,14 @@
 :root {
   /* Core palette */
   --elovayne-void: #050510;
+  --elovayne-gradient: linear-gradient(
+    135deg,
+    #120a2e 0%,
+    #0f1545 25%,
+    #0a1a3a 50%,
+    #0d2030 75%,
+    #050510 100%
+  );
   --elovayne-deep: #0a0a2e;
   --elovayne-midnight: #1a1a4e;
   --elovayne-nebula: #6b3fa0;
@@ -52,7 +60,9 @@
 
 /* Global styles */
 body {
-  background: var(--elovayne-void);
+  background: var(--elovayne-gradient);
+  background-size: 400% 400%;
+  animation: bg-shift 25s ease infinite;
   color: var(--elovayne-light);
   font-family: var(--font-body);
   overflow-x: hidden;
@@ -114,6 +124,14 @@ body {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+@keyframes bg-shift {
+  0% { background-position: 0% 0%; }
+  25% { background-position: 100% 50%; }
+  50% { background-position: 50% 100%; }
+  75% { background-position: 0% 50%; }
+  100% { background-position: 0% 0%; }
 }
 
 @keyframes fade-in-up {

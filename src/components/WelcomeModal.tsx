@@ -49,7 +49,8 @@ export default function WelcomeModal() {
         >
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-0 bg-elovayne-void/90 backdrop-blur-sm"
+            className="absolute inset-0 backdrop-blur-sm"
+            style={{ background: 'rgba(5, 5, 16, 0.9)' }}
             onClick={dismiss}
           />
 
