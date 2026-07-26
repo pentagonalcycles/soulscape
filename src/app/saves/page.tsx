@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import PostCard from "@/components/PostCard";
 import Starfield from "@/components/Starfield";
 import Nebula from "@/components/Nebula";
+import Navigation from "@/components/Navigation";
 import Link from "next/link";
 
 type ReactionType = "understanding" | "hope" | "company" | "less_alone" | "comfort";
@@ -14,7 +15,7 @@ type ReactionType = "understanding" | "hope" | "company" | "less_alone" | "comfo
 interface SavedPost {
   id: string;
   content: string;
-  contentType: "text" | "poem" | "story";
+  contentType: "text" | "poem" | "story" | "art" | "voice";
   displayName?: string;
   isAnonymous: boolean;
   createdAt: string;
@@ -82,7 +83,7 @@ export default function SavesPage() {
         return {
           id: post.id as string,
           content: post.content as string,
-          contentType: post.content_type as "text" | "poem" | "story",
+          contentType: post.content_type as "text" | "poem" | "story" | "art" | "voice",
           displayName: post.is_anonymous ? undefined : (post.display_name as string | undefined),
           isAnonymous: post.is_anonymous as boolean,
           createdAt: post.created_at as string,
@@ -128,8 +129,14 @@ export default function SavesPage() {
     fetchSavedPosts();
   };
 
-  const handleReport = (postId: string) => {
-    console.log("Report post:", postId);
+  const handleReport = async (postId: string, reason: string) => {
+    if (!userId) return;
+    const client = supabase();
+    await client.from("reports").insert({
+      reporter_id: userId,
+      post_id: postId,
+      reason,
+    });
   };
 
   return (
@@ -145,32 +152,7 @@ export default function SavesPage() {
       />
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <motion.header
-          className="fixed top-0 left-0 right-0 z-50 glass"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl text-elovayne-light glow-text">
-              Elovayne
-            </Link>
-            <nav className="flex items-center gap-6">
-              <Link href="/sanctuary" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Sanctuary
-              </Link>
-              <Link href="/rooms" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Rooms
-              </Link>
-              <Link href="/profile" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Profile
-              </Link>
-              <Link href="/settings" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Settings
-              </Link>
-            </nav>
-          </div>
-        </motion.header>
+        <Navigation activePage="saved" />
 
         <div className="flex-1 pt-24 pb-12 px-6">
           <div className="max-w-2xl mx-auto">

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import Starfield from "@/components/Starfield";
 import Nebula from "@/components/Nebula";
-import Link from "next/link";
+import Navigation from "@/components/Navigation";
 
 const accentColors = [
   { name: "Violet", value: "#9d7cd8" },
@@ -45,32 +45,7 @@ export default function SettingsPage() {
       />
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <motion.header
-          className="fixed top-0 left-0 right-0 z-50 glass"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl text-elovayne-light glow-text">
-              Elovayne
-            </Link>
-            <nav className="flex items-center gap-6">
-              <Link href="/sanctuary" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Sanctuary
-              </Link>
-              <Link href="/rooms" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Rooms
-              </Link>
-              <Link href="/profile" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Profile
-              </Link>
-              <Link href="/settings" className="text-elovayne-light glow-text">
-                Settings
-              </Link>
-            </nav>
-          </div>
-        </motion.header>
+        <Navigation activePage="settings" />
 
         <div className="flex-1 pt-24 pb-12 px-6">
           <div className="max-w-2xl mx-auto">
@@ -239,6 +214,54 @@ export default function SettingsPage() {
                     }`}
                   />
                 </button>
+              </motion.div>
+
+              {/* Ambient Sound */}
+              <motion.div
+                className="glass rounded-2xl p-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                <h2 className="font-heading text-lg text-elovayne-light mb-4">Ambient Sound</h2>
+                <p className="text-xs text-elovayne-dim mb-4">
+                  Soft background tones that match each room&apos;s atmosphere.
+                </p>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-elovayne-muted">Enable sounds</span>
+                    <button
+                      onClick={() => updatePreferences({ ambient_sound: !userPreferences.ambient_sound })}
+                      className={`relative w-14 h-7 rounded-full transition-all ${
+                        userPreferences.ambient_sound
+                          ? "bg-elovayne-nebula/60"
+                          : "bg-elovayne-deep/60"
+                      }`}
+                    >
+                      <div
+                        className={`absolute top-0.5 w-6 h-6 rounded-full bg-elovayne-light transition-transform ${
+                          userPreferences.ambient_sound ? "translate-x-7" : "translate-x-0.5"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                  {userPreferences.ambient_sound && (
+                    <div>
+                      <label className="text-xs text-elovayne-dim uppercase tracking-wider mb-2 block">
+                        Volume
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={userPreferences.sound_volume}
+                        onChange={(e) => updatePreferences({ sound_volume: parseFloat(e.target.value) })}
+                        className="w-full accent-elovayne-violet"
+                      />
+                    </div>
+                  )}
+                </div>
               </motion.div>
             </div>
           </div>

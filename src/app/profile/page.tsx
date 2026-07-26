@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import Starfield from "@/components/Starfield";
 import Nebula from "@/components/Nebula";
+import Navigation from "@/components/Navigation";
 import Link from "next/link";
 
 const contactTypes = [
@@ -21,7 +22,7 @@ const identityTypes = [
 ];
 
 export default function ProfilePage() {
-  const { userProfile, updateProfile, refreshProfile } = useAuth();
+  const { userProfile, updateProfile, refreshProfile, isAnonymous, signOut } = useAuth();
   const [editing, setEditing] = useState(false);
   const [displayName, setDisplayName] = useState(userProfile?.display_name ?? "");
   const [bio, setBio] = useState(userProfile?.bio ?? "");
@@ -68,32 +69,7 @@ export default function ProfilePage() {
       />
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <motion.header
-          className="fixed top-0 left-0 right-0 z-50 glass"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl text-elovayne-light glow-text">
-              Elovayne
-            </Link>
-            <nav className="flex items-center gap-6">
-              <Link href="/sanctuary" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Sanctuary
-              </Link>
-              <Link href="/rooms" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Rooms
-              </Link>
-              <Link href="/profile" className="text-elovayne-light glow-text">
-                Profile
-              </Link>
-              <Link href="/settings" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Settings
-              </Link>
-            </nav>
-          </div>
-        </motion.header>
+        <Navigation activePage="profile" />
 
         <div className="flex-1 pt-24 pb-12 px-6">
           <div className="max-w-2xl mx-auto">
@@ -259,6 +235,41 @@ export default function ProfilePage() {
                       {saving ? "Saving..." : saved ? "Saved!" : "Save Profile"}
                     </button>
                   </div>
+                </div>
+              )}
+            </motion.div>
+
+            {/* Account Section */}
+            <motion.div
+              className="glass rounded-2xl p-6 mt-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <h2 className="font-heading text-lg text-elovayne-light mb-4">Account</h2>
+              {isAnonymous ? (
+                <div className="space-y-3">
+                  <p className="text-sm text-elovayne-muted">
+                    You&apos;re using an anonymous account. Upgrade to keep your stories and journal forever.
+                  </p>
+                  <Link
+                    href="/login"
+                    className="block w-full py-3 rounded-xl bg-elovayne-nebula/40 hover:bg-elovayne-nebula/60 text-elovayne-light font-heading tracking-wider text-center transition-all"
+                  >
+                    Upgrade to Permanent Account
+                  </Link>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <p className="text-sm text-elovayne-muted">
+                    Your account is permanent. Your data is safe.
+                  </p>
+                  <button
+                    onClick={signOut}
+                    className="text-sm text-elovayne-dim hover:text-elovayne-cosmic-pink transition-colors"
+                  >
+                    Sign out
+                  </button>
                 </div>
               )}
             </motion.div>

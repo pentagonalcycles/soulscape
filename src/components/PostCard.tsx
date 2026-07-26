@@ -55,14 +55,17 @@ const reactions: Reaction[] = [
 interface PostCardProps {
   id: string;
   content: string;
-  contentType: "text" | "poem" | "story";
+  contentType: "text" | "poem" | "story" | "art" | "voice";
   displayName?: string;
   isAnonymous: boolean;
   createdAt: string;
   roomId?: string;
+  userId?: string;
+  authorId?: string;
   reactions?: { type: ReactionType; count: number; userReacted?: boolean }[];
   onReact?: (postId: string, reactionType: ReactionType) => void;
-  onReport?: (postId: string) => void;
+  onReport?: (postId: string, reason: string) => void;
+  onDelete?: (postId: string) => void;
 }
 
 export default function PostCard({
@@ -72,12 +75,19 @@ export default function PostCard({
   displayName,
   isAnonymous,
   createdAt,
+  userId,
+  authorId,
   reactions: postReactions = [],
   onReact,
   onReport,
+  onDelete,
 }: PostCardProps) {
   const [showReactions, setShowReactions] = useState(false);
   const [showReportMenu, setShowReportMenu] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showReportReason, setShowReportReason] = useState(false);
+
+  const isAuthor = userId && authorId && userId === authorId;
 
   const getTimeAgo = (date: string) => {
     const now = new Date();
@@ -98,12 +108,16 @@ export default function PostCard({
     text: "font-body text-base leading-relaxed",
     poem: "font-accent text-lg leading-relaxed italic",
     story: "font-body text-base leading-relaxed",
+    art: "font-body text-base leading-relaxed",
+    voice: "font-body text-base leading-relaxed italic",
   };
 
   const typeIcons = {
     text: "💭",
     poem: "📜",
     story: "📖",
+    art: "🎨",
+    voice: "🎙️",
   };
 
   return (
@@ -159,15 +173,69 @@ export default function PostCard({
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -5 }}
                 >
-                  <button
-                    onClick={() => {
-                      onReport?.(id);
-                      setShowReportMenu(false);
-                    }}
-                    className="w-full text-left px-3 py-2 text-sm text-elovayne-muted hover:text-elovayne-cosmic-pink hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
-                  >
-                    Report this post
-                  </button>
+                  {isAuthor && (
+                    <>
+                      {confirmDelete ? (
+                        <div className="px-3 py-2">
+                          <p className="text-xs text-elovayne-muted mb-2">Delete this post?</p>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => {
+                                onDelete?.(id);
+                                setShowReportMenu(false);
+                                setConfirmDelete(false);
+                              }}
+                              className="flex-1 px-2 py-1 text-xs rounded bg-elovayne-cosmic-pink/20 text-elovayne-cosmic-pink hover:bg-elovayne-cosmic-pink/30 transition-colors"
+                            >
+                              Yes
+                            </button>
+                            <button
+                              onClick={() => setConfirmDelete(false)}
+                              className="flex-1 px-2 py-1 text-xs rounded bg-elovayne-deep/50 text-elovayne-muted hover:text-elovayne-light transition-colors"
+                            >
+                              No
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => setConfirmDelete(true)}
+                          className="w-full text-left px-3 py-2 text-sm text-elovayne-muted hover:text-elovayne-cosmic-pink hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
+                        >
+                          Delete this post
+                        </button>
+                      )}
+                    </>
+                  )}
+                  {showReportReason ? (
+                    <div className="px-3 py-2 space-y-2">
+                      <p className="text-xs text-elovayne-muted">Why are you reporting this?</p>
+                      {["Spam", "Inappropriate", "Harmful", "Other"].map((reason) => (
+                        <button
+                          key={reason}
+                          onClick={() => {
+                            onReport?.(id, reason);
+                            setShowReportMenu(false);
+                            setShowReportReason(false);
+                          }}
+                          className="w-full text-left px-3 py-1.5 text-xs text-elovayne-muted hover:text-elovayne-light hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
+                        >
+                          {reason}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <>
+                      {!isAuthor && (
+                        <button
+                          onClick={() => setShowReportReason(true)}
+                          className="w-full text-left px-3 py-2 text-sm text-elovayne-muted hover:text-elovayne-cosmic-pink hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
+                        >
+                          Report this post
+                        </button>
+                      )}
+                    </>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

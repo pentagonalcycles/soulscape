@@ -22,6 +22,8 @@ export interface UserPreferences {
   nebula_intensity: "off" | "subtle" | "normal" | "vivid";
   animation_speed: "minimal" | "normal";
   compact_mode: boolean;
+  ambient_sound: boolean;
+  sound_volume: number;
 }
 
 interface AuthContextType {
@@ -33,6 +35,9 @@ interface AuthContextType {
   refreshProfile: () => Promise<void>;
   updateProfile: (updates: Partial<Pick<UserProfile, "display_name" | "bio" | "avatar_url" | "identity_type" | "contact_info" | "contact_type">>) => Promise<void>;
   updatePreferences: (updates: Partial<UserPreferences>) => Promise<void>;
+  signInWithEmail: (email: string) => Promise<{ error?: string }>;
+  signOut: () => Promise<void>;
+  isAnonymous: boolean;
 }
 
 const defaultPreferences: UserPreferences = {
@@ -41,6 +46,8 @@ const defaultPreferences: UserPreferences = {
   nebula_intensity: "normal",
   animation_speed: "normal",
   compact_mode: false,
+  ambient_sound: false,
+  sound_volume: 0.5,
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -52,6 +59,9 @@ const AuthContext = createContext<AuthContextType>({
   refreshProfile: async () => {},
   updateProfile: async () => {},
   updatePreferences: async () => {},
+  signInWithEmail: async () => ({}),
+  signOut: async () => {},
+  isAnonymous: true,
 });
 
 export function useAuth() {
@@ -131,6 +141,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const signInWithEmail = useCallback(async (email: string) => {
+    const client = supabase();
+    const { error } = await client.auth.signInWithOtp({ email });
+    if (error) {
+      return { error: error.message };
+    }
+    return {};
+  }, []);
+
+  const signOut = useCallback(async () => {
+    const client = supabase();
+    await client.auth.signOut();
+    setSession(null);
+    setUserProfile(null);
+    setUserPreferences(defaultPreferences);
+  }, []);
+
+  const isAnonymous = session?.user?.app_metadata?.provider === "anonymous" ||
+    !session?.user?.app_metadata?.provider;
+
   useEffect(() => {
     const client = supabase();
 
@@ -188,6 +218,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         refreshProfile,
         updateProfile,
         updatePreferences,
+        signInWithEmail,
+        signOut,
+        isAnonymous,
       }}
     >
       {children}

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 type IdentityType = "anonymous" | "alias" | "real";
-type ContentType = "text" | "poem" | "story";
+type ContentType = "text" | "poem" | "story" | "art" | "voice";
 
 interface PostCreatorProps {
   onSubmit?: (post: {
@@ -20,6 +20,8 @@ const contentTypes = [
   { value: "text" as ContentType, label: "Thought", icon: "💭" },
   { value: "poem" as ContentType, label: "Poem", icon: "📜" },
   { value: "story" as ContentType, label: "Story", icon: "📖" },
+  { value: "art" as ContentType, label: "Art", icon: "🎨" },
+  { value: "voice" as ContentType, label: "Voice", icon: "🎙️", disabled: true },
 ];
 
 const identityOptions = [
@@ -29,7 +31,6 @@ const identityOptions = [
 ];
 
 export default function PostCreator({ onSubmit }: PostCreatorProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState("");
   const [contentType, setContentType] = useState<ContentType>("text");
   const [identityType, setIdentityType] = useState<IdentityType>("anonymous");
@@ -56,6 +57,8 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
     text: "What's on your mind?",
     poem: "Let your words flow like stardust...",
     story: "Share your story with the universe...",
+    art: "Describe your artwork or share a link...",
+    voice: "Voice recordings coming soon...",
   };
 
   return (
@@ -110,19 +113,23 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
             </div>
 
             {/* Content type selector */}
-            <div className="flex gap-2 mb-4">
+            <div className="flex gap-2 mb-4 flex-wrap">
               {contentTypes.map((type) => (
                 <button
                   key={type.value}
-                  onClick={() => setContentType(type.value)}
+                  onClick={() => !type.disabled && setContentType(type.value)}
+                  disabled={type.disabled}
                   className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-all duration-300 ${
-                    contentType === type.value
-                      ? "bg-elovayne-nebula/30 text-elovayne-light border border-elovayne-violet/30"
-                      : "bg-elovayne-deep/50 text-elovayne-muted hover:text-elovayne-light border border-transparent"
+                    type.disabled
+                      ? "opacity-40 cursor-not-allowed bg-elovayne-deep/30 text-elovayne-dim"
+                      : contentType === type.value
+                        ? "bg-elovayne-nebula/30 text-elovayne-light border border-elovayne-violet/30"
+                        : "bg-elovayne-deep/50 text-elovayne-muted hover:text-elovayne-light border border-transparent"
                   }`}
                 >
                   <span>{type.icon}</span>
                   <span>{type.label}</span>
+                  {type.disabled && <span className="text-xs">(coming soon)</span>}
                 </button>
               ))}
             </div>

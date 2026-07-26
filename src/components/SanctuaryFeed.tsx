@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import PostCreator from "./PostCreator";
 import PostCard from "./PostCard";
+import LoadingSkeleton from "./LoadingSkeleton";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "./AuthProvider";
 
@@ -12,11 +13,12 @@ type ReactionType = "understanding" | "hope" | "company" | "less_alone" | "comfo
 interface Post {
   id: string;
   content: string;
-  contentType: "text" | "poem" | "story";
+  contentType: "text" | "poem" | "story" | "art" | "voice";
   displayName?: string;
   isAnonymous: boolean;
   createdAt: string;
   roomId?: string;
+  userId: string;
   reactions: { type: ReactionType; count: number; userReacted?: boolean }[];
 }
 
@@ -80,11 +82,12 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
         return {
           id: post.id as string,
           content: post.content as string,
-          contentType: post.content_type as "text" | "poem" | "story",
+          contentType: post.content_type as "text" | "poem" | "story" | "art" | "voice",
           displayName: post.is_anonymous ? undefined : (post.display_name as string | undefined),
           isAnonymous: post.is_anonymous as boolean,
           createdAt: post.created_at as string,
           roomId: post.room_id as string | undefined,
+          userId: post.user_id as string,
           reactions: Object.entries(reactionCounts).map(([type, data]) => ({
             type: type as ReactionType,
             count: data.count,
@@ -104,7 +107,7 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
 
   const handleNewPost = async (newPost: {
     content: string;
-    contentType: "text" | "poem" | "story";
+    contentType: "text" | "poem" | "story" | "art" | "voice";
     identityType: "anonymous" | "alias" | "real";
     displayName?: string;
     isAnonymous: boolean;
@@ -170,8 +173,21 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
     fetchPosts();
   };
 
-  const handleReport = (postId: string) => {
-    console.log("Report post:", postId);
+  const handleReport = async (postId: string, reason: string) => {
+    if (!userId) return;
+    const client = supabase();
+    await client.from("reports").insert({
+      reporter_id: userId,
+      post_id: postId,
+      reason,
+    });
+  };
+
+  const handleDelete = async (postId: string) => {
+    if (!userId) return;
+    const client = supabase();
+    await client.from("posts").delete().eq("id", postId);
+    fetchPosts();
   };
 
   return (
@@ -179,15 +195,7 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
       <PostCreator onSubmit={handleNewPost} />
 
       {loading ? (
-        <motion.div
-          className="text-center py-12"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        >
-          <p className="text-elovayne-dim text-sm font-body">
-            The universe is loading...
-          </p>
-        </motion.div>
+        <LoadingSkeleton />
       ) : (
         <motion.div
           className="flex flex-col gap-4"
@@ -217,9 +225,12 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
                   isAnonymous={post.isAnonymous}
                   createdAt={post.createdAt}
                   roomId={post.roomId}
+                  userId={userId ?? undefined}
+                  authorId={post.userId}
                   reactions={post.reactions}
                   onReact={handleReact}
                   onReport={handleReport}
+                  onDelete={handleDelete}
                 />
               </motion.div>
             ))

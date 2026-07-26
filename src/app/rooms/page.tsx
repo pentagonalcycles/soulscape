@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Starfield from "@/components/Starfield";
 import Nebula from "@/components/Nebula";
+import Navigation from "@/components/Navigation";
 
 const rooms = [
   {
@@ -97,33 +98,7 @@ export default function Rooms() {
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Header */}
-        <motion.header
-          className="fixed top-0 left-0 right-0 z-50 glass"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl text-elovayne-light glow-text">
-              Elovayne
-            </Link>
-            <nav className="flex items-center gap-6">
-              <Link href="/sanctuary" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Sanctuary
-              </Link>
-              <span className="text-elovayne-light glow-text">
-                Rooms
-              </span>
-              <Link href="/profile" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Profile
-              </Link>
-              <Link href="/settings" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
-                Settings
-              </Link>
-            </nav>
-          </div>
-        </motion.header>
+        <Navigation activePage="rooms" />
 
         {/* Main content */}
         <div className="flex-1 pt-24 pb-12 px-6">
