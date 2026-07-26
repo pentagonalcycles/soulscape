@@ -16,9 +16,9 @@ export default function ElovayneLogo() {
         className="relative w-40 h-40 md:w-52 md:h-52"
         animate={{
           filter: [
-            "drop-shadow(0 0 15px rgba(157, 124, 216, 0.4))",
-            "drop-shadow(0 0 30px rgba(157, 124, 216, 0.7))",
-            "drop-shadow(0 0 15px rgba(157, 124, 216, 0.4))",
+            "brightness(1.1) drop-shadow(0 0 15px rgba(157, 124, 216, 0.4))",
+            "brightness(1.2) drop-shadow(0 0 30px rgba(157, 124, 216, 0.7))",
+            "brightness(1.1) drop-shadow(0 0 15px rgba(157, 124, 216, 0.4))",
           ],
         }}
         transition={{

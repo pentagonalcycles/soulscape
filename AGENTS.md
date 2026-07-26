@@ -100,7 +100,7 @@ Each room has its own atmosphere:
 - `SaveButton.tsx` — Bookmark/save toggle on posts
 - `LoadingSkeleton.tsx` — Animated loading placeholders for feeds
 - `AmbientSound.tsx` — Web Audio API procedural ambient tones per room
-- `ElovayneLogo.tsx` — Animated logo with glow
+- `ElovayneLogo.tsx` — Logo image with glow animation (uses mix-blend-mode + brightness filter for transparent background)
 - `AuthProvider.tsx` — Auth (anonymous + email magic link) + user profile + preferences (context provider)
 - `ThemeContext.tsx` — Dynamic CSS variable theming based on user preferences
 - `ClientLayout.tsx` — Client wrapper for AuthProvider + ThemeProvider + Footer + WelcomeModal
