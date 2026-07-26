@@ -84,15 +84,17 @@ Each room has its own atmosphere:
 
 ## Key Components
 
-- `Starfield.tsx` — Canvas particle background with mouse parallax
-- `Nebula.tsx` — Animated nebula gradient blobs
+- `Starfield.tsx` — Canvas particle background (toggleable via user preferences)
+- `Nebula.tsx` — Animated nebula gradient blobs (intensity-aware)
 - `GlowingPortal.tsx` — Breathing portal with exit transition
 - `PostCreator.tsx` — Post creation with identity selector
-- `PostCard.tsx` — Post display with 5 meaningful reactions
+- `PostCard.tsx` — Post display with 5 meaningful reactions + save button
 - `SanctuaryFeed.tsx` — Feed component (Supabase-powered, uses `supabase()` function)
+- `SaveButton.tsx` — Bookmark/save toggle on posts
 - `ElovayneLogo.tsx` — Animated logo
-- `AuthProvider.tsx` — Anonymous auth + user profile creation (context provider)
-- `ClientLayout.tsx` — Client wrapper for AuthProvider
+- `AuthProvider.tsx` — Anonymous auth + user profile + preferences (context provider)
+- `ThemeContext.tsx` — Dynamic CSS variable theming based on user preferences
+- `ClientLayout.tsx` — Client wrapper for AuthProvider + ThemeProvider
 
 ---
 
@@ -112,7 +114,7 @@ The 5 reactions (not "likes"):
 ### Auth
 - Anonymous auth via `supabase.auth.signInAnonymously()`
 - User profile auto-created in `users` table on first visit
-- `useAuth()` hook provides `userId` and `ensureUserProfile()`
+- `useAuth()` hook provides `userId`, `userProfile`, `userPreferences`, `refreshProfile()`, `updateProfile()`, `updatePreferences()`
 
 ### Database Tables
 - `rooms` — 10 emotional rooms (pre-populated)
@@ -122,12 +124,16 @@ The 5 reactions (not "likes"):
 - `saves` — Bookmarked posts (Phase 3)
 - `reports` — Content moderation
 - `journals` — Private user journals (Phase 3)
+- `user_preferences` — UI personalization settings (Phase 3)
 
 ### RLS Policies
 - Rooms: Anyone can view
 - Posts: Anyone can read, only author can modify
 - Reactions: Anyone can read, one per user per post per type
 - Users: Public read, insert allowed
+- Saves: Private per user
+- Journals: Private per user
+- User preferences: Private per user
 
 ---
 
