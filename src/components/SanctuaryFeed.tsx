@@ -30,14 +30,16 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
   const { userId } = useAuth();
 
   const fetchPosts = useCallback(async () => {
-    let query = supabase
+    const client = supabase();
+
+    let query = client
       .from("posts")
       .select("*")
       .order("created_at", { ascending: false })
       .limit(50);
 
     if (roomId) {
-      const { data: room } = await supabase
+      const { data: room } = await client
         .from("rooms")
         .select("id")
         .eq("slug", roomId)
@@ -58,9 +60,9 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
 
     const postsWithReactions: Post[] = await Promise.all(
       postsData.map(async (post: Record<string, unknown>) => {
-        const { data: reactionsData } = await supabase
+        const { data: reactionsData } = await client
           .from("reactions")
-          .select("reaction_type")
+          .select("reaction_type, user_id")
           .eq("post_id", post.id);
 
         const reactionCounts: Record<string, { count: number; userReacted: boolean }> = {};
@@ -109,9 +111,11 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
   }) => {
     if (!userId) return;
 
+    const client = supabase();
+
     let resolvedRoomId = null;
     if (roomId) {
-      const { data: room } = await supabase
+      const { data: room } = await client
         .from("rooms")
         .select("id")
         .eq("slug", roomId)
@@ -119,7 +123,7 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
       resolvedRoomId = room?.id ?? null;
     }
 
-    const { error } = await supabase.from("posts").insert({
+    const { error } = await client.from("posts").insert({
       user_id: userId,
       content: newPost.content,
       content_type: newPost.contentType,
@@ -138,7 +142,9 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
   const handleReact = async (postId: string, reactionType: ReactionType) => {
     if (!userId) return;
 
-    const { data: existing } = await supabase
+    const client = supabase();
+
+    const { data: existing } = await client
       .from("reactions")
       .select("id")
       .eq("post_id", postId)
@@ -147,9 +153,9 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
       .single();
 
     if (existing) {
-      await supabase.from("reactions").delete().eq("id", existing.id);
+      await client.from("reactions").delete().eq("id", existing.id);
     } else {
-      const { error } = await supabase.from("reactions").insert({
+      const { error } = await client.from("reactions").insert({
         post_id: postId,
         user_id: userId,
         reaction_type: reactionType,

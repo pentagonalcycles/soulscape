@@ -25,26 +25,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const client = supabase();
+
     const initAuth = async () => {
       const {
         data: { session: existingSession },
-      } = await supabase.auth.getSession();
+      } = await client.auth.getSession();
 
       if (existingSession) {
         setSession(existingSession);
-        await ensureUserProfile(existingSession.user.id);
+        await ensureUserProfile(client, existingSession.user.id);
         setLoading(false);
         return;
       }
 
-      const { error } = await supabase.auth.signInAnonymously();
+      const { error } = await client.auth.signInAnonymously();
       if (!error) {
         const {
           data: { session: newSession },
-        } = await supabase.auth.getSession();
+        } = await client.auth.getSession();
         setSession(newSession);
         if (newSession) {
-          await ensureUserProfile(newSession.user.id);
+          await ensureUserProfile(client, newSession.user.id);
         }
       }
 
@@ -55,10 +57,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
+    } = client.auth.onAuthStateChange(async (_event, newSession) => {
       setSession(newSession);
       if (newSession) {
-        await ensureUserProfile(newSession.user.id);
+        await ensureUserProfile(client, newSession.user.id);
       }
     });
 
@@ -78,11 +80,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-async function ensureUserProfile(userId: string) {
-  const { data } = await supabase.from("users").select("id").eq("id", userId).single();
+async function ensureUserProfile(client: ReturnType<typeof supabase>, userId: string) {
+  const { data } = await client.from("users").select("id").eq("id", userId).single();
 
   if (!data) {
-    await supabase.from("users").insert({
+    await client.from("users").insert({
       id: userId,
       identity_type: "anonymous",
     });
