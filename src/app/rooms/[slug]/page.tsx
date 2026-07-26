@@ -90,10 +90,10 @@ export default function RoomPage({
     return (
       <main className="relative min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="font-heading text-4xl text-soulscape-light mb-4">
+          <h1 className="font-heading text-4xl text-elovayne-light mb-4">
             Room not found
           </h1>
-          <Link href="/rooms" className="text-soulscape-violet hover:underline">
+          <Link href="/rooms" className="text-elovayne-violet hover:underline">
             Return to rooms
           </Link>
         </div>
@@ -163,17 +163,17 @@ export default function RoomPage({
           transition={{ duration: 0.8 }}
         >
           <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl text-soulscape-light glow-text">
-              Soulscape
+            <Link href="/" className="font-heading text-2xl text-elovayne-light glow-text">
+              Elovayne
             </Link>
             <nav className="flex items-center gap-6">
-              <Link href="/sanctuary" className="text-soulscape-muted hover:text-soulscape-light transition-colors">
+              <Link href="/sanctuary" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
                 Sanctuary
               </Link>
-              <Link href="/rooms" className="text-soulscape-light glow-text">
+              <Link href="/rooms" className="text-elovayne-light glow-text">
                 Rooms
               </Link>
-              <Link href="/journal" className="text-soulscape-muted hover:text-soulscape-light transition-colors">
+              <Link href="/journal" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
                 Journal
               </Link>
             </nav>
@@ -200,7 +200,7 @@ export default function RoomPage({
               >
                 {room.name}
               </h1>
-              <p className="font-accent text-xl text-soulscape-muted">
+              <p className="font-accent text-xl text-elovayne-muted">
                 {room.description}
               </p>
             </motion.div>

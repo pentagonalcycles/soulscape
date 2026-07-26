@@ -1,6 +1,6 @@
 # Environment Variables
 
-This document explains how to set up environment variables for Soulscape.
+This document explains how to set up environment variables for Elovayne.
 
 ---
 
@@ -27,7 +27,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 
 1. Visit [supabase.com](https://supabase.com)
 2. Click "New Project"
-3. Choose a project name (e.g., `soulscape`)
+3. Choose a project name (e.g., `elovayne`)
 4. Set a database password
 5. Select a region close to your users
 6. Click "Create new project"

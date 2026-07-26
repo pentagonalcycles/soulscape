@@ -2,16 +2,16 @@
 
 :root {
   /* Core palette */
-  --soulscape-void: #050510;
-  --soulscape-deep: #0a0a2e;
-  --soulscape-midnight: #1a1a4e;
-  --soulscape-nebula: #6b3fa0;
-  --soulscape-violet: #9d7cd8;
-  --soulscape-cosmic-pink: #e879a8;
-  --soulscape-gold: #f5d062;
-  --soulscape-light: #e8e0f0;
-  --soulscape-muted: #a89cc8;
-  --soulscape-dim: #6b5f8a;
+  --elovayne-void: #050510;
+  --elovayne-deep: #0a0a2e;
+  --elovayne-midnight: #1a1a4e;
+  --elovayne-nebula: #6b3fa0;
+  --elovayne-violet: #9d7cd8;
+  --elovayne-cosmic-pink: #e879a8;
+  --elovayne-gold: #f5d062;
+  --elovayne-light: #e8e0f0;
+  --elovayne-muted: #a89cc8;
+  --elovayne-dim: #6b5f8a;
 
   /* Glow */
   --glow-soft: 0 0 20px rgba(157, 124, 216, 0.3);
@@ -30,16 +30,16 @@
 }
 
 @theme inline {
-  --color-soulscape-void: var(--soulscape-void);
-  --color-soulscape-deep: var(--soulscape-deep);
-  --color-soulscape-midnight: var(--soulscape-midnight);
-  --color-soulscape-nebula: var(--soulscape-nebula);
-  --color-soulscape-violet: var(--soulscape-violet);
-  --color-soulscape-cosmic-pink: var(--soulscape-cosmic-pink);
-  --color-soulscape-gold: var(--soulscape-gold);
-  --color-soulscape-light: var(--soulscape-light);
-  --color-soulscape-muted: var(--soulscape-muted);
-  --color-soulscape-dim: var(--soulscape-dim);
+  --color-elovayne-void: var(--elovayne-void);
+  --color-elovayne-deep: var(--elovayne-deep);
+  --color-elovayne-midnight: var(--elovayne-midnight);
+  --color-elovayne-nebula: var(--elovayne-nebula);
+  --color-elovayne-violet: var(--elovayne-violet);
+  --color-elovayne-cosmic-pink: var(--elovayne-cosmic-pink);
+  --color-elovayne-gold: var(--elovayne-gold);
+  --color-elovayne-light: var(--elovayne-light);
+  --color-elovayne-muted: var(--elovayne-muted);
+  --color-elovayne-dim: var(--elovayne-dim);
 
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
@@ -48,8 +48,8 @@
 
 /* Global styles */
 body {
-  background: var(--soulscape-void);
-  color: var(--soulscape-light);
+  background: var(--elovayne-void);
+  color: var(--elovayne-light);
   font-family: var(--font-body);
   overflow-x: hidden;
 }
@@ -66,16 +66,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--soulscape-void);
+  background: var(--elovayne-void);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--soulscape-dim);
+  background: var(--elovayne-dim);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--soulscape-violet);
+  background: var(--elovayne-violet);
 }
 
 /* Utility animations */

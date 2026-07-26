@@ -77,10 +77,10 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
             }}
           >
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-soulscape-nebula/20 flex items-center justify-center">
-                <span className="text-soulscape-violet">✦</span>
+              <div className="w-10 h-10 rounded-full bg-elovayne-nebula/20 flex items-center justify-center">
+                <span className="text-elovayne-violet">✦</span>
               </div>
-              <span className="text-soulscape-muted font-body">
+              <span className="text-elovayne-muted font-body">
                 Share something with the sanctuary...
               </span>
             </div>
@@ -98,12 +98,12 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-heading text-lg text-soulscape-light glow-text">
+              <h3 className="font-heading text-lg text-elovayne-light glow-text">
                 Share with the Sanctuary
               </h3>
               <button
                 onClick={() => setIsExpanded(false)}
-                className="text-soulscape-dim hover:text-soulscape-light transition-colors text-sm"
+                className="text-elovayne-dim hover:text-elovayne-light transition-colors text-sm"
               >
                 Close
               </button>
@@ -117,8 +117,8 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
                   onClick={() => setContentType(type.value)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm transition-all duration-300 ${
                     contentType === type.value
-                      ? "bg-soulscape-nebula/30 text-soulscape-light border border-soulscape-violet/30"
-                      : "bg-soulscape-deep/50 text-soulscape-muted hover:text-soulscape-light border border-transparent"
+                      ? "bg-elovayne-nebula/30 text-elovayne-light border border-elovayne-violet/30"
+                      : "bg-elovayne-deep/50 text-elovayne-muted hover:text-elovayne-light border border-transparent"
                   }`}
                 >
                   <span>{type.icon}</span>
@@ -132,7 +132,7 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder={placeholders[contentType]}
-              className={`w-full bg-transparent border border-soulscape-nebula/20 rounded-xl p-4 text-soulscape-light placeholder-soulscape-dim resize-none focus:outline-none focus:border-soulscape-violet/40 transition-colors font-body ${
+              className={`w-full bg-transparent border border-elovayne-nebula/20 rounded-xl p-4 text-elovayne-light placeholder-elovayne-dim resize-none focus:outline-none focus:border-elovayne-violet/40 transition-colors font-body ${
                 contentType === "poem" ? "font-accent text-lg" : "text-base"
               }`}
               rows={contentType === "story" ? 8 : 4}
@@ -141,7 +141,7 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
 
             {/* Identity selector */}
             <div className="mt-4">
-              <p className="text-sm text-soulscape-muted mb-3">How would you like to appear?</p>
+              <p className="text-sm text-elovayne-muted mb-3">How would you like to appear?</p>
               <div className="flex flex-wrap gap-2">
                 {identityOptions.map((option) => (
                   <button
@@ -149,20 +149,20 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
                     onClick={() => setIdentityType(option.value)}
                     className={`flex flex-col items-start px-4 py-3 rounded-xl text-sm transition-all duration-300 ${
                       identityType === option.value
-                        ? "bg-soulscape-nebula/20 border border-soulscape-violet/30"
-                        : "bg-soulscape-deep/30 border border-transparent hover:border-soulscape-nebula/20"
+                        ? "bg-elovayne-nebula/20 border border-elovayne-violet/30"
+                        : "bg-elovayne-deep/30 border border-transparent hover:border-elovayne-nebula/20"
                     }`}
                   >
                     <span
                       className={
                         identityType === option.value
-                          ? "text-soulscape-light"
-                          : "text-soulscape-muted"
+                          ? "text-elovayne-light"
+                          : "text-elovayne-muted"
                       }
                     >
                       {option.label}
                     </span>
-                    <span className="text-xs text-soulscape-dim mt-1">
+                    <span className="text-xs text-elovayne-dim mt-1">
                       {option.description}
                     </span>
                   </button>
@@ -183,7 +183,7 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
                       value={alias}
                       onChange={(e) => setAlias(e.target.value)}
                       placeholder="Choose your creative alias..."
-                      className="w-full mt-3 bg-soulscape-deep/50 border border-soulscape-nebula/20 rounded-xl px-4 py-3 text-soulscape-light placeholder-soulscape-dim focus:outline-none focus:border-soulscape-violet/40 transition-colors font-body"
+                      className="w-full mt-3 bg-elovayne-deep/50 border border-elovayne-nebula/20 rounded-xl px-4 py-3 text-elovayne-light placeholder-elovayne-dim focus:outline-none focus:border-elovayne-violet/40 transition-colors font-body"
                     />
                   </motion.div>
                 )}
@@ -207,7 +207,7 @@ export default function PostCreator({ onSubmit }: PostCreatorProps) {
                 whileHover={content.trim() ? { scale: 1.02 } : {}}
                 whileTap={content.trim() ? { scale: 0.98 } : {}}
               >
-                <span className="text-soulscape-light">Release into the void</span>
+                <span className="text-elovayne-light">Release into the void</span>
               </motion.button>
             </div>
           </motion.div>

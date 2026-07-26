@@ -4,11 +4,11 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# Soulscape — Agent Instructions
+# Elovayne — Agent Instructions
 
 ## Project Overview
 
-Soulscape is an immersive artistic community website. It's a dreamlike escape from reality where people share stories, emotions, and creative expressions.
+Elovayne is an immersive artistic community website. It's a dreamlike escape from reality where people share stories, emotions, and creative expressions.
 
 **Core message:** "An artistic community where people escape everyday reality, express themselves, share their stories, and connect through meaningful creative experiences."
 
@@ -91,6 +91,7 @@ Each room has its own atmosphere:
 - `PostCreator.tsx` — Post creation with identity selector
 - `PostCard.tsx` — Post display with 5 meaningful reactions
 - `SanctuaryFeed.tsx` — Feed component
+- `ElovayneLogo.tsx` — Animated logo
 
 ---
 

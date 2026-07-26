@@ -122,17 +122,17 @@ export default function PostCard({
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           {/* Avatar */}
-          <div className="w-10 h-10 rounded-full bg-soulscape-nebula/20 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-elovayne-nebula/20 flex items-center justify-center">
             <span className="text-lg">
               {isAnonymous ? "🌙" : typeIcons[contentType]}
             </span>
           </div>
 
           <div>
-            <p className="text-soulscape-light text-sm font-body">
+            <p className="text-elovayne-light text-sm font-body">
               {isAnonymous ? "Anonymous Soul" : displayName || "Anonymous Soul"}
             </p>
-            <p className="text-soulscape-dim text-xs">
+            <p className="text-elovayne-dim text-xs">
               {getTimeAgo(createdAt)}
               <span className="mx-2">·</span>
               <span className="capitalize">{contentType}</span>
@@ -144,7 +144,7 @@ export default function PostCard({
         <div className="relative">
           <button
             onClick={() => setShowReportMenu(!showReportMenu)}
-            className="text-soulscape-dim hover:text-soulscape-muted transition-colors opacity-0 group-hover:opacity-100"
+            className="text-elovayne-dim hover:text-elovayne-muted transition-colors opacity-0 group-hover:opacity-100"
           >
             ···
           </button>
@@ -161,7 +161,7 @@ export default function PostCard({
                     onReport?.(id);
                     setShowReportMenu(false);
                   }}
-                  className="w-full text-left px-3 py-2 text-sm text-soulscape-muted hover:text-soulscape-cosmic-pink hover:bg-soulscape-nebula/10 rounded-lg transition-colors"
+                  className="w-full text-left px-3 py-2 text-sm text-elovayne-muted hover:text-elovayne-cosmic-pink hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
                 >
                   Report this post
                 </button>
@@ -174,9 +174,9 @@ export default function PostCard({
       {/* Content */}
       <div className={`mb-4 ${contentStyles[contentType]}`}>
         {contentType === "poem" ? (
-          <div className="whitespace-pre-wrap text-soulscape-light">{content}</div>
+          <div className="whitespace-pre-wrap text-elovayne-light">{content}</div>
         ) : (
-          <p className="text-soulscape-light">{content}</p>
+          <p className="text-elovayne-light">{content}</p>
         )}
       </div>
 
@@ -194,14 +194,14 @@ export default function PostCard({
                 onClick={() => onReact?.(id, reaction.type)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all duration-300 ${
                   reaction.userReacted
-                    ? "bg-soulscape-nebula/30 border border-soulscape-violet/30"
-                    : "bg-soulscape-deep/30 border border-transparent hover:border-soulscape-nebula/20"
+                    ? "bg-elovayne-nebula/30 border border-elovayne-violet/30"
+                    : "bg-elovayne-deep/30 border border-transparent hover:border-elovayne-nebula/20"
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <span>{reactionConfig.icon}</span>
-                <span className="text-soulscape-muted">{reaction.count}</span>
+                <span className="text-elovayne-muted">{reaction.count}</span>
               </motion.button>
             );
           })}
@@ -210,7 +210,7 @@ export default function PostCard({
         <div className="relative">
           <motion.button
             onClick={() => setShowReactions(!showReactions)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs bg-soulscape-deep/30 border border-transparent hover:border-soulscape-nebula/20 text-soulscape-dim hover:text-soulscape-muted transition-all duration-300"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs bg-elovayne-deep/30 border border-transparent hover:border-elovayne-nebula/20 text-elovayne-dim hover:text-elovayne-muted transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -227,7 +227,7 @@ export default function PostCard({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
               >
-                <p className="text-xs text-soulscape-dim mb-2">How did this make you feel?</p>
+                <p className="text-xs text-elovayne-dim mb-2">How did this make you feel?</p>
                 <div className="grid grid-cols-1 gap-1">
                   {reactions.map((reaction) => (
                     <motion.button
@@ -236,15 +236,15 @@ export default function PostCard({
                         onReact?.(id, reaction.type);
                         setShowReactions(false);
                       }}
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-left hover:bg-soulscape-nebula/10 transition-colors group/reaction"
+                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-left hover:bg-elovayne-nebula/10 transition-colors group/reaction"
                       whileHover={{ x: 4 }}
                     >
                       <span className="text-lg">{reaction.icon}</span>
                       <div>
-                        <p className="text-sm text-soulscape-light group-hover/reaction:text-soulscape-light">
+                        <p className="text-sm text-elovayne-light group-hover/reaction:text-elovayne-light">
                           {reaction.label}
                         </p>
-                        <p className="text-xs text-soulscape-dim">
+                        <p className="text-xs text-elovayne-dim">
                           {reaction.description}
                         </p>
                       </div>

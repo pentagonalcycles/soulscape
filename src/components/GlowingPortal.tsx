@@ -65,7 +65,7 @@ export default function GlowingPortal() {
         {/* Portal text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <motion.span
-            className="text-soulscape-light font-heading text-lg md:text-xl tracking-widest uppercase glow-text"
+            className="text-elovayne-light font-heading text-lg md:text-xl tracking-widest uppercase glow-text"
             animate={{
               textShadow: [
                 "0 0 10px rgba(157, 124, 216, 0.4), 0 0 30px rgba(107, 63, 160, 0.2)",
@@ -87,7 +87,7 @@ export default function GlowingPortal() {
       {/* Exit animation overlay */}
       {isExiting && (
         <motion.div
-          className="fixed inset-0 bg-soulscape-void"
+          className="fixed inset-0 bg-elovayne-void"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, ease: "easeInOut" }}

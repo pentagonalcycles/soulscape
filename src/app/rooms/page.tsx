@@ -105,17 +105,17 @@ export default function Rooms() {
           transition={{ duration: 0.8 }}
         >
           <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl text-soulscape-light glow-text">
-              Soulscape
+            <Link href="/" className="font-heading text-2xl text-elovayne-light glow-text">
+              Elovayne
             </Link>
             <nav className="flex items-center gap-6">
-              <Link href="/sanctuary" className="text-soulscape-muted hover:text-soulscape-light transition-colors">
+              <Link href="/sanctuary" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
                 Sanctuary
               </Link>
-              <span className="text-soulscape-light glow-text">
+              <span className="text-elovayne-light glow-text">
                 Rooms
               </span>
-              <Link href="/journal" className="text-soulscape-muted hover:text-soulscape-light transition-colors">
+              <Link href="/journal" className="text-elovayne-muted hover:text-elovayne-light transition-colors">
                 Journal
               </Link>
             </nav>
@@ -131,10 +131,10 @@ export default function Rooms() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="font-heading text-3xl md:text-4xl text-soulscape-light glow-text-strong mb-4">
+              <h2 className="font-heading text-3xl md:text-4xl text-elovayne-light glow-text-strong mb-4">
                 Emotional Rooms
               </h2>
-              <p className="font-accent text-xl text-soulscape-muted">
+              <p className="font-accent text-xl text-elovayne-muted">
                 Each room is a world of its own. Enter where your heart leads.
               </p>
             </motion.div>
@@ -159,14 +159,14 @@ export default function Rooms() {
                       <span className="text-3xl">{room.icon}</span>
                       <div>
                         <h3
-                          className="font-heading text-xl text-soulscape-light mb-1 group-hover:glow-text transition-all"
+                          className="font-heading text-xl text-elovayne-light mb-1 group-hover:glow-text transition-all"
                           style={{
                             color: room.colors.primary,
                           }}
                         >
                           {room.name}
                         </h3>
-                        <p className="text-soulscape-muted text-sm">
+                        <p className="text-elovayne-muted text-sm">
                           {room.description}
                         </p>
                       </div>

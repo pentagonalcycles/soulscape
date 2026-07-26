@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-export default function SoulscapeLogo() {
+export default function ElovayneLogo() {
   return (
     <motion.div
       className="flex flex-col items-center gap-4"
@@ -78,17 +78,17 @@ export default function SoulscapeLogo() {
 
       {/* Logo text */}
       <motion.h1
-        className="font-heading text-4xl md:text-6xl lg:text-7xl font-light tracking-wider text-soulscape-light glow-text-strong"
+        className="font-heading text-4xl md:text-6xl lg:text-7xl font-light tracking-wider text-elovayne-light glow-text-strong"
         initial={{ opacity: 0, letterSpacing: "0.3em" }}
         animate={{ opacity: 1, letterSpacing: "0.15em" }}
         transition={{ duration: 2, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        Soulscape
+        Elovayne
       </motion.h1>
 
       {/* Tagline */}
       <motion.p
-        className="font-accent text-xl md:text-2xl text-soulscape-muted tracking-wide"
+        className="font-accent text-xl md:text-2xl text-elovayne-muted tracking-wide"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, delay: 1 }}

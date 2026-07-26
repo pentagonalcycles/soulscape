@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Starfield from "@/components/Starfield";
 import Nebula from "@/components/Nebula";
-import SoulscapeLogo from "@/components/SoulscapeLogo";
+import ElovayneLogo from "@/components/ElovayneLogo";
 import GlowingPortal from "@/components/GlowingPortal";
 
 export default function Home() {
@@ -26,7 +26,7 @@ export default function Home() {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center gap-12 md:gap-16 px-6">
         {/* Logo */}
-        <SoulscapeLogo />
+        <ElovayneLogo />
 
         {/* Portal */}
         <GlowingPortal />
@@ -38,7 +38,7 @@ export default function Home() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 2 }}
         >
-          <p className="font-body text-sm text-soulscape-dim tracking-wide">
+          <p className="font-body text-sm text-elovayne-dim tracking-wide">
             An artistic community for those who seek something more
           </p>
         </motion.div>

@@ -20,7 +20,7 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Soulscape — An Artistic Community Beyond Reality",
+  title: "Elovayne — An Artistic Community Beyond Reality",
   description:
     "An artistic community where people escape everyday reality, express themselves, share their stories, and connect through meaningful creative experiences.",
 };
@@ -35,7 +35,7 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${inter.variable} ${caveat.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-soulscape-void text-soulscape-light font-body">
+      <body className="min-h-full flex flex-col bg-elovayne-void text-elovayne-light font-body">
         {children}
       </body>
     </html>

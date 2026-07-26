@@ -1,15 +1,15 @@
-# Soulscape
+# Elovayne
 
 An artistic community where people escape everyday reality, express themselves, share their stories, and connect through meaningful creative experiences.
 
-![Soulscape](https://img.shields.io/badge/status-Phase%202%20Complete-6b3fa0?style=for-the-badge)
+![Elovayne](https://img.shields.io/badge/status-Phase%202%20Complete-6b3fa0?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-9d7cd8?style=for-the-badge)
 
 ---
 
 ## Overview
 
-Soulscape is an immersive digital world designed as an escape from everyday reality. It's a place where people can explore creative experiences, express their emotions, share personal stories, and connect with others through meaningful interactions.
+Elovayne is an immersive digital world designed as an escape from everyday reality. It's a place where people can explore creative experiences, express their emotions, share personal stories, and connect with others through meaningful interactions.
 
 The website feels emotional, dreamlike, welcoming, mysterious, and visually artistic — like floating through a galaxy of human connection.
 
@@ -47,7 +47,7 @@ The website feels emotional, dreamlike, welcoming, mysterious, and visually arti
 | Auth | Supabase Auth |
 | Storage | Supabase Storage |
 | Hosting | Vercel |
-| Domain | soulscape.com |
+| Domain | elovayne.com |
 
 ---
 
@@ -62,7 +62,7 @@ The website feels emotional, dreamlike, welcoming, mysterious, and visually arti
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/soulscape.git
+git clone https://github.com/pentagonalcycles/soulscape.git
 cd soulscape
 
 # Install dependencies
@@ -106,7 +106,7 @@ soulscape/
 │   ├── components/             # React components
 │   │   ├── Starfield.tsx       # Canvas particle starfield
 │   │   ├── Nebula.tsx          # Animated nebula gradients
-│   │   ├── SoulscapeLogo.tsx   # Animated logo
+│   │   ├── ElovayneLogo.tsx    # Animated logo
 │   │   ├── GlowingPortal.tsx   # Breathing portal
 │   │   ├── PostCreator.tsx     # Post creation flow
 │   │   ├── PostCard.tsx        # Post display + reactions

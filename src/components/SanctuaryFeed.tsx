@@ -169,7 +169,7 @@ export default function SanctuaryFeed() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <p className="text-soulscape-dim text-sm font-body">
+        <p className="text-elovayne-dim text-sm font-body">
           The universe holds more stories...
         </p>
       </motion.div>
