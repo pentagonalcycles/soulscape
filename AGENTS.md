@@ -168,6 +168,11 @@ The 5 reactions (not "likes"):
 - This avoids SSR/browser API conflicts (Next.js App Router)
 - The function returns a singleton browser client on the client side, and a fresh client on the server side
 
+### Anonymous Auth (Required)
+- In Supabase Dashboard → **Authentication → Providers** → enable **Anonymous** sign-in
+- Without this, all auth fails with 422 and no session is created
+- This must be enabled after recreating the database or resetting auth settings
+
 ---
 
 ## Commands

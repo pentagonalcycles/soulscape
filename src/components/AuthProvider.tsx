@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useRef, ReactNode } from "react";
 import { Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 
@@ -74,6 +74,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [userPreferences, setUserPreferences] = useState<UserPreferences>(defaultPreferences);
 
+  const sessionRef = useRef<Session | null>(null);
+  sessionRef.current = session;
+
   const fetchProfile = useCallback(async (userId: string) => {
     const client = supabase();
 
@@ -99,18 +102,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const refreshProfile = useCallback(async () => {
-    const client = supabase();
-    const { data: { session: currentSession } } = await client.auth.getSession();
+    const currentSession = sessionRef.current;
     if (currentSession?.user?.id) {
       await fetchProfile(currentSession.user.id);
     }
   }, [fetchProfile]);
 
   const updateProfile = useCallback(async (updates: Partial<Pick<UserProfile, "display_name" | "bio" | "avatar_url" | "identity_type" | "contact_info" | "contact_type">>) => {
-    const client = supabase();
-    const { data: { session: currentSession } } = await client.auth.getSession();
+    const currentSession = sessionRef.current;
     if (!currentSession?.user?.id) return;
 
+    const client = supabase();
     const { error } = await client
       .from("users")
       .update({ ...updates, updated_at: new Date().toISOString() })
@@ -122,12 +124,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [fetchProfile]);
 
   const updatePreferences = useCallback(async (updates: Partial<UserPreferences>) => {
-    const client = supabase();
-    const { data: { session: currentSession } } = await client.auth.getSession();
-    if (!currentSession?.user?.id) return;
+    const currentSession = sessionRef.current;
+    if (!currentSession?.user?.id) {
+      console.error("No session found when updating preferences");
+      return;
+    }
 
     setUserPreferences((prev) => ({ ...prev, ...updates }));
 
+    const client = supabase();
     const { error } = await client
       .from("user_preferences")
       .upsert({
@@ -137,7 +142,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }, { onConflict: "user_id" });
 
     if (error) {
-      console.error("Error updating preferences:", error.message);
+      console.error("Error updating preferences:", error.message, error);
     }
   }, []);
 
@@ -154,6 +159,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const client = supabase();
     await client.auth.signOut();
     setSession(null);
+    sessionRef.current = null;
     setUserProfile(null);
     setUserPreferences(defaultPreferences);
   }, []);
@@ -187,6 +193,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           await ensureUserProfile(client, newSession.user.id);
           await fetchProfile(newSession.user.id);
         }
+      } else {
+        console.error("Anonymous auth failed:", error.message);
       }
 
       setLoading(false);
