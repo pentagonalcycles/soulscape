@@ -142,6 +142,22 @@ The 5 reactions (not "likes"):
 
 ---
 
+## Critical Deployment Notes
+
+### Environment Variables
+- `NEXT_PUBLIC_` variables are inlined at **build time** — changing them in the Vercel dashboard alone is not enough
+- After changing env vars in Vercel, you **must trigger a redeploy**
+- `NEXT_PUBLIC_SUPABASE_URL` must be the full URL: `https://<project-id>.supabase.co` (not just the project ID)
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` must be the JWT-format anon key (starts with `eyJ`), not the publishable key
+
+### Supabase Client Pattern
+- `supabase()` is exported as a **function** from `src/lib/supabase.ts`
+- Always call it: `const client = supabase()` — never import as a static object
+- This avoids SSR/browser API conflicts (Next.js App Router)
+- The function returns a singleton browser client on the client side, and a fresh client on the server side
+
+---
+
 ## Commands
 
 ```bash

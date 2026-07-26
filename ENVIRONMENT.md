@@ -71,6 +71,13 @@ Never commit `.env.local` to git (it's in `.gitignore`).
 
 ## Troubleshooting
 
+### "Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL"
+- The `NEXT_PUBLIC_SUPABASE_URL` value must be the **full URL** including `https://` prefix
+- Correct: `https://vqkvrdevzsfewexonjck.supabase.co`
+- Wrong: `vqkvrdevzsfewexonjck` (just the project ID)
+- After updating the Vercel env var, you **must redeploy** for changes to take effect
+- `NEXT_PUBLIC_` variables are inlined at build time — changing them in the dashboard alone is not enough
+
 ### "Supabase URL is required" error
 - Ensure `NEXT_PUBLIC_SUPABASE_URL` is set in `.env.local`
 - Restart the dev server after changing env vars
@@ -87,3 +94,8 @@ Never commit `.env.local` to git (it's in `.gitignore`).
 ### Build fails with SSR error
 - The Supabase client uses a function call pattern (`supabase()`) to avoid SSR/browser API conflicts
 - Never import `supabase` directly as a static object — always call it as a function
+
+### Page loads but shows blank/black screen
+- Open browser DevTools (F12) → Console tab to see the actual error
+- The most common cause is an invalid or missing Supabase environment variable
+- Verify the env var value in Vercel dashboard includes the full `https://` URL
