@@ -134,7 +134,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user_id: currentSession.user.id,
         ...updates,
         updated_at: new Date().toISOString(),
-      });
+      }, { onConflict: "user_id" });
 
     if (error) {
       console.error("Error updating preferences:", error.message);

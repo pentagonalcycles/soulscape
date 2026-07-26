@@ -70,6 +70,8 @@ create table user_preferences (
   nebula_intensity text not null default 'normal' check (nebula_intensity in ('off', 'subtle', 'normal', 'vivid')),
   animation_speed text not null default 'normal' check (animation_speed in ('minimal', 'normal')),
   compact_mode boolean not null default false,
+  ambient_sound boolean not null default false,
+  sound_volume numeric not null default 0.5,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
