@@ -91,7 +91,7 @@ export default function GlowingPortal() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, ease: "easeInOut" }}
-          style={{ background: 'linear-gradient(135deg, #120a2e 0%, #0f1545 25%, #0a1a3a 50%, #0d2030 75%, #050510 100%)', zIndex: 100 }}
+          style={{ background: 'linear-gradient(135deg, #1a0a3e 0%, #0f1d55 25%, #0a2840 50%, #0d3530 75%, #080818 100%)', zIndex: 100 }}
         />
       )}
     </motion.div>

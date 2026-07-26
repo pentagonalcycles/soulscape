@@ -63,18 +63,22 @@ export default function Starfield() {
       starsRef.current.forEach((star) => {
         const parallaxX = mx * star.speed * 0.5;
         const parallaxY = my * star.speed * 0.5;
+        const driftX = Math.sin(time * 0.1 + star.twinkleOffset) * star.speed * 15;
+        const driftY = -time * star.speed * 8;
+        const drawX = ((star.x + parallaxX + driftX) % canvas.width + canvas.width) % canvas.width;
+        const drawY = ((star.y + parallaxY + driftY) % canvas.height + canvas.height) % canvas.height;
         const twinkle =
           Math.sin(time * star.twinkleSpeed * 60 + star.twinkleOffset) * 0.3 +
           0.7;
 
         ctx.beginPath();
-        ctx.arc(star.x + parallaxX, star.y + parallaxY, star.size, 0, Math.PI * 2);
+        ctx.arc(drawX, drawY, star.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(232, 224, 240, ${star.opacity * twinkle})`;
         ctx.fill();
 
         if (star.size > 1.2) {
           ctx.beginPath();
-          ctx.arc(star.x + parallaxX, star.y + parallaxY, star.size * 3, 0, Math.PI * 2);
+          ctx.arc(drawX, drawY, star.size * 3, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(157, 124, 216, ${star.opacity * twinkle * 0.15})`;
           ctx.fill();
         }
