@@ -1,4 +1,4 @@
--- Soulscape Database Schema
+-- Elovayne Database Schema
 -- Run this in Supabase SQL Editor
 
 -- Enable UUID extension
@@ -17,7 +17,7 @@ create table rooms (
 );
 
 -- Insert default rooms
-insert into rooms (name, slug, description, icon_text, theme_colors, ambient_settings) values
+insert into rooms (name, slug, description, icon, theme_colors, ambient_settings) values
 ('Sanctuary', 'sanctuary', 'A safe space for all expressions', '🌌',
   '{"primary": "#6b3fa0", "secondary": "#9d7cd8", "bg": "#0a0a2e", "glow": "#e879a8"}',
   '{"particleDensity": 80, "particleSpeed": 0.3}'),

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter, Caveat } from "next/font/google";
+import ClientLayout from "@/components/ClientLayout";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -36,7 +37,7 @@ export default function RootLayout({
       className={`${cormorant.variable} ${inter.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-elovayne-void text-elovayne-light font-body">
-        {children}
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

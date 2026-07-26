@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PostCreator from "./PostCreator";
 import PostCard from "./PostCard";
+import { supabase } from "@/lib/supabase";
+import { useAuth } from "./AuthProvider";
 
 type ReactionType = "understanding" | "hope" | "company" | "less_alone" | "comfort";
 
@@ -18,151 +20,207 @@ interface Post {
   reactions: { type: ReactionType; count: number; userReacted?: boolean }[];
 }
 
-// Demo posts for preview
-const demoPosts: Post[] = [
-  {
-    id: "1",
-    content: "Tonight I watched the stars and felt like the universe was listening. Sometimes the quiet moments say the most.",
-    contentType: "text",
-    isAnonymous: true,
-    createdAt: new Date(Date.now() - 3600000).toISOString(),
-    reactions: [
-      { type: "understanding", count: 12 },
-      { type: "less_alone", count: 8 },
-      { type: "comfort", count: 5 },
-    ],
-  },
-  {
-    id: "2",
-    content: "In the space between heartbeats\nI found a moment of peace\nWhere the world stopped spinning\nAnd I could simply breathe",
-    contentType: "poem",
-    displayName: "Stardust Weaver",
-    isAnonymous: false,
-    createdAt: new Date(Date.now() - 7200000).toISOString(),
-    reactions: [
-      { type: "hope", count: 15 },
-      { type: "comfort", count: 9 },
-    ],
-  },
-  {
-    id: "3",
-    content: "I've been carrying this weight for so long that I forgot what it felt like to stand tall. But today, just for a moment, I felt light again. And that's enough.",
-    contentType: "story",
-    isAnonymous: true,
-    createdAt: new Date(Date.now() - 14400000).toISOString(),
-    reactions: [
-      { type: "company", count: 23 },
-      { type: "understanding", count: 18 },
-      { type: "hope", count: 11 },
-    ],
-  },
-];
+interface SanctuaryFeedProps {
+  roomId?: string;
+}
 
-export default function SanctuaryFeed() {
-  const [posts, setPosts] = useState<Post[]>(demoPosts);
+export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { userId } = useAuth();
 
-  const handleNewPost = (newPost: {
+  const fetchPosts = useCallback(async () => {
+    let query = supabase
+      .from("posts")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(50);
+
+    if (roomId) {
+      const { data: room } = await supabase
+        .from("rooms")
+        .select("id")
+        .eq("slug", roomId)
+        .single();
+
+      if (room) {
+        query = query.eq("room_id", room.id);
+      }
+    }
+
+    const { data: postsData, error: postsError } = await query;
+
+    if (postsError || !postsData) {
+      console.error("Error fetching posts:", postsError?.message);
+      setLoading(false);
+      return;
+    }
+
+    const postsWithReactions: Post[] = await Promise.all(
+      postsData.map(async (post: Record<string, unknown>) => {
+        const { data: reactionsData } = await supabase
+          .from("reactions")
+          .select("reaction_type")
+          .eq("post_id", post.id);
+
+        const reactionCounts: Record<string, { count: number; userReacted: boolean }> = {};
+        reactionsData?.forEach((r: Record<string, unknown>) => {
+          const type = r.reaction_type as ReactionType;
+          if (!reactionCounts[type]) {
+            reactionCounts[type] = { count: 0, userReacted: false };
+          }
+          reactionCounts[type].count++;
+          if (r.user_id === userId) {
+            reactionCounts[type].userReacted = true;
+          }
+        });
+
+        return {
+          id: post.id as string,
+          content: post.content as string,
+          contentType: post.content_type as "text" | "poem" | "story",
+          displayName: post.is_anonymous ? undefined : (post.display_name as string | undefined),
+          isAnonymous: post.is_anonymous as boolean,
+          createdAt: post.created_at as string,
+          roomId: post.room_id as string | undefined,
+          reactions: Object.entries(reactionCounts).map(([type, data]) => ({
+            type: type as ReactionType,
+            count: data.count,
+            userReacted: data.userReacted,
+          })),
+        };
+      })
+    );
+
+    setPosts(postsWithReactions);
+    setLoading(false);
+  }, [roomId, userId]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
+
+  const handleNewPost = async (newPost: {
     content: string;
     contentType: "text" | "poem" | "story";
     identityType: "anonymous" | "alias" | "real";
     displayName?: string;
     isAnonymous: boolean;
   }) => {
-    const post: Post = {
-      id: Date.now().toString(),
-      content: newPost.content,
-      contentType: newPost.contentType,
-      displayName: newPost.displayName,
-      isAnonymous: newPost.isAnonymous,
-      createdAt: new Date().toISOString(),
-      reactions: [],
-    };
+    if (!userId) return;
 
-    setPosts([post, ...posts]);
+    let resolvedRoomId = null;
+    if (roomId) {
+      const { data: room } = await supabase
+        .from("rooms")
+        .select("id")
+        .eq("slug", roomId)
+        .single();
+      resolvedRoomId = room?.id ?? null;
+    }
+
+    const { error } = await supabase.from("posts").insert({
+      user_id: userId,
+      content: newPost.content,
+      content_type: newPost.contentType,
+      is_anonymous: newPost.isAnonymous,
+      room_id: resolvedRoomId,
+    });
+
+    if (error) {
+      console.error("Error creating post:", error.message);
+      return;
+    }
+
+    fetchPosts();
   };
 
-  const handleReact = (postId: string, reactionType: ReactionType) => {
-    setPosts(
-      posts.map((post) => {
-        if (post.id !== postId) return post;
+  const handleReact = async (postId: string, reactionType: ReactionType) => {
+    if (!userId) return;
 
-        const existingReaction = post.reactions.find((r) => r.type === reactionType);
-        if (existingReaction) {
-          if (existingReaction.userReacted) {
-            // Remove reaction
-            return {
-              ...post,
-              reactions: post.reactions
-                .map((r) =>
-                  r.type === reactionType
-                    ? { ...r, count: r.count - 1, userReacted: false }
-                    : r
-                )
-                .filter((r) => r.count > 0),
-            };
-          } else {
-            // Add reaction
-            return {
-              ...post,
-              reactions: post.reactions.map((r) =>
-                r.type === reactionType
-                  ? { ...r, count: r.count + 1, userReacted: true }
-                  : r
-              ),
-            };
-          }
-        } else {
-          // New reaction
-          return {
-            ...post,
-            reactions: [...post.reactions, { type: reactionType, count: 1, userReacted: true }],
-          };
-        }
-      })
-    );
+    const { data: existing } = await supabase
+      .from("reactions")
+      .select("id")
+      .eq("post_id", postId)
+      .eq("user_id", userId)
+      .eq("reaction_type", reactionType)
+      .single();
+
+    if (existing) {
+      await supabase.from("reactions").delete().eq("id", existing.id);
+    } else {
+      const { error } = await supabase.from("reactions").insert({
+        post_id: postId,
+        user_id: userId,
+        reaction_type: reactionType,
+      });
+
+      if (error) {
+        console.error("Error adding reaction:", error.message);
+        return;
+      }
+    }
+
+    fetchPosts();
   };
 
   const handleReport = (postId: string) => {
-    // TODO: Implement report modal
     console.log("Report post:", postId);
   };
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Post creator */}
       <PostCreator onSubmit={handleNewPost} />
 
-      {/* Posts feed */}
-      <motion.div
-        className="flex flex-col gap-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        {posts.map((post, index) => (
-          <motion.div
-            key={post.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-          >
-            <PostCard
-              id={post.id}
-              content={post.content}
-              contentType={post.contentType}
-              displayName={post.displayName}
-              isAnonymous={post.isAnonymous}
-              createdAt={post.createdAt}
-              roomId={post.roomId}
-              reactions={post.reactions}
-              onReact={handleReact}
-              onReport={handleReport}
-            />
-          </motion.div>
-        ))}
-      </motion.div>
+      {loading ? (
+        <motion.div
+          className="text-center py-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <p className="text-elovayne-dim text-sm font-body">
+            The universe is loading...
+          </p>
+        </motion.div>
+      ) : (
+        <motion.div
+          className="flex flex-col gap-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          {posts.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-elovayne-dim text-sm font-body">
+                No stories yet. Be the first to share.
+              </p>
+            </div>
+          ) : (
+            posts.map((post, index) => (
+              <motion.div
+                key={post.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <PostCard
+                  id={post.id}
+                  content={post.content}
+                  contentType={post.contentType}
+                  displayName={post.displayName}
+                  isAnonymous={post.isAnonymous}
+                  createdAt={post.createdAt}
+                  roomId={post.roomId}
+                  reactions={post.reactions}
+                  onReact={handleReact}
+                  onReport={handleReport}
+                />
+              </motion.div>
+            ))
+          )}
+        </motion.div>
+      )}
 
-      {/* Load more placeholder */}
       <motion.div
         className="text-center py-8"
         initial={{ opacity: 0 }}
