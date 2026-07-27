@@ -2,43 +2,61 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
-import PostCreator from "./PostCreator";
-import PostCard from "./PostCard";
+import SanctuaryComposer from "./SanctuaryComposer";
+import WhisperCard from "./WhisperCard";
 import LoadingSkeleton from "./LoadingSkeleton";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "./AuthProvider";
 
 type ReactionType = "understanding" | "hope" | "company" | "less_alone" | "comfort";
+type FilterTab = "newest" | "resonant" | "following" | "saved";
 
-interface Post {
+interface Reply {
   id: string;
   content: string;
-  contentType: "text" | "poem" | "story" | "art" | "voice";
+  isAnonymous: boolean;
+  displayName?: string;
+  createdAt: string;
+}
+
+interface Whisper {
+  id: string;
+  content: string;
   displayName?: string;
   isAnonymous: boolean;
   createdAt: string;
-  roomId?: string;
+  mood?: string | null;
+  hasContentWarning?: boolean;
   userId: string;
+  authorId: string;
   reactions: { type: ReactionType; count: number; userReacted?: boolean }[];
+  replies: Reply[];
 }
+
+const filterTabs: { key: FilterTab; label: string }[] = [
+  { key: "newest", label: "Newest" },
+  { key: "resonant", label: "Most Resonant" },
+  { key: "following", label: "Following" },
+  { key: "saved", label: "Saved" },
+];
 
 interface SanctuaryFeedProps {
   roomId?: string;
 }
 
 export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [whispers, setWhispers] = useState<Whisper[]>([]);
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({ posts: 0, reactions: 0 });
+  const [activeFilter, setActiveFilter] = useState<FilterTab>("newest");
   const { userId } = useAuth();
 
-  const fetchPosts = useCallback(async () => {
+  const fetchWhispers = useCallback(async () => {
     const client = supabase();
 
     let query = client
       .from("posts")
       .select("*")
-      .order("created_at", { ascending: false })
+      .order("created_at", { ascending: activeFilter === "newest" })
       .limit(50);
 
     if (roomId) {
@@ -47,21 +65,57 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
         .select("id")
         .eq("slug", roomId)
         .single();
-
       if (room) {
         query = query.eq("room_id", room.id);
       }
     }
 
+    if (activeFilter === "resonant") {
+      query = client
+        .from("posts")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(50);
+      if (roomId) {
+        const { data: room } = await client
+          .from("rooms")
+          .select("id")
+          .eq("slug", roomId)
+          .single();
+        if (room) {
+          query = query.eq("room_id", room.id);
+        }
+      }
+    }
+
+    if (activeFilter === "saved" && userId) {
+      const { data: savedPosts } = await client
+        .from("saves")
+        .select("post_id")
+        .eq("user_id", userId);
+
+      const savedIds = savedPosts?.map((s) => s.post_id) || [];
+      if (savedIds.length === 0) {
+        setWhispers([]);
+        setLoading(false);
+        return;
+      }
+      query = client
+        .from("posts")
+        .select("*")
+        .in("id", savedIds)
+        .order("created_at", { ascending: false });
+    }
+
     const { data: postsData, error: postsError } = await query;
 
     if (postsError || !postsData) {
-      console.error("Error fetching posts:", postsError?.message);
+      console.error("Error fetching whispers:", postsError?.message);
       setLoading(false);
       return;
     }
 
-    const postsWithReactions: Post[] = await Promise.all(
+    const whispersWithReactions: Whisper[] = await Promise.all(
       postsData.map(async (post: Record<string, unknown>) => {
         const { data: reactionsData } = await client
           .from("reactions")
@@ -80,88 +134,90 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
           }
         });
 
+            let repliesList: Reply[] = [];
+        try {
+          const { data: repliesData, error: repliesErr } = await client
+            .from("replies")
+            .select("*")
+            .eq("post_id", post.id)
+            .order("created_at", { ascending: true });
+          if (!repliesErr && repliesData) {
+            repliesList = (repliesData as Record<string, unknown>[]).map((r) => ({
+              id: r.id as string,
+              content: r.content as string,
+              isAnonymous: r.is_anonymous as boolean,
+              displayName: r.display_name as string | undefined,
+              createdAt: r.created_at as string,
+            }));
+          }
+        } catch {
+          // replies table may not exist yet
+        }
+
         return {
           id: post.id as string,
           content: post.content as string,
-          contentType: post.content_type as "text" | "poem" | "story" | "art" | "voice",
           displayName: post.is_anonymous ? undefined : (post.display_name as string | undefined),
           isAnonymous: post.is_anonymous as boolean,
           createdAt: post.created_at as string,
-          roomId: post.room_id as string | undefined,
+          mood: post.mood as string | null | undefined,
+          hasContentWarning: (post.has_content_warning as boolean) || false,
           userId: post.user_id as string,
+          authorId: post.user_id as string,
           reactions: Object.entries(reactionCounts).map(([type, data]) => ({
             type: type as ReactionType,
             count: data.count,
             userReacted: data.userReacted,
           })),
+          replies: repliesList,
         };
       })
     );
 
-    setPosts(postsWithReactions);
+    if (activeFilter === "resonant") {
+      whispersWithReactions.sort(
+        (a, b) =>
+          b.reactions.reduce((s, r) => s + r.count, 0) -
+          a.reactions.reduce((s, r) => s + r.count, 0)
+      );
+    }
 
-    // Fetch stats
-    const { count: postCount } = await client
-      .from("posts")
-      .select("*", { count: "exact", head: true });
-    const { count: reactionCount } = await client
-      .from("reactions")
-      .select("*", { count: "exact", head: true });
-
-    setStats({
-      posts: postCount ?? 0,
-      reactions: reactionCount ?? 0,
-    });
-
+    setWhispers(whispersWithReactions);
     setLoading(false);
-  }, [roomId, userId]);
+  }, [roomId, activeFilter, userId]);
 
   useEffect(() => {
-    fetchPosts();
-  }, [fetchPosts]);
+    fetchWhispers();
+  }, [fetchWhispers]);
 
-  const handleNewPost = async (newPost: {
+  const handleNewWhisper = async (whisper: {
     content: string;
-    contentType: "text" | "poem" | "story" | "art" | "voice";
-    identityType: "anonymous" | "alias" | "real";
-    displayName?: string;
+    mood: string | null;
     isAnonymous: boolean;
-    roomId?: string;
+    hasContentWarning: boolean;
   }) => {
     if (!userId) return;
-
     const client = supabase();
-
-    let resolvedRoomId = null;
-    const postRoomSlug = newPost.roomId || roomId;
-    if (postRoomSlug) {
-      const { data: room } = await client
-        .from("rooms")
-        .select("id")
-        .eq("slug", postRoomSlug)
-        .single();
-      resolvedRoomId = room?.id ?? null;
-    }
 
     const { error } = await client.from("posts").insert({
       user_id: userId,
-      content: newPost.content,
-      content_type: newPost.contentType,
-      is_anonymous: newPost.isAnonymous,
-      room_id: resolvedRoomId,
+      content: whisper.content,
+      content_type: "text",
+      is_anonymous: whisper.isAnonymous,
+      mood: whisper.mood,
+      has_content_warning: whisper.hasContentWarning,
     });
 
     if (error) {
-      console.error("Error creating post:", error.message);
+      console.error("Error creating whisper:", error.message);
       return;
     }
 
-    fetchPosts();
+    fetchWhispers();
   };
 
   const handleReact = async (postId: string, reactionType: ReactionType) => {
     if (!userId) return;
-
     const client = supabase();
 
     const { data: existing } = await client
@@ -180,14 +236,28 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
         user_id: userId,
         reaction_type: reactionType,
       });
-
-      if (error) {
-        console.error("Error adding reaction:", error.message);
-        return;
-      }
+      if (error) console.error("Error adding reaction:", error.message);
     }
 
-    fetchPosts();
+    fetchWhispers();
+  };
+
+  const handleReply = async (postId: string, content: string, isAnonymous: boolean) => {
+    if (!userId) return;
+    const client = supabase();
+
+    try {
+      const { error } = await client.from("replies").insert({
+        post_id: postId,
+        user_id: userId,
+        content,
+        is_anonymous: isAnonymous,
+      });
+      if (error) console.error("Error adding reply:", error.message);
+    } catch {
+      console.error("Replies table may not exist yet. Run migration_sanctuary_enhancements.sql");
+    }
+    fetchWhispers();
   };
 
   const handleReport = async (postId: string, reason: string) => {
@@ -200,85 +270,119 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
     });
   };
 
+  const handleHide = () => {};
+
   const handleDelete = async (postId: string) => {
     if (!userId) return;
     const client = supabase();
     await client.from("posts").delete().eq("id", postId);
-    fetchPosts();
+    fetchWhispers();
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <PostCreator onSubmit={handleNewPost} roomId={roomId} />
+    <div className="flex flex-col gap-8">
+      {/* Composer */}
+      <SanctuaryComposer onSubmit={handleNewWhisper} />
 
-      {/* Community stats */}
-      {(stats.posts > 0 || stats.reactions > 0) && (
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <p className="text-elovayne-dim text-xs font-body">
-            {stats.posts.toLocaleString()} whispers shared · {stats.reactions.toLocaleString()} moments of light
-          </p>
-        </motion.div>
-      )}
+      {/* Filter tabs */}
+      <div>
+        <h2 className="font-heading text-lg text-elovayne-light mb-4">
+          Whispers from the Sanctuary
+        </h2>
+        <div className="flex gap-1 p-1 rounded-xl bg-elovayne-void/30 w-fit" role="tablist">
+          {filterTabs.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => { setActiveFilter(tab.key); setLoading(true); }}
+              className={`relative px-4 py-2 rounded-lg text-xs font-body transition-all duration-300 ${
+                activeFilter === tab.key
+                  ? "text-elovayne-light"
+                  : "text-elovayne-dim hover:text-elovayne-muted"
+              }`}
+              role="tab"
+              aria-selected={activeFilter === tab.key}
+            >
+              {activeFilter === tab.key && (
+                <motion.div
+                  className="absolute inset-0 rounded-lg bg-elovayne-violet/15 border border-elovayne-violet/20"
+                  layoutId="filterTab"
+                  transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                />
+              )}
+              <span className="relative z-10">{tab.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
 
+      {/* Whisper feed */}
       {loading ? (
         <LoadingSkeleton />
+      ) : whispers.length === 0 ? (
+        <motion.div
+          className="rounded-2xl sanctuary-glass-card p-8 sm:p-12 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="text-3xl block mb-4">🌌</span>
+          <h3 className="font-heading text-lg text-elovayne-light mb-2">
+            The Sanctuary is quiet for now.
+          </h3>
+          <p className="text-sm text-elovayne-dim font-body mb-6">
+            Your voice could be the first light someone finds here.
+          </p>
+          <button
+            onClick={() => {
+              const el = document.querySelector("[aria-label='Open whisper composer']") as HTMLElement;
+              el?.click();
+            }}
+            className="px-5 py-2.5 rounded-full font-body text-sm text-elovayne-light bg-elovayne-violet/30 hover:bg-elovayne-violet/40 transition-colors"
+          >
+            Release the first whisper
+          </button>
+        </motion.div>
       ) : (
         <motion.div
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          {posts.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-elovayne-dim text-sm font-body">
-                No whispers yet. Be the first to release stardust.
-              </p>
-            </div>
-          ) : (
-            posts.map((post, index) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <PostCard
-                  id={post.id}
-                  content={post.content}
-                  contentType={post.contentType}
-                  displayName={post.displayName}
-                  isAnonymous={post.isAnonymous}
-                  createdAt={post.createdAt}
-                  roomId={post.roomId}
-                  userId={userId ?? undefined}
-                  authorId={post.userId}
-                  reactions={post.reactions}
-                  onReact={handleReact}
-                  onReport={handleReport}
-                  onDelete={handleDelete}
-                />
-              </motion.div>
-            ))
-          )}
+          {whispers.map((whisper, index) => (
+            <motion.div
+              key={whisper.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.08,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+            >
+              <WhisperCard
+                id={whisper.id}
+                content={whisper.content}
+                displayName={whisper.displayName}
+                isAnonymous={whisper.isAnonymous}
+                createdAt={whisper.createdAt}
+                mood={whisper.mood}
+                hasContentWarning={whisper.hasContentWarning}
+                isAuthor={userId === whisper.authorId}
+                userId={userId ?? undefined}
+                authorId={whisper.authorId}
+                reactions={whisper.reactions}
+                replies={whisper.replies}
+                onReact={handleReact}
+                onReply={handleReply}
+                onReport={handleReport}
+                onHide={handleHide}
+                onDelete={handleDelete}
+              />
+            </motion.div>
+          ))}
         </motion.div>
       )}
-
-      <motion.div
-        className="text-center py-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        <p className="text-elovayne-dim text-sm font-body">
-          The cosmos holds more whispers...
-        </p>
-      </motion.div>
     </div>
   );
 }

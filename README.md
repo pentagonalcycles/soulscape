@@ -114,7 +114,7 @@ Create a `.env.local` file:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_jwt_anon_key_here
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key_here
 ```
 
 See [ENVIRONMENT.md](./ENVIRONMENT.md) for detailed setup instructions.

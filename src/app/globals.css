@@ -220,6 +220,23 @@ body {
   100% { transform: scale(1.8); opacity: 0; }
 }
 
+/* Sanctuary-specific styles */
+.sanctuary-content {
+  max-width: 800px;
+}
+
+.sanctuary-glass-card {
+  background: rgba(10, 10, 46, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(157, 124, 216, 0.1);
+  box-shadow: 0 0 20px rgba(5, 5, 16, 0.3), inset 0 1px 0 rgba(190, 180, 220, 0.03);
+}
+
+.sanctuary-title-glow {
+  text-shadow: 0 0 30px rgba(190, 180, 220, 0.15), 0 0 60px rgba(150, 140, 200, 0.08);
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

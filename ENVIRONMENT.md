@@ -8,7 +8,7 @@ This document explains how to set up the Elovayne environment variables.
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_jwt_anon_key_here
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key_here
 ```
 
 ### Finding Your Supabase Credentials
@@ -17,9 +17,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_jwt_anon_key_here
 2. Select your project
 3. Go to **Project Settings** → **API**
 4. Copy the **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
-5. Copy the **anon public** key (starts with `eyJ...`) → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-
-> **Important:** Use the `anon` key (JWT format), NOT the `publishable` key. The JavaScript client requires the JWT format to work correctly.
+5. Copy the **publishable** key (starts with `sb_publishable_`) → `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 
 ---
 
@@ -37,9 +35,9 @@ Environment variables are configured in the Vercel dashboard:
 
 | Property | Value |
 |----------|-------|
-| Project ID | `vqkvrdevzsfewexonjck` |
+| Project ID | `wfecrsaagihhhxsuvyyf` |
 | Region | AWS (default) |
-| Dashboard URL | https://app.supabase.com/project/vqkvrdevzsfewexonjck |
+| Dashboard URL | https://app.supabase.com/project/wfecrsaagihhhxsuvyyf |
 
 ---
 
@@ -61,8 +59,8 @@ DNS Configuration (Namecheap):
 Create `.env.local` in the project root:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://vqkvrdevzsfewexonjck.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_actual_jwt_anon_key
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key_here
 ```
 
 Never commit `.env.local` to git (it's in `.gitignore`).
@@ -73,8 +71,8 @@ Never commit `.env.local` to git (it's in `.gitignore`).
 
 ### "Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL"
 - The `NEXT_PUBLIC_SUPABASE_URL` value must be the **full URL** including `https://` prefix
-- Correct: `https://vqkvrdevzsfewexonjck.supabase.co`
-- Wrong: `vqkvrdevzsfewexonjck` (just the project ID)
+- Correct: `https://wfecrsaagihhhxsuvyyf.supabase.co`
+- Wrong: `wfecrsaagihhhxsuvyyf` (just the project ID)
 - After updating the Vercel env var, you **must redeploy** for changes to take effect
 - `NEXT_PUBLIC_` variables are inlined at build time — changing them in the dashboard alone is not enough
 
@@ -83,8 +81,7 @@ Never commit `.env.local` to git (it's in `.gitignore`).
 - Restart the dev server after changing env vars
 
 ### "Invalid API key" error
-- Use the **anon** key (JWT), not the **publishable** key
-- The anon key starts with `eyJ` (it's a JWT)
+- Use the **publishable** key (starts with `sb_publishable_`), not any other key format
 
 ### Posts not saving
 - Check the Vercel function logs for errors
