@@ -17,9 +17,9 @@
   --elovayne-violet: #9d7cd8;
   --elovayne-cosmic-pink: #e879a8;
   --elovayne-gold: #f5d062;
-  --elovayne-light: #e8e0f0;
-  --elovayne-muted: #a89cc8;
-  --elovayne-dim: #6b5f8a;
+  --elovayne-light: #f0eaf8;
+  --elovayne-muted: #b8b0d0;
+  --elovayne-dim: #7a7098;
 
   /* Glow */
   --glow-soft: 0 0 20px rgba(157, 124, 216, 0.3);
@@ -59,6 +59,10 @@
 }
 
 /* Global styles */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--elovayne-gradient);
   background-size: 600% 600%;
@@ -167,9 +171,66 @@ body {
 
 /* Glow text utility */
 .glow-text {
-  text-shadow: 0 0 10px rgba(157, 124, 216, 0.4), 0 0 30px rgba(107, 63, 160, 0.2);
+  text-shadow: 0 0 10px rgba(190, 180, 220, 0.4), 0 0 30px rgba(150, 140, 200, 0.2);
 }
 
 .glow-text-strong {
-  text-shadow: 0 0 10px rgba(157, 124, 216, 0.6), 0 0 30px rgba(107, 63, 160, 0.4), 0 0 60px rgba(232, 121, 168, 0.2);
+  text-shadow: 0 0 10px rgba(190, 180, 220, 0.5), 0 0 30px rgba(157, 124, 216, 0.3), 0 0 60px rgba(150, 140, 200, 0.15);
+}
+
+/* Title shimmer overlay */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.title-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.title-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(190, 180, 220, 0.08) 45%,
+    rgba(190, 180, 220, 0.15) 50%,
+    rgba(190, 180, 220, 0.08) 55%,
+    transparent 100%
+  );
+  animation: shimmer 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Portal shimmer rotation */
+@keyframes portal-shimmer {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Portal ripple */
+@keyframes portal-ripple {
+  0% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  body {
+    animation: none !important;
+  }
+  .title-shimmer::after {
+    animation: none !important;
+  }
 }

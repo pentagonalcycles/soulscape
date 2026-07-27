@@ -11,6 +11,8 @@ interface Star {
   speed: number;
   twinkleSpeed: number;
   twinkleOffset: number;
+  layer: 0 | 1 | 2;
+  blur: number;
 }
 
 export default function Starfield() {
@@ -30,22 +32,66 @@ export default function Starfield() {
     if (!ctx) return;
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.scale(dpr, dpr);
       initStars();
     };
 
     const initStars = () => {
-      const count = Math.floor((canvas.width * canvas.height) / 3000);
-      starsRef.current = Array.from({ length: count }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 1.5 + 0.5,
-        opacity: Math.random() * 0.8 + 0.2,
-        speed: Math.random() * 0.3 + 0.1,
-        twinkleSpeed: Math.random() * 0.02 + 0.005,
-        twinkleOffset: Math.random() * Math.PI * 2,
-      }));
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const total = Math.floor((w * h) / 2500);
+      const stars: Star[] = [];
+
+      for (let i = 0; i < total; i++) {
+        const rand = Math.random();
+        let layer: 0 | 1 | 2;
+        let size: number;
+        let opacity: number;
+        let blur: number;
+        let speed: number;
+
+        if (rand < 0.6) {
+          // Layer 0: tiny distant stars
+          layer = 0;
+          size = Math.random() * 0.8 + 0.3;
+          opacity = Math.random() * 0.4 + 0.1;
+          blur = 0;
+          speed = Math.random() * 0.15 + 0.05;
+        } else if (rand < 0.9) {
+          // Layer 1: soft mid-distance particles
+          layer = 1;
+          size = Math.random() * 1.2 + 0.6;
+          opacity = Math.random() * 0.5 + 0.2;
+          blur = 0.5;
+          speed = Math.random() * 0.25 + 0.1;
+        } else {
+          // Layer 2: bright foreground lights
+          layer = 2;
+          size = Math.random() * 1.8 + 1.0;
+          opacity = Math.random() * 0.6 + 0.4;
+          blur = 0;
+          speed = Math.random() * 0.35 + 0.15;
+        }
+
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          size,
+          opacity,
+          speed,
+          twinkleSpeed: Math.random() * 0.02 + 0.005,
+          twinkleOffset: Math.random() * Math.PI * 2,
+          layer,
+          blur,
+        });
+      }
+
+      starsRef.current = stars;
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -54,36 +100,53 @@ export default function Starfield() {
     };
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      ctx.clearRect(0, 0, w, h);
 
       const time = Date.now() * 0.001;
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
 
       starsRef.current.forEach((star) => {
-        const parallaxX = mx * star.speed * 0.5;
-        const parallaxY = my * star.speed * 0.5;
-        const driftX = Math.sin(time * 0.1 + star.twinkleOffset) * star.speed * 15;
-        const driftY = -time * star.speed * 8;
-        const drawX = ((star.x + parallaxX + driftX) % canvas.width + canvas.width) % canvas.width;
-        const drawY = ((star.y + parallaxY + driftY) % canvas.height + canvas.height) % canvas.height;
+        const parallaxMultiplier = star.layer === 0 ? 0.3 : star.layer === 1 ? 0.6 : 1.0;
+        const parallaxX = mx * star.speed * parallaxMultiplier;
+        const parallaxY = my * star.speed * parallaxMultiplier;
+        const driftX = Math.sin(time * 0.08 + star.twinkleOffset) * star.speed * 12;
+        const driftY = -time * star.speed * 6;
+        const drawX = ((star.x + parallaxX + driftX) % w + w) % w;
+        const drawY = ((star.y + parallaxY + driftY) % h + h) % h;
         const twinkle =
-          Math.sin(time * star.twinkleSpeed * 60 + star.twinkleOffset) * 0.3 +
-          0.7;
+          Math.sin(time * star.twinkleSpeed * 60 + star.twinkleOffset) * 0.3 + 0.7;
+
+        if (star.blur > 0) {
+          ctx.filter = `blur(${star.blur}px)`;
+        } else {
+          ctx.filter = "none";
+        }
 
         ctx.beginPath();
         ctx.arc(drawX, drawY, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(232, 224, 240, ${star.opacity * twinkle})`;
+
+        if (star.layer === 2) {
+          ctx.fillStyle = `rgba(200, 195, 230, ${star.opacity * twinkle})`;
+        } else if (star.layer === 1) {
+          ctx.fillStyle = `rgba(190, 185, 220, ${star.opacity * twinkle})`;
+        } else {
+          ctx.fillStyle = `rgba(180, 175, 210, ${star.opacity * twinkle})`;
+        }
         ctx.fill();
 
-        if (star.size > 1.2) {
+        // Glow on bright foreground stars
+        if (star.layer === 2 && star.size > 1.4) {
           ctx.beginPath();
           ctx.arc(drawX, drawY, star.size * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(157, 124, 216, ${star.opacity * twinkle * 0.15})`;
+          ctx.fillStyle = `rgba(157, 124, 216, ${star.opacity * twinkle * 0.1})`;
           ctx.fill();
         }
       });
 
+      ctx.filter = "none";
       animationRef.current = requestAnimationFrame(animate);
     };
 
