@@ -21,9 +21,9 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Elovayne — Where Stardust Whispers",
+  title: "Elovayne — Where Stardust Whispers and Souls Remember",
   description:
-    "A sanctuary where drifting souls escape reality, share whispers, and connect through meaningful creative experiences.",
+    "A sanctuary where drifting souls escape reality, release whispers into the cosmos, and find light in each other's stories.",
 };
 
 export default function RootLayout({

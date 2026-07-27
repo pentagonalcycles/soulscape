@@ -37,7 +37,7 @@ export default function Home() {
           transition={{ duration: 1, delay: 0.3 }}
         >
           <p className="font-body text-lg md:text-xl text-elovayne-muted leading-relaxed">
-            A place where stardust meets silence, and every whisper finds an ear.
+            A sanctuary where stardust meets silence, and every whisper finds an ear in the dark.
           </p>
         </motion.div>
 
@@ -66,7 +66,7 @@ export default function Home() {
           transition={{ duration: 1.5, delay: 2 }}
         >
           <p className="font-body text-sm text-elovayne-dim tracking-wide">
-            A sanctuary for drifting souls seeking something more
+            for drifting souls who still believe in stardust
           </p>
         </motion.div>
       </div>

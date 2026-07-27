@@ -60,7 +60,7 @@ export default function ElovayneLogo() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5, delay: 1 }}
       >
-        where stardust whispers
+        where stardust whispers and souls remember
       </motion.p>
     </motion.div>
   );
