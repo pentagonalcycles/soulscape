@@ -7,9 +7,10 @@ import WhisperCard from "./WhisperCard";
 import LoadingSkeleton from "./LoadingSkeleton";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "./AuthProvider";
+import { useIsPlus } from "@/lib/premium";
 
 type ReactionType = "understanding" | "hope" | "company" | "less_alone" | "comfort";
-type FilterTab = "newest" | "resonant" | "following" | "saved";
+type FilterTab = "newest" | "resonant" | "following";
 
 interface Reply {
   id: string;
@@ -37,18 +38,21 @@ const filterTabs: { key: FilterTab; label: string }[] = [
   { key: "newest", label: "Newest" },
   { key: "resonant", label: "Most Resonant" },
   { key: "following", label: "Following" },
-  { key: "saved", label: "Saved" },
 ];
 
 interface SanctuaryFeedProps {
   roomId?: string;
+  composerExpanded?: boolean;
+  onComposerExpand?: () => void;
+  onRequestComposer?: () => void;
 }
 
-export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
+export default function SanctuaryFeed({ roomId, composerExpanded, onComposerExpand, onRequestComposer }: SanctuaryFeedProps) {
   const [whispers, setWhispers] = useState<Whisper[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<FilterTab>("newest");
-  const { userId } = useAuth();
+  const { userId, isAdmin } = useAuth();
+  const isPlus = useIsPlus();
 
   const fetchWhispers = useCallback(async () => {
     const client = supabase();
@@ -56,7 +60,7 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
     let query = client
       .from("posts")
       .select("*")
-      .order("created_at", { ascending: activeFilter === "newest" })
+      .order("created_at", { ascending: activeFilter !== "newest" })
       .limit(50);
 
     if (roomId) {
@@ -86,25 +90,6 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
           query = query.eq("room_id", room.id);
         }
       }
-    }
-
-    if (activeFilter === "saved" && userId) {
-      const { data: savedPosts } = await client
-        .from("saves")
-        .select("post_id")
-        .eq("user_id", userId);
-
-      const savedIds = savedPosts?.map((s) => s.post_id) || [];
-      if (savedIds.length === 0) {
-        setWhispers([]);
-        setLoading(false);
-        return;
-      }
-      query = client
-        .from("posts")
-        .select("*")
-        .in("id", savedIds)
-        .order("created_at", { ascending: false });
     }
 
     const { data: postsData, error: postsError } = await query;
@@ -282,36 +267,55 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
   return (
     <div className="flex flex-col gap-8">
       {/* Composer */}
-      <SanctuaryComposer onSubmit={handleNewWhisper} />
+      <SanctuaryComposer 
+        onSubmit={handleNewWhisper} 
+        externalExpand={composerExpanded}
+        onExpandChange={(expanded) => {
+          if (!expanded) onComposerExpand?.();
+        }}
+      />
 
       {/* Filter tabs */}
       <div>
-        <h2 className="font-heading text-lg text-elovayne-light mb-4">
-          Whispers from the Sanctuary
+        <h2 className="font-heading text-base sm:text-lg text-elovayne-light mb-3 sm:mb-4">
+          Posts from the Sanctuary
         </h2>
-        <div className="flex gap-1 p-1 rounded-xl bg-elovayne-void/30 w-fit" role="tablist">
-          {filterTabs.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => { setActiveFilter(tab.key); setLoading(true); }}
-              className={`relative px-4 py-2 rounded-lg text-xs font-body transition-all duration-300 ${
-                activeFilter === tab.key
-                  ? "text-elovayne-light"
-                  : "text-elovayne-dim hover:text-elovayne-muted"
-              }`}
-              role="tab"
-              aria-selected={activeFilter === tab.key}
-            >
-              {activeFilter === tab.key && (
-                <motion.div
-                  className="absolute inset-0 rounded-lg bg-elovayne-violet/15 border border-elovayne-violet/20"
-                  layoutId="filterTab"
-                  transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                />
-              )}
-              <span className="relative z-10">{tab.label}</span>
-            </button>
-          ))}
+        <div className="flex gap-1 p-1 rounded-xl bg-elovayne-void/30 w-fit flex-wrap" role="tablist">
+          {filterTabs.map((tab) => {
+            const isPlusTab = tab.key === "following";
+            return (
+              <button
+                key={tab.key}
+                onClick={() => {
+                  if (isPlusTab && !isPlus) return;
+                  setActiveFilter(tab.key);
+                  setLoading(true);
+                }}
+                className={`relative px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-body transition-all duration-300 ${
+                  isPlusTab && !isPlus
+                    ? "text-elovayne-dim/40 cursor-not-allowed"
+                    : activeFilter === tab.key
+                    ? "text-elovayne-light"
+                    : "text-elovayne-dim hover:text-elovayne-muted"
+                }`}
+                role="tab"
+                aria-selected={activeFilter === tab.key}
+                title={isPlusTab && !isPlus ? "Upgrade to Plus to unlock" : ""}
+              >
+                {activeFilter === tab.key && (
+                  <motion.div
+                    className="absolute inset-0 rounded-lg bg-elovayne-violet/15 border border-elovayne-violet/20"
+                    layoutId="filterTab"
+                    transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  />
+                )}
+                <span className="relative z-10">
+                  {tab.label}
+                  {isPlusTab && !isPlus && " 🔒"}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -333,13 +337,10 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
             Your voice could be the first light someone finds here.
           </p>
           <button
-            onClick={() => {
-              const el = document.querySelector("[aria-label='Open whisper composer']") as HTMLElement;
-              el?.click();
-            }}
+            onClick={() => onRequestComposer?.()}
             className="px-5 py-2.5 rounded-full font-body text-sm text-elovayne-light bg-elovayne-violet/30 hover:bg-elovayne-violet/40 transition-colors"
           >
-            Release the first whisper
+            Share the first post
           </button>
         </motion.div>
       ) : (
@@ -378,6 +379,7 @@ export default function SanctuaryFeed({ roomId }: SanctuaryFeedProps) {
                 onReport={handleReport}
                 onHide={handleHide}
                 onDelete={handleDelete}
+                isAdmin={isAdmin}
               />
             </motion.div>
           ))}

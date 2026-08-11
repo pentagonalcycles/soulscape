@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useAuth } from "./AuthProvider";
 
 interface Star {
   x: number;
@@ -12,7 +11,7 @@ interface Star {
   twinkleSpeed: number;
   twinkleOffset: number;
   layer: 0 | 1 | 2;
-  blur: number;
+  hue: number;
 }
 
 export default function Starfield() {
@@ -20,11 +19,8 @@ export default function Starfield() {
   const starsRef = useRef<Star[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
   const animationRef = useRef<number>(0);
-  const { userPreferences } = useAuth();
 
   useEffect(() => {
-    if (!userPreferences.show_starfield) return;
-
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -44,37 +40,39 @@ export default function Starfield() {
     const initStars = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      const total = Math.floor((w * h) / 2500);
+      const total = Math.floor((w * h) / 3500);
       const stars: Star[] = [];
+
+      const hueRanges = [
+        170 + Math.random() * 30,  // teal
+        180 + Math.random() * 20,  // cyan
+        160 + Math.random() * 20,  // emerald
+        175 + Math.random() * 15,  // aqua
+        185 + Math.random() * 15,  // light cyan
+        165 + Math.random() * 25,  // mint
+      ];
 
       for (let i = 0; i < total; i++) {
         const rand = Math.random();
         let layer: 0 | 1 | 2;
         let size: number;
         let opacity: number;
-        let blur: number;
         let speed: number;
 
-        if (rand < 0.6) {
-          // Layer 0: tiny distant stars
+        if (rand < 0.65) {
           layer = 0;
           size = Math.random() * 0.8 + 0.3;
-          opacity = Math.random() * 0.4 + 0.1;
-          blur = 0;
+          opacity = Math.random() * 0.35 + 0.08;
           speed = Math.random() * 0.15 + 0.05;
-        } else if (rand < 0.9) {
-          // Layer 1: soft mid-distance particles
+        } else if (rand < 0.92) {
           layer = 1;
           size = Math.random() * 1.2 + 0.6;
-          opacity = Math.random() * 0.5 + 0.2;
-          blur = 0.5;
+          opacity = Math.random() * 0.45 + 0.15;
           speed = Math.random() * 0.25 + 0.1;
         } else {
-          // Layer 2: bright foreground lights
           layer = 2;
           size = Math.random() * 1.8 + 1.0;
-          opacity = Math.random() * 0.6 + 0.4;
-          blur = 0;
+          opacity = Math.random() * 0.55 + 0.35;
           speed = Math.random() * 0.35 + 0.15;
         }
 
@@ -87,7 +85,7 @@ export default function Starfield() {
           twinkleSpeed: Math.random() * 0.02 + 0.005,
           twinkleOffset: Math.random() * Math.PI * 2,
           layer,
-          blur,
+          hue: hueRanges[Math.floor(Math.random() * hueRanges.length)],
         });
       }
 
@@ -108,45 +106,33 @@ export default function Starfield() {
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
 
-      starsRef.current.forEach((star) => {
+      for (let i = 0; i < starsRef.current.length; i++) {
+        const star = starsRef.current[i];
         const parallaxMultiplier = star.layer === 0 ? 0.3 : star.layer === 1 ? 0.6 : 1.0;
         const parallaxX = mx * star.speed * parallaxMultiplier;
         const parallaxY = my * star.speed * parallaxMultiplier;
-        const driftX = Math.sin(time * 0.08 + star.twinkleOffset) * star.speed * 12;
-        const driftY = -time * star.speed * 6;
+        const driftX = Math.sin(time * 0.04 + star.twinkleOffset) * star.speed * 12;
+        const driftY = -time * star.speed * 3;
         const drawX = ((star.x + parallaxX + driftX) % w + w) % w;
         const drawY = ((star.y + parallaxY + driftY) % h + h) % h;
         const twinkle =
-          Math.sin(time * star.twinkleSpeed * 60 + star.twinkleOffset) * 0.3 + 0.7;
+          Math.sin(time * star.twinkleSpeed * 30 + star.twinkleOffset) * 0.3 + 0.7;
 
-        if (star.blur > 0) {
-          ctx.filter = `blur(${star.blur}px)`;
-        } else {
-          ctx.filter = "none";
-        }
-
+        const sat = star.layer === 2 ? "70%" : star.layer === 1 ? "50%" : "40%";
+        const light = star.layer === 2 ? "85%" : star.layer === 1 ? "75%" : "70%";
+        ctx.fillStyle = `hsla(${star.hue}, ${sat}, ${light}, ${star.opacity * twinkle})`;
         ctx.beginPath();
         ctx.arc(drawX, drawY, star.size, 0, Math.PI * 2);
-
-        if (star.layer === 2) {
-          ctx.fillStyle = `rgba(200, 195, 230, ${star.opacity * twinkle})`;
-        } else if (star.layer === 1) {
-          ctx.fillStyle = `rgba(190, 185, 220, ${star.opacity * twinkle})`;
-        } else {
-          ctx.fillStyle = `rgba(180, 175, 210, ${star.opacity * twinkle})`;
-        }
         ctx.fill();
 
-        // Glow on bright foreground stars
         if (star.layer === 2 && star.size > 1.4) {
+          ctx.fillStyle = `hsla(${star.hue}, 80%, 70%, ${star.opacity * twinkle * 0.12})`;
           ctx.beginPath();
           ctx.arc(drawX, drawY, star.size * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(157, 124, 216, ${star.opacity * twinkle * 0.1})`;
           ctx.fill();
         }
-      });
+      }
 
-      ctx.filter = "none";
       animationRef.current = requestAnimationFrame(animate);
     };
 
@@ -161,9 +147,7 @@ export default function Starfield() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [userPreferences.show_starfield]);
-
-  if (!userPreferences.show_starfield) return null;
+  }, []);
 
   return (
     <canvas

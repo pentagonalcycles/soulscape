@@ -1,33 +1,17 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function GlowingPortal() {
   const [isHovered, setIsHovered] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [ripples, setRipples] = useState<number[]>([]);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    setPrefersReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
 
   const handleEnter = () => {
     setIsExiting(true);
-    setTimeout(() => {
-      router.push("/sanctuary");
-    }, prefersReducedMotion ? 400 : 1200);
-  };
-
-  const addRipple = () => {
-    const id = Date.now();
-    setRipples((prev) => [...prev, id]);
-    setTimeout(() => {
-      setRipples((prev) => prev.filter((r) => r !== id));
-    }, 1000);
+    setTimeout(() => router.push("/soul-echo"), 1500);
   };
 
   return (
@@ -35,134 +19,263 @@ export default function GlowingPortal() {
       className="relative flex flex-col items-center justify-center"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.5, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 2, delay: 0.6 }}
     >
-      {/* Portal container */}
-      <div className="relative">
-        {/* Ripples on hover/tap */}
-        <AnimatePresence>
-          {ripples.map((id) => (
-            <motion.div
-              key={id}
-              className="absolute inset-0 rounded-full pointer-events-none"
-              style={{
-                border: "1px solid rgba(157, 124, 216, 0.3)",
-              }}
-              initial={{ scale: 1, opacity: 0.5 }}
-              animate={{ scale: 2, opacity: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-            />
-          ))}
-        </AnimatePresence>
-
-        {/* Rotating shimmer ring */}
-        <motion.div
-          className="absolute inset-[-3px] rounded-full pointer-events-none"
-          style={{
-            background: "conic-gradient(from 0deg, transparent 0%, rgba(190, 180, 220, 0.15) 25%, transparent 50%, rgba(157, 124, 216, 0.1) 75%, transparent 100%)",
-            animation: prefersReducedMotion ? "none" : "portal-shimmer 8s linear infinite",
-          }}
-        />
-
-        {/* Glowing rim */}
+      <div className="relative w-[200px] h-[200px] sm:w-[260px] sm:h-[260px]">
+        {/* Ambient glow */}
         <div
-          className="absolute inset-[-2px] rounded-full pointer-events-none"
+          className="absolute rounded-full pointer-events-none"
           style={{
-            border: "1.5px solid rgba(157, 124, 216, 0.25)",
-            boxShadow: isHovered
-              ? "0 0 15px rgba(157, 124, 216, 0.4), 0 0 30px rgba(140, 130, 190, 0.2), inset 0 0 15px rgba(157, 124, 216, 0.15)"
-              : "0 0 10px rgba(157, 124, 216, 0.2), 0 0 20px rgba(140, 130, 190, 0.1)",
-            transition: "box-shadow 0.5s ease",
+            inset: -60,
+            background: "radial-gradient(circle, rgba(13, 148, 136, 0.12) 0%, rgba(6, 182, 212, 0.05) 35%, transparent 65%)",
+            filter: "blur(40px)",
           }}
         />
 
-        {/* Portal button */}
-        <motion.button
-          className="relative w-44 h-44 md:w-56 md:h-56 rounded-full cursor-pointer border-0"
+        {/* Outer orbit ring */}
+        <motion.div
+          className="absolute rounded-full pointer-events-none"
           style={{
-            background: "radial-gradient(circle, rgba(157, 124, 216, 0.08) 0%, rgba(107, 63, 160, 0.04) 40%, transparent 70%)",
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
+            inset: -16,
+            border: "1px solid rgba(13, 148, 136, 0.1)",
           }}
-          onMouseEnter={() => {
-            setIsHovered(true);
-            addRipple();
+          animate={{ rotate: 360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        >
+          <div
+            className="absolute w-1.5 h-1.5 rounded-full"
+            style={{
+              top: "50%",
+              left: "-3px",
+              background: "#0d9488",
+              boxShadow: "0 0 8px rgba(13, 148, 136, 0.6)",
+            }}
+          />
+          <div
+            className="absolute w-1 h-1 rounded-full"
+            style={{
+              top: "-3px",
+              left: "50%",
+              background: "#06b6d4",
+              boxShadow: "0 0 6px rgba(6, 182, 212, 0.5)",
+            }}
+          />
+        </motion.div>
+
+        {/* Inner orbit ring */}
+        <motion.div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            inset: -4,
+            border: "1px dashed rgba(13, 148, 136, 0.08)",
           }}
+          animate={{ rotate: -360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        >
+          <div
+            className="absolute w-1 h-1 rounded-full"
+            style={{
+              top: "50%",
+              right: "-2px",
+              background: "rgba(13, 148, 136, 0.5)",
+              boxShadow: "0 0 6px rgba(13, 148, 136, 0.4)",
+            }}
+          />
+        </motion.div>
+
+        {/* Scanning line */}
+        <motion.div
+          className="absolute pointer-events-none"
+          style={{
+            left: "10%",
+            right: "10%",
+            height: "1px",
+            background: "linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.15), transparent)",
+          }}
+          animate={{
+            top: ["20%", "80%", "20%"],
+            opacity: [0, 0.6, 0],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
+        {/* Main button */}
+        <motion.button
+          className="absolute inset-0 rounded-full cursor-pointer"
+          style={{
+            background: isHovered
+              ? "radial-gradient(circle, rgba(13, 148, 136, 0.18) 0%, rgba(6, 182, 212, 0.08) 40%, rgba(13, 148, 136, 0.02) 70%, transparent 90%)"
+              : "radial-gradient(circle, rgba(13, 148, 136, 0.1) 0%, rgba(6, 182, 212, 0.04) 45%, transparent 75%)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            border: isHovered
+              ? "1.5px solid rgba(13, 148, 136, 0.45)"
+              : "1px solid rgba(13, 148, 136, 0.2)",
+            boxShadow: isHovered
+              ? "0 0 40px rgba(13, 148, 136, 0.25), 0 0 80px rgba(6, 182, 212, 0.12), inset 0 0 30px rgba(13, 148, 136, 0.08)"
+              : "0 0 20px rgba(13, 148, 136, 0.1), 0 0 40px rgba(6, 182, 212, 0.05), inset 0 0 15px rgba(13, 148, 136, 0.04)",
+            transition: "all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          }}
+          onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onClick={handleEnter}
-          whileHover={{ scale: 1.06 }}
-          whileTap={{ scale: 0.97 }}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
           animate={
             isExiting
               ? { scale: 50, opacity: 0 }
-              : {
-                  boxShadow: isHovered
-                    ? "0 0 80px rgba(157, 124, 216, 0.6), 0 0 160px rgba(107, 63, 160, 0.4), 0 0 240px rgba(140, 130, 190, 0.2), inset 0 0 50px rgba(157, 124, 216, 0.2)"
-                    : [
-                        "0 0 40px rgba(157, 124, 216, 0.3), 0 0 80px rgba(107, 63, 160, 0.2), inset 0 0 30px rgba(157, 124, 216, 0.15)",
-                        "0 0 60px rgba(157, 124, 216, 0.45), 0 0 120px rgba(107, 63, 160, 0.3), inset 0 0 40px rgba(157, 124, 216, 0.2)",
-                        "0 0 40px rgba(157, 124, 216, 0.3), 0 0 80px rgba(107, 63, 160, 0.2), inset 0 0 30px rgba(157, 124, 216, 0.15)",
-                      ],
-                }
+              : {}
           }
-          transition={
-            isExiting
-              ? { duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }
-              : {
-                  boxShadow: {
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  },
-                }
-          }
+          transition={isExiting ? { duration: 1.5, ease: [0.25, 0.46, 0.45, 0.94] } : {}}
         >
-          {/* Glass centre */}
-          <div
-            className="absolute inset-6 rounded-full"
+          {/* Pulsing inner rings */}
+          <motion.div
+            className="absolute rounded-full pointer-events-none"
             style={{
-              background: "radial-gradient(circle, rgba(157, 124, 216, 0.1) 0%, rgba(107, 63, 160, 0.05) 50%, transparent 70%)",
-              border: "1px solid rgba(157, 124, 216, 0.1)",
+              inset: 30,
+              border: "1px solid rgba(13, 148, 136, 0.06)",
+            }}
+            animate={{
+              scale: [1, 1.08, 1],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.div
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              inset: 50,
+              border: "1px solid rgba(13, 148, 136, 0.04)",
+            }}
+            animate={{
+              scale: [1, 1.12, 1],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.5,
             }}
           />
 
-          {/* Portal text */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <motion.span
-              className="text-elovayne-light font-heading text-base md:text-lg tracking-[0.25em] uppercase glow-text"
-              animate={{
-                textShadow: [
-                  "0 0 8px rgba(190, 180, 220, 0.3), 0 0 20px rgba(157, 124, 216, 0.15)",
-                  "0 0 15px rgba(190, 180, 220, 0.5), 0 0 30px rgba(157, 124, 216, 0.3)",
-                  "0 0 8px rgba(190, 180, 220, 0.3), 0 0 20px rgba(157, 124, 216, 0.15)",
-                ],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
+          {/* Core glow */}
+          <motion.div
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              inset: 60,
+              background: "radial-gradient(circle, rgba(13, 148, 136, 0.1) 0%, transparent 70%)",
+            }}
+            animate={{
+              opacity: isHovered ? [0.6, 1, 0.6] : [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+
+          {/* HUD corner marks */}
+          <div className="absolute pointer-events-none" style={{ top: "18%", left: "18%" }}>
+            <div style={{ width: "12px", height: "1px", background: "rgba(13, 148, 136, 0.2)" }} />
+            <div style={{ width: "1px", height: "12px", background: "rgba(13, 148, 136, 0.2)" }} />
+          </div>
+          <div className="absolute pointer-events-none" style={{ top: "18%", right: "18%", display: "flex", flexDirection: "row-reverse" }}>
+            <div style={{ width: "12px", height: "1px", background: "rgba(13, 148, 136, 0.2)" }} />
+            <div style={{ width: "1px", height: "12px", background: "rgba(13, 148, 136, 0.2)" }} />
+          </div>
+          <div className="absolute pointer-events-none" style={{ bottom: "18%", left: "18%" }}>
+            <div style={{ width: "1px", height: "12px", background: "rgba(13, 148, 136, 0.2)" }} />
+            <div style={{ width: "12px", height: "1px", background: "rgba(13, 148, 136, 0.2)" }} />
+          </div>
+          <div className="absolute pointer-events-none" style={{ bottom: "18%", right: "18%", display: "flex", flexDirection: "row-reverse" }}>
+            <div style={{ width: "1px", height: "12px", background: "rgba(13, 148, 136, 0.2)" }} />
+            <div style={{ width: "12px", height: "1px", background: "rgba(13, 148, 136, 0.2)" }} />
+          </div>
+
+          {/* Text */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5">
+            {/* Top status */}
+            <div className="flex items-center gap-1.5">
+              <motion.div
+                className="w-1 h-1 rounded-full"
+                style={{ background: isHovered ? "#10b981" : "#0d9488" }}
+                animate={{
+                  opacity: isHovered ? [1, 0.4, 1] : [0.5, 0.8, 0.5],
+                  boxShadow: isHovered
+                    ? ["0 0 4px #10b981", "0 0 2px #10b981", "0 0 4px #10b981"]
+                    : ["0 0 2px rgba(13,148,136,0.3)", "0 0 4px rgba(13,148,136,0.3)", "0 0 2px rgba(13,148,136,0.3)"],
+                }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
+              <span
+                className="uppercase tracking-[0.3em]"
+                style={{
+                  color: isHovered ? "rgba(13, 148, 136, 0.7)" : "rgba(13, 148, 136, 0.4)",
+                  fontSize: "7px",
+                  transition: "color 0.4s ease",
+                }}
+              >
+                {isHovered ? "Online" : "Ready"}
+              </span>
+            </div>
+
+            {/* Main text */}
+            <span
+              className="text-sm md:text-base tracking-[0.2em] uppercase"
+              style={{
+                color: isHovered ? "#0d9488" : "#0f172a",
+                textShadow: isHovered ? "0 0 12px rgba(13, 148, 136, 0.4)" : "0 0 6px rgba(13, 148, 136, 0.15)",
+                fontWeight: 300,
+                transition: "all 0.4s ease",
               }}
             >
               Step through
-            </motion.span>
+            </span>
+
+            {/* Separator line */}
+            <motion.div
+              style={{
+                height: "1px",
+                background: "linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.3), transparent)",
+              }}
+              animate={{
+                width: isHovered ? 40 : 20,
+              }}
+              transition={{ duration: 0.4 }}
+            />
+
+            {/* Arrow */}
+            <motion.div
+              animate={{
+                x: isHovered ? [0, 3, 0] : 0,
+                opacity: isHovered ? 0.8 : 0.3,
+              }}
+              transition={{ duration: 1.2, repeat: isHovered ? Infinity : 0, ease: "easeInOut" }}
+            >
+              <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
+                <path
+                  d="M0 4H12M12 4L8 0.5M12 4L8 7.5"
+                  stroke={isHovered ? "#0d9488" : "rgba(15, 23, 42, 0.3)"}
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ transition: "stroke 0.4s ease" }}
+                />
+              </svg>
+            </motion.div>
           </div>
         </motion.button>
       </div>
-
-      {/* Exit overlay — only when not expanding */}
-      {isExiting && !prefersReducedMotion && (
-        <motion.div
-          className="fixed inset-0 pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeInOut" }}
-          style={{
-            background: "linear-gradient(135deg, #1a0a3e 0%, #0f1d55 25%, #0a2840 50%, #0d3530 75%, #080818 100%)",
-            zIndex: 100,
-          }}
-        />
-      )}
     </motion.div>
   );
 }

@@ -4,8 +4,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthProvider";
-import Starfield from "@/components/Starfield";
-import Nebula from "@/components/Nebula";
 
 export default function LoginPage() {
   const { signInWithEmail, isAnonymous, signOut, userProfile } = useAuth();
@@ -34,64 +32,83 @@ export default function LoginPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden flex items-center justify-center">
-      <Nebula />
-      <Starfield />
-
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(5, 5, 16, 0.8) 100%)",
-          zIndex: 2,
-        }}
-      />
-
       <div className="relative z-10 w-full max-w-md px-6">
+        {/* Logo */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-8"
+          transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="text-center mb-10"
         >
-          <Link href="/" className="font-heading text-3xl text-elovayne-light glow-text">
+          <motion.div
+            className="text-5xl mb-4"
+            animate={{ y: [0, -8, 0], rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            ✦
+          </motion.div>
+          <h1
+            className="text-3xl font-light tracking-widest mb-2"
+            style={{
+              background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             Elovayne
-          </Link>
+          </h1>
+          <p className="text-xs" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+            A safe place where your soul can rest
+          </p>
         </motion.div>
 
+        {/* Card */}
         <motion.div
-          className="glass rounded-2xl p-8"
+          className="rounded-2xl p-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
+          style={{
+            background: "rgba(13, 148, 136, 0.04)",
+            border: "1px solid rgba(13, 148, 136, 0.1)",
+          }}
         >
           {isAnonymous ? (
             <>
-              <h1 className="font-heading text-2xl text-elovayne-light glow-text text-center mb-2">
-                Anchor Your Whispers to the Stars
-              </h1>
-              <p className="text-elovayne-muted text-sm text-center mb-8">
-                Upgrade your anonymous constellation to keep your stories, journal, and saved whispers forever.
+              <h2 className="text-xl font-light text-center mb-2" style={{ color: "rgba(15, 23, 42, 0.9)" }}>
+                {sent ? "Check your email" : "Keep Your Stories Safe"}
+              </h2>
+              <p className="text-xs text-center mb-8" style={{ color: "rgba(15, 23, 42, 0.5)" }}>
+                {sent
+                    ? "Check your inbox for your sign-in link."
+                    : "Sign in to keep your stories and saved posts forever."}
               </p>
 
               {sent ? (
                 <motion.div
-                  className="text-center py-8"
+                  className="text-center py-6"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <span className="text-4xl block mb-4">✨</span>
-                  <h2 className="font-heading text-xl text-elovayne-light mb-2">
-                    Check your inbox
-                  </h2>
-                  <p className="text-elovayne-muted text-sm">
-                    A stardust message is on its way to <span className="text-elovayne-light">{email}</span>.
-                    Follow the light to sign in.
+                  <motion.div
+                    className="text-4xl mb-4"
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    💌
+                  </motion.div>
+                  <p className="text-sm mb-1" style={{ color: "rgba(15, 23, 42, 0.8)" }}>
+                    A sign-in link is heading to
+                  </p>
+                  <p className="text-sm font-medium" style={{ color: "#0d9488" }}>{email}</p>
+                  <p className="text-xs mt-3" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+                    Click the link in your email to sign in. No password needed.
                   </p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-xs text-elovayne-dim uppercase tracking-wider mb-2">
+                    <label className="block text-[10px] uppercase tracking-wider mb-2" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
                       Email Address
                     </label>
                     <input
@@ -100,55 +117,78 @@ export default function LoginPage() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="your@email.com"
                       required
-                      className="w-full bg-elovayne-deep/50 border border-elovayne-violet/20 rounded-xl px-4 py-3 text-elovayne-light placeholder-elovayne-dim focus:outline-none focus:border-elovayne-violet/50 transition-colors"
+                      className="w-full rounded-xl px-4 py-3 text-sm"
+                      style={{
+                        background: "rgba(13, 148, 136, 0.04)",
+                        border: "1px solid rgba(13, 148, 136, 0.12)",
+                        color: "rgba(15, 23, 42, 0.9)",
+                        outline: "none",
+                        fontSize: "16px",
+                      }}
                     />
                   </div>
 
                   {error && (
-                    <p className="text-sm text-elovayne-cosmic-pink">{error}</p>
+                    <p className="text-xs" style={{ color: "#ef4444" }}>{error}</p>
                   )}
 
                   <motion.button
                     type="submit"
                     disabled={sending || !email.trim()}
-                    className="w-full py-3 rounded-xl font-heading tracking-wider text-elovayne-light transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-3.5 rounded-xl font-medium text-sm cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                     style={{
                       background: email.trim()
-                        ? "linear-gradient(135deg, rgba(107, 63, 160, 0.8), rgba(157, 124, 216, 0.8))"
-                        : "rgba(107, 63, 160, 0.3)",
-                      boxShadow: email.trim()
-                        ? "0 0 20px rgba(157, 124, 216, 0.3)"
-                        : "none",
+                        ? "linear-gradient(135deg, #0d9488, #06b6d4)"
+                        : "rgba(13, 148, 136, 0.08)",
+                      color: email.trim() ? "#fff" : "rgba(15, 23, 42, 0.3)",
+                      border: "none",
+                      boxShadow: email.trim() ? "0 4px 20px rgba(13, 148, 136, 0.2)" : "none",
                     }}
                     whileHover={email.trim() ? { scale: 1.02 } : {}}
                     whileTap={email.trim() ? { scale: 0.98 } : {}}
                   >
-                    {sending ? "Sending stardust..." : "Send a stardust message"}
+                    {sending ? "Sending your link..." : "Send sign-in link ✦"}
                   </motion.button>
 
-                  <p className="text-xs text-elovayne-dim text-center">
-                    No passwords here. We&apos;ll send you a stardust message to sign in.
+                  <p className="text-[10px] text-center" style={{ color: "rgba(15, 23, 42, 0.3)" }}>
+                    No passwords. No tracking. Just simplicity.
                   </p>
                 </form>
               )}
+
+              <div className="mt-6 pt-4" style={{ borderTop: "1px solid rgba(13, 148, 136, 0.08)" }}>
+                <p className="text-[10px] text-center" style={{ color: "rgba(15, 23, 42, 0.3)" }}>
+                  Or skip this entirely —{" "}
+                  <Link href="/" style={{ color: "#0d9488", textDecoration: "none" }}>
+                    explore anonymously
+                  </Link>
+                </p>
+              </div>
             </>
           ) : (
             <div className="text-center">
-              <span className="text-4xl block mb-4">🌟</span>
-              <h1 className="font-heading text-2xl text-elovayne-light glow-text mb-2">
-                You&apos;re Signed In
-              </h1>
-              <p className="text-elovayne-muted text-sm mb-6">
-                Your constellation is permanent. Your stories and journal are safe among the stars.
+              <motion.div
+                className="text-4xl mb-4"
+                animate={{ y: [0, -5, 0] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                🌟
+              </motion.div>
+              <h2 className="text-xl font-light mb-2" style={{ color: "rgba(15, 23, 42, 0.9)" }}>
+                Your account is ready
+              </h2>
+              <p className="text-xs mb-6" style={{ color: "rgba(15, 23, 42, 0.5)" }}>
+                Your stories are safe here.
               </p>
               {userProfile?.display_name && (
-                <p className="text-elovayne-light text-sm mb-2">
-                  Signed in as <span className="text-elovayne-violet">{userProfile.display_name}</span>
+                <p className="text-sm mb-2" style={{ color: "rgba(15, 23, 42, 0.8)" }}>
+                  Signed in as <span style={{ color: "#0d9488" }}>{userProfile.display_name}</span>
                 </p>
               )}
               <button
                 onClick={signOut}
-                className="text-sm text-elovayne-dim hover:text-elovayne-cosmic-pink transition-colors mt-4"
+                className="text-xs mt-4 cursor-pointer transition-colors"
+                style={{ color: "rgba(15, 23, 42, 0.4)", background: "none", border: "none" }}
               >
                 Sign out
               </button>
@@ -156,17 +196,19 @@ export default function LoginPage() {
           )}
         </motion.div>
 
+        {/* Footer link */}
         <motion.div
-          className="text-center mt-6"
+          className="text-center mt-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.6 }}
         >
           <Link
-            href="/sanctuary"
-            className="text-sm text-elovayne-dim hover:text-elovayne-muted transition-colors"
+            href="/"
+            className="text-xs"
+            style={{ color: "rgba(15, 23, 42, 0.3)", textDecoration: "none" }}
           >
-            Drift onward →
+            ← Go back
           </Link>
         </motion.div>
       </div>

@@ -7,7 +7,6 @@ type IdentityType = "anonymous" | "alias" | "real";
 type ContentType = "text" | "poem" | "story" | "art" | "voice";
 
 const roomOptions = [
-  { slug: "sanctuary", label: "Sanctuary", icon: "🌌" },
   { slug: "healing", label: "Healing", icon: "💚" },
   { slug: "hope", label: "Hope", icon: "✨" },
   { slug: "loneliness", label: "Loneliness", icon: "🌙" },
@@ -56,7 +55,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
   const [identityType, setIdentityType] = useState<IdentityType>("anonymous");
   const [alias, setAlias] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState(defaultRoomId || "sanctuary");
+  const [selectedRoom, setSelectedRoom] = useState(defaultRoomId || "healing");
 
   const handleSubmit = () => {
     if (!content.trim()) return;
@@ -76,9 +75,9 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
   };
 
   const placeholders = {
-    text: "What stardust lives in you today?",
-    poem: "Let your words drift like stardust...",
-    story: "Share your story with the cosmos...",
+    text: "What is resting on your heart today?",
+    poem: "Let your words flow freely...",
+    story: "Share your story with those who listen...",
     art: "Describe your creation or share a link...",
     voice: "Voice recordings coming soon...",
   };
@@ -91,14 +90,14 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
             key="trigger"
             className="w-full glass rounded-2xl p-6 text-left cursor-pointer hover:scale-[1.01] transition-all duration-300"
             style={{
-              boxShadow: "0 0 30px rgba(157, 124, 216, 0.1)",
+              boxShadow: "0 0 30px rgba(13, 148, 136, 0.1)",
             }}
             onClick={() => setIsExpanded(true)}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             whileHover={{
-              boxShadow: "0 0 40px rgba(157, 124, 216, 0.2)",
+              boxShadow: "0 0 40px rgba(13, 148, 136, 0.2)",
             }}
           >
             <div className="flex items-center gap-4">
@@ -106,7 +105,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
                 <span className="text-elovayne-violet">✦</span>
               </div>
               <span className="text-elovayne-muted font-body">
-                Release your stardust into the void
+                Share something with the Sanctuary
               </span>
             </div>
           </motion.button>
@@ -115,7 +114,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
             key="creator"
             className="glass rounded-2xl p-6"
             style={{
-              boxShadow: "0 0 40px rgba(157, 124, 216, 0.15)",
+              boxShadow: "0 0 40px rgba(13, 148, 136, 0.15)",
             }}
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -124,7 +123,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-heading text-lg text-elovayne-light glow-text">
-                Whisper to the Sanctuary
+                Share with the Sanctuary
               </h3>
               <button
                 onClick={() => setIsExpanded(false)}
@@ -158,7 +157,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
 
             {/* Room selector */}
             <div className="mb-4">
-              <p className="text-xs text-elovayne-dim mb-2">Send to which constellation:</p>
+              <p className="text-xs text-elovayne-dim mb-2">Post to which room:</p>
               <div className="flex gap-2 flex-wrap">
                 {roomOptions.map((room) => (
                   <button
@@ -241,7 +240,7 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
                       type="text"
                       value={alias}
                       onChange={(e) => setAlias(e.target.value)}
-                      placeholder="Name your stardust..."
+                      placeholder="Choose a display name..."
                       className="w-full mt-3 bg-elovayne-deep/50 border border-elovayne-nebula/20 rounded-xl px-4 py-3 text-elovayne-light placeholder-elovayne-dim focus:outline-none focus:border-elovayne-violet/40 transition-colors font-body"
                     />
                   </motion.div>
@@ -257,16 +256,16 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
                 className="px-6 py-3 rounded-full font-body text-sm transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
                 style={{
                   background: content.trim()
-                    ? "linear-gradient(135deg, rgba(107, 63, 160, 0.8), rgba(157, 124, 216, 0.8))"
-                    : "rgba(107, 63, 160, 0.3)",
+                    ? "linear-gradient(135deg, rgba(13, 148, 136, 0.7), rgba(13, 148, 136, 0.8))"
+                    : "rgba(13, 148, 136, 0.15)",
                   boxShadow: content.trim()
-                    ? "0 0 20px rgba(157, 124, 216, 0.3)"
+                    ? "0 0 20px rgba(13, 148, 136, 0.3)"
                     : "none",
                 }}
                 whileHover={content.trim() ? { scale: 1.02 } : {}}
                 whileTap={content.trim() ? { scale: 0.98 } : {}}
               >
-                <span className="text-elovayne-light">Release into the void</span>
+                <span className="text-elovayne-light">Share your post</span>
               </motion.button>
             </div>
           </motion.div>

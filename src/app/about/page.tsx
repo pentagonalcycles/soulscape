@@ -2,173 +2,226 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Starfield from "@/components/Starfield";
-import Nebula from "@/components/Nebula";
 import Navigation from "@/components/Navigation";
 
 const sections = [
   {
+    icon: "✦",
     title: "What is Elovayne?",
-    content: `Elovayne is a quiet constellation where drifting souls gather to share feelings, stories, and creative whispers. It's a place to be heard without judgment, to connect through empathy, and to find comfort in knowing the stars above hold space for you.`,
+    content: `Elovayne is a home for people who need a quiet place. A place where you can share what is in your heart — a story, a feeling, something you have been carrying alone — and know that someone understands. You do not need to be brave here. You just need to be yourself.`,
+    color: "#0d9488",
   },
   {
-    title: "Your privacy matters",
+    icon: "◎",
+    title: "Why does this exist?",
+    content: `The internet can be a loud place. Elovayne is the opposite — a quiet corner with no followers, no likes, no algorithms. Just people being real with each other, sharing what matters, and finding comfort in knowing they are not alone.`,
+    color: "#10b981",
+  },
+  {
+    icon: "◇",
+    title: "Your privacy is sacred",
     items: [
       "You can speak completely anonymously — no name, no email, no trace required.",
-      "Anonymous whispers cannot be traced back to you. There is no hidden thread.",
-      "You can dissolve any of your words at any time, and they are permanently released.",
-      "Your journal exists in its own quiet corner — only you can see it.",
-      "We never sell your words. There are no ads, no tracking, no algorithms watching.",
+      "Anonymous posts cannot be traced back to you.",
+      "You can delete any of your posts at any time, permanently.",
+      "Your private data stays on your device only.",
+      "No ads, no tracking, no algorithms watching.",
     ],
+    color: "#3b82f6",
   },
   {
-    title: "Community guidelines",
+    icon: "◈",
+    title: "How we take care of each other",
     items: [
-      "Be gentle. Everyone here is navigating something tender.",
-      "No cruelty, no hate speech, no discrimination of any kind.",
-      "No unsolicited advice unless someone asks for it. Sometimes people just need to be heard.",
-      "No revealing information about others without their consent.",
+      "Be kind. Everyone here is navigating something tender.",
+      "No cruelty, no hate speech, no discrimination.",
+      "No unsolicited advice unless someone asks.",
+      "No revealing information about others without consent.",
       "No spam, self-promotion, or commercial content.",
       "Respect boundaries. If someone asks for space, give it.",
     ],
+    color: "#eab308",
   },
   {
-    title: "Safety & support",
-    content: `Elovayne is designed to be a gentle refuge, but it is not a substitute for professional care. If you or someone you know is in crisis, please reach out to a professional service.`,
+    icon: "✧",
+    title: "This is not therapy",
+    content: `Elovayne is a safe place, but it is not a substitute for professional care. If you are struggling, please reach out to someone who can help. You deserve real support.`,
     items: [
-      "You can report any whisper that feels harmful, inappropriate, or violates our guidelines.",
-      "Reports are reviewed with care and action is taken to protect the community.",
-      "If you're in immediate danger, please contact your local emergency services.",
+      "You can report any post that feels harmful.",
+      "Reports are reviewed with care and action is taken.",
+      "If you are in immediate danger, contact local emergency services.",
     ],
+    color: "#ec4899",
   },
   {
-    title: "How it drifts",
+    icon: "△",
+    title: "What you can do here",
     items: [
-      "Step into the Sanctuary to read and share whispers with the community.",
-      "Wander through emotional rooms — each has its own atmosphere and heartbeat.",
-      "React with meaning: 'I see you in the dark', 'Your words became light', 'I'm here with you', and more.",
-      "Keep a private journal for your constellations of thought and reflection.",
-      "Save whispers that resonate with you to revisit later.",
-      "Tune your experience with custom colors, ambient sounds, and animation settings.",
+      "Talk to Elyra, an AI companion who listens without judgment.",
+      "Share your feelings through Soul Echo and connect with someone who understands.",
+      "Look up at the night sky in Stargazing and read messages left by others.",
+      "Reflect in the Reflection Room with daily prompts.",
+      "Listen to calming sounds in the Ambient Room.",
+      "Create art in the Dream Canvas with 32 brush types.",
+      "Take photos with the Cosmic Camera — 36+ dreamlike filters.",
+      "Paint together in the Collaborative Mural in real-time.",
+      "Release glowing Wish Lanterns into the night sky.",
+      "Sit around a Campfire and chat anonymously.",
+      "Write poems inspired by daily prompts in Poetry.",
+      "Map your inner world with Soul Map — a private mandala.",
+      "Play Nebula Orb, a multiplayer cosmic arena game.",
     ],
+    color: "#06b6d4",
   },
 ];
 
 export default function AboutPage() {
   return (
     <main className="relative min-h-screen overflow-hidden">
-      <Nebula />
-      <Starfield />
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(5, 5, 16, 0.8) 100%)",
-          zIndex: 2,
-        }}
-      />
+      <Navigation activePage="about" />
 
-      <div className="relative z-10 min-h-screen flex flex-col">
-        <Navigation />
-
-        <div className="flex-1 pt-24 pb-12 px-6">
-          <div className="max-w-2xl mx-auto">
+      <div className="relative z-10 pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
+        <div className="max-w-2xl mx-auto">
+          {/* Header */}
+          <motion.div
+            className="text-center mb-14"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
             <motion.div
-              className="text-center mb-12"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              className="text-3xl mb-5 opacity-60"
+              animate={{ y: [0, -4, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
-              <h1 className="font-heading text-3xl md:text-4xl text-elovayne-light glow-text-strong mb-4">
-                About Elovayne
-              </h1>
-              <p className="font-accent text-xl text-elovayne-muted">
-                Before you drift further, a few gentle whispers
-              </p>
+              ✦
             </motion.div>
+            <h1
+              className="text-3xl sm:text-4xl mb-4"
+              style={{
+                background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                fontWeight: 300,
+                letterSpacing: "0.02em",
+              }}
+            >
+              About Elovayne
+            </h1>
+            <p className="text-sm" style={{ color: "rgba(15, 23, 42, 0.35)", fontWeight: 300 }}>
+              A letter to anyone who needs a quiet place to land
+            </p>
+          </motion.div>
 
-            <div className="space-y-6">
-              {sections.map((section, index) => (
-                <motion.div
-                  key={section.title}
-                  className="glass rounded-2xl p-6 md:p-8"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <h2 className="font-heading text-xl text-elovayne-light glow-text mb-4">
-                    {section.title}
-                  </h2>
-
-                  {section.content && (
-                    <p className="text-elovayne-muted font-body text-sm leading-relaxed mb-4">
-                      {section.content}
-                    </p>
-                  )}
-
-                  {section.items && (
-                    <ul className="space-y-3">
-                      {section.items.map((item, i) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <span className="text-elovayne-violet mt-1 text-xs">✦</span>
-                          <span className="text-elovayne-muted font-body text-sm leading-relaxed">
-                            {item}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </motion.div>
-              ))}
-
-              {/* Crisis support */}
+          {/* Sections */}
+          <div className="space-y-5">
+            {sections.map((section, index) => (
               <motion.div
-                className="glass rounded-2xl p-6 md:p-8 border border-elovayne-cosmic-pink/20"
+                key={section.title}
+                className="rounded-2xl p-6 sm:p-7"
+                style={{
+                  background: `${section.color}03`,
+                  border: `1px solid ${section.color}10`,
+                }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
+                transition={{ duration: 0.6, delay: index * 0.08 }}
               >
-                <h2 className="font-heading text-xl text-elovayne-cosmic-pink mb-4">
-                  In crisis?
-                </h2>
-                <p className="text-elovayne-muted font-body text-sm leading-relaxed mb-4">
-                  If you or someone you know is in immediate danger or experiencing a mental health crisis,
-                  please reach out for professional help.
-                </p>
-                <div className="space-y-2 text-sm">
-                  <p className="text-elovayne-light">
-                    <span className="text-elovayne-muted">International:</span>{" "}
-                    <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" className="text-elovayne-violet hover:text-elovayne-light transition-colors">
-                      findahelpline.com
-                    </a>
-                  </p>
-                  <p className="text-elovayne-light">
-                    <span className="text-elovayne-muted">US:</span>{" "}
-                    <span className="text-elovayne-light">988 Suicide & Crisis Lifeline — call or text 988</span>
-                  </p>
-                  <p className="text-elovayne-light">
-                    <span className="text-elovayne-muted">UK:</span>{" "}
-                    <span className="text-elovayne-light">Samaritans — call 116 123</span>
-                  </p>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-sm opacity-60" style={{ color: section.color }}>{section.icon}</span>
+                  <h2 className="text-base" style={{ color: section.color, fontWeight: 400, letterSpacing: "0.01em" }}>
+                    {section.title}
+                  </h2>
                 </div>
-              </motion.div>
-            </div>
 
-            {/* Back to home */}
+                {section.content && (
+                  <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(15, 23, 42, 0.6)", fontWeight: 300 }}>
+                    {section.content}
+                  </p>
+                )}
+
+                {section.items && (
+                  <ul className="space-y-2.5">
+                    {section.items.map((item, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span className="mt-2 w-1 h-1 rounded-full flex-shrink-0" style={{ background: section.color, opacity: 0.4 }} />
+                        <span className="text-xs leading-relaxed" style={{ color: "rgba(15, 23, 42, 0.5)", fontWeight: 300 }}>
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </motion.div>
+            ))}
+
+            {/* Crisis support */}
             <motion.div
-              className="text-center mt-12"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
+              className="rounded-2xl p-6 sm:p-7"
+              style={{
+                background: "rgba(236, 72, 153, 0.02)",
+                border: "1px solid rgba(236, 72, 153, 0.06)",
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <Link
-                href="/"
-                className="text-sm text-elovayne-dim hover:text-elovayne-muted transition-colors"
-              >
-                ← Return to the entrance
-              </Link>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-sm opacity-60" style={{ color: "#ec4899" }}>✦</span>
+                <h2 className="text-base" style={{ color: "#ec4899", fontWeight: 400 }}>
+                  If you are in crisis
+                </h2>
+              </div>
+              <p className="text-xs leading-relaxed mb-4" style={{ color: "rgba(15, 23, 42, 0.5)", fontWeight: 300 }}>
+                You are not alone. Please reach out. There are people who want to help.
+              </p>
+              <div className="space-y-2 text-xs">
+                <p style={{ color: "var(--text-dim)" }}>
+                  <span style={{ color: "#3b82f6", fontWeight: 400 }}>International:</span>{" "}
+                  <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "#0d9488", textDecoration: "none", borderBottom: "1px solid rgba(13, 148, 136, 0.2)" }}>
+                    findahelpline.com
+                  </a>
+                </p>
+                <p style={{ color: "var(--text-dim)" }}>
+                  <span style={{ color: "#3b82f6", fontWeight: 400 }}>US:</span>{" "}
+                  <span style={{ color: "rgba(15, 23, 42, 0.6)" }}>988 Lifeline — call or text 988</span>
+                </p>
+                <p style={{ color: "var(--text-dim)" }}>
+                  <span style={{ color: "#3b82f6", fontWeight: 400 }}>UK:</span>{" "}
+                  <span style={{ color: "rgba(15, 23, 42, 0.6)" }}>Samaritans — call 116 123</span>
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Free */}
+            <motion.div
+              className="rounded-2xl p-6 text-center"
+              style={{
+                background: "rgba(16, 185, 129, 0.02)",
+                border: "1px solid rgba(16, 185, 129, 0.06)",
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+            >
+              <p className="text-sm" style={{ color: "rgba(15, 23, 42, 0.5)", fontWeight: 300 }}>
+                Elovayne is <strong style={{ color: "#10b981", fontWeight: 500 }}>free for everyone</strong>. Always.
+                No premium walls. No hidden fees. No ads.
+              </p>
             </motion.div>
           </div>
+
+          {/* Back */}
+          <motion.div
+            className="text-center mt-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.9 }}
+          >
+            <Link href="/" className="text-xs hover:opacity-50 transition-opacity" style={{ color: "var(--text-faint)", textDecoration: "none", fontSize: "11px", letterSpacing: "0.05em" }}>
+              ← Return home
+            </Link>
+          </motion.div>
         </div>
       </div>
     </main>

@@ -24,3 +24,15 @@ export function supabase(): SupabaseClient {
   }
   return browserClient;
 }
+
+export async function getServerUser(request: Request) {
+  const authHeader = request.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return null;
+  }
+  const token = authHeader.slice(7);
+  const client = createSupabaseClient();
+  const { data: { user }, error } = await client.auth.getUser(token);
+  if (error || !user) return null;
+  return { user, client };
+}
