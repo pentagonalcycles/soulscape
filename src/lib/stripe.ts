@@ -13,7 +13,7 @@ export function stripe(): Stripe {
   }
 
   stripeInstance = new Stripe(key, {
-    apiVersion: "2025-02-24.acacia",
+    apiVersion: "2026-07-29.dahlia",
     typescript: true,
   });
 

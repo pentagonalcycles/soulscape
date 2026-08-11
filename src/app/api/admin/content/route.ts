@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
   const results: Record<string, unknown>[] = [];
 
-  const fetchers: Promise<void>[] = [];
+  const fetchers: PromiseLike<void>[] = [];
 
   if (type === "all" || type === "posts") {
     fetchers.push(
