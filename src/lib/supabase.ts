@@ -1,7 +1,7 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
 function createSupabaseClient(): SupabaseClient {
   return createClient(supabaseUrl, supabaseAnonKey, {
@@ -23,4 +23,16 @@ export function supabase(): SupabaseClient {
     browserClient = createSupabaseClient();
   }
   return browserClient;
+}
+
+export async function getServerUser(request: Request) {
+  const authHeader = request.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return null;
+  }
+  const token = authHeader.slice(7);
+  const client = createSupabaseClient();
+  const { data: { user }, error } = await client.auth.getUser(token);
+  if (error || !user) return null;
+  return { user, client };
 }

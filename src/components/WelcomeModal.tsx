@@ -3,13 +3,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import ElovayneLogo from "./ElovayneLogo";
 
 const WELCOME_KEY = "elovayne_welcomed";
 
 const quickActions = [
-  { label: "Share something", icon: "✍️", href: "/sanctuary" },
-  { label: "Explore rooms", icon: "🌌", href: "/rooms" },
-  { label: "Read stories", icon: "📖", href: "/sanctuary" },
+  { label: "Talk to Elyra", icon: "✦", href: "/elyra" },
+  { label: "Share your reflection", icon: "◎", href: "/soul-echo" },
+  { label: "Visit the Reflection Room", icon: "◈", href: "/reflection-room" },
 ];
 
 export default function WelcomeModal() {
@@ -36,6 +37,19 @@ export default function WelcomeModal() {
     router.push(href);
   };
 
+  const [particles] = useState(() =>
+    Array.from({ length: 10 }).map((_, i) => ({
+      width: 1.5 + (((i * 7 + 3) % 10) / 10) * 2,
+      height: 1.5 + (((i * 11 + 5) % 10) / 10) * 2,
+      left: `${15 + ((i * 17 + 2) % 70)}%`,
+      top: `${15 + ((i * 23 + 7) % 70)}%`,
+      color: ['#0d9488', '#06b6d4', '#10b981'][i % 3],
+      opacity: 0.12 + (((i * 13 + 1) % 10) / 10) * 0.2,
+      duration: 4 + ((i * 9 + 4) % 10) * 0.3,
+      delay: ((i * 7 + 6) % 10) * 0.3,
+    }))
+  );
+
   return (
     <AnimatePresence>
       {show && (
@@ -49,25 +63,54 @@ export default function WelcomeModal() {
         >
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-0 bg-elovayne-void/90 backdrop-blur-sm"
+            className="absolute inset-0 backdrop-blur-sm"
+            style={{ background: 'rgba(13, 148, 136, 0.04)' }}
             onClick={dismiss}
-          />
+          >
+            {particles.map((p, i) => (
+              <motion.div
+                key={i}
+                className="absolute rounded-full pointer-events-none"
+                style={{
+                  width: p.width,
+                  height: p.height,
+                  left: p.left,
+                  top: p.top,
+                  backgroundColor: p.color,
+                  opacity: p.opacity,
+                }}
+                animate={{
+                  y: [0, -20, 0],
+                  opacity: [0.08, 0.3, 0.08],
+                }}
+                transition={{
+                  duration: p.duration,
+                  repeat: Infinity,
+                  delay: p.delay,
+                }}
+              />
+            ))}
+          </motion.div>
 
           {/* Modal */}
           <motion.div
-            className="relative glass rounded-2xl p-8 max-w-md w-full"
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className="relative glass rounded-2xl p-7 sm:p-8 max-w-md w-full mx-4"
+            initial={{ opacity: 0, y: 16, scale: 0.97, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: 16, scale: 0.97, filter: "blur(6px)" }}
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <div className="text-center mb-8">
-              <h2 className="font-heading text-2xl text-elovayne-light glow-text-strong mb-3">
-                Welcome to Elovayne
+              <div className="flex justify-center mb-5">
+                <ElovayneLogo />
+              </div>
+              <h2 className="text-2xl mb-4" style={{ color: "#0f172a", fontWeight: 300, letterSpacing: "0.02em" }}>
+                You are safe here
               </h2>
-              <p className="text-elovayne-muted font-body text-sm leading-relaxed">
-                You can share anonymously, explore a room, or simply look around.
-                There&apos;s no pressure here — take your time.
+              <p className="text-sm leading-relaxed" style={{ color: "rgba(15, 23, 42, 0.5)", fontWeight: 300 }}>
+                Welcome home. This is a quiet place where your feelings are welcome,
+                your words are held gently, and you never have to face the dark alone.
+                You can share, or you can simply listen. There is no rush.
               </p>
             </div>
 
@@ -77,10 +120,24 @@ export default function WelcomeModal() {
                 <button
                   key={action.label}
                   onClick={() => handleAction(action.href)}
-                  className="w-full flex items-center gap-3 p-4 rounded-xl bg-elovayne-deep/50 border border-elovayne-violet/20 hover:border-elovayne-violet/40 hover:bg-elovayne-midnight/30 transition-all text-left group"
+                  className="w-full flex items-center gap-3 p-4 rounded-xl transition-all text-left group"
+                  style={{
+                    background: "rgba(13, 148, 136, 0.03)",
+                    border: "1px solid rgba(13, 148, 136, 0.08)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(13, 148, 136, 0.06)";
+                    e.currentTarget.style.borderColor = "rgba(13, 148, 136, 0.15)";
+                    e.currentTarget.style.boxShadow = "0 4px 16px rgba(13, 148, 136, 0.08)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "rgba(13, 148, 136, 0.03)";
+                    e.currentTarget.style.borderColor = "rgba(13, 148, 136, 0.08)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
                 >
-                  <span className="text-xl">{action.icon}</span>
-                  <span className="text-elovayne-light font-body text-sm group-hover:text-elovayne-light/90 transition-colors">
+                  <span className="text-lg opacity-60">{action.icon}</span>
+                  <span className="text-sm" style={{ color: "#0f172a", fontWeight: 400 }}>
                     {action.label}
                   </span>
                 </button>
@@ -88,24 +145,26 @@ export default function WelcomeModal() {
             </div>
 
             {/* Don't show again + dismiss */}
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center gap-5">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={dontShow}
                   onChange={(e) => setDontShow(e.target.checked)}
-                  className="w-4 h-4 rounded border-elovayne-violet/30 bg-elovayne-deep/50 text-elovayne-violet focus:ring-elovayne-violet/50 focus:ring-offset-0"
+                  className="w-4 h-4 rounded"
+                  style={{ accentColor: "#0d9488" }}
                 />
-                <span className="text-elovayne-dim font-body text-xs">
-                  Don&apos;t show this again
+                <span className="text-xs" style={{ color: "rgba(13, 148, 136, 0.5)", fontWeight: 300 }}>
+                  I&apos;ll remember this path
                 </span>
               </label>
 
               <button
                 onClick={dismiss}
-                className="text-elovayne-dim hover:text-elovayne-muted font-body text-sm transition-colors"
+                className="text-sm transition-colors hover:opacity-60"
+                style={{ color: "rgba(13, 148, 136, 0.6)", fontWeight: 300 }}
               >
-                Continue anonymously
+                Continue
               </button>
             </div>
           </motion.div>

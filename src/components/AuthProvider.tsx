@@ -18,12 +18,10 @@ export interface UserProfile {
 
 export interface UserPreferences {
   accent_color: string;
-  show_starfield: boolean;
-  nebula_intensity: "off" | "subtle" | "normal" | "vivid";
-  animation_speed: "minimal" | "normal";
-  compact_mode: boolean;
-  ambient_sound: boolean;
-  sound_volume: number;
+  default_page: string;
+  anonymous_default: boolean;
+  text_size: "small" | "medium" | "large";
+  reduce_motion: boolean;
 }
 
 interface AuthContextType {
@@ -32,6 +30,10 @@ interface AuthContextType {
   loading: boolean;
   userProfile: UserProfile | null;
   userPreferences: UserPreferences;
+  membership: { status: string; plan: string } | null;
+  isAdmin: boolean;
+  isBanned: boolean;
+  banReason: string | null;
   refreshProfile: () => Promise<void>;
   updateProfile: (updates: Partial<Pick<UserProfile, "display_name" | "bio" | "avatar_url" | "identity_type" | "contact_info" | "contact_type">>) => Promise<void>;
   updatePreferences: (updates: Partial<UserPreferences>) => Promise<void>;
@@ -41,13 +43,11 @@ interface AuthContextType {
 }
 
 const defaultPreferences: UserPreferences = {
-  accent_color: "#9d7cd8",
-  show_starfield: true,
-  nebula_intensity: "normal",
-  animation_speed: "normal",
-  compact_mode: false,
-  ambient_sound: false,
-  sound_volume: 0.5,
+  accent_color: "#0d9488",
+  default_page: "/",
+  anonymous_default: true,
+  text_size: "medium",
+  reduce_motion: false,
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -56,6 +56,10 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   userProfile: null,
   userPreferences: defaultPreferences,
+  membership: null,
+  isAdmin: false,
+  isBanned: false,
+  banReason: null,
   refreshProfile: async () => {},
   updateProfile: async () => {},
   updatePreferences: async () => {},
@@ -73,9 +77,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [userPreferences, setUserPreferences] = useState<UserPreferences>(defaultPreferences);
+  const [membership, setMembership] = useState<{ status: string; plan: string } | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isBanned, setIsBanned] = useState(false);
+  const [banReason, setBanReason] = useState<string | null>(null);
 
   const sessionRef = useRef<Session | null>(null);
-  sessionRef.current = session;
+  useEffect(() => { sessionRef.current = session; });
 
   const fetchProfile = useCallback(async (userId: string) => {
     const client = supabase();
@@ -88,6 +96,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (profile) {
       setUserProfile(profile as UserProfile);
+      setIsBanned((profile as Record<string, unknown>).is_banned === true);
+      setBanReason((profile as Record<string, unknown>).ban_reason as string | null);
     }
 
     const { data: prefs } = await client
@@ -98,6 +108,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (prefs) {
       setUserPreferences(prefs as UserPreferences);
+    }
+
+    try {
+      const { data: mem } = await client
+        .from("memberships")
+        .select("status, plan")
+        .eq("user_id", userId)
+        .eq("status", "active")
+        .maybeSingle();
+      setMembership(mem as { status: string; plan: string } | null);
+    } catch {
+      // memberships table may not exist
+    }
+
+    try {
+      const { data: admin } = await client
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", userId)
+        .maybeSingle();
+      setIsAdmin(!!admin);
+    } catch {
+      // admin_users table may not exist
     }
   }, []);
 
@@ -162,6 +195,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     sessionRef.current = null;
     setUserProfile(null);
     setUserPreferences(defaultPreferences);
+    setMembership(null);
+    setIsAdmin(false);
+    setIsBanned(false);
+    setBanReason(null);
   }, []);
 
   const isAnonymous = session?.user?.app_metadata?.provider === "anonymous" ||
@@ -223,6 +260,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loading,
         userProfile,
         userPreferences,
+        membership,
+        isAdmin,
+        isBanned,
+        banReason,
         refreshProfile,
         updateProfile,
         updatePreferences,

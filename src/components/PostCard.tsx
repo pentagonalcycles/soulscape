@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SaveButton from "./SaveButton";
 
 type ReactionType = "understanding" | "hope" | "company" | "less_alone" | "comfort";
@@ -17,17 +17,17 @@ interface Reaction {
 const reactions: Reaction[] = [
   {
     type: "understanding",
-    label: "I understand",
+    label: "I see you in the dark",
     icon: "🤍",
     description: "I see you and I understand",
-    color: "#9d7cd8",
+    color: "#0d9488",
   },
   {
     type: "hope",
-    label: "This gave me hope",
+    label: "Your words became light",
     icon: "✨",
     description: "Your words brought light",
-    color: "#f5d062",
+    color: "#10b981",
   },
   {
     type: "company",
@@ -40,15 +40,15 @@ const reactions: Reaction[] = [
     type: "less_alone",
     label: "Less alone",
     icon: "🌌",
-    description: "You made me feel less alone",
+    description: "This post helped you feel less alone",
     color: "#60a5fa",
   },
   {
     type: "comfort",
     label: "This comforted me",
     icon: "💫",
-    description: "Your words brought comfort",
-    color: "#e879a8",
+    description: "Your words wrapped around me like warmth",
+    color: "#06b6d4",
   },
 ];
 
@@ -62,6 +62,7 @@ interface PostCardProps {
   roomId?: string;
   userId?: string;
   authorId?: string;
+  hasContentWarning?: boolean;
   reactions?: { type: ReactionType; count: number; userReacted?: boolean }[];
   onReact?: (postId: string, reactionType: ReactionType) => void;
   onReport?: (postId: string, reason: string) => void;
@@ -77,6 +78,7 @@ export default function PostCard({
   createdAt,
   userId,
   authorId,
+  hasContentWarning = false,
   reactions: postReactions = [],
   onReact,
   onReport,
@@ -86,10 +88,16 @@ export default function PostCard({
   const [showReportMenu, setShowReportMenu] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [showReportReason, setShowReportReason] = useState(false);
+  const [revealed, setRevealed] = useState(false);
+  const [reactedType, setReactedType] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true) }, []);
 
   const isAuthor = userId && authorId && userId === authorId;
 
   const getTimeAgo = (date: string) => {
+    if (!mounted) return "";
     const now = new Date();
     const then = new Date(date);
     const diffMs = now.getTime() - then.getTime();
@@ -124,13 +132,13 @@ export default function PostCard({
     <motion.article
       className="glass rounded-2xl p-6 relative group"
       style={{
-        boxShadow: "0 0 30px rgba(157, 124, 216, 0.05)",
+        boxShadow: "0 0 30px rgba(0, 230, 138, 0.05)",
       }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       whileHover={{
-        boxShadow: "0 0 40px rgba(157, 124, 216, 0.1)",
+        boxShadow: "0 0 40px rgba(0, 230, 138, 0.1)",
       }}
     >
       {/* Header */}
@@ -145,7 +153,7 @@ export default function PostCard({
 
           <div>
             <p className="text-elovayne-light text-sm font-body">
-              {isAnonymous ? "Anonymous Soul" : displayName || "Anonymous Soul"}
+              {isAnonymous ? "Anonymous" : displayName || "Someone"}
             </p>
             <p className="text-elovayne-dim text-xs">
               {getTimeAgo(createdAt)}
@@ -161,7 +169,7 @@ export default function PostCard({
           <div className="relative">
             <button
               onClick={() => setShowReportMenu(!showReportMenu)}
-              className="text-elovayne-dim hover:text-elovayne-muted transition-colors opacity-0 group-hover:opacity-100"
+              className="text-elovayne-dim hover:text-elovayne-muted transition-colors opacity-100 sm:opacity-0 group-hover:opacity-100"
             >
               ···
             </button>
@@ -177,7 +185,7 @@ export default function PostCard({
                     <>
                       {confirmDelete ? (
                         <div className="px-3 py-2">
-                          <p className="text-xs text-elovayne-muted mb-2">Delete this post?</p>
+                           <p className="text-xs text-elovayne-muted mb-2">Delete this post?</p>
                           <div className="flex gap-2">
                             <button
                               onClick={() => {
@@ -202,14 +210,14 @@ export default function PostCard({
                           onClick={() => setConfirmDelete(true)}
                           className="w-full text-left px-3 py-2 text-sm text-elovayne-muted hover:text-elovayne-cosmic-pink hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
                         >
-                          Delete this post
+                           Delete this post
                         </button>
                       )}
                     </>
                   )}
                   {showReportReason ? (
                     <div className="px-3 py-2 space-y-2">
-                      <p className="text-xs text-elovayne-muted">Why are you reporting this?</p>
+                       <p className="text-xs text-elovayne-muted">Why does this post need attention?</p>
                       {["Spam", "Inappropriate", "Harmful", "Other"].map((reason) => (
                         <button
                           key={reason}
@@ -231,7 +239,7 @@ export default function PostCard({
                           onClick={() => setShowReportReason(true)}
                           className="w-full text-left px-3 py-2 text-sm text-elovayne-muted hover:text-elovayne-cosmic-pink hover:bg-elovayne-nebula/10 rounded-lg transition-colors"
                         >
-                          Report this post
+                           Report this post
                         </button>
                       )}
                     </>
@@ -244,13 +252,34 @@ export default function PostCard({
       </div>
 
       {/* Content */}
-      <div className={`mb-4 ${contentStyles[contentType]}`}>
-        {contentType === "poem" ? (
-          <div className="whitespace-pre-wrap text-elovayne-light">{content}</div>
-        ) : (
-          <p className="text-elovayne-light">{content}</p>
-        )}
-      </div>
+      {hasContentWarning && !revealed ? (
+        <div className="relative mb-4">
+          <div className={`blur-[6px] pointer-events-none select-none opacity-40 ${contentStyles[contentType]}`}>
+            {contentType === "poem" ? (
+              <div className="whitespace-pre-wrap text-elovayne-light">{content}</div>
+            ) : (
+              <p className="text-elovayne-light">{content}</p>
+            )}
+          </div>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-elovayne-void/60 backdrop-blur-sm rounded-xl">
+            <p className="text-elovayne-muted/60 text-xs mb-2">This post may contain sensitive content</p>
+            <button
+              onClick={() => setRevealed(true)}
+              className="text-elovayne-violet/70 hover:text-elovayne-violet text-xs underline transition-colors"
+            >
+              Reveal post
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className={`mb-4 ${contentStyles[contentType]}`}>
+          {contentType === "poem" ? (
+            <div className="whitespace-pre-wrap text-elovayne-light">{content}</div>
+          ) : (
+            <p className="text-elovayne-light">{content}</p>
+          )}
+        </div>
+      )}
 
       {/* Reactions */}
       <div className="flex items-center gap-2 flex-wrap">
@@ -263,12 +292,21 @@ export default function PostCard({
             return (
               <motion.button
                 key={reaction.type}
-                onClick={() => onReact?.(id, reaction.type)}
+                onClick={() => {
+                  setReactedType(reaction.type);
+                  onReact?.(id, reaction.type);
+                  setTimeout(() => setReactedType(null), 400);
+                }}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all duration-300 ${
                   reaction.userReacted
                     ? "bg-elovayne-nebula/30 border border-elovayne-violet/30"
                     : "bg-elovayne-deep/30 border border-transparent hover:border-elovayne-nebula/20"
                 }`}
+                animate={
+                  reactedType === reaction.type
+                    ? { scale: [1, 1.2, 1], transition: { duration: 0.4 } }
+                    : {}
+                }
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -299,7 +337,7 @@ export default function PostCard({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 10 }}
               >
-                <p className="text-xs text-elovayne-dim mb-2">How did this make you feel?</p>
+                <p className="text-xs text-elovayne-dim mb-2">How did this post make you feel?</p>
                 <div className="grid grid-cols-1 gap-1">
                   {reactions.map((reaction) => (
                     <motion.button

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter, Caveat } from "next/font/google";
 import ClientLayout from "@/components/ClientLayout";
 import "./globals.css";
@@ -20,10 +20,19 @@ const caveat = Caveat({
   weight: ["400", "500", "600", "700"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+  themeColor: "#ffffff",
+};
+
 export const metadata: Metadata = {
-  title: "Elovayne — An Artistic Community Beyond Reality",
+  title: "Elovayne — A Safe Place for Your Soul",
   description:
-    "An artistic community where people escape everyday reality, express themselves, share their stories, and connect through meaningful creative experiences.",
+    "A safe place where people share stories, support each other, and find comfort in knowing they are not alone.",
 };
 
 export default function RootLayout({
@@ -34,9 +43,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${cormorant.variable} ${inter.variable} ${caveat.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-elovayne-void text-elovayne-light font-body">
+      <body className="min-h-full flex flex-col text-elovayne-light font-body">
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

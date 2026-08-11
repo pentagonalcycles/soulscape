@@ -1,0 +1,394 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/AuthProvider";
+import { MuralRoom } from "@/lib/mural/types";
+
+const THEME_COLORS = [
+  "#0d9488", "#06b6d4", "#8b5cf6", "#ec4899",
+  "#f97316", "#10b981", "#3b82f6", "#ef4444",
+];
+
+interface MuralLobbyProps {
+  onJoinRoom: (room: MuralRoom) => void;
+}
+
+export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
+  const { isAdmin } = useAuth();
+  const [rooms, setRooms] = useState<MuralRoom[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showCreate, setShowCreate] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [newTheme, setNewTheme] = useState("#0d9488");
+  const [creating, setCreating] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [clearConfirm, setClearConfirm] = useState(false);
+
+  useEffect(() => {
+    const run = async () => {
+      try {
+        const client = supabase();
+        const { data: { session } } = await client.auth.getSession();
+        if (!session) {
+          const { data: authData } = await client.auth.signInAnonymously();
+          setUserId(authData.user?.id || null);
+        } else {
+          setUserId(session.user.id);
+        }
+
+        const { data } = await client
+          .from("mural_rooms")
+          .select("*")
+          .eq("is_active", true)
+          .order("created_at", { ascending: false })
+          .limit(20);
+        setRooms(data || []);
+      } catch {
+        // silent
+      } finally {
+        setLoading(false);
+      }
+    };
+    run();
+  }, []);
+
+  async function createRoom() {
+    if (!newName.trim() || !userId || creating) return;
+    setCreating(true);
+    try {
+      const client = supabase();
+      const { data } = await client
+        .from("mural_rooms")
+        .insert({
+          name: newName.trim(),
+          theme: newTheme,
+          created_by: userId,
+          canvas_width: 3000,
+          canvas_height: 2000,
+        })
+        .select()
+        .single();
+
+      if (data) {
+        setRooms((prev) => [data, ...prev]);
+        setShowCreate(false);
+        setNewName("");
+        onJoinRoom(data);
+      }
+    } catch {
+      // silent
+    }
+    setCreating(false);
+  }
+
+  async function deleteRoom(roomId: string) {
+    const client = supabase();
+    const { error } = await client
+      .from("mural_rooms")
+      .update({ is_active: false })
+      .eq("id", roomId);
+    if (!error) {
+      setRooms((prev) => prev.filter((r) => r.id !== roomId));
+    }
+  }
+
+  async function clearAllRooms() {
+    const client = supabase();
+    const { error } = await client
+      .from("mural_rooms")
+      .update({ is_active: false })
+      .eq("is_active", true);
+    if (!error) {
+      setRooms([]);
+      setClearConfirm(false);
+    }
+  }
+
+  return (
+    <div
+      className="min-h-screen flex flex-col items-center justify-center p-6"
+      style={{ background: "linear-gradient(135deg, #f0fdf9 0%, #e6f7f2 50%, #dbeafe 100%)" }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-center mb-10"
+      >
+        <Link
+          href="/"
+          className="inline-block mb-4 px-4 py-1.5 rounded-lg text-xs cursor-pointer"
+          style={{
+            background: "rgba(13, 148, 136, 0.06)",
+            border: "1px solid rgba(13, 148, 136, 0.12)",
+            color: "#0d9488",
+            textDecoration: "none",
+          }}
+        >
+          Home
+        </Link>
+        <h1
+          className="text-4xl font-light mb-3"
+          style={{
+            fontFamily: "var(--font-heading)",
+            background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          Collaborative Mural
+        </h1>
+        <p className="text-sm" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+          Paint together. Create something beautiful.
+        </p>
+      </motion.div>
+
+      <div className="flex gap-3 mb-8">
+        <motion.button
+          onClick={() => setShowCreate(true)}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="px-8 py-3 rounded-xl text-white text-sm font-medium cursor-pointer"
+          style={{
+            background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+            boxShadow: "0 4px 20px rgba(13, 148, 136, 0.3)",
+          }}
+        >
+          + Create New Room
+        </motion.button>
+
+        {rooms.length > 0 && isAdmin && (
+          <>
+            {clearConfirm ? (
+              <div className="flex items-center gap-2">
+                <span className="text-xs" style={{ color: "rgba(15,23,42,0.4)" }}>Clear all?</span>
+                <button
+                  onClick={clearAllRooms}
+                  className="px-3 py-2 rounded-xl text-xs cursor-pointer text-white"
+                  style={{ background: "#ef4444" }}
+                >
+                  Yes, clear all
+                </button>
+                <button
+                  onClick={() => setClearConfirm(false)}
+                  className="px-3 py-2 rounded-xl text-xs cursor-pointer"
+                  style={{ background: "rgba(13,148,136,0.06)", border: "1px solid rgba(13,148,136,0.12)", color: "rgba(15,23,42,0.5)" }}
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <motion.button
+                onClick={() => setClearConfirm(true)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-6 py-3 rounded-xl text-sm cursor-pointer"
+                style={{
+                  background: "rgba(239, 68, 68, 0.06)",
+                  border: "1px solid rgba(239, 68, 68, 0.15)",
+                  color: "#ef4444",
+                }}
+              >
+                Clear All Rooms
+              </motion.button>
+            )}
+          </>
+        )}
+      </div>
+
+      {loading ? (
+        <div className="text-sm" style={{ color: "rgba(15, 23, 42, 0.3)" }}>
+          Loading rooms...
+        </div>
+      ) : rooms.length === 0 ? (
+        <div className="text-center" style={{ color: "rgba(15, 23, 42, 0.3)" }}>
+          <p className="text-lg mb-2">No active rooms</p>
+          <p className="text-sm">Create one to start painting together</p>
+        </div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="grid gap-4 w-full max-w-2xl"
+          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}
+        >
+          {rooms.map((room, i) => (
+            <motion.div
+              key={room.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              className="p-5 rounded-xl relative group"
+              style={{
+                background: "rgba(13, 148, 136, 0.06)",
+                backdropFilter: "blur(12px)",
+                border: `1px solid ${room.theme}33`,
+              }}
+            >
+              <button
+                onClick={() => onJoinRoom(room)}
+                className="w-full text-left cursor-pointer"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div
+                    className="w-4 h-4 rounded-full"
+                    style={{ background: room.theme, boxShadow: `0 0 12px ${room.theme}66` }}
+                  />
+                  <span className="font-medium text-sm" style={{ color: "#0f172a" }}>
+                    {room.name}
+                  </span>
+                </div>
+                <p className="text-xs" style={{ color: "rgba(15, 23, 42, 0.35)" }}>
+                  {room.canvas_width} x {room.canvas_height}
+                </p>
+              </button>
+              <div className="mt-3 flex gap-2">
+                  {deleteConfirm === room.id ? (
+                    <>
+                      <span className="text-xs py-1" style={{ color: "rgba(15,23,42,0.4)" }}>Delete?</span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteRoom(room.id);
+                          setDeleteConfirm(null);
+                        }}
+                        className="px-2 py-1 rounded text-xs cursor-pointer text-white"
+                        style={{ background: "#ef4444" }}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDeleteConfirm(null);
+                        }}
+                        className="px-2 py-1 rounded text-xs cursor-pointer"
+                        style={{ background: "rgba(13,148,136,0.06)", border: "1px solid rgba(13,148,136,0.12)", color: "rgba(15,23,42,0.5)" }}
+                      >
+                        No
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteConfirm(room.id);
+                      }}
+                      className="px-2 py-1 rounded text-xs cursor-pointer"
+                      style={{
+                        background: "rgba(239, 68, 68, 0.08)",
+                        color: "#ef4444",
+                        border: "1px solid rgba(239, 68, 68, 0.15)",
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
+
+      <AnimatePresence>
+        {showCreate && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.3)", backdropFilter: "blur(8px)" }}
+            onClick={() => setShowCreate(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="p-6 w-full max-w-sm rounded-xl"
+              style={{
+                background: "var(--card-bg, rgba(255,255,255,0.95))",
+                backdropFilter: "blur(16px)",
+                border: "1px solid rgba(13, 148, 136, 0.12)",
+              }}
+            >
+              <h2
+                className="text-xl mb-4 font-light"
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Create a Room
+              </h2>
+
+              <input
+                type="text"
+                placeholder="Room name..."
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                maxLength={40}
+                className="w-full px-4 py-2.5 rounded-lg text-sm mb-4 outline-none"
+                style={{
+                  background: "rgba(13, 148, 136, 0.06)",
+                  border: "1px solid rgba(13, 148, 136, 0.12)",
+                  color: "#0f172a",
+                }}
+                autoFocus
+                onKeyDown={(e) => e.key === "Enter" && createRoom()}
+              />
+
+              <p className="text-xs mb-2" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+                Theme color
+              </p>
+              <div className="flex gap-2 mb-5">
+                {THEME_COLORS.map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setNewTheme(c)}
+                    className="w-7 h-7 rounded-full cursor-pointer transition-transform"
+                    style={{
+                      background: c,
+                      boxShadow: newTheme === c ? `0 0 0 2px white, 0 0 0 4px ${c}` : "none",
+                      transform: newTheme === c ? "scale(1.15)" : "scale(1)",
+                    }}
+                  />
+                ))}
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowCreate(false)}
+                  className="flex-1 px-4 py-2 rounded-lg text-sm cursor-pointer"
+                  style={{
+                    background: "rgba(13, 148, 136, 0.06)",
+                    border: "1px solid rgba(13, 148, 136, 0.12)",
+                    color: "rgba(15, 23, 42, 0.6)",
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={createRoom}
+                  disabled={!newName.trim() || creating}
+                  className="flex-1 px-4 py-2 rounded-lg text-sm text-white cursor-pointer disabled:opacity-50"
+                  style={{
+                    background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                  }}
+                >
+                  {creating ? "Creating..." : "Create"}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

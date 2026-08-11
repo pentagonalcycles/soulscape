@@ -15,7 +15,7 @@ export default function NotFound() {
         className="fixed inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(5, 5, 16, 0.8) 100%)",
+            "radial-gradient(ellipse at center, transparent 40%, rgba(13, 148, 136, 0.03) 100%)",
           zIndex: 2,
         }}
       />
@@ -42,32 +42,32 @@ export default function NotFound() {
           </motion.span>
 
           <h1 className="font-heading text-6xl md:text-7xl text-elovayne-light glow-text-strong mb-4">
-            Lost in the void
+            You&apos;ve gone somewhere that doesn&apos;t exist yet.
           </h1>
 
           <p className="font-accent text-xl text-elovayne-muted mb-10 max-w-md mx-auto">
-            This corner of the universe hasn&apos;t been created yet.
-            But there are plenty of worlds waiting for you.
+            This page doesn&apos;t exist yet.
+            But there are plenty of other pages waiting for you.
           </p>
 
-          <Link href="/sanctuary">
+          <Link href="/">
             <motion.span
               className="inline-block px-8 py-4 rounded-full font-heading text-lg tracking-wider text-elovayne-light cursor-pointer"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(107, 63, 160, 0.8), rgba(157, 124, 216, 0.8))",
-                boxShadow: "0 0 30px rgba(157, 124, 216, 0.3)",
+                  "linear-gradient(135deg, rgba(13, 148, 136, 0.7), rgba(13, 148, 136, 0.8))",
+                boxShadow: "0 0 30px rgba(13, 148, 136, 0.3)",
               }}
               whileHover={{
                 scale: 1.05,
-                boxShadow: "0 0 50px rgba(157, 124, 216, 0.5)",
+                boxShadow: "0 0 50px rgba(13, 148, 136, 0.5)",
               }}
               whileTap={{ scale: 0.98 }}
               animate={{
                 boxShadow: [
-                  "0 0 30px rgba(157, 124, 216, 0.3)",
-                  "0 0 50px rgba(157, 124, 216, 0.5)",
-                  "0 0 30px rgba(157, 124, 216, 0.3)",
+                  "0 0 30px rgba(13, 148, 136, 0.3)",
+                  "0 0 50px rgba(13, 148, 136, 0.5)",
+                  "0 0 30px rgba(13, 148, 136, 0.3)",
                 ],
               }}
               transition={{
@@ -78,7 +78,7 @@ export default function NotFound() {
                 },
               }}
             >
-              Return to the Sanctuary
+              Return home
             </motion.span>
           </Link>
         </motion.div>
