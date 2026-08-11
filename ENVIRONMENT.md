@@ -21,6 +21,29 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key_here
 
 ---
 
+## Optional Variables
+
+### Elyra AI (OpenRouter)
+
+```env
+OPENROUTER_API_KEY=your_openrouter_key_here
+```
+
+Get an API key from [OpenRouter](https://openrouter.ai/). Without this, Elyra AI chat will use fallback responses.
+
+### Stripe (Shop & Memberships)
+
+```env
+STRIPE_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+STRIPE_MONTHLY_PRICE_ID=price_...
+```
+
+Get these from [Stripe Dashboard](https://dashboard.stripe.com/). Without these, the shop and Plus membership features will not work.
+
+---
+
 ## Vercel Deployment
 
 Environment variables are configured in the Vercel dashboard:
@@ -59,8 +82,17 @@ DNS Configuration (Namecheap):
 Create `.env.local` in the project root:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key_here
+NEXT_PUBLIC_SUPABASE_URL=https://wfecrsaagihhhxsuvyyf.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_actual_publishable_key
+```
+
+Optional:
+```env
+OPENROUTER_API_KEY=your_openrouter_key
+STRIPE_SECRET_KEY=your_stripe_secret_key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+STRIPE_MONTHLY_PRICE_ID=your_price_id
 ```
 
 Never commit `.env.local` to git (it's in `.gitignore`).
@@ -102,3 +134,12 @@ Never commit `.env.local` to git (it's in `.gitignore`).
 - This means anonymous auth is failing — go to **Authentication → Providers** in Supabase dashboard
 - Ensure **Anonymous** sign-in is enabled (ticked)
 - If it was disabled, enable it and test again — no redeploy needed
+
+### Elyra AI not responding
+- Ensure `OPENROUTER_API_KEY` is set in environment variables
+- Check that the key is valid at [OpenRouter](https://openrouter.ai/keys)
+
+### Shop/Stripe not working
+- Ensure all Stripe environment variables are set
+- For webhooks, configure the Stripe webhook endpoint in Stripe Dashboard → Developers → Webhooks
+- Webhook URL: `https://elovayne.com/api/stripe/webhook`

@@ -6,17 +6,19 @@ Elovayne is an immersive artistic community website. It's a dreamlike escape fro
 
 **Core message:** "An artistic community where people escape everyday reality, express themselves, share their stories, and connect through meaningful creative experiences."
 
+**Contributors:** Marco (founder), Tatiana Bianchi (primary developer)
+
 ---
 
 ## Design Language
 
-**Visual theme:** Galaxy / Dream aesthetic
+**Visual theme:** Light, airy, teal/cyan aesthetic
 
 ### Colors
-- Background: Deep space (`#050510`, `#0a0a2e`)
-- Primary: Nebula purple (`#6b3fa0`)
-- Accent: Violet (`#9d7cd8`), Cosmic pink (`#e879a8`), Gold (`#f5d062`)
-- Text: Soft lavender white (`#e8e0f0`)
+- Background: White (`#ffffff`), Gradient mint (`#f0fdf9`)
+- Primary: Teal (`#0891b2`)
+- Accent: Emerald (`#0d9488`), Cyan (`#06b6d4`), Green (`#10b981`)
+- Text: Dark slate (`#0f172a`), Secondary (`#334155`), Muted (`#64748b`)
 
 ### Typography
 - Headings: Cormorant Garamond (elegant, ethereal)
@@ -25,16 +27,16 @@ Elovayne is an immersive artistic community website. It's a dreamlike escape fro
 
 ### Animations
 - **Always** use slow, breathing, organic motion
-- Transitions should fade through dark (like between dream scenes)
-- Never use snappy or abrupt animations
 - Use `cubic-bezier(0.25, 0.46, 0.45, 0.94)` for dream-like easing
+- Animation speed controlled by `--anim-duration-multiplier` CSS variable
 
 ### Effects
 - Glass morphism: `backdrop-filter: blur(12px)` with semi-transparent backgrounds
-- Glow: `box-shadow` and `text-shadow` with violet/purple hues
+- Glow: `box-shadow` with teal/cyan hues
 - Particles: Canvas-based starfield with mouse parallax
 - Nebula: Animated radial gradients with blur
-- Ambient sound: Web Audio API procedural tones per room
+- Celestial borders: SVG moons, crystals, lotus flowers, filigree
+- Cosmic gradients: Animated blurred gradient blobs
 
 ---
 
@@ -71,6 +73,7 @@ Each room has its own atmosphere:
 
 | Room | Colors | Particle Style |
 |------|--------|----------------|
+| Sanctuary | Purple/Violet | Cosmic, ethereal |
 | Healing | Teal/Green | Slow, wave motion |
 | Hope | Amber/Gold | Rising particles |
 | Loneliness | Blue/Silver | Sparse, stillness |
@@ -90,22 +93,48 @@ Each room has its own atmosphere:
 
 ## Key Components
 
-- `Starfield.tsx` — Canvas particle background (toggleable via user preferences)
+- `Starfield.tsx` — Canvas particle starfield (toggleable)
 - `Nebula.tsx` — Animated nebula gradient blobs (intensity-aware)
 - `GlowingPortal.tsx` — Breathing portal with exit transition
-- `Navigation.tsx` — Shared navigation header (replaces duplicated headers)
+- `Navigation.tsx` — Shared navigation header (sidebar with 17+ feature links)
 - `PostCreator.tsx` — Post creation with identity selector (text/poem/story/art) + room selector
 - `PostCard.tsx` — Post display with 5 meaningful reactions, save, delete, report
-- `SanctuaryFeed.tsx` — Feed component (Supabase-powered, uses `supabase()` function, includes community stats)
+- `SanctuaryFeed.tsx` — Feed component (Supabase-powered, includes community stats)
+- `SanctuaryComposer.tsx` — Expandable whisper composer with mood selector, anonymous/named toggle, content warnings
+- `WhisperCard.tsx` — Sanctuary post card with reactions, reply threads, content-warning blur
 - `SaveButton.tsx` — Bookmark/save toggle on posts
 - `LoadingSkeleton.tsx` — Animated loading placeholders for feeds
-- `AmbientSound.tsx` — Web Audio API procedural ambient tones per room
-- `ElovayneLogo.tsx` — Logo image with glow animation (uses CSS mask + mix-blend-mode: screen for transparent background)
-- `AuthProvider.tsx` — Auth (anonymous + email magic link) + user profile + preferences (context provider)
+- `ElovayneLogo.tsx` — Logo image with glow animation (CSS mask + mix-blend-mode)
+- `AuthProvider.tsx` — Auth (anonymous + email magic link) + user profile + preferences + admin check
 - `ThemeContext.tsx` — Dynamic CSS variable theming based on user preferences
 - `ClientLayout.tsx` — Client wrapper for AuthProvider + ThemeProvider + Footer + WelcomeModal
 - `Footer.tsx` — Site-wide footer with links (About, Guidelines, Privacy, Crisis Support)
 - `WelcomeModal.tsx` — First-time visitor onboarding with quick actions
+- `CelestialBorder.tsx` — SVG decorative border with moons, crystals, lotus, filigree, stars
+- `CosmicGradient.tsx` — Animated blurred gradient blobs (5 color sets)
+- `ArtisticBackground.tsx` — Rich background with nebula orbs, constellations, particles, energy waves
+- `ElyraChat.tsx` — AI companion chat with streaming SSE, mood detection, localStorage history
+- `PremiumGate.tsx` — Glass-card overlay gating premium content behind Plus upgrade
+- `PlusBadge.tsx` — Inline "PLUS" badge for premium features
+- `ShopProductImage.tsx` — SVG animated product images for the shop
+- `ServiceWorkerRegistration.tsx` — PWA service worker registration
+- `CanvasToolbar.tsx` — Drawing tools for Dream Canvas (32 brush types)
+- `DreamCanvas.tsx` — Browser-based drawing/painting app with export
+- `campfire/` — Real-time anonymous group chat around virtual campfire
+- `cosmic-camera/` — In-browser camera with 36 CSS filters and timer
+- `dream-world/` — 2D tile-based sandbox with procedural generation and crafting
+- `human-signal/` — Anonymous emotional signal connection system
+- `human-weather/` — Collective emotion visualization as weather
+- `ideas/` — Community feature-request voting board
+- `mural/` — Real-time collaborative painting canvas
+- `nebula-orb/` — Multiplayer cosmic arena game
+- `nera/` — Anonymous story sharing with atmospheric backgrounds
+- `poetry/` — Daily poetry composition with rotating prompts
+- `reflection-room/` — Private journaling with daily prompts and streak tracking
+- `soul-echo/` — Anonymous matching connecting two strangers
+- `soul-map/` — Self-discovery mandala builder with daily questions
+- `stargazing/` — Night sky with anonymous messages in stars
+- `unseen/` — Anonymous human-connection with profile creation and reveal mechanics
 
 ---
 
@@ -137,6 +166,8 @@ The 5 reactions (not "likes"):
 - `reports` — Content moderation (with reason: spam/inappropriate/harmful/other)
 - `journals` — Private user journals (with mood tracking)
 - `user_preferences` — UI personalization settings (colors, animations, layout, sound)
+- `memberships` — Elovayne Plus membership status and plan
+- `admin_users` — Admin role assignments
 
 ### RLS Policies
 - Rooms: Anyone can view
@@ -201,3 +232,4 @@ vercel --prod    # Deploy to production
 - **Phase 3:** ✅ Complete — Personal Space (profiles, saves, UI personalization)
 - **Phase 4:** ✅ Complete — Polish & Launch (email auth, journals, sound, moderation, 404)
 - **Phase 5:** ✅ Complete — Trust, Clarity & Engagement (about page, welcome modal, new rooms, footer, prompts, logo)
+- **Phase 6:** ✅ Complete — Immersive Experiences (Dream Canvas, Dream World, Campfire, Cosmic Camera, Human Signal, Human Weather, Nebula Orb, Soul Echo, Soul Map, Unseen, Wish Lanterns, Elyra AI, Shop, Poetry, Mural, Stargazing, Nera, Ideas, Admin, FAQ, Support)
