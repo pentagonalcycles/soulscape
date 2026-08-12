@@ -33,17 +33,25 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
 
   useEffect(() => {
     const init = async () => {
-      const client = supabase();
-      const { data } = await client
-        .from("campfire_rooms")
-        .select("*")
-        .eq("is_active", true)
-        .order("is_preset", { ascending: false })
-        .order("created_at", { ascending: false })
-        .limit(20);
+      try {
+        const client = supabase();
+        console.log("[Campfire] Fetching rooms...");
+        const { data, error } = await client
+          .from("campfire_rooms")
+          .select("*")
+          .eq("is_active", true)
+          .order("is_preset", { ascending: false })
+          .order("created_at", { ascending: false })
+          .limit(20);
 
-      setRooms(data || []);
-      setLoading(false);
+        console.log("[Campfire] Fetch result:", { count: data?.length, error: error?.message });
+        if (error) console.error("[Campfire] Fetch error:", error);
+        setRooms(data || []);
+      } catch (e) {
+        console.error("[Campfire] Fetch exception:", e);
+      } finally {
+        setLoading(false);
+      }
     };
     init();
   }, []);

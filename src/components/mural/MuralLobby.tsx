@@ -32,15 +32,18 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
     const run = async () => {
       try {
         const client = supabase();
-        const { data } = await client
+        console.log("[Mural] Fetching rooms...");
+        const { data, error } = await client
           .from("mural_rooms")
           .select("*")
           .eq("is_active", true)
           .order("created_at", { ascending: false })
           .limit(20);
+        console.log("[Mural] Fetch result:", { count: data?.length, error: error?.message });
+        if (error) console.error("[Mural] Fetch error:", error);
         setRooms(data || []);
-      } catch {
-        // silent
+      } catch (e) {
+        console.error("[Mural] Fetch exception:", e);
       } finally {
         setLoading(false);
       }
