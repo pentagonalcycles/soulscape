@@ -3,19 +3,23 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CampfireMessage } from "@/lib/campfire/types";
+import { CampfireTheme } from "./CampfirePage";
 
 interface CampfireChatProps {
   messages: CampfireMessage[];
   onSend: (text: string) => void;
   onTyping: () => void;
   onStopTyping: () => void;
+  theme: CampfireTheme;
 }
 
-export default function CampfireChat({ messages, onSend, onTyping, onStopTyping }: CampfireChatProps) {
+export default function CampfireChat({ messages, onSend, onTyping, onStopTyping, theme }: CampfireChatProps) {
   const [text, setText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const typingRef = useRef(false);
+
+  const isLight = theme === "light";
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -49,13 +53,11 @@ export default function CampfireChat({ messages, onSend, onTyping, onStopTyping 
     }
   }
 
-  // Get typing users
   const typingUsers = messages
     .filter((m) => m.type === "typing" && m.text === "")
     .map((m) => m.name);
   const uniqueTypingUsers = [...new Set(typingUsers)].slice(0, 3);
 
-  // Get regular messages (not typing indicators)
   const displayMessages = messages.filter((m) => m.type !== "typing" || m.text !== "");
 
   return (
@@ -66,12 +68,14 @@ export default function CampfireChat({ messages, onSend, onTyping, onStopTyping 
       className="fixed bottom-0 left-0 right-0 z-40"
     >
       <div
-        className="mx-auto w-full max-w-2xl"
+        className="mx-auto w-full max-w-2xl transition-colors duration-500"
         style={{
-          background: "rgba(20, 10, 5, 0.85)",
+          background: isLight ? "rgba(250, 246, 240, 0.92)" : "rgba(20, 10, 5, 0.85)",
           backdropFilter: "blur(16px)",
-          borderTop: "1px solid rgba(245, 158, 11, 0.15)",
-          boxShadow: "0 -8px 40px rgba(0, 0, 0, 0.3)",
+          borderTop: `1px solid ${isLight ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.15)"}`,
+          boxShadow: isLight
+            ? "0 -8px 40px rgba(0, 0, 0, 0.08)"
+            : "0 -8px 40px rgba(0, 0, 0, 0.3)",
         }}
       >
         {/* Messages area */}
@@ -80,7 +84,10 @@ export default function CampfireChat({ messages, onSend, onTyping, onStopTyping 
           style={{ maxHeight: "min(200px, 40vh)", minHeight: "80px" }}
         >
           {displayMessages.length === 0 ? (
-            <p className="text-center py-6 text-xs" style={{ color: "rgba(245, 158, 11, 0.25)" }}>
+            <p
+              className="text-center py-6 text-xs"
+              style={{ color: isLight ? "rgba(245, 158, 11, 0.35)" : "rgba(245, 158, 11, 0.25)" }}
+            >
               The fire crackles softly. Say something.
             </p>
           ) : (
@@ -93,7 +100,10 @@ export default function CampfireChat({ messages, onSend, onTyping, onStopTyping 
                 className="mb-2"
               >
                 {msg.type === "system" ? (
-                  <p className="text-center text-xs italic" style={{ color: "rgba(245, 158, 11, 0.4)" }}>
+                  <p
+                    className="text-center text-xs italic"
+                    style={{ color: isLight ? "rgba(200, 120, 20, 0.5)" : "rgba(245, 158, 11, 0.4)" }}
+                  >
                     {msg.text}
                   </p>
                 ) : (
@@ -108,7 +118,10 @@ export default function CampfireChat({ messages, onSend, onTyping, onStopTyping 
                       <span className="text-[11px] font-medium" style={{ color: msg.color }}>
                         {msg.name}
                       </span>
-                      <p className="text-xs break-words" style={{ color: "rgba(255, 255, 255, 0.75)" }}>
+                      <p
+                        className="text-xs break-words"
+                        style={{ color: isLight ? "rgba(30, 20, 10, 0.75)" : "rgba(255, 255, 255, 0.75)" }}
+                      >
                         {msg.text}
                       </p>
                     </div>
@@ -129,13 +142,16 @@ export default function CampfireChat({ messages, onSend, onTyping, onStopTyping 
               exit={{ opacity: 0, height: 0 }}
               className="px-4 py-1"
             >
-              <p className="text-[10px] flex items-center gap-1" style={{ color: "rgba(245, 158, 11, 0.4)" }}>
+              <p
+                className="text-[10px] flex items-center gap-1"
+                style={{ color: isLight ? "rgba(200, 120, 20, 0.5)" : "rgba(245, 158, 11, 0.4)" }}
+              >
                 <span className="flex gap-0.5">
                   {[0, 1, 2].map((dot) => (
                     <motion.span
                       key={dot}
                       className="w-1 h-1 rounded-full"
-                      style={{ background: "rgba(245, 158, 11, 0.5)" }}
+                      style={{ background: isLight ? "rgba(200, 120, 20, 0.6)" : "rgba(245, 158, 11, 0.5)" }}
                       animate={{ opacity: [0.3, 1, 0.3] }}
                       transition={{ duration: 1, repeat: Infinity, delay: dot * 0.2 }}
                     />
@@ -150,7 +166,10 @@ export default function CampfireChat({ messages, onSend, onTyping, onStopTyping 
         </AnimatePresence>
 
         {/* Input area */}
-        <div className="flex gap-2 p-3" style={{ borderTop: "1px solid rgba(245, 158, 11, 0.08)" }}>
+        <div
+          className="flex gap-2 p-3"
+          style={{ borderTop: `1px solid ${isLight ? "rgba(245, 158, 11, 0.12)" : "rgba(245, 158, 11, 0.08)"}` }}
+        >
           <input
             ref={inputRef}
             type="text"
@@ -159,11 +178,11 @@ export default function CampfireChat({ messages, onSend, onTyping, onStopTyping 
             onKeyDown={handleKeyDown}
             placeholder="Speak by the fire..."
             maxLength={200}
-            className="flex-1 px-4 py-2 rounded-xl text-xs outline-none"
+            className="flex-1 px-4 py-2 rounded-xl text-xs outline-none transition-colors"
             style={{
-              background: "rgba(245, 158, 11, 0.06)",
-              border: "1px solid rgba(245, 158, 11, 0.12)",
-              color: "rgba(255, 255, 255, 0.85)",
+              background: isLight ? "rgba(245, 158, 11, 0.08)" : "rgba(245, 158, 11, 0.06)",
+              border: `1px solid ${isLight ? "rgba(245, 158, 11, 0.18)" : "rgba(245, 158, 11, 0.12)"}`,
+              color: isLight ? "rgba(30, 20, 10, 0.85)" : "rgba(255, 255, 255, 0.85)",
             }}
           />
           <button

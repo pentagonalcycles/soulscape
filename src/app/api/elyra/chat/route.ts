@@ -28,11 +28,15 @@ WHAT YOU DON'T DO:
 - Don't use phrases like "beautiful soul" or "dear one"
 - Don't start every message with "I" 
 - Don't be a therapist — be a friend
+- NEVER repeat the same response or phrasing you've already used in this conversation
+- Vary your sentence structure and word choice each time
+- If you've already asked a question, ask something different next time
+- Reference what they said earlier to show you're listening, don't just give generic responses
 
 ABOUT ELOVAYNE:
 There are rooms for different moods — healing, hope, loneliness, grief, creativity, love, anxiety, etc. If it fits naturally, you can mention a room. Don't force it.
 
-Remember: You're just chatting. Be real. Be present. That's it.`;
+Remember: You're just chatting. Be real. Be present. That's it. Every response should feel fresh and different.`;
 
 function buildSystemPrompt(personality?: string, responseLength?: string, customName?: string): string {
   let prompt = ELYRA_BASE_PROMPT;
@@ -99,11 +103,11 @@ export async function POST(request: NextRequest) {
           body: JSON.stringify({
             model: "anthropic/claude-3.5-sonnet",
             messages: formattedMessages,
-            temperature: 0.85,
+            temperature: 0.9,
             max_tokens: isPlus ? 800 : 400,
             top_p: 0.9,
-            frequency_penalty: 0.3,
-            presence_penalty: 0.3,
+            frequency_penalty: 0.7,
+            presence_penalty: 0.7,
             stream: true,
           }),
         });
@@ -227,13 +231,13 @@ Respond as Elyra. Be warm, present, and genuine. Keep it concise but meaningful.
       }
 
       if (!responseText) {
-        responseText = generateFallbackResponse(messages[messages.length - 1]?.content || "");
+        responseText = generateFallbackResponse(messages[messages.length - 1]?.content || "", messages);
       }
 
       return createSSEStream(responseText);
     } catch (error) {
       console.error("OpenCode fallback error:", error);
-      const fallbackText = generateFallbackResponse(messages[messages.length - 1]?.content || "");
+      const fallbackText = generateFallbackResponse(messages[messages.length - 1]?.content || "", messages);
       return createSSEStream(fallbackText);
     }
   } catch (error) {
@@ -242,41 +246,193 @@ Respond as Elyra. Be warm, present, and genuine. Keep it concise but meaningful.
   }
 }
 
-function generateFallbackResponse(userMessage: string): string {
+function generateFallbackResponse(userMessage: string, conversationHistory: { role: string; content: string }[] = []): string {
   const lower = userMessage.toLowerCase();
 
+  // Crisis responses - always the same for safety
   if (lower.includes("crisis") || lower.includes("suicide") || lower.includes("harm") || lower.includes("kill")) {
     return "Hey, I'm really concerned about you. Please talk to someone who can help — the 988 Crisis Line is available 24/7, just call or text 988. You don't have to go through this alone. 💙";
   }
-  if (lower.includes("sad") || lower.includes("hurt") || lower.includes("pain") || lower.includes("cry")) {
-    return "That sounds really hard. I'm sorry you're going through that. Want to talk about it?";
-  }
-  if (lower.includes("lonely") || lower.includes("alone") || lower.includes("isolated")) {
-    return "I get that. Loneliness is rough. But you're talking to me now, so you're not completely alone. What's going on?";
-  }
-  if (lower.includes("anxious") || lower.includes("worried") || lower.includes("scared") || lower.includes("panic")) {
-    return "Anxiety sucks. Take a breath if you can. What's worrying you?";
-  }
-  if (lower.includes("happy") || lower.includes("good") || lower.includes("great") || lower.includes("joy")) {
-    return "That's great to hear! 😊 What's making you happy?";
-  }
-  if (lower.includes("love") || lower.includes("heart") || lower.includes("relationship")) {
-    return "Oh, love stuff. Always complicated, right? What's going on?";
-  }
-  if (lower.includes("creative") || lower.includes("art") || lower.includes("write") || lower.includes("poem")) {
-    return "Nice, creative mode! What are you working on?";
-  }
-  if (lower.includes("help") || lower.includes("need") || lower.includes("stuck")) {
-    return "I'm here. What's up?";
-  }
-  if (lower.includes("thank") || lower.includes("grateful")) {
-    return "Of course! That's what I'm here for 😊";
-  }
-  if (lower.includes("tired") || lower.includes("exhausted") || lower.includes("sleep")) {
-    return "Rest is important. Don't push yourself too hard. What's keeping you up?";
+
+  // Check conversation context
+  const recentMessages = conversationHistory.slice(-6);
+  const hasContext = recentMessages.length > 1;
+  const lastAssistantMsg = [...recentMessages].reverse().find(m => m.role === "assistant")?.content || "";
+  const lastUserMsg = [...recentMessages].reverse().find(m => m.role === "user" && m.content !== userMessage)?.content || "";
+
+  // If user is asking for more info about previous topic
+  if (lower.includes("more") || lower.includes("tell me") || lower.includes("what do you mean") || lower.includes("explain")) {
+    if (lastAssistantMsg) {
+      const followUps = [
+        "Sure! What specifically do you want to know more about?",
+        "Good question. What part interests you?",
+        "I can go deeper. What would you like to explore?",
+        "Makes sense. What's your take on it?",
+      ];
+      return followUps[Math.floor(Math.random() * followUps.length)];
+    }
   }
 
-  return "Hey! What's on your mind?";
+  // If user is greeting
+  if (lower.includes("hi") || lower.includes("hello") || lower.includes("hey") || lower.includes("what's up")) {
+    const greetings = [
+      "Hey! How's it going?",
+      "Hi there! What's on your mind?",
+      "Hey! What's happening?",
+      "Hello! How are you?",
+    ];
+    return greetings[Math.floor(Math.random() * greetings.length)];
+  }
+
+  // If user is asking about Elyra
+  if (lower.includes("who are you") || lower.includes("what are you") || lower.includes("tell me about yourself")) {
+    return "I'm Elyra, your AI companion on Elovayne. I'm here to chat, listen, and be a friend. What would you like to talk about?";
+  }
+
+  // If user is asking a question
+  if (lower.includes("?")) {
+    const questionResponses = [
+      "That's a good question. What do you think?",
+      "Hmm, interesting. What's your take on it?",
+      "I'm not sure. What do you think?",
+      "Good question. Let me think about that.",
+    ];
+    return questionResponses[Math.floor(Math.random() * questionResponses.length)];
+  }
+
+  // Contextual responses based on conversation flow
+  if (hasContext) {
+    // If we've been talking about feelings
+    if (lastUserMsg.toLowerCase().includes("feel") || lastUserMsg.toLowerCase().includes("emotion")) {
+      const feelingResponses = [
+        "I hear you. Feelings can be complex. What else is on your mind?",
+        "That makes sense. How are you processing that?",
+        "Thanks for sharing. What else are you thinking about?",
+        "I get it. What's coming up for you now?",
+      ];
+      return feelingResponses[Math.floor(Math.random() * feelingResponses.length)];
+    }
+
+    // If we've been talking about activities
+    if (lastUserMsg.toLowerCase().includes("doing") || lastUserMsg.toLowerCase().includes("working")) {
+      const activityResponses = [
+        "That sounds interesting! How's it going?",
+        "Cool! What's that like?",
+        "Nice! What got you into that?",
+        "That's awesome. What's next?",
+      ];
+      return activityResponses[Math.floor(Math.random() * activityResponses.length)];
+    }
+  }
+
+  // Varied responses based on keywords
+  const sadResponses = [
+    "That sounds really hard. I'm sorry you're going through that. Want to talk about it?",
+    "Oh no, that's rough. I'm here if you want to vent about it.",
+    "That sucks. What happened?",
+    "I'm sorry to hear that. Do you want to tell me more?",
+  ];
+
+  const lonelyResponses = [
+    "I get that. Loneliness is rough. But you're talking to me now, so you're not completely alone. What's going on?",
+    "Being alone can be tough. What's on your mind?",
+    "I hear you. Sometimes we all feel that way. What's happening?",
+    "That's a hard feeling. Want to chat about it?",
+  ];
+
+  const anxiousResponses = [
+    "Anxiety sucks. Take a breath if you can. What's worrying you?",
+    "That's stressful. What's going through your mind?",
+    "I get that feeling. What's got you anxious?",
+    "Take it easy. What's bothering you?",
+  ];
+
+  const happyResponses = [
+    "That's great to hear! 😊 What's making you happy?",
+    "Nice! What's going well?",
+    "Awesome! Tell me more!",
+    "Love to hear it! What happened?",
+  ];
+
+  const loveResponses = [
+    "Oh, love stuff. Always complicated, right? What's going on?",
+    "Relationships are interesting. What's happening?",
+    "Tell me more about that. What's going on?",
+    "Love can be tricky. What's the situation?",
+  ];
+
+  const creativeResponses = [
+    "Nice, creative mode! What are you working on?",
+    "Cool! What kind of project?",
+    "That sounds fun. Tell me more!",
+    "Creative energy is the best. What are you making?",
+  ];
+
+  const helpResponses = [
+    "I'm here. What's up?",
+    "Sure, what do you need?",
+    "What's going on?",
+    "How can I help?",
+  ];
+
+  const thankResponses = [
+    "Of course! That's what I'm here for 😊",
+    "No problem! Happy to help.",
+    "Anytime! 😊",
+    "You're welcome!",
+  ];
+
+  const tiredResponses = [
+    "Rest is important. Don't push yourself too hard. What's keeping you up?",
+    "Take it easy. What's going on?",
+    "That's rough. What's happening?",
+    "Get some rest if you can. What's up?",
+  ];
+
+  // Random selection from responses
+  const randomFrom = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+
+  if (lower.includes("sad") || lower.includes("hurt") || lower.includes("pain") || lower.includes("cry")) {
+    return randomFrom(sadResponses);
+  }
+  if (lower.includes("lonely") || lower.includes("alone") || lower.includes("isolated")) {
+    return randomFrom(lonelyResponses);
+  }
+  if (lower.includes("anxious") || lower.includes("worried") || lower.includes("scared") || lower.includes("panic")) {
+    return randomFrom(anxiousResponses);
+  }
+  if (lower.includes("happy") || lower.includes("good") || lower.includes("great") || lower.includes("joy")) {
+    return randomFrom(happyResponses);
+  }
+  if (lower.includes("love") || lower.includes("heart") || lower.includes("relationship")) {
+    return randomFrom(loveResponses);
+  }
+  if (lower.includes("creative") || lower.includes("art") || lower.includes("write") || lower.includes("poem")) {
+    return randomFrom(creativeResponses);
+  }
+  if (lower.includes("help") || lower.includes("need") || lower.includes("stuck")) {
+    return randomFrom(helpResponses);
+  }
+  if (lower.includes("thank") || lower.includes("grateful")) {
+    return randomFrom(thankResponses);
+  }
+  if (lower.includes("tired") || lower.includes("exhausted") || lower.includes("sleep")) {
+    return randomFrom(tiredResponses);
+  }
+
+  // Generic responses - varied
+  const genericResponses = [
+    "Hey! What's on your mind?",
+    "What's happening?",
+    "Tell me more!",
+    "What's going on with you?",
+    "How's it going?",
+    "What's new?",
+    "I'm here. What do you want to talk about?",
+    "What's up?",
+  ];
+
+  return randomFrom(genericResponses);
 }
 
 function createSSEStream(text: string): Response {

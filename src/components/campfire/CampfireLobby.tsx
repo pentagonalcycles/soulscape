@@ -5,9 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { CampfireRoom } from "@/lib/campfire/types";
+import { CampfireTheme } from "./CampfirePage";
 
 interface CampfireLobbyProps {
   onJoinRoom: (room: CampfireRoom, displayName: string) => void;
+  theme: CampfireTheme;
+  onToggleTheme: () => void;
 }
 
 const PRESET_ICONS: Record<string, string> = {
@@ -16,7 +19,7 @@ const PRESET_ICONS: Record<string, string> = {
   "Random Chat": "🎲",
 };
 
-export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
+export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: CampfireLobbyProps) {
   const [rooms, setRooms] = useState<CampfireRoom[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
@@ -26,6 +29,8 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
   const [creating, setCreating] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const isLight = theme === "light";
 
   useEffect(() => {
     const init = async () => {
@@ -84,9 +89,11 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center p-6"
+      className="min-h-screen flex flex-col items-center justify-center p-6 transition-colors duration-500"
       style={{
-        background: "linear-gradient(180deg, #050510 0%, #0a0a2e 50%, #1a0a2e 100%)",
+        background: isLight
+          ? "linear-gradient(180deg, #f5f0e8 0%, #ede5d8 50%, #e8dfd0 100%)"
+          : "linear-gradient(180deg, #050510 0%, #0a0a2e 50%, #1a0a2e 100%)",
       }}
     >
       {/* Ambient glow */}
@@ -94,9 +101,30 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
         className="fixed bottom-0 left-0 right-0 pointer-events-none"
         style={{
           height: "40%",
-          background: "radial-gradient(ellipse at 50% 100%, rgba(245, 158, 11, 0.08) 0%, transparent 70%)",
+          background: isLight
+            ? "radial-gradient(ellipse at 50% 100%, rgba(245, 158, 11, 0.12) 0%, transparent 70%)"
+            : "radial-gradient(ellipse at 50% 100%, rgba(245, 158, 11, 0.08) 0%, transparent 70%)",
         }}
       />
+
+      {/* Theme toggle */}
+      <motion.button
+        onClick={onToggleTheme}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors"
+        style={{
+          background: isLight ? "rgba(30, 20, 10, 0.08)" : "rgba(245, 158, 11, 0.1)",
+          border: `1px solid ${isLight ? "rgba(30, 20, 10, 0.15)" : "rgba(245, 158, 11, 0.2)"}`,
+          color: isLight ? "rgba(30, 20, 10, 0.6)" : "rgba(255, 255, 255, 0.5)",
+          fontSize: "16px",
+        }}
+        title={isLight ? "Switch to dark mode" : "Switch to light mode"}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        {isLight ? "🌙" : "☀️"}
+      </motion.button>
 
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -108,8 +136,8 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
           href="/"
           className="inline-block mb-4 px-4 py-1.5 rounded-lg text-xs cursor-pointer"
           style={{
-            background: "rgba(245, 158, 11, 0.08)",
-            border: "1px solid rgba(245, 158, 11, 0.15)",
+            background: isLight ? "rgba(245, 158, 11, 0.1)" : "rgba(245, 158, 11, 0.08)",
+            border: `1px solid ${isLight ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.15)"}`,
             color: "#f59e0b",
             textDecoration: "none",
           }}
@@ -126,7 +154,10 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
         >
           Campfire Chat
         </h1>
-        <p className="text-xs" style={{ color: "rgba(255, 255, 255, 0.25)" }}>
+        <p
+          className="text-xs"
+          style={{ color: isLight ? "rgba(30, 20, 10, 0.35)" : "rgba(255, 255, 255, 0.25)" }}
+        >
           Sit by the fire. Share what&apos;s on your mind.
         </p>
       </motion.div>
@@ -147,7 +178,10 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
       </motion.button>
 
       {loading ? (
-        <p className="text-sm relative z-10" style={{ color: "rgba(255, 255, 255, 0.2)" }}>
+        <p
+          className="text-sm relative z-10"
+          style={{ color: isLight ? "rgba(30, 20, 10, 0.3)" : "rgba(255, 255, 255, 0.2)" }}
+        >
           Finding campfires...
         </p>
       ) : (
@@ -167,22 +201,28 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
               whileTap={{ scale: 0.99 }}
               className="flex items-center gap-4 p-4 rounded-xl cursor-pointer text-left transition-all"
               style={{
-                background: "rgba(245, 158, 11, 0.05)",
-                border: "1px solid rgba(245, 158, 11, 0.1)",
+                background: isLight ? "rgba(245, 158, 11, 0.08)" : "rgba(245, 158, 11, 0.05)",
+                border: `1px solid ${isLight ? "rgba(245, 158, 11, 0.15)" : "rgba(245, 158, 11, 0.1)"}`,
               }}
             >
               <span className="text-2xl">
                 {PRESET_ICONS[room.name] || "🔥"}
               </span>
               <div className="flex-1">
-                <p className="text-sm font-medium" style={{ color: "rgba(255, 255, 255, 0.85)" }}>
+                <p
+                  className="text-sm font-medium"
+                  style={{ color: isLight ? "rgba(30, 20, 10, 0.85)" : "rgba(255, 255, 255, 0.85)" }}
+                >
                   {room.name}
                 </p>
-                <p className="text-[10px]" style={{ color: "rgba(255, 255, 255, 0.25)" }}>
+                <p
+                  className="text-[10px]"
+                  style={{ color: isLight ? "rgba(30, 20, 10, 0.35)" : "rgba(255, 255, 255, 0.25)" }}
+                >
                   {room.is_preset ? "Always burning" : "Custom fire"}
                 </p>
               </div>
-              <span className="text-xs" style={{ color: "rgba(245, 158, 11, 0.4)" }}>
+              <span className="text-xs" style={{ color: "rgba(245, 158, 11, 0.5)" }}>
                 Join →
               </span>
             </motion.button>
@@ -198,7 +238,10 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            style={{ background: "rgba(5, 5, 16, 0.8)", backdropFilter: "blur(8px)" }}
+            style={{
+              background: isLight ? "rgba(245, 240, 232, 0.85)" : "rgba(5, 5, 16, 0.8)",
+              backdropFilter: "blur(8px)",
+            }}
             onClick={() => setShowJoin(null)}
           >
             <motion.div
@@ -208,16 +251,26 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
               onClick={(e) => e.stopPropagation()}
               className="p-8 rounded-2xl w-full max-w-sm text-center"
               style={{
-                background: "linear-gradient(180deg, rgba(20, 10, 5, 0.95), rgba(10, 5, 2, 0.98))",
-                border: "1px solid rgba(245, 158, 11, 0.2)",
-                boxShadow: "0 0 60px rgba(245, 158, 11, 0.1)",
+                background: isLight
+                  ? "linear-gradient(180deg, #faf6f0, #f5efe5)"
+                  : "linear-gradient(180deg, rgba(20, 10, 5, 0.95), rgba(10, 5, 2, 0.98))",
+                border: `1px solid ${isLight ? "rgba(245, 158, 11, 0.25)" : "rgba(245, 158, 11, 0.2)"}`,
+                boxShadow: isLight
+                  ? "0 0 60px rgba(245, 158, 11, 0.15)"
+                  : "0 0 60px rgba(245, 158, 11, 0.1)",
               }}
             >
               <div className="text-4xl mb-4">🔥</div>
-              <h2 className="text-lg font-light mb-1" style={{ color: "rgba(255, 255, 255, 0.9)" }}>
+              <h2
+                className="text-lg font-light mb-1"
+                style={{ color: isLight ? "rgba(30, 20, 10, 0.9)" : "rgba(255, 255, 255, 0.9)" }}
+              >
                 {showJoin.name}
               </h2>
-              <p className="text-xs mb-6" style={{ color: "rgba(255, 255, 255, 0.3)" }}>
+              <p
+                className="text-xs mb-6"
+                style={{ color: isLight ? "rgba(30, 20, 10, 0.4)" : "rgba(255, 255, 255, 0.3)" }}
+              >
                 Choose a display name to sit by the fire
               </p>
 
@@ -229,9 +282,9 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
                 maxLength={20}
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none mb-6"
                 style={{
-                  background: "rgba(245, 158, 11, 0.06)",
-                  border: "1px solid rgba(245, 158, 11, 0.15)",
-                  color: "rgba(255, 255, 255, 0.85)",
+                  background: isLight ? "rgba(245, 158, 11, 0.08)" : "rgba(245, 158, 11, 0.06)",
+                  border: `1px solid ${isLight ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.15)"}`,
+                  color: isLight ? "rgba(30, 20, 10, 0.85)" : "rgba(255, 255, 255, 0.85)",
                 }}
                 autoFocus
                 onKeyDown={(e) => e.key === "Enter" && handleJoin()}
@@ -242,9 +295,9 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
                   onClick={() => setShowJoin(null)}
                   className="flex-1 px-4 py-2.5 rounded-xl text-xs cursor-pointer"
                   style={{
-                    background: "rgba(255, 255, 255, 0.05)",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    color: "rgba(255, 255, 255, 0.5)",
+                    background: isLight ? "rgba(30, 20, 10, 0.05)" : "rgba(255, 255, 255, 0.05)",
+                    border: `1px solid ${isLight ? "rgba(30, 20, 10, 0.12)" : "rgba(255, 255, 255, 0.1)"}`,
+                    color: isLight ? "rgba(30, 20, 10, 0.5)" : "rgba(255, 255, 255, 0.5)",
                   }}
                 >
                   Cancel
@@ -276,7 +329,10 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            style={{ background: "rgba(5, 5, 16, 0.8)", backdropFilter: "blur(8px)" }}
+            style={{
+              background: isLight ? "rgba(245, 240, 232, 0.85)" : "rgba(5, 5, 16, 0.8)",
+              backdropFilter: "blur(8px)",
+            }}
             onClick={() => setShowCreate(false)}
           >
             <motion.div
@@ -286,13 +342,20 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
               onClick={(e) => e.stopPropagation()}
               className="p-8 rounded-2xl w-full max-w-sm text-center"
               style={{
-                background: "linear-gradient(180deg, rgba(20, 10, 5, 0.95), rgba(10, 5, 2, 0.98))",
-                border: "1px solid rgba(245, 158, 11, 0.2)",
-                boxShadow: "0 0 60px rgba(245, 158, 11, 0.1)",
+                background: isLight
+                  ? "linear-gradient(180deg, #faf6f0, #f5efe5)"
+                  : "linear-gradient(180deg, rgba(20, 10, 5, 0.95), rgba(10, 5, 2, 0.98))",
+                border: `1px solid ${isLight ? "rgba(245, 158, 11, 0.25)" : "rgba(245, 158, 11, 0.2)"}`,
+                boxShadow: isLight
+                  ? "0 0 60px rgba(245, 158, 11, 0.15)"
+                  : "0 0 60px rgba(245, 158, 11, 0.1)",
               }}
             >
               <div className="text-4xl mb-4">🪵</div>
-              <h2 className="text-lg font-light mb-4" style={{ color: "rgba(255, 255, 255, 0.9)" }}>
+              <h2
+                className="text-lg font-light mb-4"
+                style={{ color: isLight ? "rgba(30, 20, 10, 0.9)" : "rgba(255, 255, 255, 0.9)" }}
+              >
                 Light a New Fire
               </h2>
 
@@ -304,9 +367,9 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
                 maxLength={30}
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none mb-6"
                 style={{
-                  background: "rgba(245, 158, 11, 0.06)",
-                  border: "1px solid rgba(245, 158, 11, 0.15)",
-                  color: "rgba(255, 255, 255, 0.85)",
+                  background: isLight ? "rgba(245, 158, 11, 0.08)" : "rgba(245, 158, 11, 0.06)",
+                  border: `1px solid ${isLight ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.15)"}`,
+                  color: isLight ? "rgba(30, 20, 10, 0.85)" : "rgba(255, 255, 255, 0.85)",
                 }}
                 autoFocus
                 onKeyDown={(e) => e.key === "Enter" && createRoom()}
@@ -323,9 +386,9 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
                   onClick={() => { setShowCreate(false); setError(null); }}
                   className="flex-1 px-4 py-2.5 rounded-xl text-xs cursor-pointer"
                   style={{
-                    background: "rgba(255, 255, 255, 0.05)",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    color: "rgba(255, 255, 255, 0.5)",
+                    background: isLight ? "rgba(30, 20, 10, 0.05)" : "rgba(255, 255, 255, 0.05)",
+                    border: `1px solid ${isLight ? "rgba(30, 20, 10, 0.12)" : "rgba(255, 255, 255, 0.1)"}`,
+                    color: isLight ? "rgba(30, 20, 10, 0.5)" : "rgba(255, 255, 255, 0.5)",
                   }}
                 >
                   Cancel

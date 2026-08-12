@@ -8,11 +8,14 @@ import CampfireLobby from "./CampfireLobby";
 import CampfireScene from "./CampfireScene";
 import CampfireChat from "./CampfireChat";
 
+export type CampfireTheme = "dark" | "light";
+
 export default function CampfirePage() {
   const [currentRoom, setCurrentRoom] = useState<CampfireRoom | null>(null);
   const [messages, setMessages] = useState<CampfireMessage[]>([]);
   const [presences, setPresences] = useState<CampfirePresence[]>([]);
   const [soundOn, setSoundOn] = useState(true);
+  const [theme, setTheme] = useState<CampfireTheme>("dark");
   const multiRef = useRef<CampfireMultiplayer | null>(null);
   const soundRef = useRef<AmbientSoundEngine | null>(null);
 
@@ -21,13 +24,11 @@ export default function CampfirePage() {
     setMessages([]);
     setPresences([]);
 
-    // Initialize sound
     const sound = new AmbientSoundEngine();
     soundRef.current = sound;
     await sound.play("fireplace");
     sound.setVolume(0.3);
 
-    // Initialize multiplayer
     const multi = new CampfireMultiplayer();
     multiRef.current = multi;
 
@@ -39,7 +40,6 @@ export default function CampfirePage() {
       setPresences(p);
     };
 
-    // Generate a userId from the display name + random
     const userId = `campfire-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     await multi.join(room.id, userId, displayName);
   }, []);
@@ -77,7 +77,10 @@ export default function CampfirePage() {
     setSoundOn(!soundOn);
   }, [soundOn]);
 
-  // Cleanup on unmount
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }, []);
+
   useEffect(() => {
     return () => {
       multiRef.current?.leave();
@@ -87,19 +90,27 @@ export default function CampfirePage() {
   }, []);
 
   if (!currentRoom) {
-    return <CampfireLobby onJoinRoom={handleJoin} />;
+    return <CampfireLobby onJoinRoom={handleJoin} theme={theme} onToggleTheme={toggleTheme} />;
   }
 
+  const isLight = theme === "light";
+
   return (
-    <div className="relative h-screen w-screen overflow-hidden" style={{ background: "#050510" }}>
+    <div
+      className="relative h-screen w-screen overflow-hidden"
+      style={{ background: isLight ? "#f5f0e8" : "#050510" }}
+    >
       {/* Fire scene */}
-      <CampfireScene isPlaying={true} />
+      <CampfireScene isPlaying={true} theme={theme} />
 
       {/* Room info header */}
       <div className="absolute top-4 left-4 right-4 z-30 flex items-center justify-between pointer-events-none">
         <div className="flex items-center gap-2 min-w-0">
           <span className="text-lg flex-shrink-0">🔥</span>
-          <span className="text-sm font-light truncate max-w-[120px] sm:max-w-none" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
+          <span
+            className="text-sm font-light truncate max-w-[120px] sm:max-w-none"
+            style={{ color: isLight ? "rgba(30, 20, 10, 0.7)" : "rgba(255, 255, 255, 0.7)" }}
+          >
             {currentRoom.name}
           </span>
         </div>
@@ -115,14 +126,28 @@ export default function CampfirePage() {
               />
             ))}
           </div>
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer pointer-events-auto transition-colors"
+            style={{
+              background: isLight ? "rgba(30, 20, 10, 0.08)" : "rgba(245, 158, 11, 0.1)",
+              border: `1px solid ${isLight ? "rgba(30, 20, 10, 0.15)" : "rgba(245, 158, 11, 0.2)"}`,
+              color: isLight ? "rgba(30, 20, 10, 0.6)" : "rgba(255, 255, 255, 0.5)",
+              fontSize: "14px",
+            }}
+            title={isLight ? "Switch to dark mode" : "Switch to light mode"}
+          >
+            {isLight ? "🌙" : "☀️"}
+          </button>
           {/* Sound toggle */}
           <button
             onClick={toggleSound}
             className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer pointer-events-auto"
             style={{
-              background: "rgba(245, 158, 11, 0.1)",
-              border: "1px solid rgba(245, 158, 11, 0.2)",
-              color: "rgba(255, 255, 255, 0.5)",
+              background: isLight ? "rgba(30, 20, 10, 0.08)" : "rgba(245, 158, 11, 0.1)",
+              border: `1px solid ${isLight ? "rgba(30, 20, 10, 0.15)" : "rgba(245, 158, 11, 0.2)"}`,
+              color: isLight ? "rgba(30, 20, 10, 0.6)" : "rgba(255, 255, 255, 0.5)",
               fontSize: "14px",
             }}
           >
@@ -133,9 +158,9 @@ export default function CampfirePage() {
             onClick={handleLeave}
             className="px-3 py-1.5 rounded-lg text-xs cursor-pointer pointer-events-auto"
             style={{
-              background: "rgba(255, 255, 255, 0.06)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              color: "rgba(255, 255, 255, 0.4)",
+              background: isLight ? "rgba(30, 20, 10, 0.06)" : "rgba(255, 255, 255, 0.06)",
+              border: `1px solid ${isLight ? "rgba(30, 20, 10, 0.12)" : "rgba(255, 255, 255, 0.1)"}`,
+              color: isLight ? "rgba(30, 20, 10, 0.5)" : "rgba(255, 255, 255, 0.4)",
             }}
           >
             Leave
@@ -149,6 +174,7 @@ export default function CampfirePage() {
         onSend={handleSend}
         onTyping={handleTyping}
         onStopTyping={handleStopTyping}
+        theme={theme}
       />
     </div>
   );
