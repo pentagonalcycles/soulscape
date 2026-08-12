@@ -18,6 +18,7 @@ export default function UnseenProfileCreator({ onComplete, onBack }: UnseenProfi
   const { userId } = useAuth();
   const [step, setStep] = useState<Step>("basics");
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Profile data
   const [displayName, setDisplayName] = useState("");
@@ -87,6 +88,7 @@ export default function UnseenProfileCreator({ onComplete, onBack }: UnseenProfi
   async function handleComplete() {
     if (!userId || saving) return;
     setSaving(true);
+    setError(null);
 
     const client = supabase();
 
@@ -105,7 +107,7 @@ export default function UnseenProfileCreator({ onComplete, onBack }: UnseenProfi
     });
 
     if (profileError) {
-      console.error("Profile creation error:", profileError);
+      setError(profileError.message || "Failed to create profile. Please try again.");
       setSaving(false);
       return;
     }
@@ -361,6 +363,11 @@ export default function UnseenProfileCreator({ onComplete, onBack }: UnseenProfi
 
         {/* Navigation buttons */}
         <div className="flex gap-3 mt-8">
+          {error && (
+            <p className="text-xs mb-2 w-full text-center" style={{ color: "#ef4444" }}>
+              {error}
+            </p>
+          )}
           {currentStepIndex > 0 && (
             <button onClick={() => {
               const order: Step[] = ["basics", "interests", "questions", "photos", "bio"];

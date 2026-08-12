@@ -25,6 +25,7 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
   const [displayName, setDisplayName] = useState("");
   const [creating, setCreating] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const init = async () => {
@@ -54,6 +55,7 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
   async function createRoom() {
     if (!newName.trim() || !userId || creating) return;
     setCreating(true);
+    setError(null);
     const client = supabase();
     const { data, error } = await client
       .from("campfire_rooms")
@@ -69,6 +71,8 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
       setShowCreate(false);
       setNewName("");
       setShowJoin(data);
+    } else {
+      setError(error?.message || "Failed to create room. Please try again.");
     }
     setCreating(false);
   }
@@ -308,9 +312,15 @@ export default function CampfireLobby({ onJoinRoom }: CampfireLobbyProps) {
                 onKeyDown={(e) => e.key === "Enter" && createRoom()}
               />
 
+              {error && (
+                <p className="text-xs mb-4 text-center" style={{ color: "#ef4444" }}>
+                  {error}
+                </p>
+              )}
+
               <div className="flex gap-3">
                 <button
-                  onClick={() => setShowCreate(false)}
+                  onClick={() => { setShowCreate(false); setError(null); }}
                   className="flex-1 px-4 py-2.5 rounded-xl text-xs cursor-pointer"
                   style={{
                     background: "rgba(255, 255, 255, 0.05)",

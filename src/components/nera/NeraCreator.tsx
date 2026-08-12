@@ -16,6 +16,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
   const { userId } = useAuth();
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [neraType, setNeraType] = useState<NeraType>("quiet_coffee");
   const [title, setTitle] = useState("");
@@ -56,6 +57,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
   async function handleSubmit() {
     if (!userId || submitting) return;
     setSubmitting(true);
+    setError(null);
     const client = supabase();
 
     const neraData = {
@@ -80,6 +82,8 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
     if (!error && data) {
       await client.from("nera_attendees").insert({ nera_id: data.id, user_id: userId, status: "joined" });
       onSubmit(data);
+    } else {
+      setError(error?.message || "Failed to create Nera. Please try again.");
     }
     setSubmitting(false);
   }
@@ -401,6 +405,11 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
 
           {/* Navigation */}
           <div className="flex gap-3 mt-8">
+            {error && (
+              <p className="text-xs mb-2 w-full text-center" style={{ color: "#ef4444" }}>
+                {error}
+              </p>
+            )}
             {step > 0 && (
               <button
                 onClick={() => setStep(step - 1)}

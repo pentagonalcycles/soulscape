@@ -27,6 +27,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   const [userId, setUserId] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [clearConfirm, setClearConfirm] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const run = async () => {
@@ -59,9 +60,10 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   async function createRoom() {
     if (!newName.trim() || !userId || creating) return;
     setCreating(true);
+    setError(null);
     try {
       const client = supabase();
-      const { data } = await client
+      const { data, error } = await client
         .from("mural_rooms")
         .insert({
           name: newName.trim(),
@@ -73,14 +75,16 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
         .select()
         .single();
 
-      if (data) {
+      if (data && !error) {
         setRooms((prev) => [data, ...prev]);
         setShowCreate(false);
         setNewName("");
         onJoinRoom(data);
+      } else {
+        setError(error?.message || "Failed to create room. Please try again.");
       }
-    } catch {
-      // silent
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Failed to create room. Please try again.");
     }
     setCreating(false);
   }
@@ -344,6 +348,12 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                 onKeyDown={(e) => e.key === "Enter" && createRoom()}
               />
 
+              {error && (
+                <p className="text-xs mb-4" style={{ color: "#ef4444" }}>
+                  {error}
+                </p>
+              )}
+
               <p className="text-xs mb-2" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
                 Theme color
               </p>
@@ -364,7 +374,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
 
               <div className="flex gap-3">
                 <button
-                  onClick={() => setShowCreate(false)}
+                  onClick={() => { setShowCreate(false); setError(null); }}
                   className="flex-1 px-4 py-2 rounded-lg text-sm cursor-pointer"
                   style={{
                     background: "rgba(13, 148, 136, 0.06)",

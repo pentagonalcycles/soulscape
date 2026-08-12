@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
+import { supabase } from "@/lib/supabase";
 import SoulEchoLanding from "./SoulEchoLanding";
 import SoulEchoReflection from "./SoulEchoReflection";
 import SoulEchoMatching from "./SoulEchoMatching";
@@ -20,13 +21,22 @@ export default function SoulEcho() {
   const [matchedReflection, setMatchedReflection] = useState<Reflection | null>(null);
   const [dailyRemaining, setDailyRemaining] = useState(5);
 
+  const getAuthHeaders = useCallback(async () => {
+    const { data: { session } } = await supabase().auth.getSession();
+    return {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${session?.access_token}`,
+    };
+  }, []);
+
   // Check for existing active matches on mount
   useEffect(() => {
     if (!userId) return;
 
     const checkHistory = async () => {
       try {
-        const res = await fetch("/api/soul-echo/history");
+        const headers = await getAuthHeaders();
+        const res = await fetch("/api/soul-echo/history", { headers });
         const data = await res.json();
 
         if (data.matches?.length > 0) {
@@ -46,7 +56,7 @@ export default function SoulEcho() {
     };
 
     checkHistory();
-  }, [userId]);
+  }, [userId, getAuthHeaders]);
 
   const handleBegin = useCallback(() => {
     setStage("reflection");
@@ -57,9 +67,10 @@ export default function SoulEcho() {
     setStage("matching");
 
     try {
+      const headers = await getAuthHeaders();
       const res = await fetch("/api/soul-echo/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ content }),
       });
 
@@ -95,7 +106,7 @@ export default function SoulEcho() {
     } finally {
       setIsSubmitting(false);
     }
-  }, []);
+  }, [getAuthHeaders]);
 
   const handleContinueToResponse = useCallback(() => {
     setStage("response");
@@ -106,9 +117,10 @@ export default function SoulEcho() {
 
     setIsSubmitting(true);
     try {
+      const headers = await getAuthHeaders();
       await fetch("/api/soul-echo/respond", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
           matchId: currentMatch.id,
           content,
@@ -122,7 +134,7 @@ export default function SoulEcho() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [currentMatch]);
+  }, [currentMatch, getAuthHeaders]);
 
   const handleLeaveConnection = useCallback(() => {
     setCurrentMatch(null);
