@@ -12,8 +12,6 @@
     "@mediapipe/tasks-vision": "^1.0.1",
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.110.8",
-    "@tsparticles/react": "^4.3.2",
-    "@tsparticles/slim": "^4.3.2",
     "framer-motion": "^12.42.2",
     "idb": "^8.0.3",
     "leaflet": "^1.9.4",
