@@ -482,7 +482,7 @@ export default function WishLanternsPage() {
                   <button
                     key={c}
                     onClick={() => setSelectedColor(c)}
-                    className="w-7 h-7 rounded-full cursor-pointer transition-transform"
+                    className="w-10 h-10 rounded-full cursor-pointer transition-transform"
                     style={{
                       background: c,
                       boxShadow: selectedColor === c ? `0 0 0 2px white, 0 0 0 4px ${c}` : `${c}40 0 0 10px`,

@@ -352,7 +352,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                   <button
                     key={c}
                     onClick={() => setNewTheme(c)}
-                    className="w-7 h-7 rounded-full cursor-pointer transition-transform"
+                    className="w-10 h-10 rounded-full cursor-pointer transition-transform"
                     style={{
                       background: c,
                       boxShadow: newTheme === c ? `0 0 0 2px white, 0 0 0 4px ${c}` : "none",

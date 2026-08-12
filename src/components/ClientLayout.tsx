@@ -11,6 +11,7 @@ import Starfield from "@/components/Starfield";
 import Nebula from "@/components/Nebula";
 import ArtisticBackground from "@/components/ArtisticBackground";
 import ElyraButton from "@/components/ElyraButton";
+import Navigation from "@/components/Navigation";
 
 const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map"];
 const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map"];
@@ -133,6 +134,35 @@ function LayoutInner({ children }: { children: ReactNode }) {
   const isDarkPage = DARK_PAGES.some((r) => pathname?.startsWith(r));
   const isHome = pathname === "/";
 
+  const pathToActivePage: Record<string, string> = {
+    "/nera": "nera",
+    "/elyra": "elyra ai",
+    "/soul-echo": "soul echo",
+    "/stargazing": "stargazing",
+    "/reflection-room": "reflection",
+    "/dream-canvas": "canvas",
+    "/camera": "camera",
+    "/mural": "mural",
+    "/wish-lanterns": "wish lanterns",
+    "/campfire": "campfire",
+    "/poetry": "poetry",
+    "/soul-map": "soul map",
+    "/nebula-orb": "nebula orb",
+    "/human-weather": "human weather",
+    "/human-signal": "human signal",
+    "/unseen": "unseen",
+    "/ideas": "ideas",
+    "/settings": "settings",
+    "/admin": "admin",
+    "/moderation": "moderation",
+    "/shop": "shop",
+    "/about": "about",
+    "/support": "support",
+    "/faq": "faq",
+    "/account": "account",
+  };
+  const activePage = pathname ? pathToActivePage[pathname] || (pathname.startsWith("/shop/") ? "shop" : undefined) : undefined;
+
   return (
     <>
       {!hideArtisticBg && <ArtisticBackground variant="cosmic" />}
@@ -149,6 +179,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
         {!hideFooter && <Footer />}
       </div>
       {!hideElyraButton && <ElyraButton />}
+      <Navigation activePage={activePage} />
 
       {/* Floating home button */}
       {!isHome && (

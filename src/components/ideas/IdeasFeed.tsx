@@ -162,7 +162,7 @@ export default function IdeasFeed() {
       <IdeaCreator onSubmit={handleSubmit} />
 
       {/* Filters */}
-      <div className="flex items-center justify-between mb-5 gap-3 flex-wrap">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-5 gap-3">
         <div className="flex gap-1 p-1 rounded-xl flex-wrap" style={{ background: "rgba(13, 148, 136, 0.03)" }}>
           {filterTabs.map((tab) => (
             <button

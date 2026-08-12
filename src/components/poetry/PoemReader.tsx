@@ -102,7 +102,7 @@ export default function PoemReader({ poems, onReact, onBack, onWrite, onDelete, 
       onTouchEnd={handleTouchEnd}
     >
       {/* Top bar */}
-      <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between">
+      <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between flex-wrap gap-2">
         <button
           onClick={onBack}
           className="text-xs cursor-pointer px-3 py-1.5 rounded-lg"
@@ -231,11 +231,11 @@ export default function PoemReader({ poems, onReact, onBack, onWrite, onDelete, 
         </motion.div>
       </AnimatePresence>
 
-      {/* Navigation arrows */}
+      {/* Navigation arrows - hidden on very small screens (swipe works instead) */}
       <button
         onClick={goToPrev}
         disabled={currentIndex === 0}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer disabled:opacity-20 transition-opacity z-10"
+        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full items-center justify-center cursor-pointer disabled:opacity-20 transition-opacity z-10 hidden sm:flex"
         style={{
           background: "rgba(245, 158, 11, 0.06)",
           border: "1px solid rgba(245, 158, 11, 0.1)",
@@ -247,7 +247,7 @@ export default function PoemReader({ poems, onReact, onBack, onWrite, onDelete, 
       <button
         onClick={goToNext}
         disabled={currentIndex === poems.length - 1}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer disabled:opacity-20 transition-opacity z-10"
+        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full items-center justify-center cursor-pointer disabled:opacity-20 transition-opacity z-10 hidden sm:flex"
         style={{
           background: "rgba(245, 158, 11, 0.06)",
           border: "1px solid rgba(245, 158, 11, 0.1)",

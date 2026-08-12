@@ -18,7 +18,7 @@ export default function SignalPulse({ variant = "idle", size = "md" }: SignalPul
 
   if (variant === "sending") {
     return (
-      <div className="relative flex items-center justify-center" style={{ width: "200px", height: "200px" }}>
+      <div className="relative flex items-center justify-center w-[min(200px,60vw)] aspect-square">
         {/* Expanding rings */}
         {[0, 1, 2].map((i) => (
           <motion.div
@@ -63,16 +63,14 @@ export default function SignalPulse({ variant = "idle", size = "md" }: SignalPul
 
   if (variant === "returning") {
     return (
-      <div className="relative flex items-center justify-center" style={{ width: "200px", height: "200px" }}>
+      <div className="relative flex items-center justify-center w-[min(200px,60vw)] aspect-square">
         {/* Converging rings */}
         {[0, 1, 2].map((i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full"
+            className="absolute rounded-full w-full h-full"
             style={{
               border: "1px solid rgba(236, 72, 153, 0.3)",
-              width: "200px",
-              height: "200px",
             }}
             animate={{
               scale: [3, 1],
@@ -108,7 +106,7 @@ export default function SignalPulse({ variant = "idle", size = "md" }: SignalPul
 
   if (variant === "received") {
     return (
-      <div className="relative flex items-center justify-center" style={{ width: "200px", height: "200px" }}>
+      <div className="relative flex items-center justify-center w-[min(200px,60vw)] aspect-square">
         <motion.div
           className="absolute rounded-full"
           style={{

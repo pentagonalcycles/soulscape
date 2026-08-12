@@ -53,7 +53,7 @@ export default function MuralToolbar({
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3 }}
-        className="fixed top-4 left-14 sm:left-14 z-40 w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer"
+        className="fixed top-4 left-14 sm:left-14 z-40 w-11 h-11 rounded-lg flex items-center justify-center cursor-pointer"
         style={{
           background: "rgba(13, 148, 136, 0.08)",
           border: "1px solid rgba(13, 148, 136, 0.15)",

@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/components/AuthProvider";
-import Navigation from "@/components/Navigation";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 
@@ -111,7 +110,6 @@ export default function AccountPage() {
       <main className="relative min-h-screen overflow-hidden">
         <div className="global-corners" />
         <div className="relative z-10 min-h-screen flex flex-col">
-          <Navigation />
           <div className="flex-1 pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6">
             <div className="max-w-2xl mx-auto text-center py-20">
               <div className="text-elovayne-dim text-sm">Loading your account...</div>
@@ -135,7 +133,6 @@ export default function AccountPage() {
       <div className="global-corners-extra" />
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <Navigation activePage="account" />
 
         <div className="flex-1 pt-24 pb-12 px-6">
           <div className="max-w-2xl mx-auto">

@@ -280,7 +280,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                       />
                       <button
                         onClick={() => setCommentAnonymous(!commentAnonymous)}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all"
+                        className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0 transition-all"
                         style={{
                           background: commentAnonymous ? "rgba(13, 148, 136, 0.1)" : "rgba(13, 148, 136, 0.04)",
                           border: `1px solid ${commentAnonymous ? "rgba(13, 148, 136, 0.2)" : "rgba(13, 148, 136, 0.08)"}`,

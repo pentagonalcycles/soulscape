@@ -80,7 +80,7 @@ export default function SoulEchoReflection({ onSubmit, isSubmitting }: SoulEchoR
             {content.length > 0 ? `${content.length} characters` : ""}
           </span>
           <span className="text-elovayne-dim/30 text-xs">
-            ⌘ + Enter to submit
+            ⌘/Ctrl + Enter to submit
           </span>
         </div>
       </motion.div>

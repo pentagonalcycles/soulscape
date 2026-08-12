@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/components/AuthProvider";
+import { useIsMobile } from "@/lib/useIsMobile";
 
 const navLinks = [
   { href: "/nera", label: "NERA", icon: "\ud83e\udee7" },
@@ -39,6 +40,7 @@ interface NavigationProps {
 export default function Navigation({ activePage }: NavigationProps) {
   const { isAdmin } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const close = useCallback(() => setIsOpen(false), []);
 
@@ -63,21 +65,21 @@ export default function Navigation({ activePage }: NavigationProps) {
   return (
     <>
       {/* Toggle button */}
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.5 }}
-        aria-label={isOpen ? "Close navigation" : "Open navigation"}
-        className="btn-icon fixed top-5 left-5 z-[1000]"
-        style={{
-          background: "rgba(255, 255, 255, 0.8)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          boxShadow: "0 2px 16px rgba(0,0,0,0.04)",
-          fontSize: "16px",
-        }}
-      >
+        <motion.button
+          onClick={() => setIsOpen(!isOpen)}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          aria-label={isOpen ? "Close navigation" : "Open navigation"}
+          className={`btn-icon fixed top-5 left-5 z-[1000] ${isMobile ? "w-12 h-12" : ""}`}
+          style={{
+            background: "rgba(255, 255, 255, 0.8)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            boxShadow: "0 2px 16px rgba(0,0,0,0.04)",
+            fontSize: isMobile ? "18px" : "16px",
+          }}
+        >
         {isOpen ? "✕" : "◈"}
       </motion.button>
 
@@ -107,12 +109,13 @@ export default function Navigation({ activePage }: NavigationProps) {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="nav-sidebar"
               style={{
                 position: "fixed",
                 top: 0,
                 left: 0,
                 bottom: 0,
-                width: "260px",
+                width: isMobile ? "min(300px, 90vw)" : "min(260px, 85vw)",
                 background: "#ffffff",
                 borderRight: "1px solid rgba(13, 148, 136, 0.06)",
                 boxShadow: "8px 0 40px rgba(0,0,0,0.04)",
@@ -157,7 +160,7 @@ export default function Navigation({ activePage }: NavigationProps) {
                           display: "flex",
                           alignItems: "center",
                           gap: "12px",
-                          padding: "10px 16px",
+                          padding: isMobile ? "12px 16px" : "10px 16px",
                           borderRadius: "10px",
                           textDecoration: "none",
                           color: isActive ? "#0f172a" : "rgba(15, 23, 42, 0.5)",

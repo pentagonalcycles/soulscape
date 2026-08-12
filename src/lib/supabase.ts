@@ -25,6 +25,20 @@ export function supabase(): SupabaseClient {
   return browserClient;
 }
 
+let serviceClient: SupabaseClient | null = null;
+
+export function supabaseService(): SupabaseClient {
+  if (serviceClient) return serviceClient;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!serviceKey) {
+    throw new Error("SUPABASE_SERVICE_ROLE_KEY is not set");
+  }
+  serviceClient = createClient(supabaseUrl, serviceKey, {
+    auth: { persistSession: false },
+  });
+  return serviceClient;
+}
+
 export async function getServerUser(request: Request) {
   const authHeader = request.headers.get("Authorization");
   if (!authHeader?.startsWith("Bearer ")) {

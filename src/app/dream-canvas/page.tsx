@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Navigation from "@/components/Navigation";
+import { useIsMobile } from "@/lib/useIsMobile";
 
 type BrushType = "pen" | "pencil" | "airbrush" | "calligraphy" | "marker" | "eraser" | "neon" | "rainbow" | "watercolor" | "fire" | "sparkle" | "galaxy" | "chalk" | "oil" | "confetti" | "snow" | "vines" | "electric" | "smoke" | "bubbles" | "stars" | "mosaic" | "dna" | "aurora" | "ink" | "charcoal" | "halftone" | "pixel" | "spray" | "glitch" | "ribbon" | "fur";
 type ToolType = "brush" | "eyedropper" | "fill" | "blur" | "text";
@@ -142,7 +142,7 @@ export default function DreamCanvasPage() {
   const [showPaperPicker, setShowPaperPicker] = useState(false);
   const textureCanvasRef = useRef<HTMLCanvasElement>(null);
   const [textureDataUrl, setTextureDataUrl] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
   const [mobileTab, setMobileTab] = useState<"tools" | "brush" | "color" | "settings">("tools");
   const touchDistance = useRef(0);
   const touchMidpoint = useRef({ x: 0, y: 0 });
@@ -154,13 +154,6 @@ export default function DreamCanvasPage() {
     const url = generatePaperTexture(paperTexture, 512, 512);
     setTextureDataUrl(url);
   }, [paperTexture]);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -1196,7 +1189,6 @@ export default function DreamCanvasPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden" style={{ background: "#f8fafc" }}>
-      <Navigation activePage="canvas" />
       <div className="pt-14 h-screen flex flex-col">
         {/* Toolbar - hidden on mobile */}
         {!isMobile && <div className="flex items-center gap-1 px-3 py-2 flex-wrap" style={{ background: "#ffffff", borderBottom: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>

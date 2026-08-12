@@ -53,7 +53,7 @@ export default function RoomBuilder3D() {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [selectedBlock, setSelectedBlock] = useState<BlockType>(BLOCK_TYPES[0]);
   const [activeTool, setActiveTool] = useState<"place" | "remove">("place");
-  const [showPalette, setShowPalette] = useState(true);
+  const [showPalette, setShowPalette] = useState(typeof window !== "undefined" ? window.innerWidth > 640 : true);
   const [hoveredPos, setHoveredPos] = useState<{ x: number; y: number; z: number } | null>(null);
   const [cameraAngle, setCameraAngle] = useState({ theta: Math.PI / 4, phi: Math.PI / 4 });
   const [isDragging, setIsDragging] = useState(false);
@@ -323,7 +323,7 @@ export default function RoomBuilder3D() {
 
       <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
         {/* Left toolbar */}
-        <div style={{
+        <div className="max-sm:w-[40px]" style={{
           width: "52px", background: "rgba(10,5,30,0.95)", borderRight: "1px solid rgba(157,124,216,0.15)",
           display: "flex", flexDirection: "column", alignItems: "center", padding: "8px 0", gap: "6px",
         }}>
@@ -333,7 +333,7 @@ export default function RoomBuilder3D() {
           ].map((tool) => (
             <button
               key={tool.id}
-              onClick={() => setActiveTool(tool.id as any)}
+              onClick={() => setActiveTool(tool.id as "place" | "remove")}
               title={tool.label}
               style={{
                 width: "40px", height: "40px", borderRadius: "10px", border: "none",
@@ -371,7 +371,7 @@ export default function RoomBuilder3D() {
 
         {/* Right panel - Block palette */}
         {showPalette && (
-          <div style={{
+          <div className="max-sm:w-[120px]" style={{
             width: "160px", background: "rgba(10,5,30,0.95)", borderLeft: "1px solid rgba(157,124,216,0.15)",
             display: "flex", flexDirection: "column", overflowY: "auto",
           }}>
@@ -425,7 +425,7 @@ export default function RoomBuilder3D() {
       </div>
 
       {/* Bottom status */}
-      <div style={{
+      <div className="max-sm:text-[8px] max-sm:gap-2" style={{
         flexShrink: 0, padding: "4px 12px", background: "rgba(10,5,30,0.95)",
         borderTop: "1px solid rgba(157,124,216,0.15)", display: "flex", justifyContent: "space-between",
         fontSize: "10px", color: "rgba(157,124,216,0.4)",

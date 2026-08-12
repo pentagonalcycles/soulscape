@@ -323,7 +323,7 @@ export default function UnseenProfileCreator({ onComplete, onBack }: UnseenProfi
                   <div key={i} className="relative aspect-[3/4] rounded-xl overflow-hidden" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
                     <img src={URL.createObjectURL(photo)} alt="" className="w-full h-full object-cover" />
                     <button onClick={() => setPhotos(prev => prev.filter((_, j) => j !== i))}
-                      className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center text-xs"
+                      className="absolute top-2 right-2 w-9 h-9 rounded-full flex items-center justify-center text-xs"
                       style={{ background: "rgba(0,0,0,0.6)", color: "white" }}>✕</button>
                     {i === 0 && (
                       <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded text-[10px]"

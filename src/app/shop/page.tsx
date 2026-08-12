@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Navigation from "@/components/Navigation";
 import ShopProductImage from "@/components/ShopProductImage";
 import {
   CATEGORIES,
@@ -781,8 +780,6 @@ export default function ShopPage() {
       <div className="global-corners-extra" />
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <Navigation activePage="shop" />
-
         {/* ── Basket button ── */}
         {basketCount > 0 && (
           <motion.button

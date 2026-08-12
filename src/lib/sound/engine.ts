@@ -5,7 +5,8 @@ export class AmbientSoundEngine {
 
   async play(soundType: string): Promise<void> {
     try {
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioContextClass = window.AudioContext || (window as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      this.audioContext = new AudioContextClass!();
       this.gainNode = this.audioContext.createGain();
       this.gainNode.connect(this.audioContext.destination);
       this.isPlaying = true;

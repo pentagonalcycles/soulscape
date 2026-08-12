@@ -59,8 +59,8 @@ export default function MessageModal({ mode, message, onSubmit, onClose, onWrite
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-sm"
-          style={{ color: "rgba(15, 23, 42, 0.3)", background: "none", border: "none", cursor: "pointer" }}
+          className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-full text-sm"
+          style={{ color: "rgba(15, 23, 42, 0.3)", background: "rgba(15, 23, 42, 0.04)", border: "none", cursor: "pointer" }}
         >
           ✕
         </button>

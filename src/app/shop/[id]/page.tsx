@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import Navigation from "@/components/Navigation";
 import ShopProductImage from "@/components/ShopProductImage";
 import { getProductById, ALL_SHOP_PRODUCTS, type ShopProduct } from "@/lib/shop-data";
 
@@ -64,7 +63,6 @@ export default function ShopProductPage() {
       <main className="relative min-h-screen overflow-hidden">
         <div className="global-corners" />
         <div className="relative z-10 min-h-screen flex flex-col">
-          <Navigation />
           <div className="flex-1 pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6">
             <div className="max-w-2xl mx-auto text-center py-20">
               <div className="text-3xl mb-4">◈</div>
@@ -96,7 +94,6 @@ export default function ShopProductPage() {
       <div className="global-corners-extra" />
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <Navigation activePage="shop" />
 
         {/* Basket button */}
         {basketCount > 0 && (

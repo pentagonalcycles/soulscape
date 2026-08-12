@@ -359,7 +359,7 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
           transition: "left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
         }}
       >
-        <div className="relative inline-block w-full h-full flex items-center justify-center">
+        <div className="relative inline-block w-full h-full flex items-center justify-center overflow-hidden">
           <canvas
             ref={canvasRef}
             style={{

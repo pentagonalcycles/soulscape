@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Navigation from "@/components/Navigation";
 
 const sections = [
   {
@@ -78,8 +77,6 @@ const sections = [
 export default function AboutPage() {
   return (
     <main className="relative min-h-screen overflow-hidden">
-      <Navigation activePage="about" />
-
       <div className="relative z-10 pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {/* Header */}

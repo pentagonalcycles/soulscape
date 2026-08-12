@@ -1,13 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseService } from "@/lib/supabase";
 import { checkIsAdmin } from "@/lib/monetisation";
 
+async function requireAdmin(req: NextRequest) {
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) return null;
+  const token = authHeader.slice(7);
+  const { data: { user }, error } = await supabase().auth.getUser(token);
+  if (error || !user) return null;
+  if (!(await checkIsAdmin(user.id))) return null;
+  return { user, client: supabaseService() };
+}
+
 export async function GET(req: NextRequest) {
-  const client = supabase();
-  const { data: { user } } = await client.auth.getUser();
-  if (!user || !(await checkIsAdmin(user.id))) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-  }
+  const auth = await requireAdmin(req);
+  if (!auth) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+  const client = auth.client;
 
   const url = new URL(req.url);
   const type = url.searchParams.get("type") || "all";
@@ -80,11 +88,9 @@ export async function GET(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const client = supabase();
-  const { data: { user } } = await client.auth.getUser();
-  if (!user || !(await checkIsAdmin(user.id))) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-  }
+  const auth = await requireAdmin(req);
+  if (!auth) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+  const client = auth.client;
 
   const body = await req.json();
   const { type, id } = body;

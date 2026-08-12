@@ -2,7 +2,6 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Navigation from "@/components/Navigation";
 
 type FilterType = "none" | "dreamy" | "cosmic" | "neon" | "ocean" | "sunset" | "aurora" | "glitch" | "vintage" | "noir" | "frost" | "ember" | "botanical" | "midnight" | "golden" | "infrared" | "softfocus" | "vivid" | "muted" | "holographic" | "solarflare" | "deepspace" | "prism" | "vaporwave" | "cinematic" | "rain" | "autumn" | "cherryblossom" | "desert" | "melancholy" | "euphoria" | "ethereal" | "noirchrome" | "lomo" | "polaroid" | "filmgrain";
 
@@ -175,8 +174,6 @@ export default function CameraPage() {
 
   return (
     <main className="relative min-h-screen">
-      <Navigation activePage="camera" />
-
       <div className="relative z-10 pt-14 h-screen flex flex-col">
         {/* Header */}
         <div className="px-4 py-2 flex items-center justify-between" style={{ background: "rgba(255, 255, 255, 0.95)", borderBottom: "1px solid rgba(0, 0, 0, 0.06)", backdropFilter: "blur(12px)" }}>

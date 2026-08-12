@@ -78,7 +78,7 @@ export default function UnseenDashboard({ onDiscover, onReveal, onEditProfile, o
           <h1 className="text-2xl" style={{ fontWeight: 200, color: "rgba(224,231,255,0.9)", letterSpacing: "0.1em" }}>
             My UNSEEN
           </h1>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap justify-end">
             <button onClick={onEditProfile} className="text-[10px] px-3 py-1.5 rounded-lg"
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", color: "rgba(148,163,184,0.5)" }}>
               Profile

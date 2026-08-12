@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
-import Navigation from "@/components/Navigation";
+import { useAuth } from "@/components/AuthProvider";
 import { CURSOR_COLORS } from "@/lib/mural/types";
 
 const accentColors = [
@@ -103,24 +103,30 @@ const bgPresets = [
   { name: "Midnight", value: "#0f0f23" },
 ];
 
-// Gradient presets that get applied as CSS backgrounds
+// Gradient presets — layered radial gradients, using color-matched transparent (not CSS transparent) to avoid edge lines
 const gradientPresets = [
-  { name: "Opal", value: "linear-gradient(135deg, #fdf6ff, #f0f8ff, #f6fff0, #fff6f0)" },
-  { name: "Aurora", value: "linear-gradient(160deg, #e0f8f0, #e8f0ff, #f0e8ff, #f8f0f8)" },
-  { name: "Northern Lights", value: "linear-gradient(160deg, #d8f8e8, #d0f0ff, #e0e0ff, #f0d8f8)" },
-  { name: "Golden Hour", value: "linear-gradient(160deg, #fff8f0, #ffe8d0, #ffd8c0, #ffe0d8)" },
-  { name: "Sunset Blush", value: "linear-gradient(160deg, #fff0f0, #ffe0e8, #ffd8e0, #ffe8f0)" },
-  { name: "Ocean Mist", value: "linear-gradient(160deg, #e8f4ff, #d8ecff, #e0f0ff, #e8f8ff)" },
-  { name: "Sea Glass", value: "linear-gradient(160deg, #e0f8f4, #d8f0f0, #e4f8f0, #e8fff8)" },
-  { name: "Forest Floor", value: "linear-gradient(160deg, #e8f0e0, #dce8d4, #e4ece0, #ecf4e8)" },
-  { name: "Lavender Field", value: "linear-gradient(160deg, #ece0f8, #e4d8f4, #e8e0f8, #f0e8ff)" },
-  { name: "Rose Petal", value: "linear-gradient(160deg, #fff0f4, #ffe4ec, #ffe8f0, #fff4f8)" },
-  { name: "Sand Dune", value: "linear-gradient(160deg, #f8f0e0, #f0e8d4, #f4ece0, #f8f4e8)" },
-  { name: "Steel Horizon", value: "linear-gradient(160deg, #dce4ec, #d4dce4, #d8e0e8, #e0e8f0)" },
-  { name: "Deep Space", value: "linear-gradient(160deg, #080810, #0c0a14, #0a0c12, #080a10)" },
-  { name: "Midnight Ocean", value: "linear-gradient(160deg, #080c14, #0a0e18, #0c101c, #0a0e16)" },
-  { name: "Indigo Abyss", value: "linear-gradient(160deg, #0a0a14, #0e0a1a, #0c0c16, #0a0a12)" },
-  { name: "Cosmos", value: "linear-gradient(160deg, #08080e, #0a0a14, #0c0c16, #0a0a10)" },
+  { name: "Opal", value: "radial-gradient(ellipse at 20% 50%, rgba(253,248,255,0.8), rgba(253,248,255,0) 70%), radial-gradient(ellipse at 80% 50%, rgba(240,248,255,0.8), rgba(240,248,255,0) 70%), radial-gradient(ellipse at 50% 80%, rgba(248,255,250,0.6), rgba(248,255,250,0) 60%), linear-gradient(135deg, #f8f4ff, #f0f8ff)" },
+  { name: "Aurora", value: "radial-gradient(ellipse at 25% 30%, rgba(208,251,232,0.7), rgba(208,251,232,0) 60%), radial-gradient(ellipse at 75% 70%, rgba(200,232,255,0.6), rgba(200,232,255,0) 60%), radial-gradient(ellipse at 50% 50%, rgba(248,232,248,0.4), rgba(248,232,248,0) 50%), linear-gradient(160deg, #e8fff4, #f0f0ff)" },
+  { name: "Northern Lights", value: "radial-gradient(ellipse at 30% 20%, rgba(184,248,216,0.6), rgba(184,248,216,0) 55%), radial-gradient(ellipse at 70% 80%, rgba(160,232,255,0.5), rgba(160,232,255,0) 55%), radial-gradient(ellipse at 50% 50%, rgba(208,208,255,0.3), rgba(208,208,255,0) 50%), linear-gradient(145deg, #d8f8e8, #e0e0ff)" },
+  { name: "Golden Hour", value: "radial-gradient(ellipse at 60% 30%, rgba(255,248,232,0.8), rgba(255,248,232,0) 60%), radial-gradient(ellipse at 30% 70%, rgba(255,224,192,0.6), rgba(255,224,192,0) 55%), radial-gradient(ellipse at 80% 60%, rgba(255,216,184,0.4), rgba(255,216,184,0) 50%), linear-gradient(160deg, #fffae8, #ffd8b8)" },
+  { name: "Sunset Blush", value: "radial-gradient(ellipse at 40% 40%, rgba(255,240,244,0.8), rgba(255,240,244,0) 60%), radial-gradient(ellipse at 70% 60%, rgba(255,216,228,0.6), rgba(255,216,228,0) 55%), radial-gradient(ellipse at 30% 80%, rgba(255,240,244,0.4), rgba(255,240,244,0) 50%), linear-gradient(150deg, #fff0f4, #ffe0ec)" },
+  { name: "Ocean Mist", value: "radial-gradient(ellipse at 50% 30%, rgba(232,244,255,0.8), rgba(232,244,255,0) 60%), radial-gradient(ellipse at 20% 70%, rgba(208,232,255,0.6), rgba(208,232,255,0) 55%), radial-gradient(ellipse at 80% 50%, rgba(228,244,255,0.4), rgba(228,244,255,0) 50%), linear-gradient(160deg, #e8f4ff, #d4ecff)" },
+  { name: "Sea Glass", value: "radial-gradient(ellipse at 60% 40%, rgba(224,255,248,0.8), rgba(224,255,248,0) 60%), radial-gradient(ellipse at 30% 60%, rgba(200,240,240,0.6), rgba(200,240,240,0) 55%), radial-gradient(ellipse at 70% 80%, rgba(224,255,244,0.4), rgba(224,255,244,0) 50%), linear-gradient(145deg, #e0fff8, #c8f0f0)" },
+  { name: "Forest Floor", value: "radial-gradient(ellipse at 40% 30%, rgba(232,244,224,0.8), rgba(232,244,224,0) 60%), radial-gradient(ellipse at 70% 70%, rgba(216,236,208,0.6), rgba(216,236,208,0) 55%), radial-gradient(ellipse at 20% 60%, rgba(232,244,228,0.4), rgba(232,244,228,0) 50%), linear-gradient(160deg, #e8f4e0, #d4ecd0)" },
+  { name: "Lavender Field", value: "radial-gradient(ellipse at 50% 40%, rgba(240,228,255,0.8), rgba(240,228,255,0) 60%), radial-gradient(ellipse at 20% 60%, rgba(224,212,248,0.6), rgba(224,212,248,0) 55%), radial-gradient(ellipse at 80% 70%, rgba(236,228,255,0.4), rgba(236,228,255,0) 50%), linear-gradient(150deg, #f0e4ff, #dcd0f8)" },
+  { name: "Rose Petal", value: "radial-gradient(ellipse at 55% 35%, rgba(255,240,244,0.8), rgba(255,240,244,0) 60%), radial-gradient(ellipse at 30% 70%, rgba(255,216,228,0.6), rgba(255,216,228,0) 55%), radial-gradient(ellipse at 70% 60%, rgba(255,240,248,0.4), rgba(255,240,248,0) 50%), linear-gradient(160deg, #fff0f4, #ffdce4)" },
+  { name: "Sand Dune", value: "radial-gradient(ellipse at 45% 45%, rgba(250,244,232,0.8), rgba(250,244,232,0) 60%), radial-gradient(ellipse at 20% 60%, rgba(240,232,212,0.6), rgba(240,232,212,0) 55%), radial-gradient(ellipse at 80% 40%, rgba(248,244,232,0.4), rgba(248,244,232,0) 50%), linear-gradient(145deg, #faf4e8, #ece0cc)" },
+  { name: "Steel Horizon", value: "radial-gradient(ellipse at 40% 30%, rgba(221,228,236,0.8), rgba(221,228,236,0) 60%), radial-gradient(ellipse at 70% 70%, rgba(208,216,228,0.6), rgba(208,216,228,0) 55%), radial-gradient(ellipse at 30% 60%, rgba(220,228,236,0.4), rgba(220,228,236,0) 50%), linear-gradient(160deg, #dde4ec, #ccd4e0)" },
+  { name: "Deep Space", value: "radial-gradient(ellipse at 35% 25%, rgba(24,16,42,0.9), rgba(24,16,42,0) 65%), radial-gradient(ellipse at 70% 75%, rgba(12,10,22,0.7), rgba(12,10,22,0) 60%), radial-gradient(ellipse at 50% 50%, rgba(8,8,16,0.5), rgba(8,8,16,0) 50%), linear-gradient(160deg, #0c0a16, #060608)" },
+  { name: "Midnight Ocean", value: "radial-gradient(ellipse at 65% 25%, rgba(14,26,44,0.9), rgba(14,26,44,0) 65%), radial-gradient(ellipse at 30% 75%, rgba(10,14,26,0.7), rgba(10,14,26,0) 60%), radial-gradient(ellipse at 50% 50%, rgba(8,12,20,0.5), rgba(8,12,20,0) 50%), linear-gradient(160deg, #0a0e1a, #060810)" },
+  { name: "Indigo Abyss", value: "radial-gradient(ellipse at 50% 30%, rgba(22,8,42,0.9), rgba(22,8,42,0) 65%), radial-gradient(ellipse at 30% 70%, rgba(14,10,26,0.7), rgba(14,10,26,0) 60%), radial-gradient(ellipse at 70% 50%, rgba(10,10,20,0.5), rgba(10,10,20,0) 50%), linear-gradient(160deg, #0e0a1a, #060610)" },
+  { name: "Cosmos", value: "radial-gradient(ellipse at 40% 35%, rgba(22,18,36,0.9), rgba(22,18,36,0) 65%), radial-gradient(ellipse at 65% 70%, rgba(10,10,22,0.7), rgba(10,10,22,0) 60%), radial-gradient(ellipse at 50% 50%, rgba(8,8,14,0.5), rgba(8,8,14,0) 50%), linear-gradient(160deg, #0a0a16, #060610)" },
+  { name: "Celestial Bloom", value: "radial-gradient(ellipse at 25% 30%, rgba(240,228,255,0.7), rgba(240,228,255,0) 55%), radial-gradient(ellipse at 75% 40%, rgba(224,240,255,0.6), rgba(224,240,255,0) 55%), radial-gradient(ellipse at 50% 75%, rgba(232,255,240,0.5), rgba(232,255,240,0) 50%), linear-gradient(150deg, #f0e4ff, #e0f0ff)" },
+  { name: "Ethereal", value: "radial-gradient(ellipse at 30% 40%, rgba(240,236,255,0.8), rgba(240,236,255,0) 60%), radial-gradient(ellipse at 70% 60%, rgba(232,244,255,0.6), rgba(232,244,255,0) 55%), radial-gradient(ellipse at 50% 80%, rgba(248,240,255,0.4), rgba(248,240,255,0) 50%), linear-gradient(160deg, #f0ecff, #e8f4ff)" },
+  { name: "Mystic Teal", value: "radial-gradient(ellipse at 40% 30%, rgba(216,255,240,0.8), rgba(216,255,240,0) 60%), radial-gradient(ellipse at 70% 70%, rgba(192,240,240,0.6), rgba(192,240,240,0) 55%), radial-gradient(ellipse at 20% 60%, rgba(216,248,255,0.4), rgba(216,248,255,0) 50%), linear-gradient(145deg, #d8fff0, #c0f0f0)" },
+  { name: "Warm Ember", value: "radial-gradient(ellipse at 55% 35%, rgba(255,248,232,0.8), rgba(255,248,232,0) 60%), radial-gradient(ellipse at 30% 65%, rgba(255,232,200,0.6), rgba(255,232,200,0) 55%), radial-gradient(ellipse at 75% 55%, rgba(255,224,176,0.4), rgba(255,224,176,0) 50%), radial-gradient(ellipse at 50% 50%, rgba(255,216,160,0.3), rgba(255,216,160,0) 40%)" },
+  { name: "Frost", value: "radial-gradient(ellipse at 45% 35%, rgba(240,248,255,0.8), rgba(240,248,255,0) 60%), radial-gradient(ellipse at 20% 65%, rgba(228,240,255,0.6), rgba(228,240,255,0) 55%), radial-gradient(ellipse at 80% 50%, rgba(240,248,255,0.4), rgba(240,248,255,0) 50%), linear-gradient(160deg, #f0f8ff, #e4f0ff)" },
+  { name: "Twilight Mist", value: "radial-gradient(ellipse at 35% 30%, rgba(236,224,248,0.8), rgba(236,224,248,0) 60%), radial-gradient(ellipse at 65% 70%, rgba(224,232,255,0.6), rgba(224,232,255,0) 55%), radial-gradient(ellipse at 50% 50%, rgba(240,228,255,0.4), rgba(240,228,255,0) 50%), linear-gradient(150deg, #ece0f8, #e0e8ff)" },
 ];
 
 function Toggle({ value, onChange, color }: { value: boolean; onChange: () => void; color: string }) {
@@ -203,6 +209,7 @@ function Collapsible({ icon, title, children, defaultOpen = false, delay = 0 }: 
 }
 
 export default function SettingsPage() {
+  const { updatePreferences } = useAuth();
   const [accent, setAccent] = useState("#0d9488");
   const [textSize, setTextSize] = useState("medium");
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -225,8 +232,7 @@ export default function SettingsPage() {
   const [saved, setSaved] = useState(false);
 
   // Advanced settings
-  const [ambientSound, setAmbientSound] = useState(true);
-  const [notificationSound, setNotificationSound] = useState(true);
+
   const [messageDensity, setMessageDensity] = useState("normal");
   const [autoScroll, setAutoScroll] = useState(true);
   const [showTimestamps, setShowTimestamps] = useState(true);
@@ -238,7 +244,7 @@ export default function SettingsPage() {
   const [showOnlineStatus, setShowOnlineStatus] = useState(true);
   const [readReceipts, setReadReceipts] = useState(true);
   const [profileVisibility, setProfileVisibility] = useState("public");
-  const [performanceMode, setPerformanceMode] = useState(false);
+
   const [starDensity, setStarDensity] = useState("normal");
   const [canvasGridSnap, setCanvasGridSnap] = useState(false);
   const [bgColor, setBgColor] = useState("#ffffff");
@@ -308,8 +314,6 @@ export default function SettingsPage() {
 
       const boolSettings: [string, (v: boolean) => void][] = [
         ["hide-elyra-button", (v) => setShowElyraButton(!v)],
-        ["ambient-sound", setAmbientSound],
-        ["notification-sound", setNotificationSound],
         ["auto-scroll", setAutoScroll],
         ["show-timestamps", setShowTimestamps],
         ["high-contrast", setHighContrast],
@@ -318,7 +322,6 @@ export default function SettingsPage() {
         ["dyslexia-font", setDyslexiaFont],
         ["show-online-status", setShowOnlineStatus],
         ["read-receipts", setReadReceipts],
-        ["performance-mode", setPerformanceMode],
         ["canvas-grid-snap", setCanvasGridSnap],
       ];
       boolSettings.forEach(([key, setter]) => {
@@ -360,6 +363,7 @@ export default function SettingsPage() {
     setAccent(c);
     document.documentElement.style.setProperty("--elovayne-nebula", c);
     savePref("accent_color", c);
+    updatePreferences({ accent_color: c });
   }
 
   function updateTextSize(s: string) {
@@ -584,7 +588,6 @@ export default function SettingsPage() {
     setFocusIndicators(false);
     setReducedTransparency(false);
     setDyslexiaFont(false);
-    setPerformanceMode(false);
     document.documentElement.style.setProperty("--elovayne-nebula", "#0d9488");
     document.documentElement.style.setProperty("--font-size-base", "16px");
     document.body.style.fontFamily = "Inter, sans-serif";
@@ -627,8 +630,6 @@ export default function SettingsPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      <Navigation activePage="settings" />
-
       <div className="relative z-10 min-h-screen flex flex-col">
         <div className="flex-1 pt-20 sm:pt-28 pb-12 px-4 sm:px-6">
           <div className="max-w-lg mx-auto">
@@ -790,30 +791,44 @@ export default function SettingsPage() {
               {/* Gradient presets */}
               <div className="mb-3">
                 <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Gradients & Atmospheres</div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                   {gradientPresets.map((preset) => (
                     <button
                       key={preset.name}
                       onClick={() => updateBgColor(preset.value)}
-                      className="relative flex items-end p-2 rounded-xl cursor-pointer transition-all overflow-hidden"
+                      className="relative flex items-end p-2.5 rounded-xl cursor-pointer transition-all overflow-hidden group"
                       title={preset.name}
                       style={{
                         background: preset.value,
-                        border: bgColor === preset.value ? `2px solid ${accent}` : "1px solid rgba(13,148,136,0.08)",
+                        border: bgColor === preset.value ? `2px solid ${accent}` : "1px solid rgba(13,148,136,0.1)",
                         transform: bgColor === preset.value ? "scale(1.02)" : "scale(1)",
-                        minHeight: "52px",
+                        minHeight: "64px",
                         aspectRatio: "16/10",
+                        boxShadow: bgColor === preset.value ? `0 4px 20px ${accent}30` : "0 2px 8px rgba(0,0,0,0.04)",
                       }}
                     >
-                      <span className="text-[9px] px-1.5 py-0.5 rounded" style={{
+                      <span className="text-[9px] px-2 py-1 rounded-md transition-all" style={{
                         background: preset.name.includes("Deep") || preset.name.includes("Midnight") || preset.name.includes("Indigo") || preset.name.includes("Cosmos")
-                          ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.75)",
+                          ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.8)",
                         color: preset.name.includes("Deep") || preset.name.includes("Midnight") || preset.name.includes("Indigo") || preset.name.includes("Cosmos")
-                          ? "rgba(255,255,255,0.7)" : "#444",
-                        backdropFilter: "blur(4px)",
+                          ? "rgba(255,255,255,0.7)" : "#555",
+                        backdropFilter: "blur(6px)",
+                        WebkitBackdropFilter: "blur(6px)",
+                        fontWeight: 500,
+                        letterSpacing: "0.03em",
                       }}>
                         {preset.name}
                       </span>
+                      {bgColor === preset.value && (
+                        <motion.span
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center text-[8px]"
+                          style={{ background: accent, color: "white" }}
+                        >
+                          ✓
+                        </motion.span>
+                      )}
                     </button>
                   ))}
                 </div>
@@ -926,20 +941,6 @@ export default function SettingsPage() {
               </div>
             </Section>
 
-            {/* Sound & Notifications */}
-            <Collapsible icon="🔊" title="Sound & Notifications" delay={0.22}>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Ambient Sound</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Background sounds in rooms</div></div>
-                  <Toggle value={ambientSound} onChange={() => { setAmbientSound(!ambientSound); saveLocal("ambient-sound", !ambientSound); }} color={accent} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Notification Sounds</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Gentle sounds for new messages</div></div>
-                  <Toggle value={notificationSound} onChange={() => { setNotificationSound(!notificationSound); saveLocal("notification-sound", !notificationSound); }} color={accent} />
-                </div>
-              </div>
-            </Collapsible>
-
             {/* Chat & Messages */}
             <Collapsible icon="💬" title="Chat & Messages" delay={0.24}>
               <div className="mb-4">
@@ -1039,16 +1040,6 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Canvas Grid Snap</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Snap brushes to grid</div></div>
                 <Toggle value={canvasGridSnap} onChange={() => { setCanvasGridSnap(!canvasGridSnap); saveLocal("canvas-grid-snap", !canvasGridSnap); }} color={accent} />
-              </div>
-            </Collapsible>
-
-            {/* Performance */}
-            <Collapsible icon="⚡" title="Performance" delay={0.32}>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Performance Mode</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Reduce visual effects for slower devices</div></div>
-                  <Toggle value={performanceMode} onChange={() => { setPerformanceMode(!performanceMode); saveLocal("performance-mode", !performanceMode); }} color={accent} />
-                </div>
               </div>
             </Collapsible>
 

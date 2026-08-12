@@ -1,14 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Navigation from "@/components/Navigation";
 import IdeasFeed from "@/components/ideas/IdeasFeed";
 
 export default function IdeasPage() {
   return (
     <main className="relative min-h-screen overflow-hidden">
-      <Navigation activePage="ideas" />
-
       <div className="relative z-10 pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {/* Header */}

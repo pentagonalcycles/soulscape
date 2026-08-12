@@ -36,7 +36,7 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
     <>
       <button
         onClick={onToggle}
-        className="fixed bottom-4 right-4 z-40 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
+        className="fixed bottom-4 right-4 z-40 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer"
         style={{
           background: isOpen ? "rgba(239, 68, 68, 0.1)" : "rgba(13, 148, 136, 0.1)",
           border: `1px solid ${isOpen ? "rgba(239, 68, 68, 0.2)" : "rgba(13, 148, 136, 0.2)"}`,
@@ -49,10 +49,10 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
 
       {isOpen && (
         <div
-          className="fixed bottom-16 right-4 z-40 flex flex-col rounded-xl overflow-hidden"
+          className="fixed bottom-16 right-4 z-40 flex flex-col rounded-xl overflow-hidden max-sm:left-4 max-sm:right-4"
           style={{
-            width: "320px",
-            height: "400px",
+            width: "min(320px, calc(100vw - 32px))",
+            height: "min(400px, calc(100vh - 120px))",
             background: "rgba(255, 255, 255, 0.95)",
             backdropFilter: "blur(16px)",
             border: "1px solid rgba(13, 148, 136, 0.12)",

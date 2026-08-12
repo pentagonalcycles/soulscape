@@ -33,8 +33,7 @@ export default function Error({
         </h1>
 
         <p className="text-elovayne-muted/60 text-sm mb-8 max-w-md mx-auto">
-          Something went wrong. Your journey continues.
-          shortly.
+          Something went wrong. Your journey continues shortly.
         </p>
 
         <button

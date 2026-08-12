@@ -375,7 +375,7 @@ export default function ReflectionRoom() {
                           </p>
                           <button
                             onClick={() => handleDelete(entry.id)}
-                            className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            className="text-[10px] opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300"
                             style={{ color: "rgba(61, 61, 61, 0.3)" }}
                           >
                             Delete

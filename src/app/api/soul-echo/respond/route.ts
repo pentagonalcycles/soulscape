@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseService } from "@/lib/supabase";
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,12 +9,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Match ID and content are required" }, { status: 400 });
     }
 
-    const client = supabase();
-    const { data: { user }, error: authError } = await client.auth.getUser();
+    const authHeader = request.headers.get("Authorization");
+    if (!authHeader?.startsWith("Bearer ")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const token = authHeader.slice(7);
+    const { data: { user }, error: authError } = await supabase().auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const client = supabaseService();
 
     // Verify the user is part of this match
     const { data: match } = await client

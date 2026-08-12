@@ -165,9 +165,9 @@ export default function StargazingCanvas({ messageStars, onStarClick }: Stargazi
       mouseRef.current.y = (e.clientY / window.innerHeight - 0.5) * 2;
     };
 
-    const handleClick = (e: MouseEvent) => {
-      const mx = e.clientX;
-      const my = e.clientY;
+    const handleClick = (e: MouseEvent | TouchEvent) => {
+      const mx = "clientX" in e ? e.clientX : e.changedTouches[0]?.clientX ?? 0;
+      const my = "clientY" in e ? e.clientY : e.changedTouches[0]?.clientY ?? 0;
       const time = Date.now() * 0.001;
       const mX = mouseRef.current.x;
       const mY = mouseRef.current.y;
@@ -354,12 +354,14 @@ export default function StargazingCanvas({ messageStars, onStarClick }: Stargazi
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", handleMouseMove);
     canvas.addEventListener("click", handleClick);
+    canvas.addEventListener("touchend", handleClick);
 
     return () => {
       cancelAnimationFrame(animationRef.current);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("click", handleClick);
+      canvas.removeEventListener("touchend", handleClick);
     };
   }, [initStars, spawnShootingStar, onStarClick]);
 
@@ -367,7 +369,7 @@ export default function StargazingCanvas({ messageStars, onStarClick }: Stargazi
     <canvas
       ref={canvasRef}
       className="fixed inset-0"
-      style={{ zIndex: 0, cursor: "crosshair" }}
+      style={{ zIndex: 0, cursor: "crosshair", touchAction: "none" }}
     />
   );
 }

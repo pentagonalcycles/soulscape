@@ -59,7 +59,7 @@ function detectMood(text: string): MoodAnalysis | null {
   const l = text.toLowerCase();
   if (l.includes("lonely") || l.includes("alone")) return { mood: "loneliness", emoji: "🌙", room: "Stargazing", roomSlug: "stargazing", suggestion: "Look up at the stars — you're not alone in this sky." };
   if (l.includes("sad") || l.includes("grief")) return { mood: "grief", emoji: "💜", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "The Reflection Room is a gentle place to breathe and write." };
-  if (l.includes("anxious") || l.includes("worried")) return { mood: "anxiety", emoji: "🌊", room: "Ambient Room", roomSlug: "ambient-room", suggestion: "Find calm in the Ambient Room with soothing sounds." };
+  if (l.includes("anxious") || l.includes("worried")) return { mood: "anxiety", emoji: "🌊", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "Find calm in the Reflection Room with a moment to breathe." };
   if (l.includes("happy") || l.includes("grateful")) return { mood: "joy", emoji: "✨", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "Share your joy through Soul Echo!" };
   if (l.includes("creative") || l.includes("art")) return { mood: "creativity", emoji: "🎨", room: "Dream Canvas", roomSlug: "dream-canvas", suggestion: "Express yourself on the Dream Canvas." };
   if (l.includes("love") || l.includes("heart")) return { mood: "love", emoji: "💕", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "Reflect on love in the Reflection Room." };
@@ -291,7 +291,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
                 }}>
                   <span style={{ fontSize: "16px" }}>{lastMood.emoji}</span>
                   <span style={{ fontSize: "12px", color: "#64748b", flex: 1, lineHeight: "1.4" }}>{lastMood.suggestion}</span>
-                  <Link href={`/rooms/${lastMood.roomSlug}`} style={{
+                  <Link href={`/${lastMood.roomSlug}`} style={{
                     fontSize: "11px", color: "#22c55e", textDecoration: "none",
                     padding: "6px 12px", borderRadius: "14px",
                     background: "rgba(34, 197, 94, 0.08)",
@@ -339,7 +339,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
           </div>
           {input.trim() ? (
             <button onClick={send} disabled={loading} className="btn-icon" style={{
-              width: "38px", height: "38px", borderRadius: "50%",
+              width: "44px", height: "44px", borderRadius: "50%",
               background: "linear-gradient(135deg, #22c55e, #4ade80)",
               color: "#ffffff",
               boxShadow: "0 2px 12px rgba(34, 197, 94, 0.25)",
@@ -348,7 +348,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
             </button>
           ) : (
             <button disabled className="btn-icon" style={{
-              width: "38px", height: "38px", borderRadius: "50%",
+              width: "44px", height: "44px", borderRadius: "50%",
               background: "#f0fdf4", color: "#86efac",
               cursor: "default",
             }}>

@@ -242,9 +242,6 @@ export default function CampfireScene({ isPlaying }: CampfireSceneProps) {
         { x: w / 2, y: h * 0.7 },
       ];
 
-      // Store positions for external access
-      (canvas as any)._sittingPositions = positions;
-
       animRef.current = requestAnimationFrame(draw);
     };
 

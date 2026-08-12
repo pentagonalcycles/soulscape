@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Navigation from "@/components/Navigation";
 import { useState } from "react";
 
 const faqSections = [
@@ -138,8 +137,6 @@ export default function FAQPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      <Navigation activePage="faq" />
-
       <div className="relative z-10 pt-20 sm:pt-28 pb-16 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {/* Header */}

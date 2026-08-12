@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseService } from "@/lib/supabase";
 import { stripe } from "@/lib/stripe";
 
 export async function GET(
@@ -7,12 +7,18 @@ export async function GET(
   { params }: { params: Promise<{ purchaseId: string }> }
 ) {
   const { purchaseId } = await params;
-  const client = supabase();
-  const { data: { user } } = await client.auth.getUser();
-
-  if (!user) {
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  const token = authHeader.slice(7);
+  const { data: { user }, error: authError } = await supabase().auth.getUser(token);
+
+  if (authError || !user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const client = supabaseService();
 
   const { data: download } = await client
     .from("downloads")

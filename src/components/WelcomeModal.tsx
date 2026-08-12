@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ElovayneLogo from "./ElovayneLogo";
+import { useIsMobile } from "@/lib/useIsMobile";
 
 const WELCOME_KEY = "elovayne_welcomed";
 
@@ -17,6 +18,7 @@ export default function WelcomeModal() {
   const [show, setShow] = useState(false);
   const [dontShow, setDontShow] = useState(false);
   const router = useRouter();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const hasSeen = localStorage.getItem(WELCOME_KEY);
@@ -50,6 +52,8 @@ export default function WelcomeModal() {
     }))
   );
 
+  const visibleParticles = isMobile ? particles.slice(0, 5) : particles;
+
   return (
     <AnimatePresence>
       {show && (
@@ -67,7 +71,7 @@ export default function WelcomeModal() {
             style={{ background: 'rgba(13, 148, 136, 0.04)' }}
             onClick={dismiss}
           >
-            {particles.map((p, i) => (
+            {visibleParticles.map((p, i) => (
               <motion.div
                 key={i}
                 className="absolute rounded-full pointer-events-none"
@@ -94,13 +98,13 @@ export default function WelcomeModal() {
 
           {/* Modal */}
           <motion.div
-            className="relative glass rounded-2xl p-7 sm:p-8 max-w-md w-full mx-4"
+            className={`relative glass rounded-2xl max-w-md w-full mx-4 ${isMobile ? "p-5" : "p-7 sm:p-8"}`}
             initial={{ opacity: 0, y: 16, scale: 0.97, filter: "blur(6px)" }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: 16, scale: 0.97, filter: "blur(6px)" }}
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="text-center mb-8">
+            <div className={`text-center ${isMobile ? "mb-5" : "mb-8"}`}>
               <div className="flex justify-center mb-5">
                 <ElovayneLogo />
               </div>
@@ -115,7 +119,7 @@ export default function WelcomeModal() {
             </div>
 
             {/* Quick actions */}
-            <div className="space-y-3 mb-8">
+            <div className={`space-y-3 ${isMobile ? "mb-5" : "mb-8"}`}>
               {quickActions.map((action) => (
                 <button
                   key={action.label}

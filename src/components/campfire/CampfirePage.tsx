@@ -97,13 +97,13 @@ export default function CampfirePage() {
 
       {/* Room info header */}
       <div className="absolute top-4 left-4 right-4 z-30 flex items-center justify-between pointer-events-none">
-        <div className="flex items-center gap-2">
-          <span className="text-lg">🔥</span>
-          <span className="text-sm font-light" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-lg flex-shrink-0">🔥</span>
+          <span className="text-sm font-light truncate max-w-[120px] sm:max-w-none" style={{ color: "rgba(255, 255, 255, 0.7)" }}>
             {currentRoom.name}
           </span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           {/* Presence dots */}
           <div className="flex gap-1">
             {presences.map((p) => (
@@ -118,7 +118,7 @@ export default function CampfirePage() {
           {/* Sound toggle */}
           <button
             onClick={toggleSound}
-            className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer pointer-events-auto"
+            className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer pointer-events-auto"
             style={{
               background: "rgba(245, 158, 11, 0.1)",
               border: "1px solid rgba(245, 158, 11, 0.2)",

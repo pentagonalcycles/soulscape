@@ -1,17 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseService } from "@/lib/supabase";
 import { checkIsAdmin } from "@/lib/monetisation";
 
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const client = supabase();
-  const { data: { user } } = await client.auth.getUser();
-  if (!user || !(await checkIsAdmin(user.id))) {
+  const authHeader = _req.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+  }
+  const token = authHeader.slice(7);
+  const { data: { user }, error: authError } = await supabase().auth.getUser(token);
+  if (authError || !user || !(await checkIsAdmin(user.id))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
   }
 
+  const client = supabaseService();
   const { id } = await params;
 
   // Fetch user profile

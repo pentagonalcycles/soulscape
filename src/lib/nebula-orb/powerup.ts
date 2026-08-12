@@ -1,5 +1,6 @@
 import { PowerUp, PowerUpType, Orb } from "./types";
 import { POWERUP_RADIUS } from "./constants";
+import { addPowerUp } from "./orb";
 
 let powerUpIdCounter = 0;
 
@@ -21,7 +22,6 @@ export function createPowerUp(mapWidth: number, mapHeight: number): PowerUp {
 }
 
 export function collectPowerUp(orb: Orb, powerUp: PowerUp): void {
-  const { addPowerUp } = require("./orb");
   addPowerUp(orb, powerUp.type);
 }
 

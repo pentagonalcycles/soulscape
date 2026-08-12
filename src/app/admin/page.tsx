@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/components/AuthProvider";
-import Navigation from "@/components/Navigation";
 import { supabase } from "@/lib/supabase";
 
 interface Product {
@@ -239,7 +238,6 @@ export default function AdminPage() {
       <main className="relative min-h-screen overflow-hidden">
         <div className="global-corners" />
         <div className="relative z-10 min-h-screen flex flex-col">
-          <Navigation />
           <div className="flex-1 pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6">
             <div className="max-w-3xl mx-auto text-center py-20">
               <div className="text-elovayne-dim text-sm">Checking access...</div>
@@ -255,7 +253,6 @@ export default function AdminPage() {
       <main className="relative min-h-screen overflow-hidden">
         <div className="global-corners" />
         <div className="relative z-10 min-h-screen flex flex-col">
-          <Navigation />
           <div className="flex-1 pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6">
             <div className="max-w-2xl mx-auto text-center py-20">
               <div className="text-3xl mb-4">◈</div>
@@ -288,7 +285,6 @@ export default function AdminPage() {
       <div className="global-corners-extra" />
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <Navigation activePage="admin" />
 
         <div className="flex-1 pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">

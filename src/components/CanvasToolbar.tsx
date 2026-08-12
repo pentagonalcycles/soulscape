@@ -625,9 +625,9 @@ export default function CanvasToolbar({
                             handleToolTypeChange(tool.type);
                             // Store the Plus tool metadata
                             if (isPlusGroup && tool.plusId) {
-                              onToolChange({ ...activeTool, type: tool.type as any, plusId: tool.plusId });
+                              onToolChange({ ...activeTool, type: tool.type, plusId: tool.plusId });
                             } else if (!isPlusGroup) {
-                              onToolChange({ ...activeTool, type: tool.type as any, plusId: undefined });
+                              onToolChange({ ...activeTool, type: tool.type, plusId: undefined });
                             }
                           }
                         }}

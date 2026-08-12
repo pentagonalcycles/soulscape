@@ -77,7 +77,7 @@ export default function CampfireChat({ messages, onSend, onTyping, onStopTyping 
         {/* Messages area */}
         <div
           className="overflow-y-auto px-4 pt-3"
-          style={{ maxHeight: "200px", minHeight: "80px" }}
+          style={{ maxHeight: "min(200px, 40vh)", minHeight: "80px" }}
         >
           {displayMessages.length === 0 ? (
             <p className="text-center py-6 text-xs" style={{ color: "rgba(245, 158, 11, 0.25)" }}>
