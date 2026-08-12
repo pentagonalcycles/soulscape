@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import { useAuth } from "@/components/AuthProvider";
 import { MuralRoom } from "@/lib/mural/types";
 
 const THEME_COLORS = [
@@ -17,7 +16,6 @@ interface MuralLobbyProps {
 }
 
 export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
-  const { isAdmin } = useAuth();
   const [rooms, setRooms] = useState<MuralRoom[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
@@ -27,6 +25,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [clearConfirm, setClearConfirm] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const run = async () => {
