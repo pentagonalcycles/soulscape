@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
-import { useAuth } from "@/components/AuthProvider";
 import IdeaCreator from "./IdeaCreator";
 import IdeaCard from "./IdeaCard";
 
@@ -31,19 +30,24 @@ interface Idea {
 }
 
 export default function IdeasFeed() {
-  const { isAdmin } = useAuth();
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("all");
   const [sortBy, setSortBy] = useState<"popular" | "newest">("popular");
   const [userId, setUserId] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const fetchIdeas = useCallback(async () => {
     setLoading(true);
     const client = supabase();
 
-    const { data: { session } } = await client.auth.getSession();
-    const uid = session?.user?.id || null;
+    let uid: string | null = null;
+    try {
+      const { data: { session } } = await client.auth.getSession();
+      uid = session?.user?.id || null;
+    } catch {
+      // auth not available
+    }
     setUserId(uid);
 
     let query = client.from("ideas").select("*");
@@ -120,28 +124,49 @@ export default function IdeasFeed() {
 
   async function handleSubmit(data: { content: string; category: string; isAnonymous: boolean }) {
     const client = supabase();
-    const { data: { session } } = await client.auth.getSession();
-    if (!session) return;
 
-    await client.from("ideas").insert({
-      user_id: session.user.id,
+    let uid = userId;
+    if (!uid) {
+      try {
+        const { data: authData } = await client.auth.signInAnonymously();
+        uid = authData?.user?.id || null;
+        if (uid) setUserId(uid);
+      } catch {
+        // auth not available, use null
+      }
+    }
+
+    const insertData: { content: string; category: string; is_anonymous: boolean; user_id?: string } = {
       content: data.content,
       category: data.category,
       is_anonymous: data.isAnonymous,
-    });
+    };
+    if (uid) insertData.user_id = uid;
 
+    await client.from("ideas").insert(insertData);
     fetchIdeas();
   }
 
   async function handleVote(ideaId: string) {
-    if (!userId) return;
     const client = supabase();
+
+    let uid = userId;
+    if (!uid) {
+      try {
+        const { data: authData } = await client.auth.signInAnonymously();
+        uid = authData?.user?.id || null;
+        if (uid) setUserId(uid);
+      } catch {
+        return;
+      }
+    }
+    if (!uid) return;
 
     const { data: existingVote } = await client
       .from("idea_votes")
       .select("id")
       .eq("idea_id", ideaId)
-      .eq("user_id", userId)
+      .eq("user_id", uid)
       .maybeSingle();
 
     if (existingVote) {
@@ -149,7 +174,7 @@ export default function IdeasFeed() {
     } else {
       await client.from("idea_votes").insert({
         idea_id: ideaId,
-        user_id: userId,
+        user_id: uid,
       });
     }
 
