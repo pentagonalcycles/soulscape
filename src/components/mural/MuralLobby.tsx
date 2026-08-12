@@ -25,13 +25,13 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [clearConfirm, setClearConfirm] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    console.log("[Mural] Component mounted, fetching rooms...");
     const run = async () => {
       try {
         const client = supabase();
-        console.log("[Mural] Fetching rooms...");
+        console.log("[Mural] Supabase client created");
         const { data, error } = await client
           .from("mural_rooms")
           .select("*")
@@ -44,6 +44,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
       } catch (e) {
         console.error("[Mural] Fetch exception:", e);
       } finally {
+        console.log("[Mural] Setting loading to false");
         setLoading(false);
       }
     };
@@ -164,7 +165,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
           + Create New Room
         </motion.button>
 
-        {rooms.length > 0 && isAdmin && (
+        {rooms.length > 0 && (
           <>
             {clearConfirm ? (
               <div className="flex items-center gap-2">
