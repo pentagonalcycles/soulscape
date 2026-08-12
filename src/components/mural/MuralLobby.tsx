@@ -55,6 +55,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
     try {
       const client = supabase();
 
+      console.log("[Mural] Creating room:", newName.trim());
       const { data, error } = await client
         .from("mural_rooms")
         .insert({
@@ -66,15 +67,20 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
         .select()
         .single();
 
+      console.log("[Mural] Insert result:", { data, error });
+
       if (data && !error) {
         setRooms((prev) => [data, ...prev]);
         setShowCreate(false);
         setNewName("");
         onJoinRoom(data);
       } else {
-        setError(error?.message || "Failed to create room. Please try again.");
+        const msg = error?.message || error?.details || error?.hint || JSON.stringify(error) || "Failed to create room";
+        console.error("[Mural] Insert error:", msg);
+        setError(msg);
       }
     } catch (e: unknown) {
+      console.error("[Mural] Exception:", e);
       setError(e instanceof Error ? e.message : "Failed to create room. Please try again.");
     }
     setCreating(false);

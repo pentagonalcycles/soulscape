@@ -55,11 +55,14 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
     const client = supabase();
 
     try {
+      console.log("[Campfire] Creating room:", newName.trim());
       const { data, error } = await client
         .from("campfire_rooms")
         .insert({ name: newName.trim() })
         .select()
         .single();
+
+      console.log("[Campfire] Insert result:", { data, error });
 
       if (data && !error) {
         setRooms((prev) => [data, ...prev]);
@@ -67,10 +70,13 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
         setNewName("");
         setShowJoin(data);
       } else {
-        setError(error?.message || "Failed to create room. Please try again.");
+        const msg = error?.message || error?.details || error?.hint || JSON.stringify(error) || "Failed to create room";
+        console.error("[Campfire] Insert error:", msg);
+        setError(msg);
       }
-    } catch (e) {
-      setError("Connection error. Please try again.");
+    } catch (e: unknown) {
+      console.error("[Campfire] Exception:", e);
+      setError(e instanceof Error ? e.message : "Connection error. Please try again.");
     }
     setCreating(false);
   }
