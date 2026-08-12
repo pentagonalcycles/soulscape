@@ -241,15 +241,18 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
             style={{
               background: isLight ? "rgba(245, 240, 232, 0.85)" : "rgba(5, 5, 16, 0.8)",
               backdropFilter: "blur(8px)",
+              touchAction: "none",
             }}
-            onClick={() => setShowJoin(null)}
+            onMouseDown={(e) => { if (e.target === e.currentTarget) setShowJoin(null); }}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="p-8 rounded-2xl w-full max-w-sm text-center"
+              onMouseDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              className="p-6 sm:p-8 rounded-2xl w-full max-w-sm text-center"
               style={{
                 background: isLight
                   ? "linear-gradient(180deg, #faf6f0, #f5efe5)"
@@ -258,6 +261,7 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
                 boxShadow: isLight
                   ? "0 0 60px rgba(245, 158, 11, 0.15)"
                   : "0 0 60px rgba(245, 158, 11, 0.1)",
+                touchAction: "manipulation",
               }}
             >
               <div className="text-4xl mb-4">🔥</div>
@@ -332,15 +336,18 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
             style={{
               background: isLight ? "rgba(245, 240, 232, 0.85)" : "rgba(5, 5, 16, 0.8)",
               backdropFilter: "blur(8px)",
+              touchAction: "none",
             }}
-            onClick={() => setShowCreate(false)}
+            onMouseDown={(e) => { if (e.target === e.currentTarget) setShowCreate(false); }}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="p-8 rounded-2xl w-full max-w-sm text-center"
+              onMouseDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              className="p-6 sm:p-8 rounded-2xl w-full max-w-sm text-center"
               style={{
                 background: isLight
                   ? "linear-gradient(180deg, #faf6f0, #f5efe5)"
@@ -349,6 +356,7 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
                 boxShadow: isLight
                   ? "0 0 60px rgba(245, 158, 11, 0.15)"
                   : "0 0 60px rgba(245, 158, 11, 0.1)",
+                touchAction: "manipulation",
               }}
             >
               <div className="text-4xl mb-4">🪵</div>
@@ -370,8 +378,8 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
                   background: isLight ? "rgba(245, 158, 11, 0.08)" : "rgba(245, 158, 11, 0.06)",
                   border: `1px solid ${isLight ? "rgba(245, 158, 11, 0.2)" : "rgba(245, 158, 11, 0.15)"}`,
                   color: isLight ? "rgba(30, 20, 10, 0.85)" : "rgba(255, 255, 255, 0.85)",
+                  touchAction: "manipulation",
                 }}
-                autoFocus
                 onKeyDown={(e) => e.key === "Enter" && createRoom()}
               />
 

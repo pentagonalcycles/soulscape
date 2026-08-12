@@ -305,19 +305,22 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            style={{ background: "rgba(0,0,0,0.3)", backdropFilter: "blur(8px)" }}
-            onClick={() => setShowCreate(false)}
+            style={{ background: "rgba(0,0,0,0.3)", backdropFilter: "blur(8px)", touchAction: "none" }}
+            onMouseDown={(e) => { if (e.target === e.currentTarget) setShowCreate(false); }}
           >
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="p-6 w-full max-w-sm rounded-xl"
+              onMouseDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              className="p-5 sm:p-6 w-full max-w-sm rounded-xl"
               style={{
                 background: "var(--card-bg, rgba(255,255,255,0.95))",
                 backdropFilter: "blur(16px)",
                 border: "1px solid rgba(13, 148, 136, 0.12)",
+                touchAction: "manipulation",
               }}
             >
               <h2
@@ -343,8 +346,8 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                   background: "rgba(13, 148, 136, 0.06)",
                   border: "1px solid rgba(13, 148, 136, 0.12)",
                   color: "#0f172a",
+                  touchAction: "manipulation",
                 }}
-                autoFocus
                 onKeyDown={(e) => e.key === "Enter" && createRoom()}
               />
 
