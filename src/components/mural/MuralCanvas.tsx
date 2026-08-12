@@ -44,7 +44,6 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
-  const [canvasReady, setCanvasReady] = useState(false);
 
   const userColor = CURSOR_COLORS[Math.abs(hashCode(userId || "anon")) % CURSOR_COLORS.length];
   const userName = "Painter";
@@ -133,15 +132,17 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
   }, [room.canvas_width, room.canvas_height]);
 
   useEffect(() => {
-    if (!canvasReady) return;
+    const uid = `mural-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    setUserId(uid);
+
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      setLoading(false);
+      return;
+    }
 
     const init = async () => {
       try {
-        const uid = `mural-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-        setUserId(uid);
-
-        const canvas = canvasRef.current;
-        if (!canvas) return;
         canvas.width = room.canvas_width;
         canvas.height = room.canvas_height;
 
@@ -152,7 +153,7 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
         }
 
         const ctx = canvas.getContext("2d");
-        if (!ctx) return;
+        if (!ctx) { setLoading(false); return; }
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -160,41 +161,17 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
         multiRef.current = multi;
 
         multi.onCursorMove = (_uid, data) => {
-          setCursors((prev) => {
-            const next = new Map(prev);
-            next.set(_uid, data);
-            return next;
-          });
+          setCursors((prev) => { const next = new Map(prev); next.set(_uid, data); return next; });
         };
-
-        multi.onStrokeSegment = (_uid, seg) => {
-          renderRemoteSegment(seg);
-        };
-
+        multi.onStrokeSegment = (_uid, seg) => { renderRemoteSegment(seg); };
         multi.onUserJoin = (_uid, data) => {
-          setPresences((prev) => {
-            const next = new Map(prev);
-            next.set(_uid, data);
-            return next;
-          });
+          setPresences((prev) => { const next = new Map(prev); next.set(_uid, data); return next; });
         };
-
         multi.onUserLeave = (_uid) => {
-          setCursors((prev) => {
-            const next = new Map(prev);
-            next.delete(_uid);
-            return next;
-          });
-          setPresences((prev) => {
-            const next = new Map(prev);
-            next.delete(_uid);
-            return next;
-          });
+          setCursors((prev) => { const next = new Map(prev); next.delete(_uid); return next; });
+          setPresences((prev) => { const next = new Map(prev); next.delete(_uid); return next; });
         };
-
-        multi.onChatMessage = (msg) => {
-          setChatMessages((prev) => [...prev.slice(-99), msg]);
-        };
+        multi.onChatMessage = (msg) => { setChatMessages((prev) => [...prev.slice(-99), msg]); };
 
         const { data } = await supabase()
           .from("mural_strokes")
@@ -206,13 +183,7 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
           for (const stroke of data as MuralStroke[]) {
             const sd = stroke.stroke_data;
             if (!sd.points || sd.points.length < 2) continue;
-            const params: BrushParams = {
-              color: sd.color,
-              brushSize: sd.brushSize,
-              opacity: sd.opacity,
-              brushType: sd.brushType,
-              brushHardness: sd.brushHardness,
-            };
+            const params: BrushParams = { color: sd.color, brushSize: sd.brushSize, opacity: sd.opacity, brushType: sd.brushType, brushHardness: sd.brushHardness };
             for (let i = 1; i < sd.points.length; i++) {
               drawBrushStroke(ctx, sd.points[i].x, sd.points[i].y, sd.points[i - 1].x, sd.points[i - 1].y, params);
             }
@@ -223,27 +194,19 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
         multi.join(room.id, uid, userColor, userName);
         setLoading(false);
       } catch (e) {
-        console.error("MuralCanvas init error:", e);
+        console.error("[MuralCanvas] Init error:", e);
         setLoading(false);
       }
     };
 
     init();
 
-    return () => {
-      multiRef.current?.leave();
-    };
-  }, [canvasReady, room.id]);
+    return () => { multiRef.current?.leave(); };
+  }, [room.id]);
 
   useEffect(() => {
     renderCursors(cursors);
   }, [cursors, renderCursors]);
-
-  useEffect(() => {
-    if (canvasRef.current && !canvasReady) {
-      setCanvasReady(true);
-    }
-  }, [canvasReady]);
 
   function persistStroke(points: Point[]) {
     if (!userId || points.length < 2) return;
