@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AuthProvider, useAuth } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeContext";
-import WelcomeModal from "@/components/WelcomeModal";
 import Footer from "@/components/Footer";
 import Starfield from "@/components/Starfield";
 import Nebula from "@/components/Nebula";
@@ -200,8 +199,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
           ◈
         </Link>
       )}
-
-      <WelcomeModal />
     </>
   );
 }
