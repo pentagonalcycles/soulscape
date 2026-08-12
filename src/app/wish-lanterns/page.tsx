@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/AuthProvider";
 
 interface Lantern {
   id: string;
@@ -24,6 +25,7 @@ const LANTERN_COLORS = [
 ];
 
 export default function WishLanternsPage() {
+  const { userId } = useAuth();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
   const lanternsRef = useRef<Lantern[]>([]);
@@ -31,7 +33,6 @@ export default function WishLanternsPage() {
   const mouseRef = useRef({ x: 0, y: 0 });
   const selectedRef = useRef<Lantern | null>(null);
 
-  const [userId, setUserId] = useState<string | null>(null);
   const [showWrite, setShowWrite] = useState(false);
   const [message, setMessage] = useState("");
   const [selectedColor, setSelectedColor] = useState(LANTERN_COLORS[0]);
@@ -43,13 +44,6 @@ export default function WishLanternsPage() {
   useEffect(() => {
     const init = async () => {
       const client = supabase();
-      const { data: { session } } = await client.auth.getSession();
-      let uid = session?.user.id;
-      if (!uid) {
-        const { data: authData } = await client.auth.signInAnonymously();
-        uid = authData.user?.id;
-      }
-      if (uid) setUserId(uid);
 
       // Load existing lanterns
       const { data } = await client

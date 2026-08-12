@@ -21,10 +21,9 @@ interface Poem {
 type View = "title" | "write" | "read";
 
 export default function PoetryPage() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, userId } = useAuth();
   const [view, setView] = useState<View>("title");
   const [poems, setPoems] = useState<Poem[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
   const [todayCount, setTodayCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -34,13 +33,6 @@ export default function PoetryPage() {
   useEffect(() => {
     const init = async () => {
       const client = supabase();
-      const { data: { session } } = await client.auth.getSession();
-      let uid = session?.user.id;
-      if (!uid) {
-        const { data: authData } = await client.auth.signInAnonymously();
-        uid = authData.user?.id;
-      }
-      if (uid) setUserId(uid);
 
       // Load poems with reactions
       const { data: poemsData } = await client
@@ -64,7 +56,7 @@ export default function PoetryPage() {
           (reactionsData || []).forEach((r: { poem_id: string; reaction_type: string; user_id: string }) => {
             if (r.poem_id === (poem as { id: string }).id) {
               reactions[r.reaction_type] = (reactions[r.reaction_type] || 0) + 1;
-              if (r.user_id === uid) userReactions.push(r.reaction_type);
+              if (r.user_id === userId) userReactions.push(r.reaction_type);
             }
           });
 
@@ -75,13 +67,13 @@ export default function PoetryPage() {
       }
 
       // Check today's count
-      if (uid) {
+      if (userId) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const { count } = await client
           .from("poems")
           .select("*", { count: "exact", head: true })
-          .eq("user_id", uid)
+          .eq("user_id", userId)
           .gte("created_at", today.toISOString());
         setTodayCount(count || 0);
       }
