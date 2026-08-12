@@ -58,26 +58,47 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
   }, []);
 
   async function createRoom() {
-    if (!newName.trim() || !userId || creating) return;
+    if (!newName.trim() || creating) return;
     setCreating(true);
     setError(null);
     const client = supabase();
-    const { data, error } = await client
-      .from("campfire_rooms")
-      .insert({
-        name: newName.trim(),
-        created_by: userId,
-      })
-      .select()
-      .single();
 
-    if (data && !error) {
-      setRooms((prev) => [data, ...prev]);
-      setShowCreate(false);
-      setNewName("");
-      setShowJoin(data);
-    } else {
-      setError(error?.message || "Failed to create room. Please try again.");
+    try {
+      // Try to get userId if not set
+      let uid: string | null = userId;
+      if (!uid) {
+        const { data: { session } } = await client.auth.getSession();
+        uid = session?.user?.id ?? null;
+        if (!uid) {
+          const { data: authData } = await client.auth.signInAnonymously();
+          uid = authData?.user?.id ?? null;
+        }
+        if (uid) setUserId(uid);
+      }
+
+      const insertData: { name: string; created_by?: string } = {
+        name: newName.trim(),
+      };
+      if (uid) {
+        insertData.created_by = uid;
+      }
+
+      const { data, error } = await client
+        .from("campfire_rooms")
+        .insert(insertData)
+        .select()
+        .single();
+
+      if (data && !error) {
+        setRooms((prev) => [data, ...prev]);
+        setShowCreate(false);
+        setNewName("");
+        setShowJoin(data);
+      } else {
+        setError(error?.message || "Failed to create room. Please try again.");
+      }
+    } catch (e) {
+      setError("Connection error. Please try again.");
     }
     setCreating(false);
   }

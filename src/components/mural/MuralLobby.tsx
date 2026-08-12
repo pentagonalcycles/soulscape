@@ -58,20 +58,37 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   }, []);
 
   async function createRoom() {
-    if (!newName.trim() || !userId || creating) return;
+    if (!newName.trim() || creating) return;
     setCreating(true);
     setError(null);
     try {
       const client = supabase();
+
+      // Try to get userId if not set
+      let uid: string | null = userId;
+      if (!uid) {
+        const { data: { session } } = await client.auth.getSession();
+        uid = session?.user?.id ?? null;
+        if (!uid) {
+          const { data: authData } = await client.auth.signInAnonymously();
+          uid = authData?.user?.id ?? null;
+        }
+        if (uid) setUserId(uid);
+      }
+
+      const insertData: { name: string; theme: string; canvas_width: number; canvas_height: number; created_by?: string } = {
+        name: newName.trim(),
+        theme: newTheme,
+        canvas_width: 3000,
+        canvas_height: 2000,
+      };
+      if (uid) {
+        insertData.created_by = uid;
+      }
+
       const { data, error } = await client
         .from("mural_rooms")
-        .insert({
-          name: newName.trim(),
-          theme: newTheme,
-          created_by: userId,
-          canvas_width: 3000,
-          canvas_height: 2000,
-        })
+        .insert(insertData)
         .select()
         .single();
 
