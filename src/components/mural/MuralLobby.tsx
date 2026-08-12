@@ -24,7 +24,6 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   const [newName, setNewName] = useState("");
   const [newTheme, setNewTheme] = useState("#0d9488");
   const [creating, setCreating] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [clearConfirm, setClearConfirm] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,14 +32,6 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
     const run = async () => {
       try {
         const client = supabase();
-        const { data: { session } } = await client.auth.getSession();
-        if (!session) {
-          const { data: authData } = await client.auth.signInAnonymously();
-          setUserId(authData.user?.id || null);
-        } else {
-          setUserId(session.user.id);
-        }
-
         const { data } = await client
           .from("mural_rooms")
           .select("*")
@@ -64,31 +55,14 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
     try {
       const client = supabase();
 
-      // Try to get userId if not set
-      let uid: string | null = userId;
-      if (!uid) {
-        const { data: { session } } = await client.auth.getSession();
-        uid = session?.user?.id ?? null;
-        if (!uid) {
-          const { data: authData } = await client.auth.signInAnonymously();
-          uid = authData?.user?.id ?? null;
-        }
-        if (uid) setUserId(uid);
-      }
-
-      const insertData: { name: string; theme: string; canvas_width: number; canvas_height: number; created_by?: string } = {
-        name: newName.trim(),
-        theme: newTheme,
-        canvas_width: 3000,
-        canvas_height: 2000,
-      };
-      if (uid) {
-        insertData.created_by = uid;
-      }
-
       const { data, error } = await client
         .from("mural_rooms")
-        .insert(insertData)
+        .insert({
+          name: newName.trim(),
+          theme: newTheme,
+          canvas_width: 3000,
+          canvas_height: 2000,
+        })
         .select()
         .single();
 

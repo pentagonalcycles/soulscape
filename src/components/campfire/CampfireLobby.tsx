@@ -27,7 +27,6 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
   const [newName, setNewName] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [creating, setCreating] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const isLight = theme === "light";
@@ -35,14 +34,6 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
   useEffect(() => {
     const init = async () => {
       const client = supabase();
-      const { data: { session } } = await client.auth.getSession();
-      let uid = session?.user.id;
-      if (!uid) {
-        const { data: authData } = await client.auth.signInAnonymously();
-        uid = authData.user?.id;
-      }
-      if (uid) setUserId(uid);
-
       const { data } = await client
         .from("campfire_rooms")
         .select("*")
@@ -64,28 +55,9 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
     const client = supabase();
 
     try {
-      // Try to get userId if not set
-      let uid: string | null = userId;
-      if (!uid) {
-        const { data: { session } } = await client.auth.getSession();
-        uid = session?.user?.id ?? null;
-        if (!uid) {
-          const { data: authData } = await client.auth.signInAnonymously();
-          uid = authData?.user?.id ?? null;
-        }
-        if (uid) setUserId(uid);
-      }
-
-      const insertData: { name: string; created_by?: string } = {
-        name: newName.trim(),
-      };
-      if (uid) {
-        insertData.created_by = uid;
-      }
-
       const { data, error } = await client
         .from("campfire_rooms")
-        .insert(insertData)
+        .insert({ name: newName.trim() })
         .select()
         .single();
 
