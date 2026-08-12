@@ -232,6 +232,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       } else {
         console.error("Anonymous auth failed:", error.message);
+        // Generate a local fallback userId so features still work
+        const fallbackId = `anon-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        localStorage.setItem("elyra-fallback-uid", fallbackId);
       }
 
       setLoading(false);
@@ -256,7 +259,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         session,
-        userId: session?.user?.id ?? null,
+        userId: session?.user?.id ?? (typeof window !== "undefined" ? localStorage.getItem("elyra-fallback-uid") : null) ?? null,
         loading,
         userProfile,
         userPreferences,
