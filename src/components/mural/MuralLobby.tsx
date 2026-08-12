@@ -27,28 +27,25 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("[Mural] Component mounted, fetching rooms...");
-    const run = async () => {
-      try {
-        const client = supabase();
-        console.log("[Mural] Supabase client created");
-        const { data, error } = await client
-          .from("mural_rooms")
-          .select("*")
-          .eq("is_active", true)
-          .order("created_at", { ascending: false })
-          .limit(20);
-        console.log("[Mural] Fetch result:", { count: data?.length, error: error?.message });
-        if (error) console.error("[Mural] Fetch error:", error);
+    console.log("[Mural] Component mounted");
+    const client = supabase();
+    console.log("[Mural] Client:", client ? "OK" : "NULL");
+    client
+      .from("mural_rooms")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+      .limit(20)
+      .then(({ data, error }) => {
+        console.log("[Mural] Result:", { count: data?.length, error: error?.message, data });
+        if (error) console.error("[Mural] Error:", error);
         setRooms(data || []);
-      } catch (e) {
-        console.error("[Mural] Fetch exception:", e);
-      } finally {
-        console.log("[Mural] Setting loading to false");
         setLoading(false);
-      }
-    };
-    run();
+      })
+      .catch((e) => {
+        console.error("[Mural] Exception:", e);
+        setLoading(false);
+      });
   }, []);
 
   async function createRoom() {
