@@ -137,14 +137,7 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
 
     const init = async () => {
       try {
-        const client = supabase();
-        const { data: { session } } = await client.auth.getSession();
-        let uid = session?.user.id;
-        if (!uid) {
-          const { data: authData } = await client.auth.signInAnonymously();
-          uid = authData.user?.id;
-        }
-        if (!uid) return;
+        const uid = `mural-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
         setUserId(uid);
 
         const canvas = canvasRef.current;
@@ -203,7 +196,7 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
           setChatMessages((prev) => [...prev.slice(-99), msg]);
         };
 
-        const { data } = await client
+        const { data } = await supabase()
           .from("mural_strokes")
           .select("*")
           .eq("room_id", room.id)
