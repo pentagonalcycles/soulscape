@@ -27,25 +27,25 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("[Mural] Component mounted");
-    const client = supabase();
-    console.log("[Mural] Client:", client ? "OK" : "NULL");
-    client
-      .from("mural_rooms")
-      .select("*")
-      .eq("is_active", true)
-      .order("created_at", { ascending: false })
-      .limit(20)
-      .then(({ data, error }) => {
-        console.log("[Mural] Result:", { count: data?.length, error: error?.message, data });
-        if (error) console.error("[Mural] Error:", error);
+    const run = async () => {
+      try {
+        const client = supabase();
+        const { data, error } = await client
+          .from("mural_rooms")
+          .select("*")
+          .eq("is_active", true)
+          .order("created_at", { ascending: false })
+          .limit(20);
+
+        if (error) console.error("[Mural] Fetch error:", error.message);
         setRooms(data || []);
-        setLoading(false);
-      })
-      .catch((e) => {
+      } catch (e) {
         console.error("[Mural] Exception:", e);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+    run();
   }, []);
 
   async function createRoom() {
