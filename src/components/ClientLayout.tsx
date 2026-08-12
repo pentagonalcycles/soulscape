@@ -11,6 +11,7 @@ import Nebula from "@/components/Nebula";
 import ArtisticBackground from "@/components/ArtisticBackground";
 import ElyraButton from "@/components/ElyraButton";
 import Navigation from "@/components/Navigation";
+import { supabase } from "@/lib/supabase";
 
 const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map"];
 const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map"];
@@ -64,6 +65,18 @@ function BannedScreen() {
 function LayoutInner({ children }: { children: ReactNode }) {
   const { isBanned, loading } = useAuth();
   const pathname = usePathname();
+
+  // Track page views
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let visitorId = localStorage.getItem("elovayne-visitor-id");
+    if (!visitorId) {
+      visitorId = `v-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      localStorage.setItem("elovayne-visitor-id", visitorId);
+    }
+    const client = supabase();
+    client.from("site_stats").insert({ page: pathname, visitor_id: visitorId }).then(() => {});
+  }, [pathname]);
 
   useEffect(() => {
     const storedBg = localStorage.getItem("bg-color");

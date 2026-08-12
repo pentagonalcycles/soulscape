@@ -31,6 +31,7 @@ const bottomLinks = [
   { href: "/about", label: "About" },
   { href: "/support", label: "Support" },
   { href: "/faq", label: "FAQ" },
+  { href: "/stats", label: "Stats" },
 ];
 
 interface NavigationProps {
