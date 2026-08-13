@@ -51,10 +51,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const token = authHeader.slice(7);
+
+    // Try to get user from token, or use fallback ID
+    let userId: string;
     const { data: { user }, error: authError } = await supabase().auth.getUser(token);
 
     if (authError || !user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      // Token is not a valid JWT - use as fallback user ID
+      if (token.startsWith("anon-") || token.startsWith("v-")) {
+        userId = token;
+      } else {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+    } else {
+      userId = user.id;
     }
 
     const client = supabaseService();
@@ -64,7 +74,7 @@ export async function POST(request: NextRequest) {
     const { data: limit } = await client
       .from("soul_echo_daily_limits")
       .select("*")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .eq("submission_date", today)
       .maybeSingle();
 
@@ -83,7 +93,7 @@ export async function POST(request: NextRequest) {
     const { data: reflection, error: insertError } = await client
       .from("soul_echo_reflections")
       .insert({
-        user_id: user.id,
+        user_id: userId,
         content: content.trim(),
         emotion_tags: emotionTags,
       })
@@ -95,16 +105,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Update daily limit
+    const limitUserId = userId;
     if (limit) {
       await client
         .from("soul_echo_daily_limits")
         .update({ submission_count: currentCount + 1 })
-        .eq("user_id", user.id)
+        .eq("user_id", limitUserId)
         .eq("submission_date", today);
     } else {
       await client
         .from("soul_echo_daily_limits")
-        .insert({ user_id: user.id, submission_date: today, submission_count: 1 });
+        .insert({ user_id: limitUserId, submission_date: today, submission_count: 1 });
     }
 
     // Find a match: look for active, unmatched reflections from other users
@@ -113,7 +124,7 @@ export async function POST(request: NextRequest) {
       .select("*")
       .eq("is_active", true)
       .eq("is_matched", false)
-      .neq("user_id", user.id)
+      .neq("user_id", userId)
       .order("created_at", { ascending: true })
       .limit(20);
 
@@ -144,7 +155,7 @@ export async function POST(request: NextRequest) {
         .insert({
           reflection_a_id: reflection.id,
           reflection_b_id: candidate.id,
-          user_a_id: user.id,
+          user_a_id: userId,
           user_b_id: candidate.user_id,
           status: "active",
         })

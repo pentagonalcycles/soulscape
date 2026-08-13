@@ -22,10 +22,27 @@ export default function SoulEcho() {
   const [dailyRemaining, setDailyRemaining] = useState(5);
 
   const getAuthHeaders = useCallback(async () => {
-    const { data: { session } } = await supabase().auth.getSession();
+    const client = supabase();
+    let session = null;
+    try {
+      const { data } = await client.auth.getSession();
+      session = data.session;
+    } catch {
+      // auth not available
+    }
+
+    // If no session, try to get fallback userId
+    if (!session) {
+      const fallbackId = typeof window !== "undefined" ? localStorage.getItem("elyra-fallback-uid") : null;
+      return {
+        "Content-Type": "application/json",
+        "Authorization": fallbackId ? `Bearer ${fallbackId}` : "",
+      };
+    }
+
     return {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${session?.access_token}`,
+      "Authorization": `Bearer ${session.access_token}`,
     };
   }, []);
 

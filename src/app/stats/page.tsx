@@ -124,6 +124,41 @@ function isOnline(lastVisit: string): boolean {
   return minutesAgo < 5;
 }
 
+// Animated counter component
+function AnimatedCounter({ value, className, style }: { value: number; className?: string; style?: React.CSSProperties }) {
+  const [displayValue, setDisplayValue] = useState(value);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    if (value === displayValue) return;
+    setIsAnimating(true);
+    const timer = setTimeout(() => {
+      setDisplayValue(value);
+      setIsAnimating(false);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [value, displayValue]);
+
+  const digits = displayValue.toString().split("");
+
+  return (
+    <span className={className} style={{ ...style, display: "inline-flex", overflow: "hidden" }}>
+      {digits.map((digit, i) => (
+        <span
+          key={`${i}-${digit}`}
+          style={{
+            display: "inline-block",
+            transition: "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            transform: isAnimating ? "translateY(-100%)" : "translateY(0)",
+          }}
+        >
+          {digit}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 interface VisitorEntry {
   visitorId: string;
   name: string;
@@ -451,19 +486,30 @@ export default function StatsPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="rounded-2xl p-4 mb-6 flex items-center justify-center gap-3"
+                className="rounded-2xl p-5 mb-6 flex items-center justify-center gap-4"
                 style={{
                   background: "rgba(16, 185, 129, 0.06)",
                   border: "1px solid rgba(16, 185, 129, 0.15)",
                 }}
               >
                 <div className="relative">
-                  <div className="w-3 h-3 rounded-full" style={{ background: "#10b981" }} />
-                  <div className="absolute inset-0 w-3 h-3 rounded-full animate-ping" style={{ background: "#10b981", opacity: 0.4 }} />
+                  <div className="w-4 h-4 rounded-full" style={{ background: "#10b981" }} />
+                  <div className="absolute inset-0 w-4 h-4 rounded-full animate-ping" style={{ background: "#10b981", opacity: 0.4 }} />
                 </div>
-                <span className="text-sm" style={{ color: "#10b981" }}>
-                  <strong>{onlineNow}</strong> {onlineNow === 1 ? "person" : "people"} online right now
-                </span>
+                <div className="flex items-baseline gap-2">
+                  <AnimatedCounter
+                    value={onlineNow}
+                    style={{
+                      fontSize: "28px",
+                      fontWeight: 300,
+                      color: "#10b981",
+                      letterSpacing: "-0.02em",
+                    }}
+                  />
+                  <span className="text-sm" style={{ color: "rgba(16, 185, 129, 0.7)" }}>
+                    {onlineNow === 1 ? "soul" : "souls"} finding peace
+                  </span>
+                </div>
               </motion.div>
 
               {/* Main stats grid - with glow */}

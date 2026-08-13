@@ -55,13 +55,40 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
   }
 
   async function handleSubmit() {
-    if (!userId || submitting) return;
+    if (submitting) return;
     setSubmitting(true);
     setError(null);
     const client = supabase();
 
-    const neraData = {
-      host_id: userId,
+    // Get a valid UUID for host_id
+    let hostId = userId;
+    if (!hostId || hostId.startsWith("anon-") || hostId.startsWith("v-")) {
+      // Try to get a real session
+      try {
+        const { data: { session } } = await client.auth.getSession();
+        if (session?.user?.id) {
+          hostId = session.user.id;
+        }
+      } catch {
+        // auth not available
+      }
+    }
+
+    // Validate date
+    if (!dateTime) {
+      setError("Please select a date and time.");
+      setSubmitting(false);
+      return;
+    }
+
+    const dateObj = new Date(dateTime);
+    if (isNaN(dateObj.getTime())) {
+      setError("Invalid date format.");
+      setSubmitting(false);
+      return;
+    }
+
+    const neraData: Record<string, unknown> = {
       title: title.trim(),
       description: description.trim() || null,
       nera_type: neraType,
@@ -71,16 +98,27 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
       approximate_location: locationName.trim() || null,
       is_online: isOnline,
       is_public: isPublic,
-      date_time: new Date(dateTime).toISOString(),
+      date_time: dateObj.toISOString(),
       max_participants: maxParticipants,
       current_participants: 1,
-      lat: lat,
-      lng: lng,
     };
+
+    // Only include host_id if it's a valid UUID
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (hostId && uuidRegex.test(hostId)) {
+      neraData.host_id = hostId;
+    }
+
+    // Only include lat/lng if they have values
+    if (lat !== null) neraData.lat = lat;
+    if (lng !== null) neraData.lng = lng;
 
     const { data, error } = await client.from("neras").insert(neraData).select().single();
     if (!error && data) {
-      await client.from("nera_attendees").insert({ nera_id: data.id, user_id: userId, status: "joined" });
+      // Only add attendee if we have a valid UUID
+      if (hostId && uuidRegex.test(hostId)) {
+        await client.from("nera_attendees").insert({ nera_id: data.id, user_id: hostId, status: "joined" });
+      }
       onSubmit(data);
     } else {
       setError(error?.message || "Failed to create Nera. Please try again.");
