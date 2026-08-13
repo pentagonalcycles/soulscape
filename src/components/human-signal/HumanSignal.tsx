@@ -29,7 +29,6 @@ export default function HumanSignal() {
 
   // Check rate limits on mount
   useEffect(() => {
-    if (!userId) return;
     checkRateLimits();
   }, [userId]);
 
@@ -65,14 +64,15 @@ export default function HumanSignal() {
   }, [view, currentSignal]);
 
   async function checkRateLimits() {
-    if (!userId) return;
     const client = supabase();
+    const uid = userId || localStorage.getItem("elovayne-visitor-id");
+    if (!uid) return;
 
     // Check cooldown
     const { data: rateLimit } = await client
       .from("signal_rate_limits")
       .select("last_signal_at, signals_today, today_date")
-      .eq("user_id", userId)
+      .eq("user_id", uid)
       .maybeSingle();
 
     if (rateLimit) {
@@ -108,14 +108,15 @@ export default function HumanSignal() {
   }
 
   async function handleSendSignal(signalType: string) {
-    if (!userId) return;
     const client = supabase();
+    const uid = userId || localStorage.getItem("elovayne-visitor-id");
+    if (!uid) return;
 
     // Insert signal
     const { data: signal, error } = await client
       .from("human_signals")
       .insert({
-        sender_id: userId,
+        sender_id: uid,
         signal_type: signalType,
       })
       .select()
@@ -128,7 +129,7 @@ export default function HumanSignal() {
     const { data: existing } = await client
       .from("signal_rate_limits")
       .select("signals_today, today_date")
-      .eq("user_id", userId)
+      .eq("user_id", uid)
       .maybeSingle();
 
     if (existing) {
@@ -140,11 +141,11 @@ export default function HumanSignal() {
           signals_today: isNewDay ? 1 : existing.signals_today + 1,
           today_date: today,
         })
-        .eq("user_id", userId);
+        .eq("user_id", uid);
       setDailyRemaining(isNewDay ? DAILY_SIGNAL_LIMIT - 1 : Math.max(0, DAILY_SIGNAL_LIMIT - existing.signals_today - 1));
     } else {
       await client.from("signal_rate_limits").insert({
-        user_id: userId,
+        user_id: uid,
         last_signal_at: new Date().toISOString(),
         signals_today: 1,
         today_date: today,
