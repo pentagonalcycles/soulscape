@@ -116,7 +116,7 @@ export default function HumanSignal() {
       return;
     }
 
-    // Insert signal
+    // Insert signal - use uid as-is (will work after SQL migration changes column to TEXT)
     const { data: signal, error } = await client
       .from("human_signals")
       .insert({
