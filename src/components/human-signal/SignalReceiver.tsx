@@ -23,18 +23,17 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
   async function findSignal() {
     setState("loading");
     const client = supabase();
+
+    // Get user ID (fallback to localStorage)
     const { data: { session } } = await client.auth.getSession();
-    if (!session) {
-      setState("error");
-      return;
-    }
+    const uid = session?.user?.id || localStorage.getItem("elovayne-visitor-id") || "anonymous";
 
     // Find waiting signals not from this user, not expired
     const { data: signals } = await client
       .from("human_signals")
       .select("*")
       .eq("status", "waiting")
-      .neq("sender_id", session.user.id)
+      .neq("sender_id", uid)
       .gt("expires_at", new Date().toISOString())
       .order("created_at", { ascending: true })
       .limit(10);
@@ -50,7 +49,7 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
 
       const { data: claimed } = await client.rpc("claim_signal", {
         signal_uuid: s.id,
-        receiver_uuid: session.user.id,
+        receiver_uuid: uid,
       });
 
       if (claimed) {
@@ -69,15 +68,12 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
 
     const client = supabase();
     const { data: { session } } = await client.auth.getSession();
-    if (!session) {
-      setState("error");
-      return;
-    }
+    const uid = session?.user?.id || localStorage.getItem("elovayne-visitor-id") || "anonymous";
 
     // Insert acknowledgement
     await client.from("signal_acknowledgements").insert({
       signal_id: signal.id,
-      receiver_id: session.user.id,
+      receiver_id: uid,
     });
 
     // Mark signal as heard
