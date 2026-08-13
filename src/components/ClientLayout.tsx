@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AuthProvider, useAuth } from "@/components/AuthProvider";
@@ -12,6 +12,48 @@ import ArtisticBackground from "@/components/ArtisticBackground";
 import ElyraButton from "@/components/ElyraButton";
 import Navigation from "@/components/Navigation";
 import { supabase } from "@/lib/supabase";
+
+function PageVisitors({ pathname }: { pathname: string }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const fetchCount = async () => {
+      const client = supabase();
+      const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+      const { data } = await client
+        .from("site_stats")
+        .select("visitor_id")
+        .eq("page", pathname)
+        .gte("created_at", fiveMinAgo);
+      const unique = new Set(data?.map((v) => v.visitor_id) || []).size;
+      setCount(unique);
+    };
+    fetchCount();
+    const interval = setInterval(fetchCount, 30000);
+    return () => clearInterval(interval);
+  }, [pathname]);
+
+  if (count === 0) return null;
+
+  return (
+    <div
+      className="fixed bottom-4 left-4 z-50 flex items-center gap-2 px-3 py-2 rounded-full"
+      style={{
+        background: "rgba(13, 148, 136, 0.08)",
+        backdropFilter: "blur(12px)",
+        border: "1px solid rgba(13, 148, 136, 0.15)",
+      }}
+    >
+      <div className="relative">
+        <div className="w-2 h-2 rounded-full" style={{ background: "#10b981" }} />
+        <div className="absolute inset-0 w-2 h-2 rounded-full animate-ping" style={{ background: "#10b981", opacity: 0.4 }} />
+      </div>
+      <span className="text-[10px]" style={{ color: "rgba(13, 148, 136, 0.7)" }}>
+        {count} {count === 1 ? "person" : "people"} here
+      </span>
+    </div>
+  );
+}
 
 const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map"];
 const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map"];
@@ -192,6 +234,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
       </div>
       {!hideElyraButton && <ElyraButton />}
       <Navigation activePage={activePage} />
+      {pathname && <PageVisitors pathname={pathname} />}
 
 
     </>
