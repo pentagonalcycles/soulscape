@@ -92,6 +92,48 @@ const pageIcons: Record<string, string> = {
 
 const dotColors = ["#0d9488", "#06b6d4", "#3b82f6", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981"];
 
+// Visitor name/avatar generation
+const adjectives = ["Starry", "Quiet", "Gentle", "Cosmic", "Dreamy", "Silent", "Soft", "Wild", "Calm", "Bright", "Mystic", "Lunar", "Solar", "Astral", "Crystal"];
+const nouns = ["Gazer", "Dreamer", "Wanderer", "Seeker", "Explorer", "Soul", "Spirit", "Light", "Shadow", "Wave", "Star", "Moon", "Cloud", "Breeze", "Flame"];
+const avatarEmojis = ["🌙", "✨", "🎨", "💫", "🌊", "🔮", "🌸", "🦋", "🌿", "💎", "⭐", "🎭", "🪷", "🌻", "🦜", "🕊️", "🌈", "🍃", "💜", "🔥"];
+
+function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
+function getVisitorName(visitorId: string): string {
+  const h = hashString(visitorId);
+  const adj = adjectives[h % adjectives.length];
+  const noun = nouns[(h >> 8) % nouns.length];
+  const num = (h % 100).toString().padStart(2, "0");
+  return `${adj}${noun}${num}`;
+}
+
+function getVisitorAvatar(visitorId: string): string {
+  const h = hashString(visitorId);
+  return avatarEmojis[h % avatarEmojis.length];
+}
+
+function isOnline(lastVisit: string): boolean {
+  const minutesAgo = (Date.now() - new Date(lastVisit).getTime()) / 60000;
+  return minutesAgo < 5;
+}
+
+interface VisitorEntry {
+  visitorId: string;
+  name: string;
+  avatar: string;
+  lastPage: string;
+  lastVisit: string;
+  online: boolean;
+  visitCount: number;
+}
+
 function getVisitorId(): string {
   if (typeof window === "undefined") return "server";
   let id = localStorage.getItem("elovayne-visitor-id");
@@ -205,6 +247,7 @@ export default function StatsPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [recentVisits, setRecentVisits] = useState<RecentVisit[]>([]);
   const [onlineNow, setOnlineNow] = useState(0);
+  const [visitorEntries, setVisitorEntries] = useState<VisitorEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const trackedRef = useRef(false);
@@ -283,6 +326,38 @@ export default function StatsPage() {
       .gte("created_at", fiveMinAgo.toISOString());
     const onlineCount = new Set(onlineData?.map((v) => v.visitor_id) || []).size;
 
+    // Visitor entries (last 24 hours)
+    const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const { data: visitorData } = await client
+      .from("site_stats")
+      .select("visitor_id, page, created_at")
+      .gte("created_at", oneDayAgo.toISOString())
+      .order("created_at", { ascending: false });
+
+    // Group by visitor and get their last activity
+    const visitorMap = new Map<string, { lastPage: string; lastVisit: string; visitCount: number }>();
+    visitorData?.forEach((v) => {
+      const existing = visitorMap.get(v.visitor_id);
+      if (!existing) {
+        visitorMap.set(v.visitor_id, { lastPage: v.page, lastVisit: v.created_at, visitCount: 1 });
+      } else {
+        existing.visitCount++;
+      }
+    });
+
+    const entries: VisitorEntry[] = Array.from(visitorMap.entries())
+      .map(([visitorId, data]) => ({
+        visitorId,
+        name: getVisitorName(visitorId),
+        avatar: getVisitorAvatar(visitorId),
+        lastPage: data.lastPage,
+        lastVisit: data.lastVisit,
+        online: isOnline(data.lastVisit),
+        visitCount: data.visitCount,
+      }))
+      .sort((a, b) => new Date(b.lastVisit).getTime() - new Date(a.lastVisit).getTime())
+      .slice(0, 20);
+
     setStats({
       totalViews: totalViews || 0,
       todayViews: todayViews || 0,
@@ -295,6 +370,7 @@ export default function StatsPage() {
     });
     setRecentVisits(recent || []);
     setOnlineNow(onlineCount);
+    setVisitorEntries(entries);
     setLastUpdated(new Date());
     setLoading(false);
   };
@@ -494,6 +570,76 @@ export default function StatsPage() {
                         </span>
                       </div>
                     </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Visitor Ticker */}
+              {visitorEntries.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                  className="rounded-2xl p-6 mb-6"
+                  style={{
+                    background: "var(--card-bg, rgba(13, 148, 136, 0.04))",
+                    border: "1px solid var(--border-subtle, rgba(13,148,136,0.1))",
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-sm font-medium" style={{ color: "var(--text-secondary, #334155)" }}>
+                      Who's Been Here
+                    </h2>
+                    <span className="text-[10px]" style={{ color: "var(--text-dim, #94a3b8)" }}>
+                      Last 24 hours
+                    </span>
+                  </div>
+                  <div className="space-y-2 max-h-[300px] overflow-y-auto" style={{ scrollbarWidth: "thin" }}>
+                    <AnimatePresence mode="popLayout">
+                      {visitorEntries.map((visitor, i) => (
+                        <motion.div
+                          key={visitor.visitorId}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: i * 0.04 }}
+                          className="flex items-center gap-3 py-2 px-3 rounded-lg"
+                          style={{
+                            background: visitor.online ? "rgba(16, 185, 129, 0.04)" : "transparent",
+                          }}
+                        >
+                          {/* Avatar */}
+                          <span className="text-lg flex-shrink-0">{visitor.avatar}</span>
+                          
+                          {/* Name and activity */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs font-medium" style={{ color: "var(--text-secondary, #334155)" }}>
+                                {visitor.name}
+                              </span>
+                              {visitor.online && (
+                                <div className="flex items-center gap-1">
+                                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#10b981" }} />
+                                  <span className="text-[9px]" style={{ color: "#10b981" }}>online</span>
+                                </div>
+                              )}
+                            </div>
+                            <p className="text-[10px]" style={{ color: "var(--text-faint, rgba(15,23,42,0.3))" }}>
+                              {visitor.online ? "exploring" : "visited"} {pageNames[visitor.lastPage] || visitor.lastPage} · {getTimeAgo(visitor.lastVisit)}
+                            </p>
+                          </div>
+
+                          {/* Visit count */}
+                          {visitor.visitCount > 1 && (
+                            <span className="text-[9px] px-1.5 py-0.5 rounded-full flex-shrink-0" style={{ 
+                              background: "rgba(13, 148, 136, 0.08)", 
+                              color: "var(--text-dim, #94a3b8)" 
+                            }}>
+                              {visitor.visitCount} pages
+                            </span>
+                          )}
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
                   </div>
                 </motion.div>
               )}
