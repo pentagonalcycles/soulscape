@@ -165,7 +165,7 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
             </svg>
             Back
           </motion.button>
-          {isAdmin && onDelete && (
+          {onDelete && (
             <>
               {confirmDelete ? (
                 <div className="flex items-center gap-2">

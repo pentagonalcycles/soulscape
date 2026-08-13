@@ -415,7 +415,7 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ delay: i * 0.04, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
-                  <NeraCard nera={n} onClick={() => onSelect(n)} onDelete={isAdmin ? handleAdminDelete : undefined} />
+                  <NeraCard nera={n} onClick={() => onSelect(n)} onDelete={handleAdminDelete} />
                 </motion.div>
               ))}
             </AnimatePresence>

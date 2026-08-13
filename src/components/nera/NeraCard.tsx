@@ -13,7 +13,6 @@ interface NeraCardProps {
 }
 
 export default function NeraCard({ nera, onClick, onDelete }: NeraCardProps) {
-  const { isAdmin } = useAuth();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const neraType = getNeraTypeById(nera.nera_type);
   const isFull = nera.current_participants >= nera.max_participants;
@@ -179,9 +178,9 @@ export default function NeraCard({ nera, onClick, onDelete }: NeraCardProps) {
             </div>
           </div>
 
-          {/* Right: admin delete + view button */}
+          {/* Right: delete + view button */}
           <div className="flex items-center gap-2">
-            {isAdmin && onDelete && (
+            {onDelete && (
               <>
                 {confirmDelete ? (
                   <div className="flex items-center gap-1">

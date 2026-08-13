@@ -25,6 +25,9 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
   const [locationName, setLocationName] = useState("");
   const [city, setCity] = useState("");
   const [dateTime, setDateTime] = useState("");
+  const [timeHour, setTimeHour] = useState("12");
+  const [timeMinute, setTimeMinute] = useState("00");
+  const [timePeriod, setTimePeriod] = useState<"AM" | "PM">("PM");
   const [maxParticipants, setMaxParticipants] = useState(6);
   const [isOnline, setIsOnline] = useState(false);
   const [isPublic, setIsPublic] = useState(true);
@@ -84,7 +87,13 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
       return;
     }
 
-    const dateObj = new Date(dateTime);
+    // Convert 12-hour to 24-hour format
+    let hour24 = parseInt(timeHour);
+    if (timePeriod === "PM" && hour24 !== 12) hour24 += 12;
+    if (timePeriod === "AM" && hour24 === 12) hour24 = 0;
+
+    const dateStr = dateTime.split("T")[0];
+    const dateObj = new Date(`${dateStr}T${hour24.toString().padStart(2, "0")}:${timeMinute}:00`);
     if (isNaN(dateObj.getTime())) {
       setError("Invalid date format.");
       setSubmitting(false);
@@ -297,15 +306,90 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
             <motion.div className="space-y-5" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3 }}>
               <div>
                 <label className="text-[12px] font-medium mb-2 block" style={{ color: "var(--text-muted, #64748b)" }}>Date & Time</label>
-                <input
-                  type="datetime-local"
-                  value={dateTime}
-                  onChange={(e) => setDateTime(e.target.value)}
-                  className="w-full px-4 py-3.5"
-                  style={inputStyle}
-                  onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(13, 148, 136, 0.08)"; }}
-                  onBlur={(e) => { e.currentTarget.style.boxShadow = "none"; }}
-                />
+                <div className="space-y-3">
+                  {/* Date input */}
+                  <input
+                    type="date"
+                    value={dateTime ? dateTime.split("T")[0] : ""}
+                    onChange={(e) => {
+                      const date = e.target.value;
+                      if (date) {
+                        setDateTime(`${date}T${timeHour}:${timeMinute}`);
+                      }
+                    }}
+                    className="w-full px-4 py-3.5"
+                    style={inputStyle}
+                    onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(13, 148, 136, 0.08)"; }}
+                    onBlur={(e) => { e.currentTarget.style.boxShadow = "none"; }}
+                  />
+                  {/* Time inputs */}
+                  <div className="flex gap-2">
+                    {/* Hour */}
+                    <select
+                      value={timeHour}
+                      onChange={(e) => {
+                        setTimeHour(e.target.value);
+                        if (dateTime) {
+                          const date = dateTime.split("T")[0];
+                          setDateTime(`${date}T${e.target.value}:${timeMinute}`);
+                        }
+                      }}
+                      className="flex-1 px-3 py-3.5 appearance-none cursor-pointer"
+                      style={{ ...inputStyle, textAlign: "center" }}
+                    >
+                      {Array.from({ length: 12 }, (_, i) => i + 1).map((h) => (
+                        <option key={h} value={h.toString().padStart(2, "0")}>
+                          {h}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="flex items-center text-lg font-bold" style={{ color: "var(--text-muted, #64748b)" }}>:</span>
+                    {/* Minute */}
+                    <select
+                      value={timeMinute}
+                      onChange={(e) => {
+                        setTimeMinute(e.target.value);
+                        if (dateTime) {
+                          const date = dateTime.split("T")[0];
+                          setDateTime(`${date}T${timeHour}:${e.target.value}`);
+                        }
+                      }}
+                      className="flex-1 px-3 py-3.5 appearance-none cursor-pointer"
+                      style={{ ...inputStyle, textAlign: "center" }}
+                    >
+                      {["00", "15", "30", "45"].map((m) => (
+                        <option key={m} value={m}>{m}</option>
+                      ))}
+                    </select>
+                    {/* AM/PM */}
+                    <div className="flex rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(13, 148, 136, 0.1)" }}>
+                      {(["AM", "PM"] as const).map((p) => (
+                        <button
+                          key={p}
+                          onClick={() => {
+                            setTimePeriod(p);
+                            if (dateTime) {
+                              const date = dateTime.split("T")[0];
+                              setDateTime(`${date}T${timeHour}:${timeMinute}`);
+                            }
+                          }}
+                          className="px-4 py-3.5 text-sm font-medium transition-all"
+                          style={{
+                            background: timePeriod === p
+                              ? "rgba(13, 148, 136, 0.15)"
+                              : "var(--card-bg, rgba(13, 148, 136, 0.03))",
+                            color: timePeriod === p
+                              ? "#0d9488"
+                              : "var(--text-dim, #94a3b8)",
+                            borderRight: p === "AM" ? "1px solid rgba(13, 148, 136, 0.1)" : "none",
+                          }}
+                        >
+                          {p}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Online toggle */}
