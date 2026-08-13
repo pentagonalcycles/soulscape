@@ -62,10 +62,12 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
 
     // Get a valid UUID for host_id
     let hostId = userId;
+    console.log("[Nera] Initial userId:", userId);
     if (!hostId || hostId.startsWith("anon-") || hostId.startsWith("v-")) {
       // Try to get a real session
       try {
         const { data: { session } } = await client.auth.getSession();
+        console.log("[Nera] Session:", session?.user?.id);
         if (session?.user?.id) {
           hostId = session.user.id;
         }
@@ -73,6 +75,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
         // auth not available
       }
     }
+    console.log("[Nera] Final hostId:", hostId);
 
     // Validate date
     if (!dateTime) {
@@ -113,14 +116,18 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
     if (lat !== null) neraData.lat = lat;
     if (lng !== null) neraData.lng = lng;
 
+    console.log("[Nera] Submitting:", neraData);
     const { data, error } = await client.from("neras").insert(neraData).select().single();
+    console.log("[Nera] Result:", { data, error });
     if (!error && data) {
       // Only add attendee if we have a valid UUID
       if (hostId && uuidRegex.test(hostId)) {
-        await client.from("nera_attendees").insert({ nera_id: data.id, user_id: hostId, status: "joined" });
+        const attendeeResult = await client.from("nera_attendees").insert({ nera_id: data.id, user_id: hostId, status: "joined" });
+        console.log("[Nera] Attendee result:", attendeeResult);
       }
       onSubmit(data);
     } else {
+      console.error("[Nera] Insert error:", error);
       setError(error?.message || "Failed to create Nera. Please try again.");
     }
     setSubmitting(false);
