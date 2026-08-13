@@ -24,42 +24,67 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
     setState("loading");
     const client = supabase();
 
-    // Get user ID (fallback to localStorage)
-    const { data: { session } } = await client.auth.getSession();
-    const uid = session?.user?.id || localStorage.getItem("elovayne-visitor-id") || "anonymous";
+    try {
+      // Get user ID (fallback to localStorage)
+      const { data: { session } } = await client.auth.getSession();
+      const uid = session?.user?.id || localStorage.getItem("elovayne-visitor-id") || "anonymous";
+      console.log("[Receiver] Finding signals for:", uid);
 
-    // Find waiting signals not from this user, not expired
-    const { data: signals } = await client
-      .from("human_signals")
-      .select("*")
-      .eq("status", "waiting")
-      .neq("sender_id", uid)
-      .gt("expires_at", new Date().toISOString())
-      .order("created_at", { ascending: true })
-      .limit(10);
+      // Find waiting signals not from this user, not expired
+      const { data: signals, error: queryError } = await client
+        .from("human_signals")
+        .select("*")
+        .eq("status", "waiting")
+        .neq("sender_id", uid)
+        .gt("expires_at", new Date().toISOString())
+        .order("created_at", { ascending: true })
+        .limit(10);
 
-    if (!signals || signals.length === 0) {
-      setState("empty");
-      return;
-    }
+      console.log("[Receiver] Query result:", { signals, queryError });
 
-    // Try to claim one atomically
-    for (const s of signals) {
-      if (isSignalExpired(s)) continue;
-
-      const { data: claimed } = await client.rpc("claim_signal", {
-        signal_uuid: s.id,
-        receiver_uuid: uid,
-      });
-
-      if (claimed) {
-        setSignal(s as HumanSignal);
-        setState("found");
+      if (queryError) {
+        console.error("[Receiver] Query error:", queryError);
+        setState("empty");
         return;
       }
-    }
 
-    setState("empty");
+      if (!signals || signals.length === 0) {
+        setState("empty");
+        return;
+      }
+
+      // Try to claim the first available signal
+      for (const s of signals) {
+        if (isSignalExpired(s)) continue;
+
+        console.log("[Receiver] Attempting to claim:", s.id);
+        const { data: claimed, error: claimError } = await client.rpc("claim_signal", {
+          signal_uuid: s.id,
+          receiver_uuid: uid,
+        });
+
+        console.log("[Receiver] Claim result:", { claimed, claimError });
+
+        if (claimError) {
+          console.error("[Receiver] Claim error:", claimError);
+          // If RPC fails, just show the signal anyway (non-atomic fallback)
+          setSignal(s as HumanSignal);
+          setState("found");
+          return;
+        }
+
+        if (claimed) {
+          setSignal(s as HumanSignal);
+          setState("found");
+          return;
+        }
+      }
+
+      setState("empty");
+    } catch (e) {
+      console.error("[Receiver] Exception:", e);
+      setState("empty");
+    }
   }
 
   async function acknowledgeSignal() {
@@ -67,19 +92,28 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
     setState("acknowledging");
 
     const client = supabase();
-    const { data: { session } } = await client.auth.getSession();
-    const uid = session?.user?.id || localStorage.getItem("elovayne-visitor-id") || "anonymous";
 
-    // Insert acknowledgement
-    await client.from("signal_acknowledgements").insert({
-      signal_id: signal.id,
-      receiver_id: uid,
-    });
+    try {
+      const { data: { session } } = await client.auth.getSession();
+      const uid = session?.user?.id || localStorage.getItem("elovayne-visitor-id") || "anonymous";
 
-    // Mark signal as heard
-    await client.rpc("hear_signal", { signal_uuid: signal.id });
+      // Insert acknowledgement
+      const { error: ackError } = await client.from("signal_acknowledgements").insert({
+        signal_id: signal.id,
+        receiver_id: uid,
+      });
+      if (ackError) console.error("[Receiver] Ack error:", ackError);
 
-    setState("acknowledged");
+      // Mark signal as heard (non-critical if this fails)
+      const { error: hearError } = await client.rpc("hear_signal", { signal_uuid: signal.id });
+      if (hearError) console.error("[Receiver] Hear error:", hearError);
+
+      setState("acknowledged");
+    } catch (e) {
+      console.error("[Receiver] Ack exception:", e);
+      // Still show acknowledged even if there's an error
+      setState("acknowledged");
+    }
   }
 
   if (state === "loading") {
