@@ -110,7 +110,11 @@ export default function HumanSignal() {
   async function handleSendSignal(signalType: string) {
     const client = supabase();
     const uid = userId || localStorage.getItem("elovayne-visitor-id");
-    if (!uid) return;
+    console.log("[Signal] Sending signal:", { signalType, userId, uid });
+    if (!uid) {
+      console.error("[Signal] No uid available");
+      return;
+    }
 
     // Insert signal
     const { data: signal, error } = await client
@@ -122,7 +126,11 @@ export default function HumanSignal() {
       .select()
       .single();
 
-    if (error || !signal) return;
+    console.log("[Signal] Insert result:", { signal, error });
+    if (error || !signal) {
+      console.error("[Signal] Insert failed:", error);
+      return;
+    }
 
     // Update rate limit
     const today = new Date().toISOString().split("T")[0];
