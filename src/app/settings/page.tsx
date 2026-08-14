@@ -249,6 +249,16 @@ export default function SettingsPage() {
   const [canvasGridSnap, setCanvasGridSnap] = useState(false);
   const [bgColor, setBgColor] = useState("#ffffff");
 
+  const [activeTab, setActiveTab] = useState("profile");
+  const tabs = [
+    { id: "profile", label: "Profile", icon: "✦" },
+    { id: "appearance", label: "Appearance", icon: "◇" },
+    { id: "chat", label: "Chat & AI", icon: "✧" },
+    { id: "privacy", label: "Privacy", icon: "🔒" },
+    { id: "rooms", label: "Rooms", icon: "🏠" },
+    { id: "data", label: "Data", icon: "🛡" },
+  ];
+
   useEffect(() => {
     const init = async () => {
       const client = supabase();
@@ -674,467 +684,440 @@ export default function SettingsPage() {
               )}
             </motion.div>
 
-            {/* Profile */}
-            <Section delay={0.05}>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm" style={{ color: accent }}>✦</span>
-                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Profile</span>
-              </div>
-
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Display Name</div>
-                <div className="flex gap-2">
-                  <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Your name..." maxLength={24} className="flex-1 px-3 py-2 rounded-lg text-xs outline-none" style={inputStyle} onKeyDown={(e) => e.key === "Enter" && updateDisplayName()} />
-                  <button onClick={updateDisplayName} className="btn btn-primary btn-sm">Save</button>
-                </div>
-                <p className="text-[10px] mt-1" style={{ color: "var(--text-faint)" }}>Shown in Mural and other features</p>
-              </div>
-
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Mural Cursor Color</div>
-                <div className="flex gap-1.5 flex-wrap">
-                  {CURSOR_COLORS.map((c) => (
-                    <button key={c} onClick={() => updateCursorColor(c)} className="w-7 h-7 rounded-full cursor-pointer transition-transform" style={{ background: c, boxShadow: cursorColor === c ? `0 0 0 2px white, 0 0 0 3.5px ${c}` : "none", transform: cursorColor === c ? "scale(1.15)" : "scale(1)" }} />
-                  ))}
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Campfire Display Name</div>
-                <div className="flex gap-2">
-                  <input type="text" value={campfireName} onChange={(e) => setCampfireName(e.target.value)} placeholder="Anonymous" maxLength={20} className="flex-1 px-3 py-2 rounded-lg text-xs outline-none" style={inputStyle} onKeyDown={(e) => e.key === "Enter" && updateCampfireName(campfireName)} />
-                  <button onClick={() => updateCampfireName(campfireName)} className="btn btn-primary btn-sm">Save</button>
-                </div>
-              </div>
-
-              <div>
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Poetry Pen Name</div>
-                <div className="flex gap-2">
-                  <input type="text" value={poetryPenName} onChange={(e) => setPoetryPenName(e.target.value)} placeholder="Anonymous" maxLength={30} className="flex-1 px-3 py-2 rounded-lg text-xs outline-none" style={inputStyle} onKeyDown={(e) => e.key === "Enter" && updatePoetryPenName(poetryPenName)} />
-                  <button onClick={() => updatePoetryPenName(poetryPenName)} className="btn btn-primary btn-sm">Save</button>
-                </div>
-              </div>
-            </Section>
-
-            {/* Accent Color */}
-            <Section delay={0.1}>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm" style={{ color: accent }}>✧</span>
-                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Accent Color</span>
-              </div>
-              <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-                {accentColors.map(color => (
-                  <button key={color.value} onClick={() => updateAccent(color.value)} className="flex flex-col items-center gap-1.5 p-3 rounded-xl cursor-pointer transition-all" style={{ background: accent === color.value ? `${color.value}10` : "rgba(13, 148, 136, 0.03)", border: `1px solid ${accent === color.value ? `${color.value}30` : "rgba(13, 148, 136, 0.08)"}` }}>
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm" style={{ background: `${color.value}15`, color: color.value, border: `2px solid ${accent === color.value ? color.value : "transparent"}` }}>{color.icon}</div>
-                    <span className="text-[10px]" style={{ color: accent === color.value ? color.value : "rgba(15, 23, 42, 0.4)" }}>{color.name}</span>
+            {/* Tab Bar */}
+            <div className="mb-8">
+              <div className="flex gap-1 p-1 rounded-2xl" style={{ background: "var(--card-bg)", border: "1px solid var(--border-subtle)" }}>
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className="relative flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs transition-colors cursor-pointer"
+                    style={{
+                      color: activeTab === tab.id ? accent : "var(--text-muted)",
+                      background: "none",
+                      border: "none",
+                    }}
+                  >
+                    {activeTab === tab.id && (
+                      <motion.div
+                        layoutId="settingsTab"
+                        className="absolute inset-0 rounded-xl"
+                        style={{ background: `${accent}10`, border: `1px solid ${accent}20` }}
+                        transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                      />
+                    )}
+                    <span className="relative z-10 hidden sm:inline">{tab.icon}</span>
+                    <span className="relative z-10">{tab.label}</span>
                   </button>
                 ))}
               </div>
-            </Section>
+            </div>
 
-            {/* Background Color */}
-            <Section delay={0.12}>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm" style={{ color: accent }}>◫</span>
-                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Background Color</span>
-              </div>
+            {/* Tab: Profile */}
+            {activeTab === "profile" && (
+              <motion.div key="profile" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                <Section delay={0.05}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>✦</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Identity</span>
+                  </div>
 
-              {/* Custom color picker */}
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Custom Color</div>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    value={bgColor}
-                    onChange={(e) => updateBgColor(e.target.value)}
-                    className="w-10 h-10 rounded-lg cursor-pointer border-0 p-0"
-                    style={{ background: "none" }}
-                  />
-                  <input
-                    type="text"
-                    value={bgColor}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      if (/^#[0-9a-fA-F]{0,6}$/.test(val)) updateBgColor(val);
-                    }}
-                    maxLength={7}
-                    className="flex-1 px-3 py-2 rounded-lg text-xs outline-none font-mono"
-                    style={{ background: "var(--input-bg)", border: "1px solid var(--border-subtle)", color: "var(--text-primary)" }}
-                    placeholder="#ffffff"
-                  />
-                  <div className="w-10 h-10 rounded-lg flex-shrink-0" style={{ background: bgColor, border: "1px solid var(--border-subtle)" }} />
-                </div>
-              </div>
-
-              {/* Preset colors */}
-              <div className="mb-3">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Solid Colors</div>
-                <div className="grid grid-cols-6 sm:grid-cols-8 gap-1.5">
-                  {bgPresets.map((preset) => (
-                    <button
-                      key={preset.value}
-                      onClick={() => updateBgColor(preset.value)}
-                      className="w-full aspect-square rounded-lg cursor-pointer transition-all"
-                      title={preset.name}
-                      style={{
-                        background: preset.value,
-                        border: bgColor === preset.value
-                          ? `2px solid ${accent}`
-                          : "1px solid rgba(13,148,136,0.12)",
-                        transform: bgColor === preset.value ? "scale(1.1)" : "scale(1)",
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Gradient presets */}
-              <div className="mb-3">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Gradients & Atmospheres</div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                  {gradientPresets.map((preset) => (
-                    <button
-                      key={preset.name}
-                      onClick={() => updateBgColor(preset.value)}
-                      className="relative flex items-end p-2.5 rounded-xl cursor-pointer transition-all overflow-hidden group"
-                      title={preset.name}
-                      style={{
-                        background: preset.value,
-                        border: bgColor === preset.value ? `2px solid ${accent}` : "1px solid rgba(13,148,136,0.1)",
-                        transform: bgColor === preset.value ? "scale(1.02)" : "scale(1)",
-                        minHeight: "64px",
-                        aspectRatio: "16/10",
-                        boxShadow: bgColor === preset.value ? `0 4px 20px ${accent}30` : "0 2px 8px rgba(0,0,0,0.04)",
-                      }}
-                    >
-                      <span className="text-[9px] px-2 py-1 rounded-md transition-all" style={{
-                        background: preset.name.includes("Deep") || preset.name.includes("Midnight") || preset.name.includes("Indigo") || preset.name.includes("Cosmos")
-                          ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.8)",
-                        color: preset.name.includes("Deep") || preset.name.includes("Midnight") || preset.name.includes("Indigo") || preset.name.includes("Cosmos")
-                          ? "rgba(255,255,255,0.7)" : "#555",
-                        backdropFilter: "blur(6px)",
-                        WebkitBackdropFilter: "blur(6px)",
-                        fontWeight: 500,
-                        letterSpacing: "0.03em",
-                      }}>
-                        {preset.name}
-                      </span>
-                      {bgColor === preset.value && (
-                        <motion.span
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className="absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center text-[8px]"
-                          style={{ background: accent, color: "white" }}
-                        >
-                          ✓
-                        </motion.span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Reset button */}
-              <button
-                onClick={() => updateBgColor("#ffffff")}
-                className="btn btn-ghost btn-sm"
-              >
-                Reset to white
-              </button>
-            </Section>
-
-            {/* Appearance */}
-            <Section delay={0.15}>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm" style={{ color: accent }}>◇</span>
-                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Appearance</span>
-              </div>
-
-              <div className="mb-5">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Text Size</div>
-                <div className="flex gap-2">
-                  {textSizes.map((size) => (
-                    <button key={size.value} onClick={() => updateTextSize(size.value)} className="flex-1 py-2 rounded-lg transition-all" style={{ background: textSize === size.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${textSize === size.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: textSize === size.value ? accent : "rgba(15, 23, 42, 0.4)", fontSize: size.preview }}>{size.label}</button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mb-5">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Font Style</div>
-                <div className="flex gap-2 flex-wrap">
-                  {fontChoices.map((f) => (
-                    <button key={f.value} onClick={() => { setFontChoice(f.value); document.body.style.fontFamily = f.family; savePref("font_choice", f.value); }} className="flex-1 py-2 rounded-lg text-xs transition-all" style={{ background: fontChoice === f.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${fontChoice === f.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: fontChoice === f.value ? accent : "rgba(15, 23, 42, 0.4)", fontFamily: f.family }}>{f.label}</button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Compact Mode</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Smaller gaps and padding</div></div>
-                  <Toggle value={compactMode} onChange={() => {
-                    const next = !compactMode;
-                    setCompactMode(next);
-                    savePref("compact_mode", next);
-                    localStorage.setItem("compact_mode", String(next));
-                    // Apply immediately
-                    if (next) {
-                      document.documentElement.style.setProperty("--compact-multiplier", "0.75");
-                      document.body.classList.add("compact-mode");
-                    } else {
-                      document.documentElement.style.setProperty("--compact-multiplier", "1");
-                      document.body.classList.remove("compact-mode");
-                    }
-                  }} color={accent} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Reduce Motion</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Minimize animations</div></div>
-                  <Toggle value={reduceMotion} onChange={() => {
-                    const next = !reduceMotion;
-                    setReduceMotion(next);
-                    savePref("reduce_motion", next);
-                    // Apply immediately
-                    if (next) {
-                      document.documentElement.style.setProperty("--anim-duration-multiplier", "0.01");
-                      document.body.classList.add("reduce-motion");
-                    } else {
-                      document.documentElement.style.setProperty("--anim-duration-multiplier", "1");
-                      document.body.classList.remove("reduce-motion");
-                    }
-                  }} color={accent} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Show Timestamps</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Display message times</div></div>
-                  <Toggle value={showTimestamps} onChange={() => { setShowTimestamps(!showTimestamps); saveLocal("show-timestamps", !showTimestamps); }} color={accent} />
-                </div>
-              </div>
-            </Section>
-
-            {/* Elyra AI */}
-            <Section delay={0.2}>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm" style={{ color: accent }}>✦</span>
-                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Elyra AI</span>
-              </div>
-
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Default Personality</div>
-                <div className="flex gap-2 flex-wrap">
-                  {elyraPersonalities.map((p) => (
-                    <button key={p.value} onClick={() => updateElyraPersonality(p.value)} className="px-3 py-2 rounded-lg text-[10px] transition-all" style={{ background: elyraPersonality === p.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${elyraPersonality === p.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: elyraPersonality === p.value ? accent : "rgba(15, 23, 42, 0.4)" }}>{p.icon} {p.label}</button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Response Length</div>
-                <div className="flex gap-2">
-                  {elyraResponseLengths.map((l) => (
-                    <button key={l.value} onClick={() => updateElyraResponseLength(l.value)} className="flex-1 py-2 rounded-lg text-xs transition-all" style={{ background: elyraResponseLength === l.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${elyraResponseLength === l.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: elyraResponseLength === l.value ? accent : "rgba(15, 23, 42, 0.4)" }}>{l.label}</button>
-                  ))}
-                </div>
-                <p className="text-[10px] mt-1" style={{ color: "var(--text-faint)" }}>{elyraResponseLengths.find(l => l.value === elyraResponseLength)?.desc}</p>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Show Floating Button</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Quick access on all pages</div></div>
-                <Toggle value={showElyraButton} onChange={toggleElyraButton} color={accent} />
-              </div>
-            </Section>
-
-            {/* Chat & Messages */}
-            <Collapsible icon="💬" title="Chat & Messages" delay={0.24}>
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Message Density</div>
-                <div className="flex gap-2">
-                  {["compact", "normal", "spacious"].map((d) => (
-                    <button key={d} onClick={() => { setMessageDensity(d); saveLocal("message-density", d); }} className="flex-1 py-2 rounded-lg text-xs capitalize transition-all" style={{ background: messageDensity === d ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${messageDensity === d ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: messageDensity === d ? accent : "rgba(15, 23, 42, 0.4)" }}>{d}</button>
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Auto-scroll</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Scroll to new messages automatically</div></div>
-                  <Toggle value={autoScroll} onChange={() => { setAutoScroll(!autoScroll); saveLocal("auto-scroll", !autoScroll); }} color={accent} />
-                </div>
-              </div>
-            </Collapsible>
-
-            {/* Privacy & Visibility */}
-            <Collapsible icon="🔒" title="Privacy & Visibility" delay={0.26}>
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Profile Visibility</div>
-                <div className="flex gap-2">
-                  {[{ value: "public", label: "Public" }, { value: "anonymous", label: "Anonymous" }].map((v) => (
-                    <button key={v.value} onClick={() => { setProfileVisibility(v.value); saveLocal("profile-visibility", v.value); }} className="flex-1 py-2 rounded-lg text-xs transition-all" style={{ background: profileVisibility === v.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${profileVisibility === v.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: profileVisibility === v.value ? accent : "rgba(15, 23, 42, 0.4)" }}>{v.label}</button>
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Show Online Status</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Let others see when you&apos;re active</div></div>
-                  <Toggle value={showOnlineStatus} onChange={() => { setShowOnlineStatus(!showOnlineStatus); saveLocal("show-online-status", !showOnlineStatus); }} color={accent} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Read Receipts</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Show when messages are read</div></div>
-                  <Toggle value={readReceipts} onChange={() => { setReadReceipts(!readReceipts); saveLocal("read-receipts", !readReceipts); }} color={accent} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Post Anonymously by Default</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Always share as anonymous</div></div>
-                  <Toggle value={anonymousDefault} onChange={() => { setAnonymousDefault(!anonymousDefault); savePref("anonymous_default", !anonymousDefault); }} color={accent} />
-                </div>
-              </div>
-            </Collapsible>
-
-            {/* Accessibility */}
-            <Collapsible icon="♿" title="Accessibility" delay={0.28}>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>High Contrast</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Increase contrast for better visibility</div></div>
-                  <Toggle value={highContrast} onChange={() => { setHighContrast(!highContrast); saveLocal("high-contrast", !highContrast); }} color={accent} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Focus Indicators</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Visible outlines on focused elements</div></div>
-                  <Toggle value={focusIndicators} onChange={() => { setFocusIndicators(!focusIndicators); saveLocal("focus-indicators", !focusIndicators); }} color={accent} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Reduced Transparency</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Replace glass effects with solid backgrounds</div></div>
-                  <Toggle value={reducedTransparency} onChange={() => { setReducedTransparency(!reducedTransparency); saveLocal("reduced-transparency", !reducedTransparency); }} color={accent} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Dyslexia-friendly Font</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Use OpenDyslexic typeface</div></div>
-                  <Toggle value={dyslexiaFont} onChange={() => { setDyslexiaFont(!dyslexiaFont); saveLocal("dyslexia-font", !dyslexiaFont); if (!dyslexiaFont) { setFontChoice("dyslexia"); document.body.style.fontFamily = "'OpenDyslexic', sans-serif"; } else { setFontChoice("default"); document.body.style.fontFamily = "Inter, sans-serif"; } }} color={accent} />
-                </div>
-              </div>
-            </Collapsible>
-
-            {/* Room Preferences */}
-            <Collapsible icon="🏠" title="Room Preferences" delay={0.3}>
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Favorite Room</div>
-                <div className="flex gap-2 flex-wrap">
-                  {roomOptions.map((r) => (
-                    <button key={r.value} onClick={() => { setFavoriteRoom(r.value); saveLocal("favorite-room", r.value); }} className="px-3 py-2 rounded-lg text-[10px] transition-all" style={{ background: favoriteRoom === r.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${favoriteRoom === r.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: favoriteRoom === r.value ? accent : "rgba(15, 23, 42, 0.4)" }}>{r.icon} {r.label}</button>
-                  ))}
-                </div>
-                <p className="text-[10px] mt-1" style={{ color: "var(--text-faint)" }}>Quick access from the Elyra button</p>
-              </div>
-
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Default Page</div>
-                <div className="flex gap-2 flex-wrap">
-                  {defaultPages.map((page) => (
-                    <button key={page.value} onClick={() => { setDefaultPage(page.value); savePref("default_page", page.value); }} className="px-3 py-2 rounded-lg text-[10px] transition-all" style={{ background: defaultPage === page.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${defaultPage === page.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: defaultPage === page.value ? accent : "rgba(15, 23, 42, 0.4)" }}>{page.label}</button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Stargazing Star Density</div>
-                <div className="flex gap-2">
-                  {["sparse", "normal", "dense"].map((d) => (
-                    <button key={d} onClick={() => { setStarDensity(d); saveLocal("star-density", d); }} className="flex-1 py-2 rounded-lg text-xs capitalize transition-all" style={{ background: starDensity === d ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${starDensity === d ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: starDensity === d ? accent : "rgba(15, 23, 42, 0.4)" }}>{d}</button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Canvas Grid Snap</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Snap brushes to grid</div></div>
-                <Toggle value={canvasGridSnap} onChange={() => { setCanvasGridSnap(!canvasGridSnap); saveLocal("canvas-grid-snap", !canvasGridSnap); }} color={accent} />
-              </div>
-            </Collapsible>
-
-            {/* Account */}
-            <Section delay={0.4}>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm" style={{ color: accent }}>✦</span>
-                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Account</span>
-              </div>
-
-              <div className="text-xs mb-4" style={{ color: "var(--text-dim)" }}>
-                {isAnonymous ? "You are browsing anonymously" : "Signed in with email"}
-                {userId && <span className="block mt-1 text-[10px]" style={{ color: "rgba(15,23,42,0.25)" }}>ID: {userId.slice(0, 8)}...</span>}
-              </div>
-
-              {isAnonymous && (
-                <div className="mb-4">
-                  <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Save your account with email</div>
-                  {emailSent ? (
-                    <p className="text-xs py-3 text-center rounded-lg" style={{ background: "rgba(16,185,129,0.06)", color: "#10b981", border: "1px solid rgba(16,185,129,0.15)" }}>Check your email for the sign-in link</p>
-                  ) : (
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Display Name</div>
                     <div className="flex gap-2">
-                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" className="flex-1 px-3 py-2 rounded-lg text-xs outline-none" style={inputStyle} onKeyDown={(e) => e.key === "Enter" && handleEmailSignIn()} />
-                      <button onClick={handleEmailSignIn} disabled={!email.trim()} className="btn btn-primary btn-sm disabled:opacity-40">Link</button>
+                      <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Your name..." maxLength={24} className="flex-1 px-3 py-2 rounded-lg text-xs outline-none" style={inputStyle} onKeyDown={(e) => e.key === "Enter" && updateDisplayName()} />
+                      <button onClick={updateDisplayName} className="btn btn-primary btn-sm">Save</button>
+                    </div>
+                    <p className="text-[10px] mt-1" style={{ color: "var(--text-faint)" }}>Shown in Mural and other features</p>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Mural Cursor Color</div>
+                    <div className="flex gap-1.5 flex-wrap">
+                      {CURSOR_COLORS.map((c) => (
+                        <button key={c} onClick={() => updateCursorColor(c)} className="w-7 h-7 rounded-full cursor-pointer transition-transform" style={{ background: c, boxShadow: cursorColor === c ? `0 0 0 2px white, 0 0 0 3.5px ${c}` : "none", transform: cursorColor === c ? "scale(1.15)" : "scale(1)" }} />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Campfire Display Name</div>
+                    <div className="flex gap-2">
+                      <input type="text" value={campfireName} onChange={(e) => setCampfireName(e.target.value)} placeholder="Anonymous" maxLength={20} className="flex-1 px-3 py-2 rounded-lg text-xs outline-none" style={inputStyle} onKeyDown={(e) => e.key === "Enter" && updateCampfireName(campfireName)} />
+                      <button onClick={() => updateCampfireName(campfireName)} className="btn btn-primary btn-sm">Save</button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Poetry Pen Name</div>
+                    <div className="flex gap-2">
+                      <input type="text" value={poetryPenName} onChange={(e) => setPoetryPenName(e.target.value)} placeholder="Anonymous" maxLength={30} className="flex-1 px-3 py-2 rounded-lg text-xs outline-none" style={inputStyle} onKeyDown={(e) => e.key === "Enter" && updatePoetryPenName(poetryPenName)} />
+                      <button onClick={() => updatePoetryPenName(poetryPenName)} className="btn btn-primary btn-sm">Save</button>
+                    </div>
+                  </div>
+                </Section>
+
+                <Section delay={0.1}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>✦</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Account</span>
+                  </div>
+
+                  <div className="text-xs mb-4" style={{ color: "var(--text-dim)" }}>
+                    {isAnonymous ? "You are browsing anonymously" : "Signed in with email"}
+                    {userId && <span className="block mt-1 text-[10px]" style={{ color: "rgba(15,23,42,0.25)" }}>ID: {userId.slice(0, 8)}...</span>}
+                  </div>
+
+                  {isAnonymous && (
+                    <div className="mb-4">
+                      <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Save your account with email</div>
+                      {emailSent ? (
+                        <p className="text-xs py-3 text-center rounded-lg" style={{ background: "rgba(16,185,129,0.06)", color: "#10b981", border: "1px solid rgba(16,185,129,0.15)" }}>Check your email for the sign-in link</p>
+                      ) : (
+                        <div className="flex gap-2">
+                          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" className="flex-1 px-3 py-2 rounded-lg text-xs outline-none" style={inputStyle} onKeyDown={(e) => e.key === "Enter" && handleEmailSignIn()} />
+                          <button onClick={handleEmailSignIn} disabled={!email.trim()} className="btn btn-primary btn-sm disabled:opacity-40">Link</button>
+                        </div>
+                      )}
                     </div>
                   )}
-                </div>
-              )}
 
-              <button onClick={handleSignOut} className="w-full py-2.5 rounded-xl text-xs transition-all hover:scale-[1.01]" style={{ background: "rgba(239, 68, 68, 0.06)", border: "1px solid rgba(239, 68, 68, 0.12)", color: "rgba(239, 68, 68, 0.7)" }}>Sign Out</button>
-            </Section>
+                  <button onClick={handleSignOut} className="w-full py-2.5 rounded-xl text-xs transition-all hover:scale-[1.01]" style={{ background: "rgba(239, 68, 68, 0.06)", border: "1px solid rgba(239, 68, 68, 0.12)", color: "rgba(239, 68, 68, 0.7)" }}>Sign Out</button>
+                </Section>
+              </motion.div>
+            )}
 
-            {/* Data & Privacy */}
-            <Section delay={0.45}>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm" style={{ color: accent }}>🛡</span>
-                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Data & Privacy</span>
-              </div>
-
-              <div className="space-y-3">
-                {[
-                  { label: "Export Soul Map", desc: "Download your soul map answers", action: exportSoulMap, btn: "Export" },
-                  { label: "Export Reflections", desc: "Download your reflection entries", action: exportReflections, btn: "Export" },
-                  { label: "Export All Settings", desc: "Backup your complete configuration", action: exportAllSettings, btn: "Export" },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center justify-between">
-                    <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>{item.label}</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>{item.desc}</div></div>
-                    <button onClick={item.action} className="btn btn-ghost btn-sm">{item.btn}</button>
+            {/* Tab: Appearance */}
+            {activeTab === "appearance" && (
+              <motion.div key="appearance" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                <Section delay={0.05}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>✧</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Accent Color</span>
                   </div>
-                ))}
-
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Import Settings</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Restore from a backup file</div></div>
-                  <label className="btn btn-ghost btn-sm cursor-pointer">
-                    Import
-                    <input type="file" accept=".json" onChange={importSettings} className="hidden" />
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Clear Local Data</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Remove cached data from this device</div></div>
-                  <button onClick={clearLocalData} className="btn btn-ghost btn-sm">Clear</button>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Reset All Preferences</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Restore default settings</div></div>
-                  <button onClick={resetPreferences} className="px-3 py-1.5 rounded-lg text-[10px] cursor-pointer" style={{ background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.15)", color: "#f97316" }}>Reset</button>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Anonymous Posts</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Cannot be traced back to you</div></div>
-                  <span className="text-[10px]" style={{ color: "#10b981" }}>Private</span>
-                </div>
-              </div>
-            </Section>
-
-            {/* Danger Zone */}
-            <Section delay={0.55}>
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-sm" style={{ color: "#ef4444" }}>⚠</span>
-                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Danger Zone</span>
-              </div>
-
-              {showDeleteConfirm ? (
-                <div className="p-4 rounded-xl text-center" style={{ background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.15)" }}>
-                  <p className="text-xs mb-3" style={{ color: "rgba(15,23,42,0.6)" }}>This will permanently delete your account, posts, reactions, and saves. This cannot be undone.</p>
-                  <div className="flex gap-3 justify-center">
-                    <button onClick={deleteAccount} className="px-4 py-2 rounded-lg text-xs text-white cursor-pointer" style={{ background: "#ef4444" }}>Delete Everything</button>
-                    <button onClick={() => setShowDeleteConfirm(false)} className="btn btn-ghost btn-sm">Cancel</button>
+                  <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
+                    {accentColors.map(color => (
+                      <button key={color.value} onClick={() => updateAccent(color.value)} className="flex flex-col items-center gap-1.5 p-3 rounded-xl cursor-pointer transition-all" style={{ background: accent === color.value ? `${color.value}10` : "rgba(13, 148, 136, 0.03)", border: `1px solid ${accent === color.value ? `${color.value}30` : "rgba(13, 148, 136, 0.08)"}` }}>
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm" style={{ background: `${color.value}15`, color: color.value, border: `2px solid ${accent === color.value ? color.value : "transparent"}` }}>{color.icon}</div>
+                        <span className="text-[10px]" style={{ color: accent === color.value ? color.value : "rgba(15, 23, 42, 0.4)" }}>{color.name}</span>
+                      </button>
+                    ))}
                   </div>
-                </div>
-              ) : (
-                <button onClick={() => setShowDeleteConfirm(true)} className="w-full py-2.5 rounded-xl text-xs transition-all hover:scale-[1.01]" style={{ background: "rgba(239, 68, 68, 0.04)", border: "1px solid rgba(239, 68, 68, 0.12)", color: "rgba(239, 68, 68, 0.6)" }}>Delete Account</button>
-              )}
-            </Section>
+                </Section>
+
+                <Section delay={0.1}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>◫</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Background</span>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Custom Color</div>
+                    <div className="flex items-center gap-3">
+                      <input type="color" value={bgColor} onChange={(e) => updateBgColor(e.target.value)} className="w-10 h-10 rounded-lg cursor-pointer border-0 p-0" style={{ background: "none" }} />
+                      <input type="text" value={bgColor} onChange={(e) => { const val = e.target.value; if (/^#[0-9a-fA-F]{0,6}$/.test(val)) updateBgColor(val); }} maxLength={7} className="flex-1 px-3 py-2 rounded-lg text-xs outline-none font-mono" style={{ background: "var(--input-bg)", border: "1px solid var(--border-subtle)", color: "var(--text-primary)" }} placeholder="#ffffff" />
+                      <div className="w-10 h-10 rounded-lg flex-shrink-0" style={{ background: bgColor, border: "1px solid var(--border-subtle)" }} />
+                    </div>
+                  </div>
+
+                  <div className="mb-3">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Solid Colors</div>
+                    <div className="grid grid-cols-6 sm:grid-cols-8 gap-1.5">
+                      {bgPresets.map((preset) => (
+                        <button key={preset.value} onClick={() => updateBgColor(preset.value)} className="w-full aspect-square rounded-lg cursor-pointer transition-all" title={preset.name} style={{ background: preset.value, border: bgColor === preset.value ? `2px solid ${accent}` : "1px solid rgba(13,148,136,0.12)", transform: bgColor === preset.value ? "scale(1.1)" : "scale(1)" }} />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mb-3">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Gradients & Atmospheres</div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                      {gradientPresets.map((preset) => (
+                        <button key={preset.name} onClick={() => updateBgColor(preset.value)} className="relative flex items-end p-2.5 rounded-xl cursor-pointer transition-all overflow-hidden" title={preset.name} style={{ background: preset.value, border: bgColor === preset.value ? `2px solid ${accent}` : "1px solid rgba(13,148,136,0.1)", transform: bgColor === preset.value ? "scale(1.02)" : "scale(1)", minHeight: "64px", aspectRatio: "16/10", boxShadow: bgColor === preset.value ? `0 4px 20px ${accent}30` : "0 2px 8px rgba(0,0,0,0.04)" }}>
+                          <span className="text-[9px] px-2 py-1 rounded-md transition-all" style={{ background: preset.name.includes("Deep") || preset.name.includes("Midnight") || preset.name.includes("Indigo") || preset.name.includes("Cosmos") ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.8)", color: preset.name.includes("Deep") || preset.name.includes("Midnight") || preset.name.includes("Indigo") || preset.name.includes("Cosmos") ? "rgba(255,255,255,0.7)" : "#555", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", fontWeight: 500, letterSpacing: "0.03em" }}>{preset.name}</span>
+                          {bgColor === preset.value && (
+                            <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center text-[8px]" style={{ background: accent, color: "white" }}>✓</motion.span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <button onClick={() => updateBgColor("#ffffff")} className="btn btn-ghost btn-sm">Reset to white</button>
+                </Section>
+
+                <Section delay={0.15}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>◇</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Text & Layout</span>
+                  </div>
+
+                  <div className="mb-5">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Text Size</div>
+                    <div className="flex gap-2">
+                      {textSizes.map((size) => (
+                        <button key={size.value} onClick={() => updateTextSize(size.value)} className="flex-1 py-2 rounded-lg transition-all" style={{ background: textSize === size.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${textSize === size.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: textSize === size.value ? accent : "rgba(15, 23, 42, 0.4)", fontSize: size.preview }}>{size.label}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mb-5">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Font Style</div>
+                    <div className="flex gap-2 flex-wrap">
+                      {fontChoices.map((f) => (
+                        <button key={f.value} onClick={() => { setFontChoice(f.value); document.body.style.fontFamily = f.family; savePref("font_choice", f.value); }} className="flex-1 py-2 rounded-lg text-xs transition-all" style={{ background: fontChoice === f.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${fontChoice === f.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: fontChoice === f.value ? accent : "rgba(15, 23, 42, 0.4)", fontFamily: f.family }}>{f.label}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Compact Mode</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Smaller gaps and padding</div></div>
+                      <Toggle value={compactMode} onChange={() => { const next = !compactMode; setCompactMode(next); savePref("compact_mode", next); localStorage.setItem("compact_mode", String(next)); if (next) { document.documentElement.style.setProperty("--compact-multiplier", "0.75"); document.body.classList.add("compact-mode"); } else { document.documentElement.style.setProperty("--compact-multiplier", "1"); document.body.classList.remove("compact-mode"); } }} color={accent} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Reduce Motion</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Minimize animations</div></div>
+                      <Toggle value={reduceMotion} onChange={() => { const next = !reduceMotion; setReduceMotion(next); savePref("reduce_motion", next); if (next) { document.documentElement.style.setProperty("--anim-duration-multiplier", "0.01"); document.body.classList.add("reduce-motion"); } else { document.documentElement.style.setProperty("--anim-duration-multiplier", "1"); document.body.classList.remove("reduce-motion"); } }} color={accent} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Show Timestamps</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Display message times</div></div>
+                      <Toggle value={showTimestamps} onChange={() => { setShowTimestamps(!showTimestamps); saveLocal("show-timestamps", !showTimestamps); }} color={accent} />
+                    </div>
+                  </div>
+                </Section>
+              </motion.div>
+            )}
+
+            {/* Tab: Chat & AI */}
+            {activeTab === "chat" && (
+              <motion.div key="chat" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                <Section delay={0.05}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>✦</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Elyra AI</span>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Default Personality</div>
+                    <div className="flex gap-2 flex-wrap">
+                      {elyraPersonalities.map((p) => (
+                        <button key={p.value} onClick={() => updateElyraPersonality(p.value)} className="px-3 py-2 rounded-lg text-[10px] transition-all" style={{ background: elyraPersonality === p.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${elyraPersonality === p.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: elyraPersonality === p.value ? accent : "rgba(15, 23, 42, 0.4)" }}>{p.icon} {p.label}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Response Length</div>
+                    <div className="flex gap-2">
+                      {elyraResponseLengths.map((l) => (
+                        <button key={l.value} onClick={() => updateElyraResponseLength(l.value)} className="flex-1 py-2 rounded-lg text-xs transition-all" style={{ background: elyraResponseLength === l.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${elyraResponseLength === l.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: elyraResponseLength === l.value ? accent : "rgba(15, 23, 42, 0.4)" }}>{l.label}</button>
+                      ))}
+                    </div>
+                    <p className="text-[10px] mt-1" style={{ color: "var(--text-faint)" }}>{elyraResponseLengths.find(l => l.value === elyraResponseLength)?.desc}</p>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Show Floating Button</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Quick access on all pages</div></div>
+                    <Toggle value={showElyraButton} onChange={toggleElyraButton} color={accent} />
+                  </div>
+                </Section>
+
+                <Section delay={0.1}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>💬</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Chat & Messages</span>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Message Density</div>
+                    <div className="flex gap-2">
+                      {["compact", "normal", "spacious"].map((d) => (
+                        <button key={d} onClick={() => { setMessageDensity(d); saveLocal("message-density", d); }} className="flex-1 py-2 rounded-lg text-xs capitalize transition-all" style={{ background: messageDensity === d ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${messageDensity === d ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: messageDensity === d ? accent : "rgba(15, 23, 42, 0.4)" }}>{d}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Auto-scroll</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Scroll to new messages automatically</div></div>
+                    <Toggle value={autoScroll} onChange={() => { setAutoScroll(!autoScroll); saveLocal("auto-scroll", !autoScroll); }} color={accent} />
+                  </div>
+                </Section>
+              </motion.div>
+            )}
+
+            {/* Tab: Privacy */}
+            {activeTab === "privacy" && (
+              <motion.div key="privacy" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                <Section delay={0.05}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>🔒</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Privacy & Visibility</span>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Profile Visibility</div>
+                    <div className="flex gap-2">
+                      {[{ value: "public", label: "Public" }, { value: "anonymous", label: "Anonymous" }].map((v) => (
+                        <button key={v.value} onClick={() => { setProfileVisibility(v.value); saveLocal("profile-visibility", v.value); }} className="flex-1 py-2 rounded-lg text-xs transition-all" style={{ background: profileVisibility === v.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${profileVisibility === v.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: profileVisibility === v.value ? accent : "rgba(15, 23, 42, 0.4)" }}>{v.label}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Show Online Status</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Let others see when you&apos;re active</div></div>
+                      <Toggle value={showOnlineStatus} onChange={() => { setShowOnlineStatus(!showOnlineStatus); saveLocal("show-online-status", !showOnlineStatus); }} color={accent} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Read Receipts</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Show when messages are read</div></div>
+                      <Toggle value={readReceipts} onChange={() => { setReadReceipts(!readReceipts); saveLocal("read-receipts", !readReceipts); }} color={accent} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Post Anonymously by Default</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Always share as anonymous</div></div>
+                      <Toggle value={anonymousDefault} onChange={() => { setAnonymousDefault(!anonymousDefault); savePref("anonymous_default", !anonymousDefault); }} color={accent} />
+                    </div>
+                  </div>
+                </Section>
+
+                <Section delay={0.1}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>♿</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Accessibility</span>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>High Contrast</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Increase contrast for better visibility</div></div>
+                      <Toggle value={highContrast} onChange={() => { setHighContrast(!highContrast); saveLocal("high-contrast", !highContrast); }} color={accent} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Focus Indicators</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Visible outlines on focused elements</div></div>
+                      <Toggle value={focusIndicators} onChange={() => { setFocusIndicators(!focusIndicators); saveLocal("focus-indicators", !focusIndicators); }} color={accent} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Reduced Transparency</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Replace glass effects with solid backgrounds</div></div>
+                      <Toggle value={reducedTransparency} onChange={() => { setReducedTransparency(!reducedTransparency); saveLocal("reduced-transparency", !reducedTransparency); }} color={accent} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Dyslexia-friendly Font</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Use OpenDyslexic typeface</div></div>
+                      <Toggle value={dyslexiaFont} onChange={() => { setDyslexiaFont(!dyslexiaFont); saveLocal("dyslexia-font", !dyslexiaFont); if (!dyslexiaFont) { setFontChoice("dyslexia"); document.body.style.fontFamily = "'OpenDyslexic', sans-serif"; } else { setFontChoice("default"); document.body.style.fontFamily = "Inter, sans-serif"; } }} color={accent} />
+                    </div>
+                  </div>
+                </Section>
+              </motion.div>
+            )}
+
+            {/* Tab: Rooms */}
+            {activeTab === "rooms" && (
+              <motion.div key="rooms" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                <Section delay={0.05}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>🏠</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Room Preferences</span>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Favorite Room</div>
+                    <div className="flex gap-2 flex-wrap">
+                      {roomOptions.map((r) => (
+                        <button key={r.value} onClick={() => { setFavoriteRoom(r.value); saveLocal("favorite-room", r.value); }} className="px-3 py-2 rounded-lg text-[10px] transition-all" style={{ background: favoriteRoom === r.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${favoriteRoom === r.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: favoriteRoom === r.value ? accent : "rgba(15, 23, 42, 0.4)" }}>{r.icon} {r.label}</button>
+                      ))}
+                    </div>
+                    <p className="text-[10px] mt-1" style={{ color: "var(--text-faint)" }}>Quick access from the Elyra button</p>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Default Page</div>
+                    <div className="flex gap-2 flex-wrap">
+                      {defaultPages.map((page) => (
+                        <button key={page.value} onClick={() => { setDefaultPage(page.value); savePref("default_page", page.value); }} className="px-3 py-2 rounded-lg text-[10px] transition-all" style={{ background: defaultPage === page.value ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${defaultPage === page.value ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: defaultPage === page.value ? accent : "rgba(15, 23, 42, 0.4)" }}>{page.label}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="text-xs mb-2" style={{ color: "var(--text-secondary)" }}>Stargazing Star Density</div>
+                    <div className="flex gap-2">
+                      {["sparse", "normal", "dense"].map((d) => (
+                        <button key={d} onClick={() => { setStarDensity(d); saveLocal("star-density", d); }} className="flex-1 py-2 rounded-lg text-xs capitalize transition-all" style={{ background: starDensity === d ? accentBg : "rgba(13, 148, 136, 0.04)", border: `1px solid ${starDensity === d ? accentBorder : "rgba(13, 148, 136, 0.08)"}`, color: starDensity === d ? accent : "rgba(15, 23, 42, 0.4)" }}>{d}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Canvas Grid Snap</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Snap brushes to grid</div></div>
+                    <Toggle value={canvasGridSnap} onChange={() => { setCanvasGridSnap(!canvasGridSnap); saveLocal("canvas-grid-snap", !canvasGridSnap); }} color={accent} />
+                  </div>
+                </Section>
+              </motion.div>
+            )}
+
+            {/* Tab: Data */}
+            {activeTab === "data" && (
+              <motion.div key="data" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                <Section delay={0.05}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: accent }}>🛡</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Data & Privacy</span>
+                  </div>
+
+                  <div className="space-y-3">
+                    {[
+                      { label: "Export Soul Map", desc: "Download your soul map answers", action: exportSoulMap, btn: "Export" },
+                      { label: "Export Reflections", desc: "Download your reflection entries", action: exportReflections, btn: "Export" },
+                      { label: "Export All Settings", desc: "Backup your complete configuration", action: exportAllSettings, btn: "Export" },
+                    ].map((item) => (
+                      <div key={item.label} className="flex items-center justify-between">
+                        <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>{item.label}</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>{item.desc}</div></div>
+                        <button onClick={item.action} className="btn btn-ghost btn-sm">{item.btn}</button>
+                      </div>
+                    ))}
+
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Import Settings</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Restore from a backup file</div></div>
+                      <label className="btn btn-ghost btn-sm cursor-pointer">
+                        Import
+                        <input type="file" accept=".json" onChange={importSettings} className="hidden" />
+                      </label>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Clear Local Data</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Remove cached data from this device</div></div>
+                      <button onClick={clearLocalData} className="btn btn-ghost btn-sm">Clear</button>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Reset All Preferences</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Restore default settings</div></div>
+                      <button onClick={resetPreferences} className="px-3 py-1.5 rounded-lg text-[10px] cursor-pointer" style={{ background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.15)", color: "#f97316" }}>Reset</button>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div><div className="text-xs" style={{ color: "var(--text-secondary)" }}>Anonymous Posts</div><div className="text-[10px]" style={{ color: "var(--text-dim)" }}>Cannot be traced back to you</div></div>
+                      <span className="text-[10px]" style={{ color: "#10b981" }}>Private</span>
+                    </div>
+                  </div>
+                </Section>
+
+                <Section delay={0.1}>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-sm" style={{ color: "#ef4444" }}>⚠</span>
+                    <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Danger Zone</span>
+                  </div>
+
+                  {showDeleteConfirm ? (
+                    <div className="p-4 rounded-xl text-center" style={{ background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.15)" }}>
+                      <p className="text-xs mb-3" style={{ color: "rgba(15,23,42,0.6)" }}>This will permanently delete your account, posts, reactions, and saves. This cannot be undone.</p>
+                      <div className="flex gap-3 justify-center">
+                        <button onClick={deleteAccount} className="px-4 py-2 rounded-lg text-xs text-white cursor-pointer" style={{ background: "#ef4444" }}>Delete Everything</button>
+                        <button onClick={() => setShowDeleteConfirm(false)} className="btn btn-ghost btn-sm">Cancel</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button onClick={() => setShowDeleteConfirm(true)} className="w-full py-2.5 rounded-xl text-xs transition-all hover:scale-[1.01]" style={{ background: "rgba(239, 68, 68, 0.04)", border: "1px solid rgba(239, 68, 68, 0.12)", color: "rgba(239, 68, 68, 0.6)" }}>Delete Account</button>
+                  )}
+                </Section>
+              </motion.div>
+            )}
 
             {/* Links */}
             <div className="flex justify-center gap-8 mt-10">
