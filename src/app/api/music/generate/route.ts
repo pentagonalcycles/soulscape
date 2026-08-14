@@ -131,18 +131,19 @@ export async function POST(request: NextRequest) {
     }
 
     // Increment daily limit
-    await supabaseService().rpc("increment_music_daily_count", {
-      p_user_id: user.id,
-      p_date: today,
-    }).catch(() => {
-      // Fallback: upsert manually
-      supabaseService()
+    try {
+      await supabaseService().rpc("increment_music_daily_count", {
+        p_user_id: user.id,
+        p_date: today,
+      });
+    } catch {
+      await supabaseService()
         .from("music_daily_limits")
         .upsert(
           { user_id: user.id, gen_date: today, count: currentCount + 1 },
           { onConflict: "user_id,gen_date" }
         );
-    });
+    }
 
     return NextResponse.json({
       jobId,
