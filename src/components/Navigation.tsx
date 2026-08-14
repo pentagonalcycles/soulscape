@@ -18,6 +18,7 @@ const navLinks = [
   { href: "/wish-lanterns", label: "Wish Lanterns", icon: "◈" },
   { href: "/campfire", label: "Campfire", icon: "◆" },
   { href: "/poetry", label: "Poetry", icon: "❋" },
+  { href: "/music", label: "Music", icon: "♪" },
   { href: "/soul-map", label: "Soul Map", icon: "◎" },
   { href: "/nebula-orb", label: "Nebula Orb", icon: "●" },
   { href: "/human-weather", label: "Human Weather", icon: "🌤\ufe0f" },

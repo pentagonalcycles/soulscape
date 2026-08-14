@@ -55,7 +55,7 @@ function PageVisitors({ pathname }: { pathname: string }) {
   );
 }
 
-const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map"];
+const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/music"];
 const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map"];
 const NO_ELYRA_BUTTON_ROUTES = ["/elyra", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map"];
 const NO_FOOTER_ROUTES = ["/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map"];
@@ -200,6 +200,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
     "/wish-lanterns": "wish lanterns",
     "/campfire": "campfire",
     "/poetry": "poetry",
+    "/music": "music",
     "/soul-map": "soul map",
     "/nebula-orb": "nebula orb",
     "/human-weather": "human weather",
