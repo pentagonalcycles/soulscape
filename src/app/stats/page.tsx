@@ -52,7 +52,6 @@ const pageNames: Record<string, string> = {
   "/human-signal": "Signal",
   "/nera": "Nera",
   "/settings": "Settings",
-  "/login": "Login",
   "/support": "Support",
   "/faq": "FAQ",
   "/account": "Account",
@@ -80,7 +79,6 @@ const pageIcons: Record<string, string> = {
   "/faq": "❓",
   "/stats": "📊",
   "/settings": "⚙️",
-  "/login": "🔑",
   "/account": "👤",
 };
 

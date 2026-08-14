@@ -276,32 +276,6 @@ export default function Navigation({ activePage }: NavigationProps) {
                 >
                   ← Home
                 </Link>
-                <Link
-                  href="/login"
-                  onClick={close}
-                  style={{
-                    display: "block",
-                    textAlign: "center",
-                    padding: "10px",
-                    borderRadius: "10px",
-                    background: "rgba(0, 255, 136, 0.04)",
-                    border: "1px solid rgba(0, 255, 136, 0.08)",
-                    color: "rgba(224, 245, 232, 0.4)",
-                    textDecoration: "none",
-                    fontSize: "12px",
-                    letterSpacing: "0.02em",
-                    transition: "all 0.2s ease",
-                    marginTop: "8px",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
-                  }}
-                >
-                  Log In ✦
-                </Link>
               </div>
             </motion.div>
           </>

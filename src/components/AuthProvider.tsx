@@ -37,7 +37,6 @@ interface AuthContextType {
   refreshProfile: () => Promise<void>;
   updateProfile: (updates: Partial<Pick<UserProfile, "display_name" | "bio" | "avatar_url" | "identity_type" | "contact_info" | "contact_type">>) => Promise<void>;
   updatePreferences: (updates: Partial<UserPreferences>) => Promise<void>;
-  signInWithEmail: (email: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
   isAnonymous: boolean;
 }
@@ -63,7 +62,6 @@ const AuthContext = createContext<AuthContextType>({
   refreshProfile: async () => {},
   updateProfile: async () => {},
   updatePreferences: async () => {},
-  signInWithEmail: async () => ({}),
   signOut: async () => {},
   isAnonymous: true,
 });
@@ -179,15 +177,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const signInWithEmail = useCallback(async (email: string) => {
-    const client = supabase();
-    const { error } = await client.auth.signInWithOtp({ email });
-    if (error) {
-      return { error: error.message };
-    }
-    return {};
-  }, []);
-
   const signOut = useCallback(async () => {
     const client = supabase();
     await client.auth.signOut();
@@ -270,7 +259,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         refreshProfile,
         updateProfile,
         updatePreferences,
-        signInWithEmail,
         signOut,
         isAnonymous,
       }}

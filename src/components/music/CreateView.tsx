@@ -75,7 +75,7 @@ export default function CreateView({ onTrackCreated, userId }: CreateViewProps) 
       const { data: { session } } = await (await import("@/lib/supabase")).supabase().auth.getSession();
       const accessToken = session?.access_token;
       if (!accessToken) {
-        setError("Please sign in to create music");
+        setError("Authentication required to create music");
         setGenerating(false);
         return;
       }

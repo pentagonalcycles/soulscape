@@ -11,7 +11,7 @@ const faqItems = [
   },
   {
     q: "Do I need to create an account?",
-    a: "No. You can browse anonymously. If you want to save posts, you can optionally sign in with just an email — no password needed.",
+    a: "No. You can browse and use everything anonymously. No account needed.",
   },
   {
     q: "Can anyone see what I write?",
