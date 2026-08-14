@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase, supabaseService } from "@/lib/supabase";
 
-const DAILY_LIMIT = 10;
+const CREDITS_PER_SONG = 10;
 
 const STYLE_PRESETS: Record<string, string> = {
   pop: "catchy pop song, polished production, upbeat",
@@ -37,20 +37,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
 
-    // Check daily limit
-    const today = new Date().toISOString().split("T")[0];
-    const { data: limitRow } = await supabaseService()
-      .from("music_daily_limits")
-      .select("count")
-      .eq("user_id", user.id)
-      .eq("gen_date", today)
-      .maybeSingle();
+    // Check credits
+    const { data: profile } = await supabaseService()
+      .from("users")
+      .select("credits")
+      .eq("id", user.id)
+      .single();
 
-    const currentCount = limitRow?.count || 0;
-    if (currentCount >= DAILY_LIMIT) {
+    const currentCredits = profile?.credits ?? 0;
+    if (currentCredits < CREDITS_PER_SONG) {
       return NextResponse.json(
-        { error: "Daily generation limit reached. Come back tomorrow!", remaining: 0 },
-        { status: 429 }
+        { error: "Not enough credits", creditsNeeded: CREDITS_PER_SONG, creditsAvailable: currentCredits },
+        { status: 402 }
       );
     }
 
@@ -75,7 +73,6 @@ export async function POST(request: NextRequest) {
       model_version: "V5_5",
     };
 
-    // If custom lyrics are provided, use custom mode
     if (lyrics && lyrics.trim().length > 0) {
       sunoParams.custom_mode = true;
       sunoParams.lyrics = lyrics.trim();
@@ -130,26 +127,28 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Failed to save track" }, { status: 500 });
     }
 
-    // Increment daily limit
-    try {
-      await supabaseService().rpc("increment_music_daily_count", {
-        p_user_id: user.id,
-        p_date: today,
+    // Deduct credits
+    const newCredits = currentCredits - CREDITS_PER_SONG;
+    await supabaseService()
+      .from("users")
+      .update({ credits: newCredits, updated_at: new Date().toISOString() })
+      .eq("id", user.id);
+
+    // Log transaction
+    await supabaseService()
+      .from("credit_transactions")
+      .insert({
+        user_id: user.id,
+        amount: -CREDITS_PER_SONG,
+        type: "generation",
+        description: `Generated: ${title?.trim() || "Untitled"}`,
       });
-    } catch {
-      await supabaseService()
-        .from("music_daily_limits")
-        .upsert(
-          { user_id: user.id, gen_date: today, count: currentCount + 1 },
-          { onConflict: "user_id,gen_date" }
-        );
-    }
 
     return NextResponse.json({
       jobId,
       trackId: track.id,
       status: "pending",
-      remaining: DAILY_LIMIT - currentCount - 1,
+      creditsRemaining: newCredits,
     });
   } catch (error) {
     console.error("Music generate error:", error);

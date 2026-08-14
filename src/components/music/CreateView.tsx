@@ -8,6 +8,9 @@ interface CreateViewProps {
   onTrackCreated: () => void;
   userId: string | null;
   session: Session | null;
+  credits: number | null;
+  onBuyCredits: () => void;
+  onCreditsUsed: () => void;
 }
 
 const STYLE_PRESETS = [
@@ -45,7 +48,7 @@ const LYRIC_HELPERS = [
   { tag: "[Pre-Chorus]", desc: "Build-up to chorus" },
 ];
 
-export default function CreateView({ onTrackCreated, userId, session }: CreateViewProps) {
+export default function CreateView({ onTrackCreated, userId, session, credits, onBuyCredits, onCreditsUsed }: CreateViewProps) {
   const [prompt, setPrompt] = useState("");
   const [lyrics, setLyrics] = useState("");
   const [title, setTitle] = useState("");
@@ -55,7 +58,6 @@ export default function CreateView({ onTrackCreated, userId, session }: CreateVi
   const [generating, setGenerating] = useState(false);
   const [polling, setPolling] = useState(false);
   const [error, setError] = useState("");
-  const [remaining, setRemaining] = useState<number | null>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const accent = "#00ff88";
@@ -98,13 +100,22 @@ export default function CreateView({ onTrackCreated, userId, session }: CreateVi
 
       const data = await res.json();
 
+      if (res.status === 402) {
+        setError("");
+        onBuyCredits();
+        setGenerating(false);
+        return;
+      }
+
       if (!res.ok) {
         setError(data.error || "Generation failed");
         setGenerating(false);
         return;
       }
 
-      if (data.remaining !== undefined) setRemaining(data.remaining);
+      if (data.creditsRemaining !== undefined) {
+        onCreditsUsed();
+      }
 
       setGenerating(false);
       setPolling(true);
@@ -286,10 +297,10 @@ export default function CreateView({ onTrackCreated, userId, session }: CreateVi
         </motion.div>
       )}
 
-      {/* Remaining */}
-      {remaining !== null && (
-        <p className="text-[10px] text-center mb-6" style={{ color: "var(--text-faint)" }}>
-          {remaining} songs left today
+      {/* Credits */}
+      {credits !== null && (
+        <p className="text-[10px] text-center mb-6" style={{ color: "rgba(224, 245, 232, 0.35)" }}>
+          <span style={{ color: "#00ff88" }}>{credits}</span> credits available · 10 per song
         </p>
       )}
 

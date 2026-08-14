@@ -35,6 +35,31 @@ export async function POST(req: NextRequest) {
         const session = event.data.object as Stripe.Checkout.Session;
         const userId = session.metadata?.userId;
 
+        // Handle credit purchases
+        if (session.metadata?.type === "credit_purchase" && userId) {
+          const creditsToAdd = parseInt(session.metadata.credits || "0", 10);
+          if (creditsToAdd > 0) {
+            const { data: profile } = await client
+              .from("users")
+              .select("credits")
+              .eq("id", userId)
+              .maybeSingle();
+            const currentCredits = profile?.credits ?? 0;
+            await client
+              .from("users")
+              .update({ credits: currentCredits + creditsToAdd, updated_at: new Date().toISOString() })
+              .eq("id", userId);
+            await client.from("credit_transactions").insert({
+              user_id: userId,
+              amount: creditsToAdd,
+              type: "purchase",
+              description: `Purchased ${creditsToAdd} credits`,
+              stripe_session_id: session.id,
+            });
+          }
+          break;
+        }
+
         if (session.mode === "subscription" && userId) {
           const existing = await client
             .from("memberships")

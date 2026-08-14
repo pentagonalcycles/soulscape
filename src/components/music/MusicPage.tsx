@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import CreateView from "./CreateView";
 import LibraryView from "./LibraryView";
 import CommunityView from "./CommunityView";
+import BuyCreditsModal from "./BuyCreditsModal";
 
 type Tab = "create" | "library" | "community";
 
@@ -46,11 +47,39 @@ export default function MusicPage() {
   const { userId, session } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>("create");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [credits, setCredits] = useState<number | null>(null);
+  const [showBuyModal, setShowBuyModal] = useState(false);
 
   const accent = "#00ff88";
 
+  const fetchCredits = useCallback(async () => {
+    if (!session?.access_token) return;
+    try {
+      const res = await fetch("/api/credits/balance", {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      const data = await res.json();
+      if (res.ok) setCredits(data.credits);
+    } catch {
+      // ignore
+    }
+  }, [session?.access_token]);
+
+  useEffect(() => {
+    fetchCredits();
+  }, [fetchCredits]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("credits") === "purchased") {
+      fetchCredits();
+      window.history.replaceState({}, "", "/music");
+    }
+  }, [fetchCredits]);
+
   const handleTrackCreated = () => {
     setRefreshKey((k) => k + 1);
+    fetchCredits();
     setActiveTab("library");
   };
 
@@ -108,12 +137,34 @@ export default function MusicPage() {
           ))}
         </nav>
 
-        {/* Daily Limit */}
+        {/* Credits */}
         {userId && (
           <div className="mt-auto px-3">
-            <div className="p-3 rounded-xl" style={{ background: "var(--card-bg)", border: "1px solid var(--border-subtle)" }}>
-              <div className="text-[9px] mb-1" style={{ color: "var(--text-dim)" }}>Daily creations</div>
-              <div className="text-xs font-medium" style={{ color: accent }}>Free for everyone</div>
+            <div className="p-3 rounded-xl" style={{ background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.08)" }}>
+              <div className="text-[9px] mb-1" style={{ color: "rgba(224, 245, 232, 0.35)" }}>Your credits</div>
+              <div className="text-lg font-medium" style={{ color: accent }}>
+                {credits !== null ? credits : "—"}
+              </div>
+              <div className="text-[9px] mb-2" style={{ color: "rgba(224, 245, 232, 0.25)" }}>
+                10 credits per song
+              </div>
+              <button
+                onClick={() => setShowBuyModal(true)}
+                className="w-full py-2 rounded-lg text-[11px] font-medium cursor-pointer transition-all"
+                style={{
+                  background: "rgba(0, 255, 136, 0.1)",
+                  border: "1px solid rgba(0, 255, 136, 0.2)",
+                  color: accent,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 255, 136, 0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 255, 136, 0.1)";
+                }}
+              >
+                Buy Credits
+              </button>
             </div>
           </div>
         )}
@@ -161,7 +212,14 @@ export default function MusicPage() {
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.3 }}
               >
-                <CreateView onTrackCreated={handleTrackCreated} userId={userId} session={session} />
+                <CreateView
+                  onTrackCreated={handleTrackCreated}
+                  userId={userId}
+                  session={session}
+                  credits={credits}
+                  onBuyCredits={() => setShowBuyModal(true)}
+                  onCreditsUsed={fetchCredits}
+                />
               </motion.div>
             )}
             {activeTab === "library" && (
@@ -189,6 +247,8 @@ export default function MusicPage() {
           </AnimatePresence>
         </div>
       </main>
+
+      <BuyCreditsModal isOpen={showBuyModal} onClose={() => setShowBuyModal(false)} />
     </div>
   );
 }
