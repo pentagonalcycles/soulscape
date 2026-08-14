@@ -90,14 +90,14 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
             key="trigger"
             className="w-full glass rounded-2xl p-6 text-left cursor-pointer hover:scale-[1.01] transition-all duration-300"
             style={{
-              boxShadow: "0 0 30px rgba(13, 148, 136, 0.1)",
+              boxShadow: "0 0 30px rgba(0, 255, 136, 0.1)",
             }}
             onClick={() => setIsExpanded(true)}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             whileHover={{
-              boxShadow: "0 0 40px rgba(13, 148, 136, 0.2)",
+              boxShadow: "0 0 40px rgba(0, 255, 136, 0.2)",
             }}
           >
             <div className="flex items-center gap-4">
@@ -114,7 +114,8 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
             key="creator"
             className="glass rounded-2xl p-6"
             style={{
-              boxShadow: "0 0 40px rgba(13, 148, 136, 0.15)",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+              backdropFilter: "blur(16px)",
             }}
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -181,9 +182,14 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder={placeholders[contentType]}
-              className={`w-full bg-transparent border border-elovayne-nebula/20 rounded-xl p-4 text-elovayne-light placeholder-elovayne-dim resize-none focus:outline-none focus:border-elovayne-violet/40 transition-colors font-body ${
+              className={`w-full bg-transparent rounded-xl p-4 text-elovayne-light placeholder-elovayne-dim resize-none focus:outline-none transition-colors font-body ${
                 contentType === "poem" ? "font-accent text-lg" : "text-base"
               }`}
+              style={{
+                border: "1px solid rgba(0, 255, 136, 0.12)",
+                background: "rgba(0, 255, 136, 0.04)",
+                boxShadow: "0 0 20px rgba(0, 255, 136, 0.08)",
+              }}
               rows={contentType === "story" ? 8 : 4}
               autoFocus
             />
@@ -256,10 +262,10 @@ export default function PostCreator({ roomId: defaultRoomId, onSubmit }: PostCre
                 className="px-6 py-3 rounded-full font-body text-sm transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
                 style={{
                   background: content.trim()
-                    ? "linear-gradient(135deg, rgba(13, 148, 136, 0.7), rgba(13, 148, 136, 0.8))"
-                    : "rgba(13, 148, 136, 0.15)",
+                    ? "linear-gradient(135deg, rgba(0, 255, 136, 0.7), rgba(0, 255, 136, 0.8))"
+                    : "rgba(0, 255, 136, 0.15)",
                   boxShadow: content.trim()
-                    ? "0 0 20px rgba(13, 148, 136, 0.3)"
+                    ? "0 2px 16px rgba(0, 255, 136, 0.2)"
                     : "none",
                 }}
                 whileHover={content.trim() ? { scale: 1.02 } : {}}

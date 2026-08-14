@@ -66,7 +66,7 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
 
   if (!ready || !MapContainer) {
     return (
-      <div className="rounded-2xl h-72 sm:h-96 flex items-center justify-center" style={{ background: "var(--card-bg, rgba(13, 148, 136, 0.04))", border: "1px solid var(--border-subtle, rgba(13, 148, 136, 0.08))" }}>
+      <div className="rounded-2xl h-72 sm:h-96 flex items-center justify-center" style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.04))", border: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.08))" }}>
         <p className="text-xs" style={{ color: "var(--text-dim, #94a3b8)" }}>Loading map...</p>
       </div>
     );
@@ -76,8 +76,8 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
     <motion.div
       className="rounded-2xl overflow-hidden"
       style={{
-        border: "1px solid var(--border-subtle, rgba(13, 148, 136, 0.08))",
-        boxShadow: "0 1px 3px rgba(13, 148, 136, 0.04)",
+        border: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.08))",
+        boxShadow: "0 1px 3px rgba(0, 255, 136, 0.04)",
       }}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -98,7 +98,7 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
           <FitBoundsHook nerasWithCoords={nerasWithCoords} userLat={userLat} userLng={userLng} useMap={useMap} />
 
           {userLat != null && userLng != null && (
-            <Marker position={[userLat, userLng]} icon={makeIcon("#0d9488", "\ud83d\udccd", 28)}>
+            <Marker position={[userLat, userLng]} icon={makeIcon("#00ff88", "\ud83d\udccd", 28)}>
               <Popup><div style={{ fontFamily: "var(--font-body)", fontSize: "12px", color: "#0f172a" }}>You are here</div></Popup>
             </Marker>
           )}
@@ -122,7 +122,7 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
                     <div style={{ fontSize: "11px", color: "#64748b", marginBottom: "6px" }}>{n.current_participants}/{n.max_participants} people</div>
                     <button
                       onClick={(e) => { e.stopPropagation(); onSelect(n); }}
-                      style={{ width: "100%", padding: "6px 12px", borderRadius: "8px", border: "none", background: "linear-gradient(135deg, #0d9488, #06b6d4)", color: "#ffffff", fontSize: "11px", fontWeight: 500, cursor: "pointer" }}
+                      style={{ width: "100%", padding: "6px 12px", borderRadius: "8px", border: "none", background: "linear-gradient(135deg, #00ff88, #00cc6a)", color: "#ffffff", fontSize: "11px", fontWeight: 500, cursor: "pointer" }}
                     >
                       View Nera
                     </button>
@@ -135,7 +135,7 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
       </div>
 
       {nerasWithCoords.length > 0 && (
-        <div className="px-4 py-3 flex items-center gap-3 overflow-x-auto" style={{ background: "var(--card-bg, rgba(13, 148, 136, 0.03))", borderTop: "1px solid var(--border-subtle, rgba(13, 148, 136, 0.06))" }}>
+        <div className="px-4 py-3 flex items-center gap-3 overflow-x-auto" style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.03))", borderTop: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.06))" }}>
           {nerasWithCoords.slice(0, 6).map((n) => {
             const t = getNeraTypeById(n.nera_type);
             return (

@@ -106,8 +106,8 @@ interface CanvasToolbarProps {
 
 const cosmicColors = [
   "#ffffff", "#1a1a3e", "#2d1b69",
-  "#6b3fa0", "#0d9488", "#c4b5fd",
-  "#06b6d4", "#f472b6",
+  "#6b3fa0", "#00ff88", "#c4b5fd",
+  "#00cc6a", "#f472b6",
   "#10b981", "#fbbf24",
   "#60a5fa", "#818cf8",
   "#ffffff", "#e8e0f0",
@@ -115,7 +115,7 @@ const cosmicColors = [
 ];
 
 const recentColorsList = [
-  "#ffffff", "#06b6d4", "#0d9488", "#00e68a", "#10b981", "#60a5fa",
+  "#ffffff", "#00cc6a", "#00ff88", "#00e68a", "#10b981", "#60a5fa",
 ];
 
 const blendModes: { value: GlobalCompositeOperation; label: string }[] = [
@@ -298,12 +298,12 @@ const defaultPresets: BrushPreset[] = [
   },
   {
     id: "p4", name: "Nebula Mist", icon: "✧",
-    tool: { type: "airbrush", size: 120, color: "#0d9488", color2: "#06b6d4", opacity: 0.15, hardness: 0, flow: 0.15, scatter: 50, angle: 0, spacing: 30, jitter: { size: 20, opacity: 30, color: 25 }, gradientType: "radial", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
+    tool: { type: "airbrush", size: 120, color: "#00ff88", color2: "#00cc6a", opacity: 0.15, hardness: 0, flow: 0.15, scatter: 50, angle: 0, spacing: 30, jitter: { size: 20, opacity: 30, color: 25 }, gradientType: "radial", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
     createdAt: Date.now(),
   },
   {
     id: "p5", name: "Cosmic Spray", icon: "⁂",
-    tool: { type: "spray", size: 80, color: "#10b981", color2: "#06b6d4", opacity: 0.5, hardness: 0, flow: 0.4, scatter: 60, angle: 0, spacing: 20, jitter: { size: 30, opacity: 40, color: 35 }, gradientType: "linear", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
+    tool: { type: "spray", size: 80, color: "#10b981", color2: "#00cc6a", opacity: 0.5, hardness: 0, flow: 0.4, scatter: 60, angle: 0, spacing: 20, jitter: { size: 30, opacity: 40, color: 35 }, gradientType: "linear", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
     createdAt: Date.now(),
   },
   {
@@ -575,7 +575,7 @@ export default function CanvasToolbar({
   if (!showLeftPanel && !showRightPanel) return null;
 
   return (
-    <div className="canvas-pro-layout">
+    <div className="canvas-pro-layout" style={{ background: "rgba(5, 10, 6, 0.9)", backdropFilter: "blur(16px)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 -2px 20px rgba(0, 0, 0, 0.3)" }}>
       {showLeftPanel && (
       <motion.div
         className="canvas-pro-panel canvas-tools-panel"

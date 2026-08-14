@@ -17,7 +17,7 @@ const STYLE_PRESETS = [
   { id: "classical", label: "Classical", emoji: "🎻", color: "#6366f1" },
   { id: "rnb", label: "R&B", emoji: "💜", color: "#f43f5e" },
   { id: "folk", label: "Folk", emoji: "🪕", color: "#84cc16" },
-  { id: "lofi", label: "Lo-Fi", emoji: "☁️", color: "#06b6d4" },
+  { id: "lofi", label: "Lo-Fi", emoji: "☁️", color: "#00cc6a" },
   { id: "ambient", label: "Ambient", emoji: "🌊", color: "#10b981" },
   { id: "synthwave", label: "Synthwave", emoji: "🌆", color: "#d946ef" },
   { id: "acoustic", label: "Acoustic", emoji: "🪵", color: "#d97706" },
@@ -56,12 +56,14 @@ export default function CreateView({ onTrackCreated, userId }: CreateViewProps) 
   const [remaining, setRemaining] = useState<number | null>(null);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
-  const accent = "#0d9488";
+  const accent = "#00ff88";
 
   const inputStyle = {
-    background: "rgba(13, 148, 136, 0.04)",
-    border: "1px solid rgba(13, 148, 136, 0.12)",
+    background: "rgba(0, 255, 136, 0.04)",
+    border: "1px solid rgba(0, 255, 136, 0.12)",
     color: "var(--text-primary)",
+    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+    backdropFilter: "blur(16px)",
   };
 
   async function handleGenerate() {
@@ -167,9 +169,10 @@ export default function CreateView({ onTrackCreated, userId }: CreateViewProps) 
         <div
           className="rounded-2xl overflow-hidden transition-all"
           style={{
-            background: "rgba(13, 148, 136, 0.03)",
-            border: `1px solid ${isBusy ? `${accent}40` : "rgba(13, 148, 136, 0.12)"}`,
-            boxShadow: isBusy ? `0 0 20px ${accent}10` : "none",
+            background: "rgba(0, 255, 136, 0.03)",
+            border: `1px solid ${isBusy ? `${accent}40` : "rgba(0, 255, 136, 0.12)"}`,
+            boxShadow: isBusy ? `0 0 20px ${accent}10` : "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+            backdropFilter: "blur(16px)",
           }}
         >
           <textarea
@@ -199,8 +202,8 @@ export default function CreateView({ onTrackCreated, userId }: CreateViewProps) 
               className="flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-medium transition-all disabled:opacity-40 cursor-pointer"
               style={{
                 background: isBusy
-                  ? "rgba(13, 148, 136, 0.15)"
-                  : `linear-gradient(135deg, ${accent}, #06b6d4)`,
+                  ? "rgba(0, 255, 136, 0.15)"
+                  : `linear-gradient(135deg, ${accent}, #00cc6a)`,
                 color: "white",
                 border: "none",
                 boxShadow: isBusy ? "none" : `0 2px 12px ${accent}30`,
@@ -311,8 +314,8 @@ export default function CreateView({ onTrackCreated, userId }: CreateViewProps) 
               disabled={isBusy}
               className="flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all cursor-pointer group"
               style={{
-                background: style === s.id ? `${s.color}12` : "rgba(13, 148, 136, 0.03)",
-                border: `1px solid ${style === s.id ? `${s.color}30` : "rgba(13, 148, 136, 0.08)"}`,
+                background: style === s.id ? `${s.color}12` : "rgba(0, 255, 136, 0.03)",
+                border: `1px solid ${style === s.id ? `${s.color}30` : "rgba(0, 255, 136, 0.08)"}`,
               }}
             >
               <span className="text-lg group-hover:scale-110 transition-transform">{s.emoji}</span>
@@ -346,8 +349,8 @@ export default function CreateView({ onTrackCreated, userId }: CreateViewProps) 
               disabled={isBusy}
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] transition-all cursor-pointer"
               style={{
-                background: mood === m.id ? `${accent}12` : "rgba(13, 148, 136, 0.04)",
-                border: `1px solid ${mood === m.id ? `${accent}25` : "rgba(13, 148, 136, 0.08)"}`,
+                background: mood === m.id ? `${accent}12` : "rgba(0, 255, 136, 0.04)",
+                border: `1px solid ${mood === m.id ? `${accent}25` : "rgba(0, 255, 136, 0.08)"}`,
                 color: mood === m.id ? accent : "var(--text-muted)",
               }}
             >
@@ -403,13 +406,13 @@ export default function CreateView({ onTrackCreated, userId }: CreateViewProps) 
                   onClick={() => setCustomLyrics(!customLyrics)}
                   className="flex items-center gap-3 w-full p-3 rounded-xl transition-all cursor-pointer"
                   style={{
-                    background: customLyrics ? `${accent}08` : "rgba(13, 148, 136, 0.03)",
-                    border: `1px solid ${customLyrics ? `${accent}20` : "rgba(13, 148, 136, 0.08)"}`,
+                    background: customLyrics ? `${accent}08` : "rgba(0, 255, 136, 0.03)",
+                    border: `1px solid ${customLyrics ? `${accent}20` : "rgba(0, 255, 136, 0.08)"}`,
                   }}
                 >
                   <div
                     className="relative w-10 h-[22px] rounded-full transition-all flex-shrink-0"
-                    style={{ background: customLyrics ? accent : "rgba(13, 148, 136, 0.15)" }}
+                    style={{ background: customLyrics ? accent : "rgba(0, 255, 136, 0.15)" }}
                   >
                     <div
                       className="absolute top-[3px] w-4 h-4 rounded-full bg-white transition-transform"

@@ -8,13 +8,13 @@ const sections = [
     icon: "✦",
     title: "What is Elovayne?",
     content: `Elovayne is a home for people who need a quiet place. A place where you can share what is in your heart — a story, a feeling, something you have been carrying alone — and know that someone understands. You do not need to be brave here. You just need to be yourself.`,
-    color: "#0d9488",
+    color: "#00ff88",
   },
   {
     icon: "◎",
     title: "Why does this exist?",
     content: `The internet can be a loud place. Elovayne is the opposite — a quiet corner with no followers, no likes, no algorithms. Just people being real with each other, sharing what matters, and finding comfort in knowing they are not alone.`,
-    color: "#10b981",
+    color: "#00cc6a",
   },
   {
     icon: "◇",
@@ -70,7 +70,7 @@ const sections = [
       "Map your inner world with Soul Map — a private mandala.",
       "Play Nebula Orb, a multiplayer cosmic arena game.",
     ],
-    color: "#06b6d4",
+    color: "#39ff14",
   },
 ];
 
@@ -82,6 +82,7 @@ export default function AboutPage() {
           {/* Header */}
           <motion.div
             className="text-center mb-14"
+            style={{ textShadow: "0 0 30px rgba(0, 255, 136, 0.2), 0 0 60px rgba(57, 255, 20, 0.08)" }}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -96,7 +97,7 @@ export default function AboutPage() {
             <h1
               className="text-3xl sm:text-4xl mb-4"
               style={{
-                background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                background: "linear-gradient(135deg, #00ff88, #00cc6a)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 fontWeight: 300,
@@ -105,7 +106,7 @@ export default function AboutPage() {
             >
               About Elovayne
             </h1>
-            <p className="text-sm" style={{ color: "rgba(15, 23, 42, 0.35)", fontWeight: 300 }}>
+            <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.35)", fontWeight: 300 }}>
               A letter to anyone who needs a quiet place to land
             </p>
           </motion.div>
@@ -119,6 +120,8 @@ export default function AboutPage() {
                 style={{
                   background: `${section.color}03`,
                   border: `1px solid ${section.color}10`,
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+                  backdropFilter: "blur(8px)",
                 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -132,7 +135,7 @@ export default function AboutPage() {
                 </div>
 
                 {section.content && (
-                  <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(15, 23, 42, 0.6)", fontWeight: 300 }}>
+                  <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(224, 245, 232, 0.6)", fontWeight: 300 }}>
                     {section.content}
                   </p>
                 )}
@@ -142,7 +145,7 @@ export default function AboutPage() {
                     {section.items.map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="mt-2 w-1 h-1 rounded-full flex-shrink-0" style={{ background: section.color, opacity: 0.4 }} />
-                        <span className="text-xs leading-relaxed" style={{ color: "rgba(15, 23, 42, 0.5)", fontWeight: 300 }}>
+                        <span className="text-xs leading-relaxed" style={{ color: "rgba(224, 245, 232, 0.5)", fontWeight: 300 }}>
                           {item}
                         </span>
                       </li>
@@ -158,6 +161,7 @@ export default function AboutPage() {
               style={{
                 background: "rgba(236, 72, 153, 0.02)",
                 border: "1px solid rgba(236, 72, 153, 0.06)",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(236, 72, 153, 0.04)",
               }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -169,23 +173,23 @@ export default function AboutPage() {
                   If you are in crisis
                 </h2>
               </div>
-              <p className="text-xs leading-relaxed mb-4" style={{ color: "rgba(15, 23, 42, 0.5)", fontWeight: 300 }}>
+              <p className="text-xs leading-relaxed mb-4" style={{ color: "rgba(224, 245, 232, 0.5)", fontWeight: 300 }}>
                 You are not alone. Please reach out. There are people who want to help.
               </p>
               <div className="space-y-2 text-xs">
                 <p style={{ color: "var(--text-dim)" }}>
                   <span style={{ color: "#3b82f6", fontWeight: 400 }}>International:</span>{" "}
-                  <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "#0d9488", textDecoration: "none", borderBottom: "1px solid rgba(13, 148, 136, 0.2)" }}>
+                  <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "#00ff88", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
                     findahelpline.com
                   </a>
                 </p>
                 <p style={{ color: "var(--text-dim)" }}>
                   <span style={{ color: "#3b82f6", fontWeight: 400 }}>US:</span>{" "}
-                  <span style={{ color: "rgba(15, 23, 42, 0.6)" }}>988 Lifeline — call or text 988</span>
+                  <span style={{ color: "rgba(224, 245, 232, 0.6)" }}>988 Lifeline — call or text 988</span>
                 </p>
                 <p style={{ color: "var(--text-dim)" }}>
                   <span style={{ color: "#3b82f6", fontWeight: 400 }}>UK:</span>{" "}
-                  <span style={{ color: "rgba(15, 23, 42, 0.6)" }}>Samaritans — call 116 123</span>
+                  <span style={{ color: "rgba(224, 245, 232, 0.6)" }}>Samaritans — call 116 123</span>
                 </p>
               </div>
             </motion.div>
@@ -196,12 +200,13 @@ export default function AboutPage() {
               style={{
                 background: "rgba(16, 185, 129, 0.02)",
                 border: "1px solid rgba(16, 185, 129, 0.06)",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 255, 136, 0.04)",
               }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.7 }}
             >
-              <p className="text-sm" style={{ color: "rgba(15, 23, 42, 0.5)", fontWeight: 300 }}>
+              <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.5)", fontWeight: 300 }}>
                 Elovayne is <strong style={{ color: "#10b981", fontWeight: 500 }}>free for everyone</strong>. Always.
                 No premium walls. No hidden fees. No ads.
               </p>

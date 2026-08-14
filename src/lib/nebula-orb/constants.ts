@@ -110,24 +110,24 @@ export const ORB_COLORS = [
   { body: "#ec4899", inner: "#f9a8d4", glow: "rgba(236, 72, 153, 0.5)", eye: "#ffffff", accent: "#f9a8d4", ring: "rgba(249, 168, 212, 0.3)" },
   { body: "#eab308", inner: "#fde047", glow: "rgba(234, 179, 8, 0.5)", eye: "#1a0a00", accent: "#fde047", ring: "rgba(253, 224, 71, 0.3)" },
   { body: "#a855f7", inner: "#d8b4fe", glow: "rgba(168, 85, 247, 0.5)", eye: "#ffffff", accent: "#d8b4fe", ring: "rgba(216, 180, 254, 0.3)" },
-  { body: "#06b6d4", inner: "#67e8f9", glow: "rgba(6, 182, 212, 0.5)", eye: "#ffffff", accent: "#67e8f9", ring: "rgba(103, 232, 249, 0.3)" },
+  { body: "#00cc6a", inner: "#67e8f9", glow: "rgba(0, 204, 106, 0.5)", eye: "#ffffff", accent: "#67e8f9", ring: "rgba(103, 232, 249, 0.3)" },
 ];
 
 export const PLASMA_FOOD = [{ color: "#ef4444", glow: "rgba(239, 68, 68, 0.8)" }];
-export const VOID_FOOD = [{ color: "#0d9488", glow: "rgba(13, 148, 136, 0.8)" }];
+export const VOID_FOOD = [{ color: "#00ff88", glow: "rgba(0, 255, 136, 0.8)" }];
 export const SOLAR_FOOD = [{ color: "#fbbf24", glow: "rgba(251, 191, 36, 0.9)" }];
 export const COSMIC_FOOD = [{ color: "#22d3ee", glow: "rgba(34, 211, 238, 0.8)" }];
-export const NEBULA_FOOD = [{ color: "#06b6d4", glow: "rgba(6, 182, 212, 0.8)" }];
+export const NEBULA_FOOD = [{ color: "#00cc6a", glow: "rgba(0, 204, 106, 0.8)" }];
 
 export const POWERUP_COLORS: Record<string, { color: string; glow: string; icon: string; ring: string }> = {
   speed: { color: "#0ea5e9", glow: "rgba(14, 165, 233, 0.8)", icon: "⚡", ring: "rgba(14, 165, 233, 0.3)" },
   shield: { color: "#10b981", glow: "rgba(16, 185, 129, 0.8)", icon: "🛡", ring: "rgba(16, 185, 129, 0.3)" },
   ghost: { color: "#5eead4", glow: "rgba(94, 234, 212, 0.8)", icon: "👻", ring: "rgba(94, 234, 212, 0.3)" },
-  glow: { color: "#06b6d4", glow: "rgba(6, 182, 212, 0.8)", icon: "💡", ring: "rgba(6, 182, 212, 0.3)" },
-  magnet: { color: "#0891b2", glow: "rgba(8, 145, 178, 0.8)", icon: "🧲", ring: "rgba(8, 145, 178, 0.3)" },
+  glow: { color: "#00cc6a", glow: "rgba(0, 204, 106, 0.8)", icon: "💡", ring: "rgba(0, 204, 106, 0.3)" },
+  magnet: { color: "#00ff88", glow: "rgba(0, 255, 136, 0.8)", icon: "🧲", ring: "rgba(0, 255, 136, 0.3)" },
   shrink: { color: "#2dd4bf", glow: "rgba(45, 212, 191, 0.8)", icon: "✨", ring: "rgba(45, 212, 191, 0.3)" },
   freeze: { color: "#22d3ee", glow: "rgba(34, 211, 238, 0.8)", icon: "❄", ring: "rgba(34, 211, 238, 0.3)" },
-  rage: { color: "#0d9488", glow: "rgba(13, 148, 136, 0.8)", icon: "🔥", ring: "rgba(13, 148, 136, 0.3)" },
+  rage: { color: "#00ff88", glow: "rgba(0, 255, 136, 0.8)", icon: "🔥", ring: "rgba(0, 255, 136, 0.3)" },
   phase: { color: "#5eead4", glow: "rgba(94, 234, 212, 0.8)", icon: "🌀", ring: "rgba(94, 234, 212, 0.3)" },
 };
 
@@ -148,13 +148,13 @@ export const SKIN_DEFINITIONS: SkinDef[] = [
   { id: "fusion", name: "Fusion", bodyColor: "#eab308", innerColor: "#fde047", glowColor: "rgba(234, 179, 8, 0.5)", eyeColor: "#1a0a00", accentColor: "#fde047", ringColor: "rgba(253, 224, 71, 0.3)" },
   { id: "dark-matter", name: "Dark Matter", bodyColor: "#1e293b", innerColor: "#334155", glowColor: "rgba(30, 41, 59, 0.5)", eyeColor: "#22d3ee", accentColor: "#475569", ringColor: "rgba(51, 65, 85, 0.3)" },
   { id: "solar-flare", name: "Solar Flare", bodyColor: "#f43f5e", innerColor: "#fb7185", glowColor: "rgba(244, 63, 94, 0.5)", eyeColor: "#ffffff", accentColor: "#fb7185", ringColor: "rgba(251, 113, 133, 0.3)" },
-  { id: "ice-core", name: "Ice Core", bodyColor: "#06b6d4", innerColor: "#67e8f9", glowColor: "rgba(6, 182, 212, 0.5)", eyeColor: "#ffffff", accentColor: "#a5f3fc", ringColor: "rgba(165, 243, 252, 0.3)" },
+  { id: "ice-core", name: "Ice Core", bodyColor: "#00cc6a", innerColor: "#67e8f9", glowColor: "rgba(0, 204, 106, 0.5)", eyeColor: "#ffffff", accentColor: "#a5f3fc", ringColor: "rgba(165, 243, 252, 0.3)" },
   { id: "void", name: "Void", bodyColor: "#6366f1", innerColor: "#a5b4fc", glowColor: "rgba(99, 102, 241, 0.5)", eyeColor: "#ffffff", accentColor: "#a5b4fc", ringColor: "rgba(165, 180, 252, 0.3)" },
   { id: "cyber", name: "Cyber", bodyColor: "#22c55e", innerColor: "#86efac", glowColor: "rgba(34, 197, 94, 0.5)", eyeColor: "#ffffff", accentColor: "#86efac", ringColor: "rgba(134, 239, 172, 0.3)" },
   { id: "nova", name: "Nova", bodyColor: "#f59e0b", innerColor: "#fcd34d", glowColor: "rgba(245, 158, 11, 0.5)", eyeColor: "#ffffff", accentColor: "#fcd34d", ringColor: "rgba(252, 211, 77, 0.3)" },
   { id: "atomic", name: "Atomic", bodyColor: "#14b8a6", innerColor: "#5eead4", glowColor: "rgba(20, 184, 166, 0.5)", eyeColor: "#ffffff", accentColor: "#5eead4", ringColor: "rgba(94, 234, 212, 0.3)" },
   { id: "crystal", name: "Crystal", bodyColor: "#e2e8f0", innerColor: "#f1f5f9", glowColor: "rgba(226, 232, 240, 0.4)", eyeColor: "#3b82f6", accentColor: "#ffffff", ringColor: "rgba(241, 245, 249, 0.3)" },
-  { id: "hex-grid", name: "Hex Grid", bodyColor: "#0891b2", innerColor: "#22d3ee", glowColor: "rgba(8, 145, 178, 0.5)", eyeColor: "#ffffff", accentColor: "#67e8f9", ringColor: "rgba(34, 211, 238, 0.3)" },
+  { id: "hex-grid", name: "Hex Grid", bodyColor: "#00ff88", innerColor: "#22d3ee", glowColor: "rgba(0, 255, 136, 0.5)", eyeColor: "#ffffff", accentColor: "#67e8f9", ringColor: "rgba(34, 211, 238, 0.3)" },
   { id: "nebula", name: "Nebula", bodyColor: "#a855f7", innerColor: "#d8b4fe", glowColor: "rgba(168, 85, 247, 0.5)", eyeColor: "#ffffff", accentColor: "#d8b4fe", ringColor: "rgba(216, 180, 254, 0.3)" },
   { id: "aurora", name: "Aurora", bodyColor: "#84cc16", innerColor: "#bef264", glowColor: "rgba(132, 204, 22, 0.5)", eyeColor: "#ffffff", accentColor: "#bef264", ringColor: "rgba(190, 242, 100, 0.3)" },
   { id: "supernova", name: "Supernova", bodyColor: "#dc2626", innerColor: "#f87171", glowColor: "rgba(220, 38, 38, 0.5)", eyeColor: "#fbbf24", accentColor: "#f87171", ringColor: "rgba(248, 113, 113, 0.3)" },

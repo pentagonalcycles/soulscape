@@ -13,8 +13,8 @@ export default function MuralPage() {
     return (
       <Suspense fallback={
         <div className="h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#f0fdf9" }}>
-          <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "#0d9488", borderTopColor: "transparent" }} />
-          <p style={{ color: "rgba(15, 23, 42, 0.4)" }}>Loading canvas...</p>
+          <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "#00ff88", borderTopColor: "transparent" }} />
+          <p style={{ color: "rgba(224, 245, 232, 0.4)" }}>Loading canvas...</p>
         </div>
       }>
         <MuralCanvas room={currentRoom} onLeave={() => setCurrentRoom(null)} />

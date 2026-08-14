@@ -125,7 +125,7 @@ export default function AccountPage() {
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at center, transparent 40%, rgba(13, 148, 136, 0.03) 100%)",
+          background: "radial-gradient(ellipse at center, transparent 40%, rgba(0, 255, 136, 0.03) 100%)",
           zIndex: 2,
         }}
       />
@@ -141,7 +141,7 @@ export default function AccountPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-3xl md:text-4xl font-heading glow-text-strong mb-8">Your Account</h1>
+              <h1 className="text-3xl md:text-4xl font-heading glow-text-strong mb-8" style={{ textShadow: "0 0 30px rgba(0, 255, 136, 0.2), 0 0 60px rgba(57, 255, 20, 0.08)" }}>Your Account</h1>
 
               {message && (
                 <div className="mb-6 p-4 rounded-xl text-sm text-elovayne-light" style={{ background: "rgba(45, 212, 168, 0.1)", border: "1px solid rgba(45, 212, 168, 0.2)" }}>
@@ -150,7 +150,7 @@ export default function AccountPage() {
               )}
 
               {/* Membership */}
-              <div className="sanctuary-glass-card rounded-2xl p-6 mb-6">
+              <div className="sanctuary-glass-card rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
                 <h2 className="font-heading text-lg text-elovayne-light mb-4">Membership</h2>
                 {membership ? (
                   <div>
@@ -183,8 +183,9 @@ export default function AccountPage() {
                       href="/shop"
                       className="inline-block px-4 py-2 rounded-lg text-xs font-body text-elovayne-light"
                       style={{
-                        background: "linear-gradient(135deg, rgba(13, 148, 136, 0.3), rgba(6, 182, 212, 0.2))",
-                        border: "1px solid rgba(13, 148, 136, 0.3)",
+                        background: "linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 204, 106, 0.2))",
+                        border: "1px solid rgba(0, 255, 136, 0.3)",
+                        boxShadow: "0 4px 20px rgba(0, 255, 136, 0.25)",
                       }}
                     >
                       Upgrade to Plus
@@ -194,14 +195,14 @@ export default function AccountPage() {
               </div>
 
               {/* Purchases */}
-              <div className="sanctuary-glass-card rounded-2xl p-6 mb-6">
+              <div className="sanctuary-glass-card rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
                 <h2 className="font-heading text-lg text-elovayne-light mb-4">Purchase History</h2>
                 {purchases.length === 0 ? (
                   <p className="text-elovayne-dim text-sm">No purchases yet.</p>
                 ) : (
                   <div className="space-y-3">
                     {purchases.map((p) => (
-                      <div key={p.id} className="flex items-center justify-between p-3 rounded-lg" style={{ background: "rgba(13, 148, 136, 0.04)" }}>
+                      <div key={p.id} className="flex items-center justify-between p-3 rounded-lg" style={{ background: "rgba(0, 255, 136, 0.04)" }}>
                         <div>
                           <p className="text-elovayne-light text-sm">{p.products?.title || "Product"}</p>
                           <p className="text-elovayne-dim text-xs">{formatDate(p.created_at)}</p>
@@ -219,14 +220,14 @@ export default function AccountPage() {
               </div>
 
               {/* Downloads */}
-              <div className="sanctuary-glass-card rounded-2xl p-6 mb-6">
+              <div className="sanctuary-glass-card rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
                 <h2 className="font-heading text-lg text-elovayne-light mb-4">Downloads</h2>
                 {downloads.length === 0 ? (
                   <p className="text-elovayne-dim text-sm">No downloads available.</p>
                 ) : (
                   <div className="space-y-3">
                     {downloads.filter(d => d.purchases?.status === "completed").map((d) => (
-                      <div key={d.id} className="flex items-center justify-between p-3 rounded-lg" style={{ background: "rgba(13, 148, 136, 0.04)" }}>
+                      <div key={d.id} className="flex items-center justify-between p-3 rounded-lg" style={{ background: "rgba(0, 255, 136, 0.04)" }}>
                         <div>
                           <p className="text-elovayne-light text-sm">{d.products?.title || "Product"}</p>
                           <p className="text-elovayne-dim text-xs">Downloaded {d.download_count} time{d.download_count !== 1 ? "s" : ""}</p>

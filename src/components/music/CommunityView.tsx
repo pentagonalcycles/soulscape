@@ -24,7 +24,7 @@ export default function CommunityView() {
   const [tracks, setTracks] = useState<CommunityTrack[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const accent = "#0d9488";
+  const accent = "#00ff88";
 
   useEffect(() => {
     async function fetchCommunity() {

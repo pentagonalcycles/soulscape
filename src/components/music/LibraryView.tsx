@@ -29,7 +29,7 @@ export default function LibraryView({ userId }: LibraryViewProps) {
   const [loading, setLoading] = useState(true);
   const [dailyUsed, setDailyUsed] = useState(0);
 
-  const accent = "#0d9488";
+  const accent = "#00ff88";
 
   const fetchLibrary = useCallback(async () => {
     if (!userId) return;
@@ -122,7 +122,7 @@ export default function LibraryView({ userId }: LibraryViewProps) {
       {/* Daily Usage */}
       <div
         className="rounded-xl p-4 mb-6"
-        style={{ background: "rgba(13, 148, 136, 0.03)", border: "1px solid rgba(13, 148, 136, 0.08)" }}
+        style={{ background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(12px)" }}
       >
         <div className="flex items-center justify-between mb-2">
           <span className="text-[10px]" style={{ color: "var(--text-dim)" }}>Today&apos;s creations</span>

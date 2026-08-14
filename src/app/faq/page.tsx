@@ -8,7 +8,7 @@ const faqSections = [
   {
     title: "Getting Started",
     icon: "✦",
-    color: "#0d9488",
+    color: "#00ff88",
     items: [
       {
         q: "What is Elovayne?",
@@ -58,7 +58,7 @@ const faqSections = [
   {
     title: "Features",
     icon: "◇",
-    color: "#06b6d4",
+    color: "#00cc6a",
     items: [
       {
         q: "What is Elyra AI?",
@@ -149,14 +149,15 @@ export default function FAQPage() {
             <h1
               className="text-3xl sm:text-4xl font-light tracking-wide mb-3"
               style={{
-                background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                background: "linear-gradient(135deg, #00ff88, #00cc6a)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
+                textShadow: "0 0 30px rgba(0, 255, 136, 0.2), 0 0 60px rgba(57, 255, 20, 0.08)",
               }}
             >
               Frequently Asked
             </h1>
-            <p className="text-sm" style={{ color: "rgba(15, 23, 42, 0.5)" }}>
+            <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.5)" }}>
               Every question answered with care
             </p>
           </motion.div>
@@ -186,14 +187,16 @@ export default function FAQPage() {
                       key={key}
                       className="rounded-xl overflow-hidden"
                       style={{
-                        background: isOpen ? `${section.color}08` : "rgba(13, 148, 136, 0.03)",
-                        border: `1px solid ${isOpen ? `${section.color}20` : "rgba(13, 148, 136, 0.08)"}`,
+                        background: isOpen ? `${section.color}08` : "rgba(0, 255, 136, 0.03)",
+                        border: `1px solid ${isOpen ? `${section.color}20` : "rgba(0, 255, 136, 0.08)"}`,
+                        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+                        backdropFilter: "blur(8px)",
                       }}
                     >
                       <button
                         onClick={() => toggle(key)}
                         className="w-full flex items-center justify-between p-4 text-left cursor-pointer"
-                        style={{ background: "none", border: "none", color: "rgba(15, 23, 42, 0.9)" }}
+                        style={{ background: "none", border: "none", color: "rgba(224, 245, 232, 0.9)" }}
                       >
                         <span className="text-sm font-medium pr-4">{item.q}</span>
                         <motion.span
@@ -211,7 +214,7 @@ export default function FAQPage() {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <p className="px-4 pb-4 text-xs leading-relaxed" style={{ color: "rgba(15, 23, 42, 0.6)" }}>
+                        <p className="px-4 pb-4 text-xs leading-relaxed" style={{ color: "rgba(224, 245, 232, 0.6)" }}>
                           {item.a}
                         </p>
                       </motion.div>
@@ -226,24 +229,27 @@ export default function FAQPage() {
           <motion.div
             className="text-center mt-8 p-6 rounded-2xl"
             style={{
-              background: "rgba(13, 148, 136, 0.04)",
-              border: "1px solid rgba(13, 148, 136, 0.1)",
+              background: "rgba(0, 255, 136, 0.04)",
+              border: "1px solid rgba(0, 255, 136, 0.1)",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+              backdropFilter: "blur(8px)",
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            <p className="text-sm mb-3" style={{ color: "rgba(15, 23, 42, 0.55)" }}>
+            <p className="text-sm mb-3" style={{ color: "rgba(224, 245, 232, 0.55)" }}>
               Still have questions?
             </p>
             <Link
               href="/support"
               className="px-5 py-2 rounded-lg text-xs"
               style={{
-                background: "rgba(13, 148, 136, 0.08)",
-                border: "1px solid rgba(13, 148, 136, 0.15)",
-                color: "#0d9488",
+                background: "rgba(0, 255, 136, 0.08)",
+                border: "1px solid rgba(0, 255, 136, 0.15)",
+                color: "#00ff88",
                 textDecoration: "none",
+                boxShadow: "0 4px 20px rgba(0, 255, 136, 0.2)",
               }}
             >
               Contact Support
@@ -256,7 +262,7 @@ export default function FAQPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
           >
-            <Link href="/" className="text-xs" style={{ color: "rgba(15, 23, 42, 0.3)", textDecoration: "none" }}>
+            <Link href="/" className="text-xs" style={{ color: "rgba(224, 245, 232, 0.3)", textDecoration: "none" }}>
               ← Go back
             </Link>
           </motion.div>

@@ -50,14 +50,14 @@ export default function LoginPage() {
           <h1
             className="text-3xl font-light tracking-widest mb-2"
             style={{
-              background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+              background: "linear-gradient(135deg, #00ff88, #39ff14, #00cc6a)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
           >
             Elovayne
           </h1>
-          <p className="text-xs" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+          <p className="text-xs" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
             A safe place where your soul can rest
           </p>
         </motion.div>
@@ -69,16 +69,19 @@ export default function LoginPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           style={{
-            background: "rgba(13, 148, 136, 0.04)",
-            border: "1px solid rgba(13, 148, 136, 0.1)",
+            background: "rgba(5, 10, 6, 0.6)",
+            backdropFilter: "blur(20px)",
+            border: "1px solid rgba(0, 255, 136, 0.12)",
+            boxShadow: "0 8px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(0, 255, 136, 0.06)",
+            borderRadius: "20px",
           }}
         >
           {isAnonymous ? (
             <>
-              <h2 className="text-xl font-light text-center mb-2" style={{ color: "rgba(15, 23, 42, 0.9)" }}>
+              <h2 className="text-xl font-light text-center mb-2" style={{ color: "rgba(224, 245, 232, 0.9)" }}>
                 {sent ? "Check your email" : "Keep Your Stories Safe"}
               </h2>
-              <p className="text-xs text-center mb-8" style={{ color: "rgba(15, 23, 42, 0.5)" }}>
+              <p className="text-xs text-center mb-8" style={{ color: "rgba(224, 245, 232, 0.5)" }}>
                 {sent
                     ? "Check your inbox for your sign-in link."
                     : "Sign in to keep your stories and saved posts forever."}
@@ -97,18 +100,18 @@ export default function LoginPage() {
                   >
                     💌
                   </motion.div>
-                  <p className="text-sm mb-1" style={{ color: "rgba(15, 23, 42, 0.8)" }}>
+                  <p className="text-sm mb-1" style={{ color: "rgba(224, 245, 232, 0.8)" }}>
                     A sign-in link is heading to
                   </p>
-                  <p className="text-sm font-medium" style={{ color: "#0d9488" }}>{email}</p>
-                  <p className="text-xs mt-3" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+                  <p className="text-sm font-medium" style={{ color: "#00ff88" }}>{email}</p>
+                  <p className="text-xs mt-3" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
                     Click the link in your email to sign in. No password needed.
                   </p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider mb-2" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+                    <label className="block text-[10px] uppercase tracking-wider mb-2" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
                       Email Address
                     </label>
                     <input
@@ -119,11 +122,19 @@ export default function LoginPage() {
                       required
                       className="w-full rounded-xl px-4 py-3 text-sm"
                       style={{
-                        background: "rgba(13, 148, 136, 0.04)",
-                        border: "1px solid rgba(13, 148, 136, 0.12)",
-                        color: "rgba(15, 23, 42, 0.9)",
+                        background: "rgba(0, 255, 136, 0.04)",
+                        border: "1px solid rgba(0, 255, 136, 0.12)",
+                        color: "rgba(224, 245, 232, 0.9)",
                         outline: "none",
                         fontSize: "16px",
+                      }}
+                      onFocus={(e) => {
+                        e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.3)";
+                        e.currentTarget.style.boxShadow = "0 0 20px rgba(0, 255, 136, 0.08)";
+                      }}
+                      onBlur={(e) => {
+                        e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.12)";
+                        e.currentTarget.style.boxShadow = "none";
                       }}
                     />
                   </div>
@@ -138,11 +149,21 @@ export default function LoginPage() {
                     className="w-full py-3.5 rounded-xl font-medium text-sm cursor-pointer transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                     style={{
                       background: email.trim()
-                        ? "linear-gradient(135deg, #0d9488, #06b6d4)"
-                        : "rgba(13, 148, 136, 0.08)",
-                      color: email.trim() ? "#fff" : "rgba(15, 23, 42, 0.3)",
+                        ? "linear-gradient(135deg, #00ff88, #00cc6a)"
+                        : "rgba(0, 255, 136, 0.08)",
+                      color: email.trim() ? "#fff" : "rgba(224, 245, 232, 0.3)",
                       border: "none",
-                      boxShadow: email.trim() ? "0 4px 20px rgba(13, 148, 136, 0.2)" : "none",
+                      boxShadow: email.trim() ? "0 4px 20px rgba(0, 255, 136, 0.25)" : "none",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (email.trim()) {
+                        e.currentTarget.style.boxShadow = "0 6px 30px rgba(0, 255, 136, 0.35)";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (email.trim()) {
+                        e.currentTarget.style.boxShadow = "0 4px 20px rgba(0, 255, 136, 0.25)";
+                      }
                     }}
                     whileHover={email.trim() ? { scale: 1.02 } : {}}
                     whileTap={email.trim() ? { scale: 0.98 } : {}}
@@ -150,16 +171,16 @@ export default function LoginPage() {
                     {sending ? "Sending your link..." : "Send sign-in link ✦"}
                   </motion.button>
 
-                  <p className="text-[10px] text-center" style={{ color: "rgba(15, 23, 42, 0.3)" }}>
+                  <p className="text-[10px] text-center" style={{ color: "rgba(224, 245, 232, 0.3)" }}>
                     No passwords. No tracking. Just simplicity.
                   </p>
                 </form>
               )}
 
-              <div className="mt-6 pt-4" style={{ borderTop: "1px solid rgba(13, 148, 136, 0.08)" }}>
-                <p className="text-[10px] text-center" style={{ color: "rgba(15, 23, 42, 0.3)" }}>
+              <div className="mt-6 pt-4" style={{ borderTop: "1px solid rgba(0, 255, 136, 0.08)" }}>
+                <p className="text-[10px] text-center" style={{ color: "rgba(224, 245, 232, 0.3)" }}>
                   Or skip this entirely —{" "}
-                  <Link href="/" style={{ color: "#0d9488", textDecoration: "none" }}>
+                  <Link href="/" style={{ color: "#00ff88", textDecoration: "none" }}>
                     explore anonymously
                   </Link>
                 </p>
@@ -174,21 +195,21 @@ export default function LoginPage() {
               >
                 🌟
               </motion.div>
-              <h2 className="text-xl font-light mb-2" style={{ color: "rgba(15, 23, 42, 0.9)" }}>
+              <h2 className="text-xl font-light mb-2" style={{ color: "rgba(224, 245, 232, 0.9)" }}>
                 Your account is ready
               </h2>
-              <p className="text-xs mb-6" style={{ color: "rgba(15, 23, 42, 0.5)" }}>
+              <p className="text-xs mb-6" style={{ color: "rgba(224, 245, 232, 0.5)" }}>
                 Your stories are safe here.
               </p>
               {userProfile?.display_name && (
-                <p className="text-sm mb-2" style={{ color: "rgba(15, 23, 42, 0.8)" }}>
-                  Signed in as <span style={{ color: "#0d9488" }}>{userProfile.display_name}</span>
+                <p className="text-sm mb-2" style={{ color: "rgba(224, 245, 232, 0.8)" }}>
+                  Signed in as <span style={{ color: "#00ff88" }}>{userProfile.display_name}</span>
                 </p>
               )}
               <button
                 onClick={signOut}
                 className="text-xs mt-4 cursor-pointer transition-colors"
-                style={{ color: "rgba(15, 23, 42, 0.4)", background: "none", border: "none" }}
+                style={{ color: "rgba(224, 245, 232, 0.4)", background: "none", border: "none" }}
               >
                 Sign out
               </button>
@@ -206,7 +227,7 @@ export default function LoginPage() {
           <Link
             href="/"
             className="text-xs"
-            style={{ color: "rgba(15, 23, 42, 0.3)", textDecoration: "none" }}
+            style={{ color: "rgba(224, 245, 232, 0.3)", textDecoration: "none" }}
           >
             ← Go back
           </Link>

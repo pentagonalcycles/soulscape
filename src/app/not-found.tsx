@@ -15,7 +15,7 @@ export default function NotFound() {
         className="fixed inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(13, 148, 136, 0.03) 100%)",
+            "radial-gradient(ellipse at center, transparent 40%, rgba(0, 255, 136, 0.03) 100%)",
           zIndex: 2,
         }}
       />
@@ -55,19 +55,19 @@ export default function NotFound() {
               className="inline-block px-8 py-4 rounded-full font-heading text-lg tracking-wider text-elovayne-light cursor-pointer"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(13, 148, 136, 0.7), rgba(13, 148, 136, 0.8))",
-                boxShadow: "0 0 30px rgba(13, 148, 136, 0.3)",
+                  "linear-gradient(135deg, rgba(0, 255, 136, 0.7), rgba(0, 255, 136, 0.8))",
+                boxShadow: "0 0 30px rgba(0, 255, 136, 0.3)",
               }}
               whileHover={{
                 scale: 1.05,
-                boxShadow: "0 0 50px rgba(13, 148, 136, 0.5)",
+                boxShadow: "0 0 50px rgba(0, 255, 136, 0.5)",
               }}
               whileTap={{ scale: 0.98 }}
               animate={{
                 boxShadow: [
-                  "0 0 30px rgba(13, 148, 136, 0.3)",
-                  "0 0 50px rgba(13, 148, 136, 0.5)",
-                  "0 0 30px rgba(13, 148, 136, 0.3)",
+                  "0 0 30px rgba(0, 255, 136, 0.3)",
+                  "0 0 50px rgba(0, 255, 136, 0.5)",
+                  "0 0 30px rgba(0, 255, 136, 0.3)",
                 ],
               }}
               transition={{

@@ -10,13 +10,13 @@ interface ShopProductImageProps {
 }
 
 const categoryColors: Record<string, { primary: string; secondary: string; accent: string }> = {
-  journals: { primary: "#0d9488", secondary: "#06b6d4", accent: "#10b981" },
-  wallpapers: { primary: "#6b3fa0", secondary: "#0d9488", accent: "#06b6d4" },
-  soundscapes: { primary: "#0d9488", secondary: "#10b981", accent: "#06b6d4" },
-  profiles: { primary: "#06b6d4", secondary: "#0d9488", accent: "#10b981" },
-  membership: { primary: "#10b981", secondary: "#0d9488", accent: "#06b6d4" },
-  gifts: { primary: "#06b6d4", secondary: "#10b981", accent: "#0d9488" },
-  support: { primary: "#0d9488", secondary: "#06b6d4", accent: "#10b981" },
+  journals: { primary: "#00ff88", secondary: "#00cc6a", accent: "#10b981" },
+  wallpapers: { primary: "#6b3fa0", secondary: "#00ff88", accent: "#00cc6a" },
+  soundscapes: { primary: "#00ff88", secondary: "#10b981", accent: "#00cc6a" },
+  profiles: { primary: "#00cc6a", secondary: "#00ff88", accent: "#10b981" },
+  membership: { primary: "#10b981", secondary: "#00ff88", accent: "#00cc6a" },
+  gifts: { primary: "#00cc6a", secondary: "#10b981", accent: "#00ff88" },
+  support: { primary: "#00ff88", secondary: "#00cc6a", accent: "#10b981" },
 };
 
 function JournalVisual({ colors }: { colors: { primary: string; secondary: string; accent: string } }) {

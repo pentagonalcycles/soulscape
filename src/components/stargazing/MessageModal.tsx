@@ -48,7 +48,7 @@ export default function MessageModal({ mode, message, onSubmit, onClose, onWrite
         style={{
           background: "rgba(255, 255, 255, 0.95)",
           backdropFilter: "blur(20px)",
-          border: "1px solid rgba(13, 148, 136, 0.15)",
+          border: "1px solid rgba(0, 255, 136, 0.15)",
           boxShadow: "0 8px 40px rgba(0, 0, 0, 0.2)",
         }}
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -60,7 +60,7 @@ export default function MessageModal({ mode, message, onSubmit, onClose, onWrite
         <button
           onClick={onClose}
           className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-full text-sm"
-          style={{ color: "rgba(15, 23, 42, 0.3)", background: "rgba(15, 23, 42, 0.04)", border: "none", cursor: "pointer" }}
+          style={{ color: "rgba(224, 245, 232, 0.3)", background: "rgba(224, 245, 232, 0.04)", border: "none", cursor: "pointer" }}
         >
           ✕
         </button>
@@ -78,7 +78,7 @@ export default function MessageModal({ mode, message, onSubmit, onClose, onWrite
               </div>
               <p
                 className="text-center text-lg font-body leading-relaxed mb-6"
-                style={{ color: "rgba(15, 23, 42, 0.8)" }}
+                style={{ color: "rgba(224, 245, 232, 0.8)" }}
               >
                 &ldquo;{message}&rdquo;
               </p>
@@ -88,9 +88,9 @@ export default function MessageModal({ mode, message, onSubmit, onClose, onWrite
                     onClick={onWrite}
                     className="w-full py-2.5 rounded-xl text-xs transition-all"
                     style={{
-                      background: "rgba(13, 148, 136, 0.1)",
-                      border: "1px solid rgba(13, 148, 136, 0.2)",
-                      color: "#0d9488",
+                      background: "rgba(0, 255, 136, 0.1)",
+                      border: "1px solid rgba(0, 255, 136, 0.2)",
+                      color: "#00ff88",
                       cursor: "pointer",
                     }}
                   >
@@ -102,8 +102,8 @@ export default function MessageModal({ mode, message, onSubmit, onClose, onWrite
                   className="w-full py-2.5 rounded-xl text-xs transition-all"
                   style={{
                     background: "transparent",
-                    border: "1px solid rgba(13, 148, 136, 0.1)",
-                    color: "rgba(15, 23, 42, 0.4)",
+                    border: "1px solid rgba(0, 255, 136, 0.1)",
+                    color: "rgba(224, 245, 232, 0.4)",
                     cursor: "pointer",
                   }}
                 >
@@ -122,7 +122,7 @@ export default function MessageModal({ mode, message, onSubmit, onClose, onWrite
                 <span className="text-2xl">✦</span>
                 <h3
                   className="text-sm font-body mt-2"
-                  style={{ color: "rgba(15, 23, 42, 0.7)" }}
+                  style={{ color: "rgba(224, 245, 232, 0.7)" }}
                 >
                   Leave a message in the sky
                 </h3>
@@ -137,15 +137,15 @@ export default function MessageModal({ mode, message, onSubmit, onClose, onWrite
                 autoFocus
                 className="w-full rounded-xl p-4 text-sm font-body resize-none outline-none"
                 style={{
-                  background: "rgba(13, 148, 136, 0.04)",
-                  border: "1px solid rgba(13, 148, 136, 0.12)",
-                  color: "rgba(15, 23, 42, 0.8)",
-                  caretColor: "#0d9488",
+                  background: "rgba(0, 255, 136, 0.04)",
+                  border: "1px solid rgba(0, 255, 136, 0.12)",
+                  color: "rgba(224, 245, 232, 0.8)",
+                  caretColor: "#00ff88",
                 }}
               />
 
               <div className="flex items-center justify-between mt-2 mb-4">
-                <span className="text-[10px]" style={{ color: "rgba(15, 23, 42, 0.3)" }}>
+                <span className="text-[10px]" style={{ color: "rgba(224, 245, 232, 0.3)" }}>
                   {text.length}/100
                 </span>
                 {error && (
@@ -161,8 +161,8 @@ export default function MessageModal({ mode, message, onSubmit, onClose, onWrite
                   className="flex-1 py-2.5 rounded-xl text-xs transition-all"
                   style={{
                     background: "transparent",
-                    border: "1px solid rgba(13, 148, 136, 0.1)",
-                    color: "rgba(15, 23, 42, 0.4)",
+                    border: "1px solid rgba(0, 255, 136, 0.1)",
+                    color: "rgba(224, 245, 232, 0.4)",
                     cursor: "pointer",
                   }}
                 >
@@ -173,9 +173,9 @@ export default function MessageModal({ mode, message, onSubmit, onClose, onWrite
                   disabled={!text.trim() || text.trim().length > 100 || sending}
                   className="flex-1 py-2.5 rounded-xl text-xs transition-all disabled:opacity-30"
                   style={{
-                    background: text.trim() ? "rgba(13, 148, 136, 0.1)" : "rgba(13, 148, 136, 0.04)",
-                    border: `1px solid ${text.trim() ? "rgba(13, 148, 136, 0.2)" : "rgba(13, 148, 136, 0.08)"}`,
-                    color: text.trim() ? "#0d9488" : "rgba(15, 23, 42, 0.3)",
+                    background: text.trim() ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)",
+                    border: `1px solid ${text.trim() ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.08)"}`,
+                    color: text.trim() ? "#00ff88" : "rgba(224, 245, 232, 0.3)",
                     cursor: text.trim() ? "pointer" : "default",
                   }}
                 >

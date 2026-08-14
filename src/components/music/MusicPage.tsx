@@ -47,7 +47,7 @@ export default function MusicPage() {
   const [activeTab, setActiveTab] = useState<Tab>("create");
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const accent = "#0d9488";
+  const accent = "#00ff88";
 
   const handleTrackCreated = () => {
     setRefreshKey((k) => k + 1);
@@ -60,7 +60,7 @@ export default function MusicPage() {
       <aside
         className="hidden sm:flex flex-col w-56 flex-shrink-0 py-6 px-3 fixed left-0 top-0 h-full z-20"
         style={{
-          background: "rgba(13, 148, 136, 0.03)",
+          background: "rgba(0, 255, 136, 0.03)",
           borderRight: "1px solid var(--border-subtle)",
         }}
       >
@@ -69,7 +69,7 @@ export default function MusicPage() {
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
             style={{
-              background: `linear-gradient(135deg, ${accent}, #06b6d4)`,
+              background: `linear-gradient(135deg, ${accent}, #00cc6a)`,
               boxShadow: `0 2px 12px ${accent}30`,
             }}
           >

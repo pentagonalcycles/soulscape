@@ -8,7 +8,7 @@ interface AudioPlayerProps {
   compact?: boolean;
 }
 
-export default function AudioPlayer({ src, accent = "#0d9488", compact }: AudioPlayerProps) {
+export default function AudioPlayer({ src, accent = "#00ff88", compact }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -89,7 +89,7 @@ export default function AudioPlayer({ src, accent = "#0d9488", compact }: AudioP
   }
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(12px)" }}>
       <audio ref={audioRef} src={src} preload="metadata" />
 
       {/* Play/Pause */}

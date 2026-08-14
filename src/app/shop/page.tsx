@@ -74,7 +74,7 @@ function HeroParticles() {
             top: `${p.y}%`,
             width: p.size,
             height: p.size,
-            background: i % 3 === 0 ? "#10b981" : i % 3 === 1 ? "#0d9488" : "#06b6d4",
+            background: i % 3 === 0 ? "#10b981" : i % 3 === 1 ? "#00ff88" : "#00cc6a",
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 0.6, 0], y: [0, -20, -40] }}
@@ -379,7 +379,7 @@ function BasketPanel({
     >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
       <motion.div
-        className="relative w-full max-w-md h-full bg-[#f0fdf9]/95 backdrop-blur-xl border-l border-elovayne-violet/10 flex flex-col"
+        className="relative w-full max-w-md h-full bg-[rgba(0, 255, 136, 0.06)]/95 backdrop-blur-xl border-l border-elovayne-violet/10 flex flex-col"
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
@@ -772,7 +772,7 @@ export default function ShopPage() {
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at center, transparent 40%, rgba(13, 148, 136, 0.03) 100%)",
+          background: "radial-gradient(ellipse at center, transparent 40%, rgba(0, 255, 136, 0.03) 100%)",
           zIndex: 2,
         }}
       />

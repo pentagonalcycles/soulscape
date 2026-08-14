@@ -38,9 +38,9 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
         onClick={onToggle}
         className="fixed bottom-4 right-4 z-40 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer"
         style={{
-          background: isOpen ? "rgba(239, 68, 68, 0.1)" : "rgba(13, 148, 136, 0.1)",
-          border: `1px solid ${isOpen ? "rgba(239, 68, 68, 0.2)" : "rgba(13, 148, 136, 0.2)"}`,
-          color: isOpen ? "#ef4444" : "#0d9488",
+          background: isOpen ? "rgba(239, 68, 68, 0.1)" : "rgba(0, 255, 136, 0.1)",
+          border: `1px solid ${isOpen ? "rgba(239, 68, 68, 0.2)" : "rgba(0, 255, 136, 0.2)"}`,
+          color: isOpen ? "#ef4444" : "#00ff88",
           fontSize: "16px",
         }}
       >
@@ -53,17 +53,16 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
           style={{
             width: "min(320px, calc(100vw - 32px))",
             height: "min(400px, calc(100vh - 120px))",
-            background: "rgba(255, 255, 255, 0.95)",
-            backdropFilter: "blur(16px)",
-            border: "1px solid rgba(13, 148, 136, 0.12)",
-            boxShadow: "0 8px 40px rgba(0,0,0,0.1)",
+            background: "rgba(5, 10, 6, 0.8)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(0, 255, 136, 0.08)",
           }}
         >
           <div
             className="px-4 py-2.5 text-xs font-medium"
             style={{
-              borderBottom: "1px solid rgba(13, 148, 136, 0.08)",
-              color: "rgba(15, 23, 42, 0.5)",
+              borderBottom: "1px solid rgba(0, 255, 136, 0.08)",
+              color: "rgba(224, 245, 232, 0.5)",
             }}
           >
             Room Chat
@@ -71,7 +70,7 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
 
           <div className="flex-1 overflow-y-auto p-3 space-y-2">
             {messages.length === 0 ? (
-              <p className="text-xs text-center py-8" style={{ color: "rgba(15, 23, 42, 0.2)" }}>
+              <p className="text-xs text-center py-8" style={{ color: "rgba(224, 245, 232, 0.2)" }}>
                 No messages yet. Say hi!
               </p>
             ) : (
@@ -87,7 +86,7 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
                     <span className="text-[11px] font-medium" style={{ color: msg.color }}>
                       {msg.name}
                     </span>
-                    <p className="text-xs break-words" style={{ color: "rgba(15, 23, 42, 0.7)" }}>
+                    <p className="text-xs break-words" style={{ color: "rgba(224, 245, 232, 0.7)" }}>
                       {msg.text}
                     </p>
                   </div>
@@ -99,7 +98,7 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
 
           <div
             className="flex gap-2 p-3"
-            style={{ borderTop: "1px solid rgba(13, 148, 136, 0.08)" }}
+            style={{ borderTop: "1px solid rgba(0, 255, 136, 0.08)" }}
           >
             <input
               ref={inputRef}
@@ -111,8 +110,8 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
               maxLength={200}
               className="flex-1 px-3 py-1.5 rounded-lg text-xs outline-none"
               style={{
-                background: "rgba(13, 148, 136, 0.06)",
-                border: "1px solid rgba(13, 148, 136, 0.1)",
+                background: "rgba(0, 255, 136, 0.06)",
+                border: "1px solid rgba(0, 255, 136, 0.1)",
                 color: "#0f172a",
               }}
             />
@@ -120,7 +119,7 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
               onClick={handleSend}
               disabled={!text.trim()}
               className="px-3 py-1.5 rounded-lg text-xs text-white cursor-pointer disabled:opacity-40"
-              style={{ background: "linear-gradient(135deg, #0d9488, #06b6d4)" }}
+              style={{ background: "linear-gradient(135deg, #00ff88, #00cc6a)" }}
             >
               Send
             </button>

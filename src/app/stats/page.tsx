@@ -43,16 +43,13 @@ const pageNames: Record<string, string> = {
   "/ideas": "Ideas",
   "/poetry": "Poetry",
   "/soul-echo": "Soul Echo",
-  "/stargazing": "Stargazing",
   "/reflection-room": "Reflection",
   "/dream-canvas": "Canvas",
   "/camera": "Camera",
   "/wish-lanterns": "Lanterns",
   "/soul-map": "Soul Map",
   "/nebula-orb": "Nebula Orb",
-  "/human-weather": "Weather",
   "/human-signal": "Signal",
-  "/unseen": "Unseen",
   "/nera": "Nera",
   "/settings": "Settings",
   "/login": "Login",
@@ -70,16 +67,13 @@ const pageIcons: Record<string, string> = {
   "/ideas": "💡",
   "/poetry": "📝",
   "/soul-echo": "◎",
-  "/stargazing": "✧",
   "/reflection-room": "◈",
   "/dream-canvas": "△",
   "/camera": "📷",
   "/wish-lanterns": "🏮",
   "/soul-map": "◎",
   "/nebula-orb": "●",
-  "/human-weather": "🌤️",
   "/human-signal": "📡",
-  "/unseen": "◎",
   "/nera": "🪷",
   "/about": "ℹ️",
   "/support": "💙",
@@ -90,7 +84,7 @@ const pageIcons: Record<string, string> = {
   "/account": "👤",
 };
 
-const dotColors = ["#0d9488", "#06b6d4", "#3b82f6", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981"];
+const dotColors = ["#00ff88", "#00cc6a", "#3b82f6", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981"];
 
 // Visitor name/avatar generation
 const adjectives = ["Starry", "Quiet", "Gentle", "Cosmic", "Dreamy", "Silent", "Soft", "Wild", "Calm", "Bright", "Mystic", "Lunar", "Solar", "Astral", "Crystal"];
@@ -425,7 +419,7 @@ export default function StatsPage() {
 
   // Calculate glow intensity based on today's activity
   const glowIntensity = stats ? Math.min(stats.todayViews / 50, 1) : 0;
-  const glowColor = `rgba(13, 148, 136, ${0.05 + glowIntensity * 0.15})`;
+  const glowColor = `rgba(0, 255, 136, ${0.05 + glowIntensity * 0.15})`;
 
   return (
     <main className="relative min-h-screen overflow-hidden">
@@ -455,7 +449,7 @@ export default function StatsPage() {
             <h1
               className="text-2xl sm:text-3xl mb-3"
               style={{
-                background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                background: "linear-gradient(135deg, #00ff88, #00cc6a)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 fontWeight: 300,
@@ -464,7 +458,7 @@ export default function StatsPage() {
             >
               Community Stats
             </h1>
-            <p className="text-sm max-w-md mx-auto" style={{ color: "var(--text-muted, #64748b)", fontWeight: 300 }}>
+            <p className="text-sm max-w-md mx-auto" style={{ color: "var(--text-muted, #60b890)", fontWeight: 300 }}>
               See how the Elovayne community is growing. Every view, every visitor, every connection.
             </p>
           </motion.div>
@@ -472,7 +466,7 @@ export default function StatsPage() {
           {loading ? (
             <div className="space-y-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="rounded-2xl p-6 animate-pulse" style={{ background: "rgba(13,148,136,0.04)", height: "100px" }} />
+                <div key={i} className="rounded-2xl p-6 animate-pulse" style={{ background: "rgba(0,255,136,0.04)", height: "100px" }} />
               ))}
             </div>
           ) : stats ? (
@@ -515,7 +509,7 @@ export default function StatsPage() {
               {/* Main stats grid - with glow */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
                 {[
-                  { label: "Total Views", value: stats.totalViews, icon: "👁️", color: "#0d9488", glow: true },
+                  { label: "Total Views", value: stats.totalViews, icon: "👁️", color: "#00ff88", glow: true },
                   { label: "Unique Visitors", value: stats.uniqueVisitors, icon: "👤", color: "#3b82f6", glow: true },
                   { label: "Views Today", value: stats.todayViews, icon: "📅", color: "#f59e0b", glow: stats.todayViews > 0 },
                   { label: "Visitors Today", value: stats.todayVisitors, icon: "🌟", color: "#8b5cf6", glow: stats.todayVisitors > 0 },
@@ -531,8 +525,8 @@ export default function StatsPage() {
                       transition={{ delay: 0.1 * i }}
                       className="rounded-2xl p-5 text-center relative overflow-hidden"
                       style={{
-                        background: "var(--card-bg, rgba(13, 148, 136, 0.04))",
-                        border: `1px solid ${stat.glow && intensity > 0.3 ? `${stat.color}30` : "var(--border-subtle, rgba(13,148,136,0.1))"}`,
+                        background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
+                        border: `1px solid ${stat.glow && intensity > 0.3 ? `${stat.color}30` : "var(--border-subtle, rgba(0,255,136,0.1))"}`,
                         boxShadow: stat.glow && intensity > 0.3
                           ? `0 0 ${20 + intensity * 30}px ${stat.color}${Math.floor(intensity * 40).toString(16).padStart(2, "0")}, inset 0 0 ${10 + intensity * 15}px ${stat.color}${Math.floor(intensity * 15).toString(16).padStart(2, "0")}`
                           : "none",
@@ -554,7 +548,7 @@ export default function StatsPage() {
                       <p className="text-2xl font-light mb-1 relative z-10" style={{ color: stat.color }}>
                         {stat.value.toLocaleString()}
                       </p>
-                      <p className="text-[11px] relative z-10" style={{ color: "var(--text-dim, #94a3b8)" }}>
+                      <p className="text-[11px] relative z-10" style={{ color: "var(--text-dim, #40a070)" }}>
                         {stat.label}
                       </p>
                     </motion.div>
@@ -570,17 +564,17 @@ export default function StatsPage() {
                   transition={{ delay: 0.3 }}
                   className="rounded-2xl p-5 mb-6"
                   style={{
-                    background: "var(--card-bg, rgba(13, 148, 136, 0.04))",
-                    border: "1px solid var(--border-subtle, rgba(13,148,136,0.1))",
+                    background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
+                    border: "1px solid var(--border-subtle, rgba(0,255,136,0.1))",
                   }}
                 >
-                  <h2 className="text-sm font-medium mb-4" style={{ color: "var(--text-secondary, #334155)" }}>
+                  <h2 className="text-sm font-medium mb-4" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                     Visitor Types
                   </h2>
                   <div className="flex items-center gap-4">
                     {/* Visual bar */}
                     <div className="flex-1">
-                      <div className="h-4 rounded-full overflow-hidden flex" style={{ background: "rgba(13,148,136,0.08)" }}>
+                      <div className="h-4 rounded-full overflow-hidden flex" style={{ background: "rgba(0,255,136,0.08)" }}>
                         {stats.newVisitors > 0 && (
                           <motion.div
                             className="h-full"
@@ -605,13 +599,13 @@ export default function StatsPage() {
                     <div className="flex flex-col gap-1 flex-shrink-0">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full" style={{ background: "#3b82f6" }} />
-                        <span className="text-xs" style={{ color: "var(--text-secondary, #334155)" }}>
+                        <span className="text-xs" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                           {stats.newVisitors} new
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full" style={{ background: "#8b5cf6" }} />
-                        <span className="text-xs" style={{ color: "var(--text-secondary, #334155)" }}>
+                        <span className="text-xs" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                           {stats.returningVisitors} returning
                         </span>
                       </div>
@@ -628,15 +622,15 @@ export default function StatsPage() {
                   transition={{ delay: 0.35 }}
                   className="rounded-2xl p-6 mb-6"
                   style={{
-                    background: "var(--card-bg, rgba(13, 148, 136, 0.04))",
-                    border: "1px solid var(--border-subtle, rgba(13,148,136,0.1))",
+                    background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
+                    border: "1px solid var(--border-subtle, rgba(0,255,136,0.1))",
                   }}
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-sm font-medium" style={{ color: "var(--text-secondary, #334155)" }}>
+                    <h2 className="text-sm font-medium" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                       Who's Been Here
                     </h2>
-                    <span className="text-[10px]" style={{ color: "var(--text-dim, #94a3b8)" }}>
+                    <span className="text-[10px]" style={{ color: "var(--text-dim, #40a070)" }}>
                       Last 24 hours
                     </span>
                   </div>
@@ -659,7 +653,7 @@ export default function StatsPage() {
                           {/* Name and activity */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="text-xs font-medium" style={{ color: "var(--text-secondary, #334155)" }}>
+                              <span className="text-xs font-medium" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                                 {visitor.name}
                               </span>
                               {visitor.online && (
@@ -669,7 +663,7 @@ export default function StatsPage() {
                                 </div>
                               )}
                             </div>
-                            <p className="text-[10px]" style={{ color: "var(--text-faint, rgba(15,23,42,0.3))" }}>
+                            <p className="text-[10px]" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
                               {visitor.online ? "exploring" : "visited"} {pageNames[visitor.lastPage] || visitor.lastPage} · {getTimeAgo(visitor.lastVisit)}
                             </p>
                           </div>
@@ -677,8 +671,8 @@ export default function StatsPage() {
                           {/* Visit count */}
                           {visitor.visitCount > 1 && (
                             <span className="text-[9px] px-1.5 py-0.5 rounded-full flex-shrink-0" style={{ 
-                              background: "rgba(13, 148, 136, 0.08)", 
-                              color: "var(--text-dim, #94a3b8)" 
+                              background: "rgba(0, 255, 136, 0.08)", 
+                              color: "var(--text-dim, #40a070)" 
                             }}>
                               {visitor.visitCount} pages
                             </span>
@@ -698,12 +692,12 @@ export default function StatsPage() {
                   transition={{ delay: 0.4 }}
                   className="rounded-2xl p-6 mb-6"
                   style={{
-                    background: "var(--card-bg, rgba(13, 148, 136, 0.04))",
-                    border: "1px solid var(--border-subtle, rgba(13,148,136,0.1))",
+                    background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
+                    border: "1px solid var(--border-subtle, rgba(0,255,136,0.1))",
                   }}
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-sm font-medium" style={{ color: "var(--text-secondary, #334155)" }}>
+                    <h2 className="text-sm font-medium" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                       Live Activity
                     </h2>
                     <span className="text-[9px] px-2 py-1 rounded-full" style={{ background: "rgba(16,185,129,0.1)", color: "#10b981" }}>
@@ -721,18 +715,18 @@ export default function StatsPage() {
                           transition={{ duration: 0.3, delay: i * 0.03 }}
                           className="flex items-center gap-3 py-2 px-3 rounded-lg"
                           style={{
-                            background: i === 0 ? "rgba(13, 148, 136, 0.04)" : "transparent",
+                            background: i === 0 ? "rgba(0, 255, 136, 0.04)" : "transparent",
                           }}
                         >
                           <span className="text-sm flex-shrink-0">
                             {pageIcons[visit.page] || "📄"}
                           </span>
                           <div className="flex-1 min-w-0">
-                            <span className="text-xs" style={{ color: "var(--text-secondary, #334155)" }}>
+                            <span className="text-xs" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                               {pageNames[visit.page] || visit.page}
                             </span>
                           </div>
-                          <span className="text-[10px] flex-shrink-0" style={{ color: "var(--text-faint, rgba(15,23,42,0.3))" }}>
+                          <span className="text-[10px] flex-shrink-0" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
                             {getTimeAgo(visit.created_at)}
                           </span>
                         </motion.div>
@@ -750,11 +744,11 @@ export default function StatsPage() {
                   transition={{ delay: 0.5 }}
                   className="rounded-2xl p-6"
                   style={{
-                    background: "var(--card-bg, rgba(13, 148, 136, 0.04))",
-                    border: "1px solid var(--border-subtle, rgba(13,148,136,0.1))",
+                    background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
+                    border: "1px solid var(--border-subtle, rgba(0,255,136,0.1))",
                   }}
                 >
-                  <h2 className="text-sm font-medium mb-4" style={{ color: "var(--text-secondary, #334155)" }}>
+                  <h2 className="text-sm font-medium mb-4" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                     Most Visited Pages
                   </h2>
                   <div className="space-y-3">
@@ -768,17 +762,17 @@ export default function StatsPage() {
                           </span>
                           <div className="flex-1">
                             <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs" style={{ color: "var(--text-secondary, #334155)" }}>
+                              <span className="text-xs" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                                 {pageNames[page.page] || page.page}
                               </span>
-                              <span className="text-[10px]" style={{ color: "var(--text-dim, #94a3b8)" }}>
+                              <span className="text-[10px]" style={{ color: "var(--text-dim, #40a070)" }}>
                                 {page.count.toLocaleString()} views
                               </span>
                             </div>
-                            <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(13,148,136,0.08)" }}>
+                            <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(0,255,136,0.08)" }}>
                               <motion.div
                                 className="h-full rounded-full"
-                                style={{ background: "linear-gradient(90deg, #0d9488, #06b6d4)" }}
+                                style={{ background: "linear-gradient(90deg, #00ff88, #00cc6a)" }}
                                 initial={{ width: 0 }}
                                 animate={{ width: `${percentage}%` }}
                                 transition={{ duration: 0.8, delay: 0.6 + i * 0.05 }}
@@ -799,7 +793,7 @@ export default function StatsPage() {
                 transition={{ delay: 0.8 }}
                 className="text-center mt-6"
               >
-                <p className="text-[10px]" style={{ color: "var(--text-faint, rgba(15,23,42,0.3))" }}>
+                <p className="text-[10px]" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
                   Auto-refreshes every 15 seconds · Last updated {lastUpdated.toLocaleTimeString()}
                 </p>
               </motion.div>
@@ -816,7 +810,7 @@ export default function StatsPage() {
             <a
               href="/"
               className="text-xs hover:opacity-50 transition-opacity"
-              style={{ color: "var(--text-faint, rgba(15, 23, 42, 0.3))", textDecoration: "none", fontSize: "11px", letterSpacing: "0.05em" }}
+              style={{ color: "var(--text-faint, rgba(224, 245, 232, 0.3))", textDecoration: "none", fontSize: "11px", letterSpacing: "0.05em" }}
             >
               ← Return home
             </a>

@@ -57,8 +57,8 @@ export default function SoulEchoReflection({ onSubmit, isSubmitting }: SoulEchoR
         transition={{ duration: 0.8, delay: 0.4 }}
         className="w-full max-w-lg rounded-2xl p-6 md:p-8"
         style={{
-          background: "rgba(13, 148, 136, 0.04)",
-          border: "1px solid rgba(13, 148, 136, 0.12)",
+          background: "rgba(0, 255, 136, 0.04)",
+          border: "1px solid rgba(0, 255, 136, 0.12)",
           backdropFilter: "blur(20px)",
           boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
         }}
@@ -75,7 +75,7 @@ export default function SoulEchoReflection({ onSubmit, isSubmitting }: SoulEchoR
         />
 
         {/* Word count */}
-        <div className="flex items-center justify-between mt-4 pt-4" style={{ borderTop: "1px solid rgba(13, 148, 136, 0.08)" }}>
+        <div className="flex items-center justify-between mt-4 pt-4" style={{ borderTop: "1px solid rgba(0, 255, 136, 0.08)" }}>
           <span className="text-elovayne-dim/40 text-xs">
             {content.length > 0 ? `${content.length} characters` : ""}
           </span>
@@ -97,10 +97,10 @@ export default function SoulEchoReflection({ onSubmit, isSubmitting }: SoulEchoR
         className="mt-8 px-8 py-3 rounded-2xl text-sm font-body tracking-wide transition-all duration-500 disabled:cursor-not-allowed"
         style={{
           background: content.trim()
-            ? "linear-gradient(135deg, rgba(13, 148, 136, 0.25) 0%, rgba(6, 182, 212, 0.2) 100%)"
-            : "rgba(13, 148, 136, 0.05)",
-          border: `1px solid ${content.trim() ? "rgba(13, 148, 136, 0.3)" : "rgba(13, 148, 136, 0.1)"}`,
-          color: content.trim() ? "#5eead4" : "rgba(13, 148, 136, 0.3)",
+            ? "linear-gradient(135deg, rgba(0, 255, 136, 0.25) 0%, rgba(0, 204, 106, 0.2) 100%)"
+            : "rgba(0, 255, 136, 0.05)",
+          border: `1px solid ${content.trim() ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.1)"}`,
+          color: content.trim() ? "#5eead4" : "rgba(0, 255, 136, 0.3)",
           backdropFilter: "blur(12px)",
         }}
       >

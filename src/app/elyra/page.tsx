@@ -67,7 +67,7 @@ function AnimatedBackground() {
       // Draw hex grid
       const hexSize = 30;
       const hexHeight = hexSize * Math.sqrt(3);
-      ctx.strokeStyle = "rgba(6, 182, 212, 0.015)";
+      ctx.strokeStyle = "rgba(0, 255, 136, 0.015)";
       ctx.lineWidth = 0.5;
       for (let row = -1; row < canvas.height / hexHeight + 1; row++) {
         for (let col = -1; col < canvas.width / (hexSize * 1.5) + 1; col++) {
@@ -99,9 +99,9 @@ function AnimatedBackground() {
           if (charY > 0 && charY < canvas.height) {
             const brightness = i === 0 ? 4 : i === 1 ? 2 : 1;
             if (s.hue === 270) {
-              ctx.fillStyle = `rgba(139, 92, 246, ${s.opacity * brightness})`;
+              ctx.fillStyle = `rgba(0, 204, 106, ${s.opacity * brightness})`;
             } else {
-              ctx.fillStyle = `rgba(6, 182, 212, ${s.opacity * brightness})`;
+              ctx.fillStyle = `rgba(0, 255, 136, ${s.opacity * brightness})`;
             }
             ctx.fillText(char, s.x, charY);
           }
@@ -127,8 +127,8 @@ function AnimatedBackground() {
 
         // Glow
         const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, pulseSize * 4);
-        grad.addColorStop(0, `rgba(6, 182, 212, ${pulseAlpha})`);
-        grad.addColorStop(0.5, `rgba(6, 182, 212, ${pulseAlpha * 0.3})`);
+        grad.addColorStop(0, `rgba(0, 255, 136, ${pulseAlpha})`);
+        grad.addColorStop(0.5, `rgba(0, 255, 136, ${pulseAlpha * 0.3})`);
         grad.addColorStop(1, "transparent");
         ctx.fillStyle = grad;
         ctx.beginPath();
@@ -136,7 +136,7 @@ function AnimatedBackground() {
         ctx.fill();
 
         // Core
-        ctx.fillStyle = `rgba(103, 232, 249, ${pulseAlpha})`;
+        ctx.fillStyle = `rgba(0, 255, 136, ${pulseAlpha})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, pulseSize, 0, Math.PI * 2);
         ctx.fill();
@@ -151,7 +151,7 @@ function AnimatedBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 120) {
             const alpha = 0.08 * (1 - dist / 120);
-            ctx.strokeStyle = `rgba(6, 182, 212, ${alpha})`;
+            ctx.strokeStyle = `rgba(0, 255, 136, ${alpha})`;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -183,7 +183,7 @@ function AnimatedBackground() {
           continue;
         }
 
-        ctx.strokeStyle = `rgba(6, 182, 212, ${currentAlpha})`;
+        ctx.strokeStyle = `rgba(0, 255, 136, ${currentAlpha})`;
         ctx.lineWidth = 1.5 * (1 - progress);
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -195,8 +195,8 @@ function AnimatedBackground() {
         canvas.width / 2, canvas.height / 2, 0,
         canvas.width / 2, canvas.height / 2, 300
       );
-      centerGlow.addColorStop(0, "rgba(6, 182, 212, 0.03)");
-      centerGlow.addColorStop(0.5, "rgba(139, 92, 246, 0.01)");
+      centerGlow.addColorStop(0, "rgba(0, 255, 136, 0.03)");
+      centerGlow.addColorStop(0.5, "rgba(0, 204, 106, 0.01)");
       centerGlow.addColorStop(1, "transparent");
       ctx.fillStyle = centerGlow;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -226,27 +226,27 @@ function ElyraIcon({ size = 40 }: { size?: number }) {
           </feMerge>
         </filter>
         <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#06b6d4" />
-          <stop offset="50%" stopColor="#8b5cf6" />
-          <stop offset="100%" stopColor="#06b6d4" />
+          <stop offset="0%" stopColor="#00ff88" />
+          <stop offset="50%" stopColor="#00cc6a" />
+          <stop offset="100%" stopColor="#00ff88" />
         </linearGradient>
       </defs>
       <g filter="url(#glow)">
         <path d="M24 6 L30 18 L42 18 L32 26 L36 38 L24 30 L12 38 L16 26 L6 18 L18 18 Z" stroke="url(#iconGrad)" strokeWidth="1.5" fill="none" opacity="0.9" />
-        <circle cx="24" cy="6" r="2.5" fill="#06b6d4" />
-        <circle cx="42" cy="18" r="2.5" fill="#22d3ee" />
-        <circle cx="36" cy="38" r="2.5" fill="#a78bfa" />
-        <circle cx="12" cy="38" r="2.5" fill="#a78bfa" />
-        <circle cx="6" cy="18" r="2.5" fill="#06b6d4" />
-        <circle cx="24" cy="24" r="4" fill="#67e8f9">
+        <circle cx="24" cy="6" r="2.5" fill="#00ff88" />
+        <circle cx="42" cy="18" r="2.5" fill="#39ff14" />
+        <circle cx="36" cy="38" r="2.5" fill="#00ff88" />
+        <circle cx="12" cy="38" r="2.5" fill="#00ff88" />
+        <circle cx="6" cy="18" r="2.5" fill="#00ff88" />
+        <circle cx="24" cy="24" r="4" fill="#00ff88">
           <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" />
           <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
         </circle>
-        <line x1="24" y1="8.5" x2="24" y2="21" stroke="#06b6d4" strokeWidth="1.5" opacity="0.8" />
-        <line x1="40" y1="18" x2="27" y2="24" stroke="#22d3ee" strokeWidth="1.5" opacity="0.6" />
-        <line x1="34" y1="36" x2="26" y2="26" stroke="#a78bfa" strokeWidth="1.5" opacity="0.6" />
-        <line x1="14" y1="36" x2="22" y2="26" stroke="#a78bfa" strokeWidth="1.5" opacity="0.6" />
-        <line x1="8" y1="18" x2="21" y2="24" stroke="#06b6d4" strokeWidth="1.5" opacity="0.6" />
+        <line x1="24" y1="8.5" x2="24" y2="21" stroke="#00ff88" strokeWidth="1.5" opacity="0.8" />
+        <line x1="40" y1="18" x2="27" y2="24" stroke="#39ff14" strokeWidth="1.5" opacity="0.6" />
+        <line x1="34" y1="36" x2="26" y2="26" stroke="#00ff88" strokeWidth="1.5" opacity="0.6" />
+        <line x1="14" y1="36" x2="22" y2="26" stroke="#00ff88" strokeWidth="1.5" opacity="0.6" />
+        <line x1="8" y1="18" x2="21" y2="24" stroke="#00ff88" strokeWidth="1.5" opacity="0.6" />
       </g>
     </svg>
   );
@@ -260,15 +260,15 @@ export default function ElyraPage() {
       <div style={{
         position: "fixed", inset: 0,
         display: "flex", alignItems: "center", justifyContent: "center",
-        background: "#020617",
+        background: "#050a06",
         overflow: "hidden",
       }}>
         {/* Background grid */}
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: `
-            linear-gradient(rgba(6, 182, 212, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(6, 182, 212, 0.03) 1px, transparent 1px)
+            linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px)
           `,
           backgroundSize: "40px 40px",
         }} />
@@ -282,29 +282,29 @@ export default function ElyraPage() {
             {/* Orbiting elements */}
             <div style={{
               position: "absolute", inset: "-30px",
-              border: "1px solid rgba(6, 182, 212, 0.1)",
+              border: "1px solid rgba(0, 255, 136, 0.1)",
               borderRadius: "50%",
               animation: "orbit 4s linear infinite",
             }}>
               <div style={{
                 position: "absolute", top: "0", left: "50%",
                 width: "6px", height: "6px", borderRadius: "50%",
-                background: "#06b6d4",
-                boxShadow: "0 0 15px rgba(6, 182, 212, 1), 0 0 30px rgba(6, 182, 212, 0.5)",
+                background: "#00ff88",
+                boxShadow: "0 0 15px rgba(0, 255, 136, 1), 0 0 30px rgba(0, 255, 136, 0.5)",
                 transform: "translate(-50%, -50%)",
               }} />
             </div>
             <div style={{
               position: "absolute", inset: "-20px",
-              border: "1px solid rgba(139, 92, 246, 0.08)",
+              border: "1px solid rgba(0, 204, 106, 0.08)",
               borderRadius: "50%",
               animation: "orbit 3s linear infinite reverse",
             }}>
               <div style={{
                 position: "absolute", bottom: "0", right: "0",
                 width: "4px", height: "4px", borderRadius: "50%",
-                background: "#8b5cf6",
-                boxShadow: "0 0 12px rgba(139, 92, 246, 0.8)",
+                background: "#00cc6a",
+                boxShadow: "0 0 12px rgba(0, 204, 106, 0.8)",
                 transform: "translate(50%, 50%)",
               }} />
             </div>
@@ -313,7 +313,7 @@ export default function ElyraPage() {
 
           <div style={{ position: "relative" }}>
             <p style={{
-              color: "#06b6d4", fontSize: "10px",
+              color: "#00ff88", fontSize: "10px",
               letterSpacing: "6px", textTransform: "uppercase",
               fontFamily: "monospace",
             }}>Initializing Neural Interface</p>
@@ -322,7 +322,7 @@ export default function ElyraPage() {
             <div style={{
               marginTop: "24px",
               width: "240px", height: "2px",
-              background: "rgba(6, 182, 212, 0.08)",
+              background: "rgba(0, 255, 136, 0.08)",
               borderRadius: "1px",
               overflow: "hidden",
               margin: "24px auto 0",
@@ -330,7 +330,7 @@ export default function ElyraPage() {
             }}>
               <div style={{
                 width: "30%", height: "100%",
-                background: "linear-gradient(90deg, transparent, #06b6d4, #8b5cf6, transparent)",
+                background: "linear-gradient(90deg, transparent, #00ff88, #00cc6a, transparent)",
                 animation: "loading 1.5s ease-in-out infinite",
               }} />
             </div>
@@ -340,7 +340,7 @@ export default function ElyraPage() {
               marginTop: "16px",
               fontFamily: "monospace",
               fontSize: "8px",
-              color: "rgba(6, 182, 212, 0.3)",
+              color: "rgba(0, 255, 136, 0.3)",
               letterSpacing: "2px",
             }}>
               {`{status:loading}{progress:${Math.floor(Math.random() * 100)}%}`}
@@ -355,7 +355,7 @@ export default function ElyraPage() {
     <div style={{
       position: "fixed", inset: 0,
       display: "flex", flexDirection: "column",
-      background: "#020617",
+      background: "#050a06",
     }}>
       {/* Animated background */}
       <AnimatedBackground />
@@ -381,23 +381,23 @@ export default function ElyraPage() {
         flexShrink: 0, padding: "12px 16px",
         background: "rgba(2, 6, 23, 0.9)",
         backdropFilter: "blur(20px)",
-        borderBottom: "1px solid rgba(6, 182, 212, 0.1)",
+        borderBottom: "1px solid rgba(0, 255, 136, 0.1)",
         display: "flex", alignItems: "center", gap: "12px",
         position: "relative", zIndex: 10,
       }}>
         {/* Corner accents */}
-        <div style={{ position: "absolute", top: 0, left: 0, width: "24px", height: "1px", background: "linear-gradient(90deg, #06b6d4, transparent)" }} />
-        <div style={{ position: "absolute", top: 0, left: 0, width: "1px", height: "24px", background: "linear-gradient(180deg, #06b6d4, transparent)" }} />
-        <div style={{ position: "absolute", top: 0, right: 0, width: "24px", height: "1px", background: "linear-gradient(270deg, #8b5cf6, transparent)" }} />
-        <div style={{ position: "absolute", top: 0, right: 0, width: "1px", height: "24px", background: "linear-gradient(180deg, #8b5cf6, transparent)" }} />
-        <div style={{ position: "absolute", bottom: 0, left: 0, width: "24px", height: "1px", background: "linear-gradient(90deg, #8b5cf6, transparent)" }} />
-        <div style={{ position: "absolute", bottom: 0, right: 0, width: "24px", height: "1px", background: "linear-gradient(270deg, #06b6d4, transparent)" }} />
+        <div style={{ position: "absolute", top: 0, left: 0, width: "24px", height: "1px", background: "linear-gradient(90deg, #00ff88, transparent)" }} />
+        <div style={{ position: "absolute", top: 0, left: 0, width: "1px", height: "24px", background: "linear-gradient(180deg, #00ff88, transparent)" }} />
+        <div style={{ position: "absolute", top: 0, right: 0, width: "24px", height: "1px", background: "linear-gradient(270deg, #00cc6a, transparent)" }} />
+        <div style={{ position: "absolute", top: 0, right: 0, width: "1px", height: "24px", background: "linear-gradient(180deg, #00cc6a, transparent)" }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, width: "24px", height: "1px", background: "linear-gradient(90deg, #00cc6a, transparent)" }} />
+        <div style={{ position: "absolute", bottom: 0, right: 0, width: "24px", height: "1px", background: "linear-gradient(270deg, #00ff88, transparent)" }} />
 
         <Link href="/" style={{
-          padding: "8px", color: "#06b6d4", textDecoration: "none",
+          padding: "8px", color: "#00ff88", textDecoration: "none",
           display: "flex", alignItems: "center", borderRadius: "2px",
-          border: "1px solid rgba(6, 182, 212, 0.15)",
-          background: "rgba(6, 182, 212, 0.02)",
+          border: "1px solid rgba(0, 255, 136, 0.15)",
+          background: "rgba(0, 255, 136, 0.02)",
           transition: "all 0.3s",
         }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
@@ -407,7 +407,7 @@ export default function ElyraPage() {
           <div style={{
             position: "absolute", bottom: "-3px", right: "-3px",
             width: "10px", height: "10px", borderRadius: "50%",
-            background: "#22c55e", border: "2px solid #020617",
+            background: "#00ff88", border: "2px solid #050a06",
             boxShadow: "0 0 12px rgba(34, 197, 94, 0.8), 0 0 24px rgba(34, 197, 94, 0.4)",
             animation: "pulse 1.5s ease-in-out infinite",
           }} />
@@ -416,15 +416,15 @@ export default function ElyraPage() {
           <div style={{
             fontSize: "15px", fontWeight: 700, color: "#e2e8f0",
             letterSpacing: "8px", textTransform: "uppercase",
-            textShadow: "0 0 15px rgba(6, 182, 212, 0.4), 0 0 30px rgba(6, 182, 212, 0.2)",
-            background: "linear-gradient(135deg, #06b6d4, #8b5cf6, #06b6d4)",
+            textShadow: "0 0 15px rgba(0, 255, 136, 0.4), 0 0 30px rgba(0, 255, 136, 0.2)",
+            background: "linear-gradient(135deg, #00ff88, #00cc6a, #00ff88)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundSize: "200% 100%",
             animation: "gradientShift 3s ease-in-out infinite",
           }}>ELYRA</div>
           <div style={{
-            fontSize: "8px", color: "#06b6d4",
+            fontSize: "8px", color: "#00ff88",
             letterSpacing: "3px", textTransform: "uppercase",
             fontFamily: "monospace", opacity: 0.6,
           }}>◈ Neural Interface v3.0.1 ◈</div>
@@ -438,12 +438,12 @@ export default function ElyraPage() {
         }}>
           <div style={{
             width: "5px", height: "5px", borderRadius: "50%",
-            background: "#22c55e",
+            background: "#00ff88",
             boxShadow: "0 0 8px rgba(34, 197, 94, 0.8)",
             animation: "pulse 1.5s ease-in-out infinite",
           }} />
           <span style={{
-            fontSize: "8px", color: "#22c55e",
+            fontSize: "8px", color: "#00ff88",
             letterSpacing: "2px", textTransform: "uppercase",
             fontFamily: "monospace",
           }}>Online</span>
@@ -460,16 +460,16 @@ export default function ElyraPage() {
         flexShrink: 0,
         padding: "6px 16px",
         background: "rgba(2, 6, 23, 0.95)",
-        borderTop: "1px solid rgba(6, 182, 212, 0.06)",
+        borderTop: "1px solid rgba(0, 255, 136, 0.06)",
         display: "flex", justifyContent: "space-between", alignItems: "center",
         position: "relative", zIndex: 10,
       }}>
         <div style={{ display: "flex", gap: "16px" }}>
           {[
-            { label: "SYS", value: "OK", color: "#22c55e" },
-            { label: "NET", value: "STABLE", color: "#06b6d4" },
-            { label: "ENC", value: "AES-256", color: "#8b5cf6" },
-            { label: "PROTO", value: "NEURAL", color: "#06b6d4" },
+            { label: "SYS", value: "OK", color: "#00ff88" },
+            { label: "NET", value: "STABLE", color: "#00ff88" },
+            { label: "ENC", value: "AES-256", color: "#00cc6a" },
+            { label: "PROTO", value: "NEURAL", color: "#00ff88" },
           ].map((s, i) => (
             <div key={i} style={{ display: "flex", gap: "4px", alignItems: "center" }}>
               <span style={{ fontSize: "7px", color: "#1e293b", letterSpacing: "1px", fontFamily: "monospace" }}>{s.label}:</span>
@@ -484,8 +484,8 @@ export default function ElyraPage() {
 
       <style>{`
         @keyframes breathe {
-          0%, 100% { opacity: 0.8; transform: scale(1); filter: drop-shadow(0 0 25px rgba(6, 182, 212, 0.5)); }
-          50% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 50px rgba(6, 182, 212, 0.7)); }
+          0%, 100% { opacity: 0.8; transform: scale(1); filter: drop-shadow(0 0 25px rgba(0, 255, 136, 0.5)); }
+          50% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 50px rgba(0, 255, 136, 0.7)); }
         }
         @keyframes pulse {
           0%, 100% { opacity: 1; }

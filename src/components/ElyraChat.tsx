@@ -57,7 +57,7 @@ function saveSettings(s: ElyraSettings) {
 
 function detectMood(text: string): MoodAnalysis | null {
   const l = text.toLowerCase();
-  if (l.includes("lonely") || l.includes("alone")) return { mood: "loneliness", emoji: "🌙", room: "Stargazing", roomSlug: "stargazing", suggestion: "Look up at the stars — you're not alone in this sky." };
+  if (l.includes("lonely") || l.includes("alone")) return { mood: "loneliness", emoji: "🌙", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "You're not alone — someone out there understands." };
   if (l.includes("sad") || l.includes("grief")) return { mood: "grief", emoji: "💜", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "The Reflection Room is a gentle place to breathe and write." };
   if (l.includes("anxious") || l.includes("worried")) return { mood: "anxiety", emoji: "🌊", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "Find calm in the Reflection Room with a moment to breathe." };
   if (l.includes("happy") || l.includes("grateful")) return { mood: "joy", emoji: "✨", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "Share your joy through Soul Echo!" };
@@ -88,21 +88,21 @@ function formatDay(ts?: number) {
 function ElyraIcon({ size = 40 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-      <path d="M24 6 L30 18 L42 18 L32 26 L36 38 L24 30 L12 38 L16 26 L6 18 L18 18 Z" stroke="#06b6d4" strokeWidth="1.5" fill="none" opacity="0.6" />
-      <circle cx="24" cy="6" r="2.5" fill="#06b6d4" />
+      <path d="M24 6 L30 18 L42 18 L32 26 L36 38 L24 30 L12 38 L16 26 L6 18 L18 18 Z" stroke="#00ff88" strokeWidth="1.5" fill="none" opacity="0.6" />
+      <circle cx="24" cy="6" r="2.5" fill="#00ff88" />
       <circle cx="42" cy="18" r="2.5" fill="#22d3ee" />
       <circle cx="36" cy="38" r="2.5" fill="#22d3ee" />
       <circle cx="12" cy="38" r="2.5" fill="#22d3ee" />
-      <circle cx="6" cy="18" r="2.5" fill="#06b6d4" />
+      <circle cx="6" cy="18" r="2.5" fill="#00ff88" />
       <circle cx="24" cy="24" r="3" fill="#67e8f9">
         <animate attributeName="r" values="3;4;3" dur="3s" repeatCount="indefinite" />
         <animate attributeName="opacity" values="1;0.6;1" dur="3s" repeatCount="indefinite" />
       </circle>
-      <line x1="24" y1="8.5" x2="24" y2="21" stroke="#06b6d4" strokeWidth="1.5" />
+      <line x1="24" y1="8.5" x2="24" y2="21" stroke="#00ff88" strokeWidth="1.5" />
       <line x1="40" y1="18" x2="27" y2="24" stroke="#22d3ee" strokeWidth="1.5" opacity="0.7" />
       <line x1="34" y1="36" x2="26" y2="26" stroke="#22d3ee" strokeWidth="1.5" opacity="0.7" />
       <line x1="14" y1="36" x2="22" y2="26" stroke="#22d3ee" strokeWidth="1.5" opacity="0.7" />
-      <line x1="8" y1="18" x2="21" y2="24" stroke="#06b6d4" strokeWidth="1.5" opacity="0.7" />
+      <line x1="8" y1="18" x2="21" y2="24" stroke="#00ff88" strokeWidth="1.5" opacity="0.7" />
     </svg>
   );
 }
@@ -196,7 +196,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
   }
 
   return (
-    <div style={{ height: "100%", display: "flex", flexDirection: "column", background: "transparent" }}>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", background: "transparent", boxShadow: "0 8px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(20px)", borderRadius: "16px" }}>
       {/* Messages */}
       <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", overflowX: "hidden", background: "transparent" }}>
         {isEmpty ? (
@@ -211,15 +211,15 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               {/* Outer ring - cyan */}
               <div style={{
                 position: "absolute", inset: "-32px",
-                border: "1px solid rgba(6, 182, 212, 0.06)",
+                border: "1px solid rgba(0, 255, 136, 0.06)",
                 borderRadius: "50%",
                 animation: "orbit 15s linear infinite",
               }}>
                 <div style={{
                   position: "absolute", top: "0", left: "50%",
                   width: "4px", height: "4px", borderRadius: "50%",
-                  background: "#06b6d4",
-                  boxShadow: "0 0 15px rgba(6, 182, 212, 1), 0 0 30px rgba(6, 182, 212, 0.5)",
+                  background: "#00ff88",
+                  boxShadow: "0 0 15px rgba(0, 255, 136, 1), 0 0 30px rgba(0, 255, 136, 0.5)",
                   transform: "translate(-50%, -50%)",
                 }} />
               </div>
@@ -241,7 +241,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               {/* Inner ring - cyan */}
               <div style={{
                 position: "absolute", inset: "-12px",
-                border: "1px solid rgba(6, 182, 212, 0.12)",
+                border: "1px solid rgba(0, 255, 136, 0.12)",
                 borderRadius: "50%",
                 animation: "orbit 6s linear infinite",
               }}>
@@ -264,7 +264,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               <h2 style={{
                 fontSize: "32px", fontWeight: 100, color: "#e2e8f0",
                 letterSpacing: "12px", textTransform: "uppercase",
-                background: "linear-gradient(135deg, #06b6d4, #8b5cf6, #06b6d4)",
+                background: "linear-gradient(135deg, #00ff88, #8b5cf6, #00ff88)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundSize: "200% 100%",
@@ -273,13 +273,13 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               {/* Glowing underline */}
               <div style={{
                 width: "100%", height: "1px", marginTop: "8px",
-                background: "linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.6), rgba(139, 92, 246, 0.4), transparent)",
-                boxShadow: "0 0 10px rgba(6, 182, 212, 0.3)",
+                background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.6), rgba(139, 92, 246, 0.4), transparent)",
+                boxShadow: "0 0 10px rgba(0, 255, 136, 0.3)",
               }} />
             </div>
 
             <p style={{
-              fontSize: "9px", color: "#06b6d4",
+              fontSize: "9px", color: "#00ff88",
               letterSpacing: "5px", textTransform: "uppercase",
               opacity: 0.5, fontFamily: "monospace",
             }}>◈ Neural Link Established ◈</p>
@@ -291,7 +291,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
             }}>
               {[
                 { label: "SYS", color: "#22c55e" },
-                { label: "NET", color: "#06b6d4" },
+                { label: "NET", color: "#00ff88" },
                 { label: "ENC", color: "#8b5cf6" },
                 { label: "AI", color: "#22d3ee" },
               ].map((s, i) => (
@@ -318,7 +318,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               marginTop: "32px",
               fontFamily: "monospace",
               fontSize: "7px",
-              color: "rgba(6, 182, 212, 0.12)",
+              color: "rgba(0, 255, 136, 0.12)",
               letterSpacing: "2px",
               textAlign: "center",
               lineHeight: "1.8",
@@ -334,9 +334,9 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               <div key={gi}>
                 <div style={{ textAlign: "center", padding: "10px 0 14px" }}>
                   <span style={{
-                    fontSize: "10px", color: "#06b6d4",
-                    background: "rgba(6, 182, 212, 0.08)",
-                    border: "1px solid rgba(6, 182, 212, 0.15)",
+                    fontSize: "10px", color: "#00ff88",
+                    background: "rgba(0, 255, 136, 0.08)",
+                    border: "1px solid rgba(0, 255, 136, 0.15)",
                     padding: "4px 14px", borderRadius: "4px",
                     letterSpacing: "2px", textTransform: "uppercase",
                   }}>{group.day}</span>
@@ -357,7 +357,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
                           <ElyraIcon size={20} />
                           <div style={{
                             position: "absolute", inset: "-4px",
-                            border: "1px solid rgba(6, 182, 212, 0.1)",
+                            border: "1px solid rgba(0, 255, 136, 0.1)",
                             borderRadius: "50%",
                             animation: "orbit 6s linear infinite",
                           }} />
@@ -371,16 +371,16 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
                           padding: "10px 14px",
                           borderRadius: isUser ? "2px 12px 12px 12px" : "12px 12px 12px 2px",
                           background: isUser
-                            ? "linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.1))"
-                            : "rgba(6, 182, 212, 0.03)",
+                            ? "linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(139, 92, 246, 0.1))"
+                            : "rgba(0, 255, 136, 0.03)",
                           border: isUser
-                            ? "1px solid rgba(6, 182, 212, 0.25)"
-                            : "1px solid rgba(6, 182, 212, 0.08)",
+                            ? "1px solid rgba(0, 255, 136, 0.25)"
+                            : "1px solid rgba(0, 255, 136, 0.08)",
                           color: isUser ? "#e2e8f0" : "#94a3b8",
                           fontSize: "13px", lineHeight: "1.6",
                           wordBreak: "break-word",
                           boxShadow: isUser
-                            ? "0 0 15px rgba(6, 182, 212, 0.08), inset 0 1px 0 rgba(255,255,255,0.03)"
+                            ? "0 0 15px rgba(0, 255, 136, 0.08), inset 0 1px 0 rgba(255,255,255,0.03)"
                             : "none",
                           position: "relative",
                           overflow: "hidden",
@@ -390,15 +390,15 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
                           {isUser && (
                             <div style={{
                               position: "absolute", inset: 0,
-                              background: "linear-gradient(105deg, transparent 40%, rgba(6, 182, 212, 0.05) 45%, rgba(139, 92, 246, 0.05) 50%, transparent 55%)",
+                              background: "linear-gradient(105deg, transparent 40%, rgba(0, 255, 136, 0.05) 45%, rgba(139, 92, 246, 0.05) 50%, transparent 55%)",
                               animation: "shimmer 3s ease-in-out infinite",
                               pointerEvents: "none",
                             }} />
                           )}
                           {msg.content || (loading && isLast ? <span style={{ display: "inline-flex", gap: "5px", padding: "4px 0" }}>
-                            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#06b6d4", animation: "bounce 1.4s infinite 0s", boxShadow: "0 0 6px rgba(6, 182, 212, 0.5)" }} />
-                            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#06b6d4", animation: "bounce 1.4s infinite 0.2s", boxShadow: "0 0 6px rgba(6, 182, 212, 0.5)" }} />
-                            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#06b6d4", animation: "bounce 1.4s infinite 0.4s", boxShadow: "0 0 6px rgba(6, 182, 212, 0.5)" }} />
+                            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#00ff88", animation: "bounce 1.4s infinite 0s", boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)" }} />
+                            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#00ff88", animation: "bounce 1.4s infinite 0.2s", boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)" }} />
+                            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#00ff88", animation: "bounce 1.4s infinite 0.4s", boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)" }} />
                           </span> : null)}
                         </div>
                         <span style={{
@@ -417,17 +417,17 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               <div style={{ padding: "8px 16px", display: "flex", justifyContent: "flex-start" }}>
                 <div style={{
                   maxWidth: "80%", padding: "12px 16px", borderRadius: "8px",
-                  background: "rgba(6, 182, 212, 0.05)",
-                  border: "1px solid rgba(6, 182, 212, 0.12)",
+                  background: "rgba(0, 255, 136, 0.05)",
+                  border: "1px solid rgba(0, 255, 136, 0.12)",
                   display: "flex", alignItems: "center", gap: "10px",
                 }}>
                   <span style={{ fontSize: "16px" }}>{lastMood.emoji}</span>
                   <span style={{ fontSize: "12px", color: "#94a3b8", flex: 1, lineHeight: "1.4" }}>{lastMood.suggestion}</span>
                   <Link href={`/${lastMood.roomSlug}`} style={{
-                    fontSize: "10px", color: "#06b6d4", textDecoration: "none",
+                    fontSize: "10px", color: "#00ff88", textDecoration: "none",
                     padding: "6px 12px", borderRadius: "4px",
-                    background: "rgba(6, 182, 212, 0.08)",
-                    border: "1px solid rgba(6, 182, 212, 0.2)",
+                    background: "rgba(0, 255, 136, 0.08)",
+                    border: "1px solid rgba(0, 255, 136, 0.2)",
                     whiteSpace: "nowrap", transition: "all 0.2s",
                     letterSpacing: "1px", textTransform: "uppercase",
                   }}>Access</Link>
@@ -443,7 +443,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
         flexShrink: 0,
         background: "rgba(2, 6, 23, 0.7)",
         backdropFilter: "blur(16px)",
-        borderTop: "1px solid rgba(6, 182, 212, 0.08)",
+        borderTop: "1px solid rgba(0, 255, 136, 0.08)",
         padding: "12px 14px 16px",
         position: "relative",
       }}>
@@ -451,14 +451,14 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
         <div style={{
           position: "absolute", top: 0, left: "10%", right: "10%",
           height: "1px",
-          background: "linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.3), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent)",
         }} />
 
         <div style={{ display: "flex", alignItems: "flex-end", gap: "10px" }}>
           <div style={{
             flex: 1,
-            background: "rgba(6, 182, 212, 0.02)",
-            border: "1px solid rgba(6, 182, 212, 0.12)",
+            background: "rgba(0, 255, 136, 0.02)",
+            border: "1px solid rgba(0, 255, 136, 0.12)",
             borderRadius: "4px",
             padding: "4px 4px 4px 14px",
             display: "flex", alignItems: "flex-end", gap: "4px",
@@ -466,10 +466,10 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
             position: "relative",
           }}>
             {/* Input corner accents */}
-            <div style={{ position: "absolute", top: "-1px", left: "-1px", width: "8px", height: "1px", background: "#06b6d4" }} />
-            <div style={{ position: "absolute", top: "-1px", left: "-1px", width: "1px", height: "8px", background: "#06b6d4" }} />
-            <div style={{ position: "absolute", bottom: "-1px", right: "-1px", width: "8px", height: "1px", background: "#06b6d4" }} />
-            <div style={{ position: "absolute", bottom: "-1px", right: "-1px", width: "1px", height: "8px", background: "#06b6d4" }} />
+            <div style={{ position: "absolute", top: "-1px", left: "-1px", width: "8px", height: "1px", background: "#00ff88" }} />
+            <div style={{ position: "absolute", top: "-1px", left: "-1px", width: "1px", height: "8px", background: "#00ff88" }} />
+            <div style={{ position: "absolute", bottom: "-1px", right: "-1px", width: "8px", height: "1px", background: "#00ff88" }} />
+            <div style={{ position: "absolute", bottom: "-1px", right: "-1px", width: "1px", height: "8px", background: "#00ff88" }} />
 
             <textarea
               ref={inputRef}
@@ -480,21 +480,21 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               rows={1}
               disabled={loading}
               style={{
-                flex: 1, border: "none", background: "transparent",
+                flex: 1, border: "1px solid rgba(0, 255, 136, 0.15)", background: "rgba(0, 255, 136, 0.04)",
                 fontSize: "13px", color: "#e2e8f0", outline: "none", resize: "none",
                 lineHeight: "1.4", minHeight: "20px", maxHeight: "80px",
-                padding: "8px 0", fontFamily: "inherit",
-                letterSpacing: "0.5px",
+                padding: "8px 8px", fontFamily: "inherit",
+                letterSpacing: "0.5px", borderRadius: "4px",
               }}
             />
           </div>
           {input.trim() ? (
             <button onClick={send} disabled={loading} style={{
               width: "44px", height: "44px", borderRadius: "4px",
-              background: "linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.15))",
-              border: "1px solid rgba(6, 182, 212, 0.3)",
-              color: "#06b6d4",
-              boxShadow: "0 0 20px rgba(6, 182, 212, 0.1)",
+              background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(139, 92, 246, 0.15))",
+              border: "1px solid rgba(0, 255, 136, 0.3)",
+              color: "#00ff88",
+              boxShadow: "0 2px 16px rgba(0, 255, 136, 0.2)",
               cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
               transition: "all 0.3s",
               position: "relative",
@@ -504,8 +504,8 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
           ) : (
             <button disabled style={{
               width: "44px", height: "44px", borderRadius: "4px",
-              background: "rgba(6, 182, 212, 0.02)",
-              border: "1px solid rgba(6, 182, 212, 0.06)",
+              background: "rgba(0, 255, 136, 0.02)",
+              border: "1px solid rgba(0, 255, 136, 0.06)",
               color: "#0f172a",
               cursor: "default", display: "flex", alignItems: "center", justifyContent: "center",
             }}>
@@ -520,14 +520,14 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               letterSpacing: "2px", textTransform: "uppercase",
               background: "none", border: "none", cursor: "pointer",
               transition: "all 0.2s", fontFamily: "monospace",
-            }} onMouseOver={e => { e.currentTarget.style.color = "#06b6d4"; e.currentTarget.style.textShadow = "0 0 8px rgba(6, 182, 212, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ Reset Link</button>
-            <div style={{ width: "1px", background: "rgba(6, 182, 212, 0.1)" }} />
+            }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ Reset Link</button>
+            <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
             <button onClick={() => setShowSettings(!showSettings)} style={{
               fontSize: "9px", color: "#1e293b",
               letterSpacing: "2px", textTransform: "uppercase",
               background: "none", border: "none", cursor: "pointer",
               transition: "all 0.2s", fontFamily: "monospace",
-            }} onMouseOver={e => { e.currentTarget.style.color = "#06b6d4"; e.currentTarget.style.textShadow = "0 0 8px rgba(6, 182, 212, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ Configure</button>
+            }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ Configure</button>
           </div>
         )}
       </div>
@@ -539,14 +539,14 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
           background: "rgba(3, 7, 18, 0.95)",
           backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
           borderRadius: "12px",
-          boxShadow: "0 0 40px rgba(6, 182, 212, 0.1), 0 0 0 1px rgba(6, 182, 212, 0.15)",
+          boxShadow: "0 0 40px rgba(0, 255, 136, 0.1), 0 0 0 1px rgba(0, 255, 136, 0.15)",
           padding: "20px", zIndex: 20, maxHeight: "60vh", overflowY: "auto",
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-            <span style={{ fontSize: "12px", fontWeight: 600, color: "#06b6d4", letterSpacing: "2px", textTransform: "uppercase" }}>Configuration</span>
+            <span style={{ fontSize: "12px", fontWeight: 600, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase" }}>Configuration</span>
             <button onClick={() => setShowSettings(false)} style={{
-              background: "rgba(6, 182, 212, 0.08)",
-              border: "1px solid rgba(6, 182, 212, 0.15)",
+              background: "rgba(0, 255, 136, 0.08)",
+              border: "1px solid rgba(0, 255, 136, 0.15)",
               color: "#475569",
               fontSize: "12px", width: "28px", height: "28px",
               borderRadius: "6px", cursor: "pointer",
@@ -554,14 +554,14 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
             }}>✕</button>
           </div>
           <div style={{ marginBottom: "20px" }}>
-            <label style={{ fontSize: "10px", color: "#06b6d4", display: "block", marginBottom: "10px", letterSpacing: "2px", textTransform: "uppercase" }}>Interface Mode</label>
+            <label style={{ fontSize: "10px", color: "#00ff88", display: "block", marginBottom: "10px", letterSpacing: "2px", textTransform: "uppercase" }}>Interface Mode</label>
             <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
               {PERSONALITIES.map(p => (
                 <button key={p.id} onClick={() => updateSettings({ personality: p.id })} style={{
                   padding: "8px 14px", borderRadius: "6px",
-                  border: `1px solid ${settings.personality === p.id ? "rgba(6, 182, 212, 0.4)" : "rgba(6, 182, 212, 0.1)"}`,
-                  background: settings.personality === p.id ? "rgba(6, 182, 212, 0.1)" : "transparent",
-                  color: settings.personality === p.id ? "#06b6d4" : "#475569",
+                  border: `1px solid ${settings.personality === p.id ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.1)"}`,
+                  background: settings.personality === p.id ? "rgba(0, 255, 136, 0.1)" : "transparent",
+                  color: settings.personality === p.id ? "#00ff88" : "#475569",
                   fontSize: "11px", cursor: "pointer", transition: "all 0.2s",
                   letterSpacing: "0.5px",
                 }}>{p.emoji} {p.name}</button>
@@ -569,24 +569,24 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
             </div>
           </div>
           <div style={{ marginBottom: "20px" }}>
-            <label style={{ fontSize: "10px", color: "#06b6d4", display: "block", marginBottom: "10px", letterSpacing: "2px", textTransform: "uppercase" }}>Designation</label>
+            <label style={{ fontSize: "10px", color: "#00ff88", display: "block", marginBottom: "10px", letterSpacing: "2px", textTransform: "uppercase" }}>Designation</label>
             <input type="text" value={settings.customName} onChange={e => updateSettings({ customName: e.target.value })} style={{
-              width: "100%", background: "rgba(6, 182, 212, 0.04)",
-              border: "1px solid rgba(6, 182, 212, 0.15)", borderRadius: "8px",
+              width: "100%", background: "rgba(0, 255, 136, 0.04)",
+              border: "1px solid rgba(0, 255, 136, 0.15)", borderRadius: "8px",
               padding: "10px 14px", color: "#e2e8f0", fontSize: "13px",
               outline: "none", boxSizing: "border-box",
               letterSpacing: "0.5px",
             }} />
           </div>
           <div>
-            <label style={{ fontSize: "10px", color: "#06b6d4", display: "block", marginBottom: "10px", letterSpacing: "2px", textTransform: "uppercase" }}>Response Protocol</label>
+            <label style={{ fontSize: "10px", color: "#00ff88", display: "block", marginBottom: "10px", letterSpacing: "2px", textTransform: "uppercase" }}>Response Protocol</label>
             <div style={{ display: "flex", gap: "6px" }}>
               {(["short", "medium", "long"] as const).map(l => (
                 <button key={l} onClick={() => updateSettings({ responseLength: l })} style={{
                   flex: 1, padding: "8px", borderRadius: "6px",
-                  border: `1px solid ${settings.responseLength === l ? "rgba(6, 182, 212, 0.4)" : "rgba(6, 182, 212, 0.1)"}`,
-                  background: settings.responseLength === l ? "rgba(6, 182, 212, 0.1)" : "transparent",
-                  color: settings.responseLength === l ? "#06b6d4" : "#475569",
+                  border: `1px solid ${settings.responseLength === l ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.1)"}`,
+                  background: settings.responseLength === l ? "rgba(0, 255, 136, 0.1)" : "transparent",
+                  color: settings.responseLength === l ? "#00ff88" : "#475569",
                   fontSize: "11px", cursor: "pointer", textTransform: "capitalize",
                   transition: "all 0.2s", letterSpacing: "0.5px",
                 }}>{l}</button>
@@ -600,8 +600,8 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
         textarea::placeholder { color: #1e293b; letter-spacing: 1px; font-size: 11px; }
         @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
         @keyframes breathe {
-          0%, 100% { opacity: 0.8; transform: scale(1); filter: drop-shadow(0 0 25px rgba(6, 182, 212, 0.5)); }
-          50% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 50px rgba(6, 182, 212, 0.7)); }
+          0%, 100% { opacity: 0.8; transform: scale(1); filter: drop-shadow(0 0 25px rgba(0, 255, 136, 0.5)); }
+          50% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 50px rgba(0, 255, 136, 0.7)); }
         }
         @keyframes orbit {
           0% { transform: rotate(0deg); }

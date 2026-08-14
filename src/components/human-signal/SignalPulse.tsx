@@ -25,7 +25,7 @@ export default function SignalPulse({ variant = "idle", size = "md" }: SignalPul
             key={i}
             className="absolute rounded-full"
             style={{
-              border: "1px solid rgba(13, 148, 136, 0.3)",
+              border: "1px solid rgba(0, 255, 136, 0.3)",
               width: "40px",
               height: "40px",
             }}
@@ -48,8 +48,8 @@ export default function SignalPulse({ variant = "idle", size = "md" }: SignalPul
           style={{
             width: "16px",
             height: "16px",
-            background: "radial-gradient(circle, rgba(13, 148, 136, 0.8), rgba(13, 148, 136, 0.2))",
-            boxShadow: "0 0 30px rgba(13, 148, 136, 0.4)",
+            background: "radial-gradient(circle, rgba(0, 255, 136, 0.8), rgba(0, 255, 136, 0.2))",
+            boxShadow: "0 0 30px rgba(0, 255, 136, 0.4)",
           }}
           animate={{
             scale: [1, 1.3, 1],
@@ -91,8 +91,8 @@ export default function SignalPulse({ variant = "idle", size = "md" }: SignalPul
           style={{
             width: "20px",
             height: "20px",
-            background: "radial-gradient(circle, rgba(236, 72, 153, 0.8), rgba(13, 148, 136, 0.4))",
-            boxShadow: "0 0 40px rgba(236, 72, 153, 0.3), 0 0 80px rgba(13, 148, 136, 0.2)",
+            background: "radial-gradient(circle, rgba(236, 72, 153, 0.8), rgba(0, 255, 136, 0.4))",
+            boxShadow: "0 0 40px rgba(236, 72, 153, 0.3), 0 0 80px rgba(0, 255, 136, 0.2)",
           }}
           animate={{
             scale: [0.8, 1.4, 1],
@@ -113,7 +113,7 @@ export default function SignalPulse({ variant = "idle", size = "md" }: SignalPul
             width: "60px",
             height: "60px",
             background: "radial-gradient(circle, rgba(236, 72, 153, 0.3), transparent)",
-            boxShadow: "0 0 60px rgba(236, 72, 153, 0.2), 0 0 120px rgba(13, 148, 136, 0.1)",
+            boxShadow: "0 0 60px rgba(236, 72, 153, 0.2), 0 0 120px rgba(0, 255, 136, 0.1)",
           }}
           animate={{
             scale: [1, 1.1, 1],
@@ -131,7 +131,7 @@ export default function SignalPulse({ variant = "idle", size = "md" }: SignalPul
       {/* Outer ring */}
       <motion.div
         className={`absolute rounded-full ${s.ring}`}
-        style={{ border: "1px solid rgba(13, 148, 136, 0.15)" }}
+        style={{ border: "1px solid rgba(0, 255, 136, 0.15)" }}
         animate={{
           scale: [1, 1.15, 1],
           opacity: [0.3, 0.6, 0.3],
@@ -143,8 +143,8 @@ export default function SignalPulse({ variant = "idle", size = "md" }: SignalPul
       <motion.div
         className={`absolute rounded-full ${s.inner}`}
         style={{
-          background: "radial-gradient(circle, rgba(13, 148, 136, 0.6), rgba(13, 148, 136, 0.1))",
-          boxShadow: "0 0 20px rgba(13, 148, 136, 0.3)",
+          background: "radial-gradient(circle, rgba(0, 255, 136, 0.6), rgba(0, 255, 136, 0.1))",
+          boxShadow: "0 0 20px rgba(0, 255, 136, 0.3)",
         }}
         animate={{
           scale: [1, 1.2, 1],

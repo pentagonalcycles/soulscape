@@ -56,7 +56,7 @@ export default function SignalLanding({ onSend, onReceive }: SignalLandingProps)
         style={{
           fontWeight: 200,
           letterSpacing: "0.04em",
-          background: "linear-gradient(135deg, #0d9488, #06b6d4, #6366f1)",
+          background: "linear-gradient(135deg, #00ff88, #00cc6a, #6366f1)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
         }}
@@ -91,17 +91,17 @@ export default function SignalLanding({ onSend, onReceive }: SignalLandingProps)
           onClick={onSend}
           className="flex-1 py-4 px-6 rounded-2xl text-sm tracking-wide transition-all"
           style={{
-            background: "linear-gradient(135deg, rgba(13, 148, 136, 0.15), rgba(6, 182, 212, 0.1))",
-            border: "1px solid rgba(13, 148, 136, 0.2)",
+            background: "linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 204, 106, 0.1))",
+            border: "1px solid rgba(0, 255, 136, 0.2)",
             color: "rgba(224, 231, 255, 0.9)",
             backdropFilter: "blur(12px)",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = "linear-gradient(135deg, rgba(13, 148, 136, 0.25), rgba(6, 182, 212, 0.15))";
-            e.currentTarget.style.boxShadow = "0 4px 30px rgba(13, 148, 136, 0.15)";
+            e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 255, 136, 0.25), rgba(0, 204, 106, 0.15))";
+            e.currentTarget.style.boxShadow = "0 4px 30px rgba(0, 255, 136, 0.15)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = "linear-gradient(135deg, rgba(13, 148, 136, 0.15), rgba(6, 182, 212, 0.1))";
+            e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 204, 106, 0.1))";
             e.currentTarget.style.boxShadow = "none";
           }}
         >
@@ -141,7 +141,7 @@ export default function SignalLanding({ onSend, onReceive }: SignalLandingProps)
       >
         {heardToday > 0 ? (
           <p className="text-xs" style={{ color: "rgba(148, 163, 184, 0.4)" }}>
-            <span style={{ color: "rgba(13, 148, 136, 0.6)" }}>{heardToday}</span> signal{heardToday !== 1 ? "s" : ""} heard today
+            <span style={{ color: "rgba(0, 255, 136, 0.6)" }}>{heardToday}</span> signal{heardToday !== 1 ? "s" : ""} heard today
           </p>
         ) : (
           <p className="text-xs" style={{ color: "rgba(148, 163, 184, 0.3)" }}>

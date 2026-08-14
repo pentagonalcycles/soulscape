@@ -70,10 +70,10 @@ export default function SignalSender({ onSelect, onBack, cooldownRemaining, dail
               className="w-full flex items-center gap-4 p-4 rounded-xl text-left transition-all"
               style={{
                 background: selected === signal.id
-                  ? "rgba(13, 148, 136, 0.12)"
+                  ? "rgba(0, 255, 136, 0.12)"
                   : "rgba(255, 255, 255, 0.03)",
                 border: `1px solid ${selected === signal.id
-                  ? "rgba(13, 148, 136, 0.25)"
+                  ? "rgba(0, 255, 136, 0.25)"
                   : "rgba(255, 255, 255, 0.05)"}`,
                 opacity: canSend ? 1 : 0.4,
               }}
@@ -101,14 +101,14 @@ export default function SignalSender({ onSelect, onBack, cooldownRemaining, dail
               onClick={() => onSelect(selected)}
               className="w-full py-4 rounded-2xl text-sm tracking-wide"
               style={{
-                background: "linear-gradient(135deg, rgba(13, 148, 136, 0.2), rgba(6, 182, 212, 0.15))",
-                border: "1px solid rgba(13, 148, 136, 0.3)",
+                background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 204, 106, 0.15))",
+                border: "1px solid rgba(0, 255, 136, 0.3)",
                 color: "rgba(224, 231, 255, 0.9)",
               }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              whileHover={{ scale: 1.01, boxShadow: "0 4px 30px rgba(13, 148, 136, 0.2)" }}
+              whileHover={{ scale: 1.01, boxShadow: "0 4px 30px rgba(0, 255, 136, 0.2)" }}
               whileTap={{ scale: 0.99 }}
             >
               📡 Send My Signal

@@ -55,10 +55,10 @@ export default function MuralToolbar({
         transition={{ delay: 0.3 }}
         className="fixed top-4 left-14 sm:left-14 z-40 w-11 h-11 rounded-lg flex items-center justify-center cursor-pointer"
         style={{
-          background: "rgba(13, 148, 136, 0.08)",
-          border: "1px solid rgba(13, 148, 136, 0.15)",
+          background: "rgba(0, 255, 136, 0.08)",
+          border: "1px solid rgba(0, 255, 136, 0.15)",
           backdropFilter: "blur(8px)",
-          color: "#0d9488",
+          color: "#00ff88",
           fontSize: "14px",
         }}
       >
@@ -91,10 +91,10 @@ export default function MuralToolbar({
                 left: 0,
                 bottom: 0,
                 width: "min(300px, 85vw)",
-                background: "rgba(255, 255, 255, 0.97)",
+                background: "rgba(5, 10, 6, 0.9)",
                 backdropFilter: "blur(16px)",
-                borderRight: "1px solid rgba(13, 148, 136, 0.1)",
-                boxShadow: "4px 0 30px rgba(0,0,0,0.06)",
+                borderRight: "1px solid rgba(0, 255, 136, 0.1)",
+                boxShadow: "0 2px 20px rgba(0, 0, 0, 0.3)",
               }}
             >
               <div className="p-4 pt-14">
@@ -102,7 +102,7 @@ export default function MuralToolbar({
                   <h3
                     className="text-sm font-medium truncate flex-1"
                     style={{
-                      background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                      background: "linear-gradient(135deg, #00ff88, #00cc6a)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                     }}
@@ -111,7 +111,7 @@ export default function MuralToolbar({
                   </h3>
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                    <span className="text-xs" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+                    <span className="text-xs" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
                       {presences.length + 1}
                     </span>
                   </div>
@@ -137,9 +137,9 @@ export default function MuralToolbar({
                     onClick={onUndo}
                     className="flex-1 px-3 py-1.5 rounded-lg text-xs cursor-pointer"
                     style={{
-                      background: "rgba(13, 148, 136, 0.06)",
-                      border: "1px solid rgba(13, 148, 136, 0.12)",
-                      color: "rgba(15, 23, 42, 0.6)",
+                      background: "rgba(0, 255, 136, 0.06)",
+                      border: "1px solid rgba(0, 255, 136, 0.12)",
+                      color: "rgba(224, 245, 232, 0.6)",
                     }}
                   >
                     Undo
@@ -159,9 +159,9 @@ export default function MuralToolbar({
                     href="/"
                     className="flex-1 px-3 py-1.5 rounded-lg text-xs cursor-pointer text-center"
                     style={{
-                      background: "rgba(13, 148, 136, 0.06)",
-                      border: "1px solid rgba(13, 148, 136, 0.12)",
-                      color: "#0d9488",
+                      background: "rgba(0, 255, 136, 0.06)",
+                      border: "1px solid rgba(0, 255, 136, 0.12)",
+                      color: "#00ff88",
                       textDecoration: "none",
                     }}
                   >
@@ -170,7 +170,7 @@ export default function MuralToolbar({
                 </div>
 
                 <div className="mb-4">
-                  <label className="text-xs mb-1.5 block" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+                  <label className="text-xs mb-1.5 block" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
                     Color
                   </label>
                   <div className="grid grid-cols-6 gap-1.5 mb-2">
@@ -192,14 +192,14 @@ export default function MuralToolbar({
                     value={color}
                     onChange={(e) => onColorChange(e.target.value)}
                     className="w-full h-8 rounded-lg cursor-pointer"
-                    style={{ border: "1px solid rgba(13, 148, 136, 0.12)" }}
+                    style={{ border: "1px solid rgba(0, 255, 136, 0.12)" }}
                   />
                 </div>
 
                 <div className="mb-4">
                   <div className="flex justify-between items-center mb-1.5">
-                    <label className="text-xs" style={{ color: "rgba(15, 23, 42, 0.4)" }}>Size</label>
-                    <span className="text-xs" style={{ color: "rgba(15, 23, 42, 0.3)" }}>{brushSize}</span>
+                    <label className="text-xs" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Size</label>
+                    <span className="text-xs" style={{ color: "rgba(224, 245, 232, 0.3)" }}>{brushSize}</span>
                   </div>
                   <input
                     type="range"
@@ -213,8 +213,8 @@ export default function MuralToolbar({
 
                 <div className="mb-4">
                   <div className="flex justify-between items-center mb-1.5">
-                    <label className="text-xs" style={{ color: "rgba(15, 23, 42, 0.4)" }}>Opacity</label>
-                    <span className="text-xs" style={{ color: "rgba(15, 23, 42, 0.3)" }}>
+                    <label className="text-xs" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Opacity</label>
+                    <span className="text-xs" style={{ color: "rgba(224, 245, 232, 0.3)" }}>
                       {Math.round(opacity * 100)}%
                     </span>
                   </div>
@@ -230,8 +230,8 @@ export default function MuralToolbar({
 
                 <div className="mb-4">
                   <div className="flex justify-between items-center mb-1.5">
-                    <label className="text-xs" style={{ color: "rgba(15, 23, 42, 0.4)" }}>Hardness</label>
-                    <span className="text-xs" style={{ color: "rgba(15, 23, 42, 0.3)" }}>{brushHardness}%</span>
+                    <label className="text-xs" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Hardness</label>
+                    <span className="text-xs" style={{ color: "rgba(224, 245, 232, 0.3)" }}>{brushHardness}%</span>
                   </div>
                   <input
                     type="range"
@@ -244,7 +244,7 @@ export default function MuralToolbar({
                 </div>
 
                 <div className="mb-2">
-                  <label className="text-xs mb-2 block" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+                  <label className="text-xs mb-2 block" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
                     Brush
                   </label>
                   {categories.map((cat) => {
@@ -252,7 +252,7 @@ export default function MuralToolbar({
                     if (brushes.length === 0) return null;
                     return (
                       <div key={cat} className="mb-3">
-                        <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: "rgba(15, 23, 42, 0.25)" }}>
+                        <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: "rgba(224, 245, 232, 0.25)" }}>
                           {cat}
                         </p>
                         <div className="grid grid-cols-4 gap-1">
@@ -263,12 +263,12 @@ export default function MuralToolbar({
                               className="flex flex-col items-center gap-0.5 p-1.5 rounded-lg cursor-pointer transition-all"
                               title={b.name}
                               style={{
-                                background: brushType === b.type ? "rgba(13, 148, 136, 0.1)" : "transparent",
-                                border: `1px solid ${brushType === b.type ? "rgba(13, 148, 136, 0.2)" : "transparent"}`,
+                                background: brushType === b.type ? "rgba(0, 255, 136, 0.1)" : "transparent",
+                                border: `1px solid ${brushType === b.type ? "rgba(0, 255, 136, 0.2)" : "transparent"}`,
                               }}
                             >
                               <span className="text-sm">{b.icon}</span>
-                              <span className="text-[9px] leading-tight" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+                              <span className="text-[9px] leading-tight" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
                                 {b.name}
                               </span>
                             </button>

@@ -1984,13 +1984,15 @@ const DreamCanvas = forwardRef<DreamCanvasRef, DreamCanvasProps>(
           overflow: "hidden",
           position: "relative",
           cursor: "none",
+          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+          border: "1px solid rgba(0, 255, 136, 0.08)",
           background: `
-            radial-gradient(ellipse at 15% 15%, rgba(13, 148, 136, 0.15) 0%, transparent 45%),
-            radial-gradient(ellipse at 85% 85%, rgba(6, 182, 212, 0.12) 0%, transparent 45%),
+            radial-gradient(ellipse at 15% 15%, rgba(0, 255, 136, 0.15) 0%, transparent 45%),
+            radial-gradient(ellipse at 85% 85%, rgba(0, 204, 106, 0.12) 0%, transparent 45%),
             radial-gradient(ellipse at 50% 25%, rgba(96, 165, 250, 0.1) 0%, transparent 40%),
             radial-gradient(ellipse at 25% 75%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
             radial-gradient(ellipse at 75% 45%, rgba(34, 211, 238, 0.08) 0%, transparent 40%),
-            radial-gradient(ellipse at 50% 50%, rgba(13, 148, 136, 0.05) 0%, transparent 60%),
+            radial-gradient(ellipse at 50% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 60%),
             #ffffff
           `,
         }}

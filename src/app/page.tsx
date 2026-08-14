@@ -5,25 +5,6 @@ import Link from "next/link";
 import ElovayneLogo from "@/components/ElovayneLogo";
 import GlowingPortal from "@/components/GlowingPortal";
 
-const features = [
-  { icon: "✦", label: "Elyra AI", href: "/elyra", color: "#00ff88" },
-  { icon: "◎", label: "Soul Echo", href: "/soul-echo", color: "#00cc6a" },
-  { icon: "✧", label: "Stargazing", href: "/stargazing", color: "#57ff14" },
-  { icon: "◈", label: "Reflection", href: "/reflection-room", color: "#74de9a" },
-  { icon: "△", label: "Canvas", href: "/dream-canvas", color: "#4ade80" },
-  { icon: "⊡", label: "Camera", href: "/camera", color: "#00e676" },
-  { icon: "◇", label: "Mural", href: "/mural", color: "#00cc6a" },
-  { icon: "●", label: "Nebula Orb", href: "/nebula-orb", color: "#26a65a" },
-  { icon: "◈", label: "Wish Lanterns", href: "/wish-lanterns", color: "#52d398" },
-  { icon: "◆", label: "Campfire", href: "/campfire", color: "#1a5c2e" },
-  { icon: "❋", label: "Poetry", href: "/poetry", color: "#00ff88" },
-  { icon: "◎", label: "Soul Map", href: "/soul-map", color: "#00cc6a" },
-  { icon: "🌤️", label: "Human Weather", href: "/human-weather", color: "#57ff14" },
-  { icon: "📡", label: "Human Signal", href: "/human-signal", color: "#74de9a" },
-  { icon: "◎", label: "UNSEEN", href: "/unseen", color: "#4ade80" },
-  { icon: "💡", label: "Ideas", href: "/ideas", color: "#00e676" },
-];
-
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden">
@@ -44,31 +25,14 @@ export default function Home() {
           </motion.div>
 
           <GlowingPortal />
-
-          <motion.div
-            className="mt-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.5 }}
-          >
-            <a
-              href="#explore"
-              className="text-sm hover:opacity-70 transition-all duration-300 tracking-widest uppercase inline-flex items-center gap-2 group"
-              style={{ color: "var(--text-dim)", fontSize: "11px" }}
-            >
-              explore everything
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </a>
-          </motion.div>
         </div>
 
       </section>
 
-      {/* EXPLORE SECTION */}
-      <section id="explore" className="relative z-10 py-24 px-6">
+      {/* ABOUT SECTION */}
+      <section className="relative z-10 py-24 px-6">
         <div className="max-w-2xl mx-auto">
 
-          {/* Intro */}
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
@@ -86,32 +50,6 @@ export default function Home() {
               No followers. No likes. No algorithms. Just you.
             </p>
           </motion.div>
-
-          {/* Feature Grid */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-16">
-            {features.map((feature, i) => (
-              <motion.div
-                key={feature.label}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: i * 0.02 }}
-              >
-                <Link
-                  href={feature.href}
-                  className="flex flex-col items-center gap-3 p-6 rounded-xl transition-all duration-300 hover:translate-y-[-2px] hover:shadow-sm active:scale-[0.97]"
-                  style={{
-                    background: `${feature.color}04`,
-                    border: `1px solid ${feature.color}10`,
-                    textDecoration: "none",
-                  }}
-                >
-                  <span className="text-xl opacity-80" style={{ color: feature.color }}>{feature.icon}</span>
-                  <span className="text-[11px] font-medium" style={{ color: "var(--text-secondary)" }}>{feature.label}</span>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
 
           {/* Free banner */}
           <motion.div
@@ -147,7 +85,7 @@ export default function Home() {
 
           {/* Bottom links */}
           <div className="flex justify-center gap-8 mt-14">
-            {["About", "FAQ", "Support", "Settings"].map((label) => (
+            {["About", "FAQ", "Support"].map((label) => (
               <Link
                 key={label}
                 href={`/${label.toLowerCase()}`}

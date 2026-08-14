@@ -22,7 +22,7 @@ export default function SoulEchoLanding({ onBegin }: SoulEchoLandingProps) {
         transition={{ duration: 3, ease: "easeOut" }}
         className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(13, 148, 136, 0.15) 0%, rgba(6, 182, 212, 0.08) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 255, 136, 0.15) 0%, rgba(0, 204, 106, 0.08) 40%, transparent 70%)",
           filter: "blur(60px)",
         }}
       />
@@ -37,7 +37,7 @@ export default function SoulEchoLanding({ onBegin }: SoulEchoLandingProps) {
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-[20%] left-[15%] w-32 h-32 rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(13, 148, 136, 0.08) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%)",
           filter: "blur(30px)",
         }}
       />
@@ -68,7 +68,7 @@ export default function SoulEchoLanding({ onBegin }: SoulEchoLandingProps) {
             background: "linear-gradient(135deg, #5eead4 0%, #60a5fa 50%, #a78bfa 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
-            filter: "drop-shadow(0 0 30px rgba(13, 148, 136, 0.3))",
+            filter: "drop-shadow(0 0 30px rgba(0, 255, 136, 0.3))",
           }}
         >
           Soul Echo
@@ -90,16 +90,16 @@ export default function SoulEchoLanding({ onBegin }: SoulEchoLandingProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-        whileHover={{ scale: 1.02, boxShadow: "0 0 30px rgba(13, 148, 136, 0.2)" }}
+        whileHover={{ scale: 1.02, boxShadow: "0 0 30px rgba(0, 255, 136, 0.2)" }}
         whileTap={{ scale: 0.98 }}
         onClick={onBegin}
         className="relative z-10 px-10 py-3.5 rounded-2xl text-sm font-body tracking-wide transition-all duration-500"
         style={{
-          background: "linear-gradient(135deg, rgba(13, 148, 136, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%)",
-          border: "1px solid rgba(13, 148, 136, 0.3)",
+          background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 204, 106, 0.15) 100%)",
+          border: "1px solid rgba(0, 255, 136, 0.3)",
           color: "#5eead4",
           backdropFilter: "blur(12px)",
-          boxShadow: "0 4px 20px rgba(13, 148, 136, 0.1)",
+          boxShadow: "0 4px 20px rgba(0, 255, 136, 0.1)",
         }}
       >
         Begin
@@ -112,7 +112,7 @@ export default function SoulEchoLanding({ onBegin }: SoulEchoLandingProps) {
         transition={{ duration: 2, delay: 1.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="relative z-10 mt-16 w-24 h-px"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.3), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent)",
         }}
       />
     </motion.div>

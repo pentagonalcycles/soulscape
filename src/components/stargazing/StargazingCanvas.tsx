@@ -217,7 +217,7 @@ export default function StargazingCanvas({ messageStars, onStarClick }: Stargazi
 
       // Nebula dust
       const nebula1 = ctx.createRadialGradient(w * 0.2, h * 0.3, 0, w * 0.2, h * 0.3, w * 0.25);
-      nebula1.addColorStop(0, "rgba(13, 148, 136, 0.015)");
+      nebula1.addColorStop(0, "rgba(0, 255, 136, 0.015)");
       nebula1.addColorStop(1, "transparent");
       ctx.fillStyle = nebula1;
       ctx.fillRect(0, 0, w, h);

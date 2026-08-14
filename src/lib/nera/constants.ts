@@ -17,13 +17,13 @@ export const NERA_TYPES: NeraTypeInfo[] = [
   { id: "music_people", label: "Music People", icon: "\ud83c\udfa7", color: "#db2777", description: "Share playlists, attend concerts, or just listen together in comfortable silence." },
   { id: "deep_conversation", label: "Deep Conversation", icon: "\ud83d\udcad", color: "#6366f1", description: "Skip the small talk. Find someone who wants to go deeper." },
   { id: "fresh_air", label: "Fresh Air", icon: "\ud83c\udf3f", color: "#16a34a", description: "Nature walks, park hangs, stargazing. The outdoors heals." },
-  { id: "need_company", label: "Need Company", icon: "\ud83e\udee7", color: "#0891b2", description: "No explanation needed. Sometimes you just need someone nearby." },
+  { id: "need_company", label: "Need Company", icon: "\ud83e\udee7", color: "#00ff88", description: "No explanation needed. Sometimes you just need someone nearby." },
   { id: "something_spontaneous", label: "Something Spontaneous", icon: "\u26a1", color: "#d97706", description: "Life is short. Say yes to something unexpected." },
   { id: "online_tonight", label: "Online Tonight", icon: "\ud83c\udf10", color: "#4f46e5", description: "Connection without leaving home. Perfect for late nights and shy souls." },
 ];
 
 export const NERA_EMOTIONS: { id: NeraEmotion; label: string; icon: string; color: string }[] = [
-  { id: "need_company", label: "I need company", icon: "\ud83e\udee7", color: "#0891b2" },
+  { id: "need_company", label: "I need company", icon: "\ud83e\udee7", color: "#00ff88" },
   { id: "want_to_talk", label: "I want to talk", icon: "\ud83d\udde3\ufe0f", color: "#6366f1" },
   { id: "want_distraction", label: "I want a distraction", icon: "\ud83c\udf1f", color: "#d97706" },
   { id: "feel_spontaneous", label: "I feel spontaneous", icon: "\u26a1", color: "#ea580c" },

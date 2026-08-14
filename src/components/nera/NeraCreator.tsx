@@ -149,13 +149,14 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
   ];
 
   const inputStyle: React.CSSProperties = {
-    background: "var(--card-bg, rgba(13, 148, 136, 0.04))",
-    border: "1px solid rgba(13, 148, 136, 0.1)",
+    background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
+    border: "1px solid rgba(0, 255, 136, 0.12)",
     color: "var(--text-primary, #0f172a)",
     outline: "none",
     fontSize: "14px",
     borderRadius: "14px",
-    backdropFilter: "blur(8px)",
+    backdropFilter: "blur(16px)",
+    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
     transition: "border-color 0.2s, box-shadow 0.2s",
   };
 
@@ -173,7 +174,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
             onClick={onCancel}
             className="mb-8 inline-flex items-center gap-1.5 text-[13px] font-medium"
             style={{ color: "var(--text-dim, #94a3b8)" }}
-            whileHover={{ color: "#0d9488" }}
+            whileHover={{ color: "#00ff88" }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" />
@@ -200,9 +201,9 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                   <div
                     className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold transition-all"
                     style={{
-                      background: i <= step ? "rgba(13, 148, 136, 0.1)" : "rgba(13, 148, 136, 0.03)",
-                      color: i <= step ? "#0d9488" : "var(--text-dim, #94a3b8)",
-                      border: `1px solid ${i <= step ? "rgba(13, 148, 136, 0.2)" : "rgba(13, 148, 136, 0.06)"}`,
+                      background: i <= step ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.03)",
+                      color: i <= step ? "#00ff88" : "var(--text-dim, #94a3b8)",
+                      border: `1px solid ${i <= step ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.06)"}`,
                     }}
                   >
                     {i < step ? (
@@ -216,7 +217,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                   </span>
                 </div>
                 {i < steps.length - 1 && (
-                  <div className="flex-1 h-px" style={{ background: i < step ? "rgba(13, 148, 136, 0.2)" : "rgba(13, 148, 136, 0.06)" }} />
+                  <div className="flex-1 h-px" style={{ background: i < step ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.06)" }} />
                 )}
               </div>
             ))}
@@ -234,8 +235,8 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                       onClick={() => setNeraType(t.id)}
                       className="py-3 rounded-2xl text-[11px] flex flex-col items-center gap-1.5 transition-all"
                       style={{
-                        background: neraType === t.id ? `${t.color}0D` : "var(--card-bg, rgba(13, 148, 136, 0.03))",
-                        border: `1px solid ${neraType === t.id ? `${t.color}25` : "rgba(13, 148, 136, 0.06)"}`,
+                        background: neraType === t.id ? `${t.color}0D` : "var(--card-bg, rgba(0, 255, 136, 0.03))",
+                        border: `1px solid ${neraType === t.id ? `${t.color}25` : "rgba(0, 255, 136, 0.06)"}`,
                         color: neraType === t.id ? t.color : "var(--text-muted, #64748b)",
                       }}
                     >
@@ -256,7 +257,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                   maxLength={100}
                   className="w-full px-4 py-3.5"
                   style={inputStyle}
-                  onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(13, 148, 136, 0.08)"; }}
+                  onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(0, 255, 136, 0.08)"; }}
                   onBlur={(e) => { e.currentTarget.style.boxShadow = "none"; }}
                 />
               </div>
@@ -271,7 +272,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                   maxLength={500}
                   className="w-full px-4 py-3.5 resize-none"
                   style={inputStyle}
-                  onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(13, 148, 136, 0.08)"; }}
+                  onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(0, 255, 136, 0.08)"; }}
                   onBlur={(e) => { e.currentTarget.style.boxShadow = "none"; }}
                 />
               </div>
@@ -287,8 +288,8 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                         onClick={() => toggleEmotion(e.id)}
                         className="px-3.5 py-2 rounded-full text-[11px] font-medium transition-all"
                         style={{
-                          background: selected ? `${e.color}10` : "var(--card-bg, rgba(13, 148, 136, 0.03))",
-                          border: `1px solid ${selected ? `${e.color}22` : "rgba(13, 148, 136, 0.06)"}`,
+                          background: selected ? `${e.color}10` : "var(--card-bg, rgba(0, 255, 136, 0.03))",
+                          border: `1px solid ${selected ? `${e.color}22` : "rgba(0, 255, 136, 0.06)"}`,
                           color: selected ? e.color : "var(--text-muted, #64748b)",
                         }}
                       >
@@ -319,7 +320,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                     }}
                     className="w-full px-4 py-3.5"
                     style={inputStyle}
-                    onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(13, 148, 136, 0.08)"; }}
+                    onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(0, 255, 136, 0.08)"; }}
                     onBlur={(e) => { e.currentTarget.style.boxShadow = "none"; }}
                   />
                   {/* Time inputs */}
@@ -362,7 +363,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                       ))}
                     </select>
                     {/* AM/PM */}
-                    <div className="flex rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(13, 148, 136, 0.1)" }}>
+                    <div className="flex rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(0, 255, 136, 0.1)" }}>
                       {(["AM", "PM"] as const).map((p) => (
                         <button
                           key={p}
@@ -376,12 +377,12 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                           className="px-4 py-3.5 text-sm font-medium transition-all"
                           style={{
                             background: timePeriod === p
-                              ? "rgba(13, 148, 136, 0.15)"
-                              : "var(--card-bg, rgba(13, 148, 136, 0.03))",
+                              ? "rgba(0, 255, 136, 0.15)"
+                              : "var(--card-bg, rgba(0, 255, 136, 0.03))",
                             color: timePeriod === p
-                              ? "#0d9488"
+                              ? "#00ff88"
                               : "var(--text-dim, #94a3b8)",
-                            borderRight: p === "AM" ? "1px solid rgba(13, 148, 136, 0.1)" : "none",
+                            borderRight: p === "AM" ? "1px solid rgba(0, 255, 136, 0.1)" : "none",
                           }}
                         >
                           {p}
@@ -395,7 +396,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
               {/* Online toggle */}
               <div
                 className="flex items-center justify-between p-4 rounded-2xl"
-                style={{ background: "var(--card-bg, rgba(13, 148, 136, 0.03))", border: "1px solid rgba(13, 148, 136, 0.06)" }}
+                style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.03))", border: "1px solid rgba(0, 255, 136, 0.06)" }}
               >
                 <div>
                   <div className="text-[13px] font-medium" style={{ color: "var(--text-primary, #0f172a)" }}>Online only</div>
@@ -404,7 +405,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                 <button
                   onClick={() => setIsOnline(!isOnline)}
                   className="relative w-12 h-7 rounded-full transition-all"
-                  style={{ background: isOnline ? "#0d9488" : "rgba(13, 148, 136, 0.15)" }}
+                  style={{ background: isOnline ? "#00ff88" : "rgba(0, 255, 136, 0.15)" }}
                 >
                   <div
                     className="absolute top-1 w-5 h-5 rounded-full bg-white transition-transform"
@@ -424,7 +425,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                       placeholder="e.g. London, New York"
                       className="w-full px-4 py-3.5"
                       style={inputStyle}
-                      onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(13, 148, 136, 0.08)"; }}
+                      onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(0, 255, 136, 0.08)"; }}
                       onBlur={(e) => { e.currentTarget.style.boxShadow = "none"; }}
                     />
                   </div>
@@ -437,7 +438,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                       placeholder="e.g. Central Park, The Coffee House"
                       className="w-full px-4 py-3.5"
                       style={inputStyle}
-                      onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(13, 148, 136, 0.08)"; }}
+                      onFocus={(e) => { e.currentTarget.style.boxShadow = "0 0 0 3px rgba(0, 255, 136, 0.08)"; }}
                       onBlur={(e) => { e.currentTarget.style.boxShadow = "none"; }}
                     />
                     <p className="text-[11px] mt-1.5" style={{ color: "var(--text-dim, #94a3b8)" }}>
@@ -448,7 +449,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                   {/* Pin location */}
                   <div
                     className="flex items-center justify-between p-4 rounded-2xl"
-                    style={{ background: "var(--card-bg, rgba(13, 148, 136, 0.03))", border: "1px solid rgba(13, 148, 136, 0.06)" }}
+                    style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.03))", border: "1px solid rgba(0, 255, 136, 0.06)" }}
                   >
                     <div>
                       <div className="text-[13px] font-medium" style={{ color: "var(--text-primary, #0f172a)" }}>
@@ -463,9 +464,9 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                       disabled={locating}
                       className="px-3 py-1.5 rounded-xl text-[11px] font-medium transition-all"
                       style={{
-                        background: lat != null ? "rgba(13, 148, 136, 0.08)" : "rgba(13, 148, 136, 0.04)",
-                        border: `1px solid ${lat != null ? "rgba(13, 148, 136, 0.15)" : "rgba(13, 148, 136, 0.08)"}`,
-                        color: lat != null ? "#0d9488" : "var(--text-muted, #64748b)",
+                        background: lat != null ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.04)",
+                        border: `1px solid ${lat != null ? "rgba(0, 255, 136, 0.15)" : "rgba(0, 255, 136, 0.08)"}`,
+                        color: lat != null ? "#00ff88" : "var(--text-muted, #64748b)",
                       }}
                     >
                       {locating ? "Locating..." : lat != null ? "Update" : "Use my location"}
@@ -488,18 +489,18 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                   value={maxParticipants}
                   onChange={(e) => setMaxParticipants(Number(e.target.value))}
                   className="w-full"
-                  style={{ accentColor: "#0d9488" }}
+                  style={{ accentColor: "#00ff88" }}
                 />
                 <div className="flex justify-between mt-1">
                   <span className="text-[11px]" style={{ color: "var(--text-dim, #94a3b8)" }}>2</span>
-                  <span className="text-[13px] font-medium" style={{ color: "#0d9488" }}>{maxParticipants} people</span>
+                  <span className="text-[13px] font-medium" style={{ color: "#00ff88" }}>{maxParticipants} people</span>
                   <span className="text-[11px]" style={{ color: "var(--text-dim, #94a3b8)" }}>20</span>
                 </div>
               </div>
 
               <div
                 className="flex items-center justify-between p-4 rounded-2xl"
-                style={{ background: "var(--card-bg, rgba(13, 148, 136, 0.03))", border: "1px solid rgba(13, 148, 136, 0.06)" }}
+                style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.03))", border: "1px solid rgba(0, 255, 136, 0.06)" }}
               >
                 <div>
                   <div className="text-[13px] font-medium" style={{ color: "var(--text-primary, #0f172a)" }}>Public Nera</div>
@@ -510,7 +511,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
                 <button
                   onClick={() => setIsPublic(!isPublic)}
                   className="relative w-12 h-7 rounded-full transition-all"
-                  style={{ background: isPublic ? "#0d9488" : "rgba(13, 148, 136, 0.15)" }}
+                  style={{ background: isPublic ? "#00ff88" : "rgba(0, 255, 136, 0.15)" }}
                 >
                   <div
                     className="absolute top-1 w-5 h-5 rounded-full bg-white transition-transform"
@@ -520,8 +521,8 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
               </div>
 
               {/* Summary */}
-              <div className="p-5 rounded-2xl" style={{ background: "rgba(13, 148, 136, 0.03)", border: "1px solid rgba(13, 148, 136, 0.08)" }}>
-                <p className="text-[11px] uppercase tracking-wider mb-2 font-medium" style={{ color: "rgba(13, 148, 136, 0.5)" }}>Summary</p>
+              <div className="p-5 rounded-2xl" style={{ background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)" }}>
+                <p className="text-[11px] uppercase tracking-wider mb-2 font-medium" style={{ color: "rgba(0, 255, 136, 0.5)" }}>Summary</p>
                 <p className="text-[15px] font-medium mb-1" style={{ color: "var(--text-primary, #0f172a)", fontFamily: "var(--font-heading)" }}>{title}</p>
                 <p className="text-[12px]" style={{ color: "var(--text-muted, #64748b)" }}>
                   {NERA_TYPES.find((t) => t.id === neraType)?.icon}{" "}
@@ -543,7 +544,7 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
               <button
                 onClick={() => setStep(step - 1)}
                 className="px-6 py-3.5 rounded-2xl text-[13px] font-medium"
-                style={{ background: "var(--card-bg, rgba(13, 148, 136, 0.03))", border: "1px solid rgba(13, 148, 136, 0.08)", color: "var(--text-muted, #64748b)" }}
+                style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.03))", border: "1px solid rgba(0, 255, 136, 0.08)", color: "var(--text-muted, #64748b)" }}
               >
                 Back
               </button>
@@ -553,10 +554,10 @@ export default function NeraCreator({ onSubmit, onCancel }: NeraCreatorProps) {
               disabled={!canProceed() || submitting}
               className="flex-1 py-3.5 rounded-2xl text-[14px] font-medium transition-all"
               style={{
-                background: canProceed() ? "linear-gradient(135deg, #0d9488, #0891b2)" : "rgba(13, 148, 136, 0.04)",
-                border: `1px solid ${canProceed() ? "rgba(13, 148, 136, 0.2)" : "rgba(13, 148, 136, 0.06)"}`,
+                background: canProceed() ? "linear-gradient(135deg, #00ff88, #00cc6a)" : "rgba(0, 255, 136, 0.04)",
+                border: `1px solid ${canProceed() ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.06)"}`,
                 color: canProceed() ? "#ffffff" : "var(--text-dim, #94a3b8)",
-                boxShadow: canProceed() ? "0 4px 16px rgba(13, 148, 136, 0.2)" : "none",
+                boxShadow: canProceed() ? "0 4px 16px rgba(0, 255, 136, 0.2)" : "none",
               }}
             >
               {submitting ? "Creating..." : step < 2 ? "Continue" : "Create Nera"}

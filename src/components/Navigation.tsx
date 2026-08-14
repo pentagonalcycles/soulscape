@@ -10,7 +10,6 @@ const navLinks = [
   { href: "/nera", label: "NERA", icon: "\ud83e\udee7" },
   { href: "/elyra", label: "Elyra AI", icon: "✦" },
   { href: "/soul-echo", label: "Soul Echo", icon: "◎" },
-  { href: "/stargazing", label: "Stargazing", icon: "✧" },
   { href: "/reflection-room", label: "Reflection", icon: "◈" },
   { href: "/dream-canvas", label: "Canvas", icon: "△" },
   { href: "/camera", label: "Camera", icon: "⊡" },
@@ -21,11 +20,7 @@ const navLinks = [
   { href: "/music", label: "Music", icon: "♪" },
   { href: "/soul-map", label: "Soul Map", icon: "◎" },
   { href: "/nebula-orb", label: "Nebula Orb", icon: "●" },
-  { href: "/human-weather", label: "Human Weather", icon: "🌤\ufe0f" },
   { href: "/human-signal", label: "Human Signal", icon: "\ud83d\udce1" },
-  { href: "/unseen", label: "UNSEEN", icon: "◎" },
-  { href: "/ideas", label: "Ideas", icon: "\ud83d\udca1" },
-  { href: "/settings", label: "Settings", icon: "\u2699" },
 ];
 
 const bottomLinks = [
@@ -75,10 +70,11 @@ export default function Navigation({ activePage }: NavigationProps) {
           aria-label={isOpen ? "Close navigation" : "Open navigation"}
           className={`btn-icon fixed top-5 left-5 z-[1000] ${isMobile ? "w-12 h-12" : ""}`}
           style={{
-            background: "rgba(255, 255, 255, 0.8)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            boxShadow: "0 2px 16px rgba(0,0,0,0.04)",
+            background: "rgba(5, 10, 6, 0.8)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            boxShadow: "0 0 20px rgba(0, 255, 136, 0.1), inset 0 0 20px rgba(0, 255, 136, 0.03)",
+            border: "1px solid rgba(0, 255, 136, 0.15)",
             fontSize: isMobile ? "18px" : "16px",
           }}
         >
@@ -118,9 +114,11 @@ export default function Navigation({ activePage }: NavigationProps) {
                 left: 0,
                 bottom: 0,
                 width: isMobile ? "min(300px, 90vw)" : "min(260px, 85vw)",
-                background: "#0a0f0b",
-                borderRight: "1px solid rgba(0, 255, 136, 0.08)",
-                boxShadow: "8px 0 40px rgba(0,0,0,0.3)",
+                background: "rgba(5, 10, 6, 0.95)",
+                backdropFilter: "blur(24px) saturate(1.2)",
+                WebkitBackdropFilter: "blur(24px) saturate(1.2)",
+                borderRight: "1px solid rgba(0, 255, 136, 0.12)",
+                boxShadow: "8px 0 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 255, 136, 0.03)",
                 zIndex: 1000,
                 display: "flex",
                 flexDirection: "column",
@@ -128,7 +126,8 @@ export default function Navigation({ activePage }: NavigationProps) {
               }}
             >
               {/* Header */}
-              <div style={{ padding: "32px 24px 24px", borderBottom: "1px solid rgba(13, 148, 136, 0.05)" }}>
+              <div style={{ padding: "32px 24px 24px", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", position: "relative" }}>
+                <div style={{ position: "absolute", bottom: 0, left: "24px", right: "24px", height: "1px", background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent)" }} />
                 <div style={{
                   fontSize: "20px",
                   fontWeight: 300,
@@ -166,15 +165,23 @@ export default function Navigation({ activePage }: NavigationProps) {
                           borderRadius: "10px",
                           textDecoration: "none",
                           color: isActive ? "#e0f5e8" : "rgba(224, 245, 232, 0.4)",
-                          background: isActive ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                          transition: "all 0.2s ease",
+                          background: isActive ? "rgba(0, 255, 136, 0.08)" : "transparent",
+                          border: isActive ? "1px solid rgba(0, 255, 136, 0.12)" : "1px solid transparent",
+                          boxShadow: isActive ? "0 0 20px rgba(0, 255, 136, 0.06)" : "none",
+                          transition: "all 0.3s ease",
                           marginBottom: "2px",
                         }}
                         onMouseEnter={(e) => {
-                          if (!isActive) e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
+                          if (!isActive) {
+                            e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
+                            e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.06)";
+                          }
                         }}
                         onMouseLeave={(e) => {
-                          if (!isActive) e.currentTarget.style.background = "transparent";
+                          if (!isActive) {
+                            e.currentTarget.style.background = "transparent";
+                            e.currentTarget.style.borderColor = "transparent";
+                          }
                         }}
                       >
                         <span style={{
@@ -200,7 +207,7 @@ export default function Navigation({ activePage }: NavigationProps) {
               </div>
 
               {/* Bottom */}
-              <div style={{ padding: "16px 16px 20px", borderTop: "1px solid rgba(13, 148, 136, 0.05)" }}>
+              <div style={{ padding: "16px 16px 20px", borderTop: "1px solid rgba(0, 255, 136, 0.05)" }}>
                 {isAdmin && (
                   <Link
                     href="/admin"

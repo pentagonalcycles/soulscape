@@ -20,7 +20,7 @@ const reactions: Reaction[] = [
     label: "I see you in the dark",
     icon: "🤍",
     description: "I see you and I understand",
-    color: "#0d9488",
+    color: "#00ff88",
   },
   {
     type: "hope",
@@ -48,7 +48,7 @@ const reactions: Reaction[] = [
     label: "This comforted me",
     icon: "💫",
     description: "Your words wrapped around me like warmth",
-    color: "#06b6d4",
+    color: "#00cc6a",
   },
 ];
 
@@ -132,7 +132,8 @@ export default function PostCard({
     <motion.article
       className="glass rounded-2xl p-6 relative group"
       style={{
-        boxShadow: "0 0 30px rgba(0, 255, 136, 0.03)",
+        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+        backdropFilter: "blur(12px)",
       }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -302,6 +303,7 @@ export default function PostCard({
                     ? "bg-elovayne-nebula/30 border border-elovayne-violet/30"
                     : "bg-elovayne-deep/30 border border-transparent hover:border-elovayne-nebula/20"
                 }`}
+                style={{ transition: "all 0.3s ease" }}
                 animate={
                   reactedType === reaction.type
                     ? { scale: [1, 1.2, 1], transition: { duration: 0.4 } }
@@ -321,6 +323,7 @@ export default function PostCard({
           <motion.button
             onClick={() => setShowReactions(!showReactions)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs bg-elovayne-deep/30 border border-transparent hover:border-elovayne-nebula/20 text-elovayne-dim hover:text-elovayne-muted transition-all duration-300"
+            style={{ transition: "all 0.3s ease" }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -347,6 +350,7 @@ export default function PostCard({
                         setShowReactions(false);
                       }}
                       className="flex items-center gap-3 px-3 py-2 rounded-lg text-left hover:bg-elovayne-nebula/10 transition-colors group/reaction"
+                      style={{ transition: "all 0.3s ease" }}
                       whileHover={{ x: 4 }}
                     >
                       <span className="text-lg">{reaction.icon}</span>

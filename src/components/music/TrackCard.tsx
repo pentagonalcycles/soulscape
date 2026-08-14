@@ -38,20 +38,20 @@ const GRADIENT_MAP: Record<string, string[]> = {
   classical: ["#6366f1", "#818cf8", "#eef2ff"],
   rnb: ["#f43f5e", "#fb7185", "#fff1f2"],
   folk: ["#84cc16", "#a3e635", "#f7fee7"],
-  lofi: ["#06b6d4", "#22d3ee", "#ecfeff"],
+  lofi: ["#00cc6a", "#22d3ee", "#ecfeff"],
   ambient: ["#10b981", "#34d399", "#ecfdf5"],
   synthwave: ["#d946ef", "#e879f9", "#fdf4ff"],
   acoustic: ["#d97706", "#f59e0b", "#fffbeb"],
 };
 
 function getGradient(style: string | null): string {
-  const colors = GRADIENT_MAP[style || ""] || ["#0d9488", "#14b8a6", "#f0fdfa"];
+  const colors = GRADIENT_MAP[style || ""] || ["#00ff88", "#14b8a6", "#f0fdfa"];
   return `linear-gradient(135deg, ${colors[0]}, ${colors[1]} 60%, ${colors[2]})`;
 }
 
 function getAccentColor(style: string | null): string {
   const colors = GRADIENT_MAP[style || ""];
-  return colors?.[0] || "#0d9488";
+  return colors?.[0] || "#00ff88";
 }
 
 export default function TrackCard({ track, showActions = true, onShare, onDelete, compact }: TrackCardProps) {
@@ -84,7 +84,7 @@ export default function TrackCard({ track, showActions = true, onShare, onDelete
     return (
       <div
         className="rounded-2xl p-4 mb-3"
-        style={{ background: "rgba(13, 148, 136, 0.03)", border: "1px solid rgba(13, 148, 136, 0.08)" }}
+        style={{ background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(12px)" }}
       >
         <div className="flex items-center gap-3">
           <div
@@ -118,7 +118,7 @@ export default function TrackCard({ track, showActions = true, onShare, onDelete
     return (
       <div
         className="rounded-2xl p-4 mb-3"
-        style={{ background: "rgba(239,68,68,0.03)", border: "1px solid rgba(239,68,68,0.1)" }}
+        style={{ background: "rgba(239,68,68,0.03)", border: "1px solid rgba(239,68,68,0.1)", boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(12px)" }}
       >
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(239,68,68,0.06)" }}>
@@ -143,7 +143,7 @@ export default function TrackCard({ track, showActions = true, onShare, onDelete
     return (
       <div
         className="rounded-xl p-3 mb-2 transition-all hover:scale-[1.01] cursor-pointer"
-        style={{ background: "rgba(13, 148, 136, 0.03)", border: "1px solid rgba(13, 148, 136, 0.08)" }}
+        style={{ background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(12px)" }}
       >
         <div className="flex items-center gap-3">
           <div
@@ -175,7 +175,7 @@ export default function TrackCard({ track, showActions = true, onShare, onDelete
   return (
     <motion.div
       className="rounded-2xl overflow-hidden mb-4"
-      style={{ background: "var(--card-bg)", border: "1px solid var(--border-subtle)" }}
+      style={{ background: "var(--card-bg)", border: "1px solid var(--border-subtle)", boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(12px)" }}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
     >
@@ -216,7 +216,7 @@ export default function TrackCard({ track, showActions = true, onShare, onDelete
             </span>
           )}
           {track.mood && (
-            <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: "rgba(13,148,136,0.06)", color: "var(--text-muted)" }}>
+            <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.06)", color: "var(--text-muted)" }}>
               {track.mood}
             </span>
           )}
@@ -251,8 +251,8 @@ export default function TrackCard({ track, showActions = true, onShare, onDelete
                 animate={{ opacity: 1, height: "auto" }}
                 className="p-4 rounded-xl text-[10px] whitespace-pre-wrap"
                 style={{
-                  background: "rgba(13,148,136,0.03)",
-                  border: "1px solid rgba(13,148,136,0.08)",
+                  background: "rgba(0,255,136,0.03)",
+                  border: "1px solid rgba(0,255,136,0.08)",
                   color: "var(--text-secondary)",
                   lineHeight: "2",
                   fontFamily: "monospace",
@@ -271,7 +271,7 @@ export default function TrackCard({ track, showActions = true, onShare, onDelete
               <button
                 onClick={handleDownload}
                 className="flex-1 py-2 rounded-xl text-[10px] font-medium flex items-center justify-center gap-1.5 cursor-pointer transition-all hover:scale-[1.02]"
-                style={{ background: "rgba(13,148,136,0.06)", border: "1px solid rgba(13,148,136,0.12)", color: accentColor }}
+                style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.12)", color: accentColor }}
               >
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
@@ -284,8 +284,8 @@ export default function TrackCard({ track, showActions = true, onShare, onDelete
                 onClick={() => onShare(track.id)}
                 className="flex-1 py-2 rounded-xl text-[10px] font-medium flex items-center justify-center gap-1.5 cursor-pointer transition-all hover:scale-[1.02]"
                 style={{
-                  background: track.is_shared ? `${accentColor}10` : "rgba(13,148,136,0.06)",
-                  border: `1px solid ${track.is_shared ? `${accentColor}25` : "rgba(13,148,136,0.12)"}`,
+                  background: track.is_shared ? `${accentColor}10` : "rgba(0,255,136,0.06)",
+                  border: `1px solid ${track.is_shared ? `${accentColor}25` : "rgba(0,255,136,0.12)"}`,
                   color: track.is_shared ? accentColor : "var(--text-muted)",
                 }}
               >
@@ -307,8 +307,8 @@ export default function TrackCard({ track, showActions = true, onShare, onDelete
                 onClick={handleDelete}
                 className="py-2 px-3 rounded-xl text-[10px] cursor-pointer transition-all"
                 style={{
-                  background: confirmDelete ? "rgba(239,68,68,0.08)" : "rgba(13,148,136,0.06)",
-                  border: `1px solid ${confirmDelete ? "rgba(239,68,68,0.2)" : "rgba(13,148,136,0.12)"}`,
+                  background: confirmDelete ? "rgba(239,68,68,0.08)" : "rgba(0,255,136,0.06)",
+                  border: `1px solid ${confirmDelete ? "rgba(239,68,68,0.2)" : "rgba(0,255,136,0.12)"}`,
                   color: confirmDelete ? "#ef4444" : "var(--text-dim)",
                 }}
               >

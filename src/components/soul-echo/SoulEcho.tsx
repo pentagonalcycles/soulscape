@@ -170,7 +170,7 @@ export default function SoulEcho() {
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at 30% 20%, rgba(13, 148, 136, 0.04) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(96, 165, 250, 0.03) 0%, transparent 50%)",
+          background: "radial-gradient(ellipse at 30% 20%, rgba(0, 255, 136, 0.04) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(96, 165, 250, 0.03) 0%, transparent 50%)",
           zIndex: 1,
         }}
       />
@@ -180,7 +180,7 @@ export default function SoulEcho() {
         <div
           className="absolute w-[600px] h-[600px] rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(13, 148, 136, 0.03) 0%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(0, 255, 136, 0.03) 0%, transparent 60%)",
             filter: "blur(80px)",
             top: "-10%",
             right: "-10%",
@@ -249,8 +249,8 @@ export default function SoulEcho() {
         <div
           className="fixed bottom-6 right-6 px-3 py-1.5 rounded-lg text-xs z-20"
           style={{
-            background: "rgba(13, 148, 136, 0.06)",
-            border: "1px solid rgba(13, 148, 136, 0.1)",
+            background: "rgba(0, 255, 136, 0.06)",
+            border: "1px solid rgba(0, 255, 136, 0.1)",
             color: "rgba(148, 163, 184, 0.5)",
             backdropFilter: "blur(12px)",
           }}

@@ -35,7 +35,7 @@ const POWERUP_ICONS: Record<string, string> = {
 };
 
 const POWERUP_COLORS: Record<string, string> = {
-  speed: "#06b6d4",
+  speed: "#00cc6a",
   shield: "#10b981",
   ghost: "#a78bfa",
   glow: "#22d3ee",
@@ -81,7 +81,7 @@ export default function GameHUD({
 
   // Game HUD colors - always dark for game aesthetic
   const panelBg = "rgba(15, 15, 35, 0.9)";
-  const panelBorder = "rgba(13, 148, 136, 0.2)";
+  const panelBorder = "rgba(0, 255, 136, 0.2)";
   const textPrimary = "#e2e8f0";
   const textSecondary = "#94a3b8";
   const textMuted = "#64748b";
@@ -119,7 +119,7 @@ export default function GameHUD({
           <div className={isMobile ? "flex items-center gap-3" : "flex items-center gap-6"}>
             <div>
               <div className="text-[8px] uppercase tracking-wider" style={{ color: textMuted }}>Score</div>
-              <div className={isMobile ? "text-base font-bold" : "text-lg font-bold"} style={{ color: "#0d9488" }}>{Math.round(score)}</div>
+              <div className={isMobile ? "text-base font-bold" : "text-lg font-bold"} style={{ color: "#00ff88" }}>{Math.round(score)}</div>
             </div>
             <div>
               <div className="text-[8px] uppercase tracking-wider" style={{ color: textMuted }}>Kills</div>
@@ -128,14 +128,14 @@ export default function GameHUD({
             {!isMobile && (
               <div>
                 <div className="text-[8px] uppercase tracking-wider" style={{ color: textMuted }}>Size</div>
-                <div className="text-lg font-bold" style={{ color: "#06b6d4" }}>{Math.round(radius)}</div>
+                <div className="text-lg font-bold" style={{ color: "#00cc6a" }}>{Math.round(radius)}</div>
               </div>
             )}
           </div>
 
           {/* Active Power-ups */}
           {activePowerUps.length > 0 && (
-            <div className="mt-2 pt-2 flex gap-2 flex-wrap" style={{ borderTop: "1px solid rgba(13, 148, 136, 0.08)" }}>
+            <div className="mt-2 pt-2 flex gap-2 flex-wrap" style={{ borderTop: "1px solid rgba(0, 255, 136, 0.08)" }}>
               {activePowerUps.map((pu, i) => (
                 <div
                   key={i}
@@ -167,9 +167,9 @@ export default function GameHUD({
             <div
               className={isMobile ? "px-3 py-1.5 rounded-xl text-xs" : "px-4 py-2 rounded-xl text-sm"}
               style={{
-                background: "linear-gradient(135deg, rgba(13, 148, 136, 0.9), rgba(6, 182, 212, 0.9))",
+                background: "linear-gradient(135deg, rgba(0, 255, 136, 0.9), rgba(0, 204, 106, 0.9))",
                 color: "#fff",
-                boxShadow: "0 4px 20px rgba(13, 148, 136, 0.4)",
+                boxShadow: "0 4px 20px rgba(0, 255, 136, 0.4)",
                 textShadow: "0 1px 2px rgba(0,0,0,0.3)",
                 fontWeight: 500,
               }}
@@ -192,9 +192,9 @@ export default function GameHUD({
             <div
               className={isMobile ? "px-4 py-1.5 rounded-xl text-xs" : "px-5 py-2 rounded-xl text-sm"}
               style={{
-                background: "linear-gradient(135deg, rgba(13, 148, 136, 0.9), rgba(16, 185, 129, 0.9))",
+                background: "linear-gradient(135deg, rgba(0, 255, 136, 0.9), rgba(16, 185, 129, 0.9))",
                 color: "#fff",
-                boxShadow: "0 4px 20px rgba(13, 148, 136, 0.4)",
+                boxShadow: "0 4px 20px rgba(0, 255, 136, 0.4)",
                 fontWeight: 500,
               }}
             >
@@ -222,7 +222,7 @@ export default function GameHUD({
                   backdropFilter: "blur(8px)",
                 }}
               >
-                <span style={{ color: "#0d9488" }}>{entry.killer}</span>
+                <span style={{ color: "#00ff88" }}>{entry.killer}</span>
                 <span style={{ color: textMuted }}> eliminated </span>
                 <span style={{ color: "#f87171" }}>{entry.victim}</span>
               </motion.div>
@@ -245,7 +245,7 @@ export default function GameHUD({
             <div className="text-[9px] uppercase tracking-wider mb-2" style={{ color: textMuted }}>Leaderboard</div>
             {leaderboard.slice(0, 5).map((entry, i) => (
               <div key={i} className="flex items-center gap-2 py-0.5 text-[10px]">
-                <span style={{ color: i === 0 ? "#10b981" : i === 1 ? "#0d9488" : i === 2 ? "#06b6d4" : textMuted }}>
+                <span style={{ color: i === 0 ? "#10b981" : i === 1 ? "#00ff88" : i === 2 ? "#00cc6a" : textMuted }}>
                   {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`}
                 </span>
                 <span style={{ color: textPrimary }}>{entry.name}</span>
@@ -268,12 +268,12 @@ export default function GameHUD({
               className={isMobile ? "px-3 py-2 rounded-xl text-[10px] text-center" : "px-4 py-2 rounded-xl text-xs text-center"}
               style={{
                 background: notif.type === "eclipse"
-                  ? "linear-gradient(135deg, rgba(13, 148, 136, 0.9), rgba(16, 185, 129, 0.9))"
+                  ? "linear-gradient(135deg, rgba(0, 255, 136, 0.9), rgba(16, 185, 129, 0.9))"
                   : notif.type === "kill"
-                  ? "linear-gradient(135deg, rgba(13, 148, 136, 0.8), rgba(6, 182, 212, 0.8))"
+                  ? "linear-gradient(135deg, rgba(0, 255, 136, 0.8), rgba(0, 204, 106, 0.8))"
                   : "rgba(10, 10, 30, 0.9)",
                 color: "#fff",
-                border: "1px solid rgba(13, 148, 136, 0.15)",
+                border: "1px solid rgba(0, 255, 136, 0.15)",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
                 fontWeight: 500,
               }}

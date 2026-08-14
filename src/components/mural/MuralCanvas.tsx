@@ -284,7 +284,7 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
         <div className="absolute inset-0 z-50 flex items-center justify-center" style={{ background: "#f0fdf9" }}>
           <div className="text-center">
             <div className="w-8 h-8 rounded-full border-2 border-teal-500 border-t-transparent animate-spin mx-auto mb-3" />
-            <p className="text-sm" style={{ color: "rgba(15, 23, 42, 0.3)" }}>Loading mural...</p>
+            <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.3)" }}>Loading mural...</p>
           </div>
         </div>
       )}

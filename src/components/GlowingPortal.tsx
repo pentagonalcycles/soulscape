@@ -67,7 +67,7 @@ export default function GlowingPortal() {
           className="absolute rounded-full pointer-events-none"
           style={{
             inset: -4,
-            border: "1px dashed rgba(13, 148, 136, 0.08)",
+            border: "1px dashed rgba(0, 255, 136, 0.08)",
           }}
           animate={{ rotate: -360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -116,8 +116,8 @@ export default function GlowingPortal() {
               ? "1.5px solid rgba(0, 255, 136, 0.4)"
               : "1px solid rgba(0, 255, 136, 0.15)",
             boxShadow: isHovered
-              ? "0 0 40px rgba(0, 255, 136, 0.2), 0 0 80px rgba(57, 255, 20, 0.1), inset 0 0 30px rgba(0, 255, 136, 0.06)"
-              : "0 0 20px rgba(0, 255, 136, 0.08), 0 0 40px rgba(57, 255, 20, 0.03), inset 0 0 15px rgba(0, 255, 136, 0.03)",
+              ? "0 0 80px rgba(0, 255, 136, 0.3), 0 0 160px rgba(0, 204, 106, 0.18), inset 0 0 60px rgba(0, 255, 136, 0.05), 0 0 40px rgba(0, 255, 136, 0.2), 0 0 80px rgba(57, 255, 20, 0.1), inset 0 0 30px rgba(0, 255, 136, 0.06)"
+              : "0 0 80px rgba(0, 255, 136, 0.3), 0 0 160px rgba(0, 204, 106, 0.18), inset 0 0 60px rgba(0, 255, 136, 0.05), 0 0 20px rgba(0, 255, 136, 0.08), 0 0 40px rgba(57, 255, 20, 0.03), inset 0 0 15px rgba(0, 255, 136, 0.03)",
             transition: "all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
           }}
           onMouseEnter={() => setIsHovered(true)}
@@ -153,7 +153,7 @@ export default function GlowingPortal() {
             className="absolute rounded-full pointer-events-none"
             style={{
               inset: 50,
-              border: "1px solid rgba(13, 148, 136, 0.04)",
+              border: "1px solid rgba(0, 255, 136, 0.04)",
             }}
             animate={{
               scale: [1, 1.12, 1],

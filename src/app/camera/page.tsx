@@ -176,17 +176,17 @@ export default function CameraPage() {
     <main className="relative min-h-screen">
       <div className="relative z-10 pt-14 h-screen flex flex-col">
         {/* Header */}
-        <div className="px-4 py-2 flex items-center justify-between" style={{ background: "rgba(255, 255, 255, 0.95)", borderBottom: "1px solid rgba(0, 0, 0, 0.06)", backdropFilter: "blur(12px)" }}>
+        <div className="px-4 py-2 flex items-center justify-between" style={{ background: "rgba(5, 10, 6, 0.95)", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)" }}>
           <div className="flex items-center gap-3">
-            <h1 className="text-base font-semibold tracking-wide" style={{ color: "#0891b2" }}>Cosmic Camera</h1>
-            <span className="text-[9px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(8, 145, 178, 0.08)", color: "rgba(8, 145, 178, 0.6)", border: "1px solid rgba(8, 145, 178, 0.12)" }}>{resolution}</span>
+            <h1 className="text-base font-semibold tracking-wide" style={{ color: "#00ff88" }}>Cosmic Camera</h1>
+            <span className="text-[9px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(0, 255, 136, 0.08)", color: "rgba(0, 255, 136, 0.6)", border: "1px solid rgba(0, 255, 136, 0.12)" }}>{resolution}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <button onClick={() => setShowSettings(!showSettings)} className="p-1.5 rounded-lg transition-all text-sm"
-              style={{ background: showSettings ? "rgba(8, 145, 178, 0.08)" : "transparent", color: showSettings ? "#0891b2" : "#94a3b8", border: "1px solid rgba(0, 0, 0, 0.06)" }}
+              style={{ background: showSettings ? "rgba(0, 255, 136, 0.08)" : "transparent", color: showSettings ? "#00ff88" : "#40a070", border: "1px solid rgba(0, 255, 136, 0.08)" }}
             >⚙</button>
             <button onClick={() => setShowGallery(!showGallery)} className="p-1.5 rounded-lg transition-all text-sm"
-              style={{ background: showGallery ? "rgba(8, 145, 178, 0.08)" : "transparent", color: showGallery ? "#0891b2" : "#94a3b8", border: "1px solid rgba(0, 0, 0, 0.06)" }}
+              style={{ background: showGallery ? "rgba(0, 255, 136, 0.08)" : "transparent", color: showGallery ? "#00ff88" : "#40a070", border: "1px solid rgba(0, 255, 136, 0.08)" }}
             >
               🖼 {photos.length > 0 && <span className="text-[9px] ml-0.5">{photos.length}</span>}
             </button>
@@ -196,13 +196,13 @@ export default function CameraPage() {
         {/* Camera view */}
         <div className="flex-1 relative overflow-hidden" style={{ background: "#000" }}>
           {cameraError ? (
-            <div className="absolute inset-0 flex items-center justify-center" style={{ background: "#f8fafc" }}>
+            <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(0, 255, 136, 0.03)" }}>
               <div className="text-center p-8 max-w-md">
                 <div className="text-5xl mb-4">📸</div>
-                <h2 className="text-lg font-semibold mb-2" style={{ color: "#0f172a" }}>Camera Access Required</h2>
-                <p className="text-sm mb-6" style={{ color: "#64748b" }}>{cameraError}</p>
+                <h2 className="text-lg font-semibold mb-2" style={{ color: "#e0f5e8" }}>Camera Access Required</h2>
+                <p className="text-sm mb-6" style={{ color: "#60b890" }}>{cameraError}</p>
                 <button onClick={() => startCamera(facingMode)} className="px-6 py-3 rounded-xl text-sm font-medium transition-all"
-                  style={{ background: "rgba(8, 145, 178, 0.08)", border: "1px solid rgba(8, 145, 178, 0.2)", color: "#0891b2" }}
+                  style={{ background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.2)", color: "#00ff88" }}
                 >Try Again</button>
               </div>
             </div>
@@ -235,7 +235,7 @@ export default function CameraPage() {
               {countdown !== null && (
                 <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
                   <motion.div key={countdown} initial={{ scale: 2, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }}
-                    className="text-7xl font-bold" style={{ color: "#0891b2", textShadow: "0 2px 20px rgba(8, 145, 178, 0.3)" }}
+                    className="text-7xl font-bold" style={{ color: "#00ff88", textShadow: "0 2px 20px rgba(0, 255, 136, 0.3)" }}
                   >{countdown}</motion.div>
                 </div>
               )}
@@ -245,21 +245,21 @@ export default function CameraPage() {
                 {showSettings && (
                   <motion.div initial={{ x: 300, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: 300, opacity: 0 }}
                     className="absolute top-0 right-0 bottom-0 w-72 z-30 overflow-y-auto"
-                    style={{ background: "rgba(255, 255, 255, 0.97)", borderLeft: "1px solid rgba(0, 0, 0, 0.06)", backdropFilter: "blur(16px)" }}
+                    style={{ background: "rgba(5, 10, 6, 0.97)", borderLeft: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(16px)", boxShadow: "-4px 0 30px rgba(0, 0, 0, 0.4)" }}
                   >
                     <div className="p-4">
                       <div className="flex items-center justify-between mb-4">
-                        <span className="text-sm font-semibold" style={{ color: "#0f172a" }}>Settings</span>
-                        <button onClick={() => setShowSettings(false)} className="text-gray-400 hover:text-gray-600 transition-colors">✕</button>
+                        <span className="text-sm font-semibold" style={{ color: "#e0f5e8" }}>Settings</span>
+                        <button onClick={() => setShowSettings(false)} className="text-[#40a070] hover:text-[#00ff88] transition-colors">✕</button>
                       </div>
 
                       {/* Resolution */}
                       <div className="mb-4">
-                        <div className="text-[10px] uppercase tracking-wider mb-2 font-medium" style={{ color: "#94a3b8" }}>Resolution</div>
+                        <div className="text-[10px] uppercase tracking-wider mb-2 font-medium" style={{ color: "#40a070" }}>Resolution</div>
                         <div className="flex gap-1">
                           {(["720p", "1080p", "4K"] as const).map(r => (
                             <button key={r} onClick={() => setResolution(r)} className="flex-1 px-2 py-1.5 rounded-lg text-xs transition-all font-medium"
-                              style={{ background: resolution === r ? "rgba(8, 145, 178, 0.08)" : "transparent", color: resolution === r ? "#0891b2" : "#94a3b8", border: `1px solid ${resolution === r ? "rgba(8, 145, 178, 0.2)" : "rgba(0, 0, 0, 0.06)"}` }}
+                              style={{ background: resolution === r ? "rgba(0, 255, 136, 0.08)" : "transparent", color: resolution === r ? "#00ff88" : "#40a070", border: `1px solid ${resolution === r ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.08)"}` }}
                             >{r}</button>
                           ))}
                         </div>
@@ -267,11 +267,11 @@ export default function CameraPage() {
 
                       {/* Timer */}
                       <div className="mb-4">
-                        <div className="text-[10px] uppercase tracking-wider mb-2 font-medium" style={{ color: "#94a3b8" }}>Timer</div>
+                        <div className="text-[10px] uppercase tracking-wider mb-2 font-medium" style={{ color: "#40a070" }}>Timer</div>
                         <div className="flex gap-1">
                           {([0, 3, 5, 10] as const).map(t => (
                             <button key={t} onClick={() => setTimer(t)} className="flex-1 px-2 py-1.5 rounded-lg text-xs transition-all font-medium"
-                              style={{ background: timer === t ? "rgba(8, 145, 178, 0.08)" : "transparent", color: timer === t ? "#0891b2" : "#94a3b8", border: `1px solid ${timer === t ? "rgba(8, 145, 178, 0.2)" : "rgba(0, 0, 0, 0.06)"}` }}
+                              style={{ background: timer === t ? "rgba(0, 255, 136, 0.08)" : "transparent", color: timer === t ? "#00ff88" : "#40a070", border: `1px solid ${timer === t ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.08)"}` }}
                             >{t === 0 ? "Off" : `${t}s`}</button>
                           ))}
                         </div>
@@ -279,7 +279,7 @@ export default function CameraPage() {
 
                       {/* Adjustments */}
                       <div className="mb-4">
-                        <div className="text-[10px] uppercase tracking-wider mb-2 font-medium" style={{ color: "#94a3b8" }}>Adjustments</div>
+                        <div className="text-[10px] uppercase tracking-wider mb-2 font-medium" style={{ color: "#40a070" }}>Adjustments</div>
                         {[
                           { label: "Brightness", value: brightness, set: setBrightness, min: 50, max: 150 },
                           { label: "Contrast", value: contrast, set: setContrast, min: 50, max: 150 },
@@ -287,11 +287,11 @@ export default function CameraPage() {
                         ].map(adj => (
                           <div key={adj.label} className="mb-3">
                             <div className="flex items-center justify-between mb-1">
-                              <span className="text-[10px]" style={{ color: "#64748b" }}>{adj.label}</span>
-                              <span className="text-[10px] font-mono" style={{ color: "#0891b2" }}>{adj.value}%</span>
+                              <span className="text-[10px]" style={{ color: "#60b890" }}>{adj.label}</span>
+                              <span className="text-[10px] font-mono" style={{ color: "#00ff88" }}>{adj.value}%</span>
                             </div>
                             <input type="range" min={adj.min} max={adj.max} value={adj.value}
-                              onChange={e => adj.set(Number(e.target.value))} className="w-full" style={{ accentColor: "#0891b2" }}
+                              onChange={e => adj.set(Number(e.target.value))} className="w-full" style={{ accentColor: "#00ff88" }}
                             />
                           </div>
                         ))}
@@ -300,16 +300,16 @@ export default function CameraPage() {
                       {/* Toggles */}
                       <div className="space-y-2">
                         <button onClick={() => setShowGrid(!showGrid)} className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all"
-                          style={{ background: showGrid ? "rgba(8, 145, 178, 0.06)" : "transparent", border: "1px solid rgba(0, 0, 0, 0.06)" }}
+                          style={{ background: showGrid ? "rgba(0, 255, 136, 0.06)" : "transparent", border: "1px solid rgba(0, 255, 136, 0.08)" }}
                         >
-                          <span style={{ color: "#64748b" }}>Grid Overlay</span>
-                          <span style={{ color: showGrid ? "#0891b2" : "#cbd5e1" }}>{showGrid ? "ON" : "OFF"}</span>
+                          <span style={{ color: "#60b890" }}>Grid Overlay</span>
+                          <span style={{ color: showGrid ? "#00ff88" : "rgba(0, 255, 136, 0.15)" }}>{showGrid ? "ON" : "OFF"}</span>
                         </button>
                         <button onClick={() => setIsMirrored(!isMirrored)} className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all"
-                          style={{ background: "transparent", border: "1px solid rgba(0, 0, 0, 0.06)" }}
+                          style={{ background: "transparent", border: "1px solid rgba(0, 255, 136, 0.08)" }}
                         >
-                          <span style={{ color: "#64748b" }}>Mirror</span>
-                          <span style={{ color: isMirrored ? "#0891b2" : "#cbd5e1" }}>{isMirrored ? "ON" : "OFF"}</span>
+                          <span style={{ color: "#60b890" }}>Mirror</span>
+                          <span style={{ color: isMirrored ? "#00ff88" : "rgba(0, 255, 136, 0.15)" }}>{isMirrored ? "ON" : "OFF"}</span>
                         </button>
                       </div>
                     </div>
@@ -321,12 +321,12 @@ export default function CameraPage() {
         </div>
 
         {/* Filter selector */}
-        <div className="px-2 py-2" style={{ background: "rgba(255, 255, 255, 0.95)", borderTop: "1px solid rgba(0, 0, 0, 0.06)", backdropFilter: "blur(12px)" }}>
+        <div className="px-2 py-2" style={{ background: "rgba(5, 10, 6, 0.95)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)", boxShadow: "0 -4px 30px rgba(0, 0, 0, 0.3)" }}>
           {/* Category tabs */}
           <div className="flex gap-1 mb-2 px-1">
             {categories.map(cat => (
               <button key={cat} onClick={() => setFilterCategory(cat)} className="px-2 py-0.5 rounded-full text-[9px] uppercase tracking-wider transition-all font-medium"
-                style={{ background: filterCategory === cat ? "rgba(8, 145, 178, 0.08)" : "transparent", color: filterCategory === cat ? "#0891b2" : "#94a3b8", border: `1px solid ${filterCategory === cat ? "rgba(8, 145, 178, 0.15)" : "transparent"}` }}
+                style={{ background: filterCategory === cat ? "rgba(0, 255, 136, 0.08)" : "transparent", color: filterCategory === cat ? "#00ff88" : "#40a070", border: `1px solid ${filterCategory === cat ? "rgba(0, 255, 136, 0.15)" : "transparent"}` }}
               >{cat}</button>
             ))}
           </div>
@@ -336,27 +336,27 @@ export default function CameraPage() {
               <button key={f.type} onClick={() => setActiveFilter(f.type)}
                 className="flex-shrink-0 flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg transition-all"
                 style={{
-                  background: activeFilter === f.type ? "rgba(8, 145, 178, 0.06)" : "transparent",
-                  border: `1px solid ${activeFilter === f.type ? "rgba(8, 145, 178, 0.18)" : "rgba(0, 0, 0, 0.04)"}`,
+                  background: activeFilter === f.type ? "rgba(0, 255, 136, 0.06)" : "transparent",
+                  border: `1px solid ${activeFilter === f.type ? "rgba(0, 255, 136, 0.18)" : "rgba(0, 255, 136, 0.06)"}`,
                   minWidth: "52px",
                 }}
               >
                 <span className="text-base">{f.icon}</span>
-                <span className="text-[8px] font-medium" style={{ color: activeFilter === f.type ? "#0891b2" : "#94a3b8" }}>{f.name}</span>
+                <span className="text-[8px] font-medium" style={{ color: activeFilter === f.type ? "#00ff88" : "#40a070" }}>{f.name}</span>
               </button>
             ))}
           </div>
         </div>
 
         {/* Capture controls */}
-        <div className="px-4 py-3 flex items-center justify-between" style={{ background: "rgba(255, 255, 255, 0.95)" }}>
+        <div className="px-4 py-3 flex items-center justify-between" style={{ background: "rgba(5, 10, 6, 0.95)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 -2px 20px rgba(0, 0, 0, 0.2)" }}>
           {/* Last photo preview */}
-          <div className="w-12 h-12 rounded-lg overflow-hidden" style={{ border: "1px solid rgba(0, 0, 0, 0.08)" }}>
+          <div className="w-12 h-12 rounded-lg overflow-hidden" style={{ border: "1px solid rgba(0, 255, 136, 0.1)" }}>
             {photos.length > 0 ? (
               <img src={photos[0].url} alt="Last photo" className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center" style={{ background: "#f1f5f9" }}>
-                <span className="text-xs" style={{ color: "#cbd5e1" }}>📷</span>
+              <div className="w-full h-full flex items-center justify-center" style={{ background: "rgba(0, 255, 136, 0.06)" }}>
+                <span className="text-xs" style={{ color: "rgba(0, 255, 136, 0.15)" }}>📷</span>
               </div>
             )}
           </div>
@@ -367,21 +367,21 @@ export default function CameraPage() {
             style={{
               width: "72px",
               height: "72px",
-              background: cameraError ? "#f1f5f9" : "rgba(8, 145, 178, 0.06)",
-              border: `3px solid ${cameraError ? "#e2e8f0" : "rgba(8, 145, 178, 0.3)"}`,
+              background: cameraError ? "rgba(0, 255, 136, 0.06)" : "rgba(0, 255, 136, 0.06)",
+              border: `3px solid ${cameraError ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.3)"}`,
               cursor: cameraError ? "not-allowed" : "pointer",
-              boxShadow: cameraError ? "none" : "0 2px 12px rgba(8, 145, 178, 0.1)",
+              boxShadow: cameraError ? "none" : "0 2px 12px rgba(0, 255, 136, 0.1)",
             }}
           >
             <div className="rounded-full" style={{
               width: "56px",
               height: "56px",
-              background: cameraError ? "#e2e8f0" : "rgba(8, 145, 178, 0.15)",
+              background: cameraError ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.15)",
               transition: "transform 0.1s",
             }} />
             {timer > 0 && (
               <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold"
-                style={{ background: "rgba(8, 145, 178, 0.12)", color: "#0891b2" }}
+                style={{ background: "rgba(0, 255, 136, 0.12)", color: "#00ff88" }}
               >{timer}</div>
             )}
           </button>
@@ -389,7 +389,7 @@ export default function CameraPage() {
           {/* Camera flip */}
           <button onClick={toggleCamera}
             className="w-12 h-12 rounded-full flex items-center justify-center transition-all"
-            style={{ background: "#f1f5f9", border: "1px solid rgba(0, 0, 0, 0.06)", color: "#64748b" }}
+            style={{ background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.08)", color: "#60b890" }}
           >🔄</button>
         </div>
       </div>
@@ -398,33 +398,33 @@ export default function CameraPage() {
       <AnimatePresence>
         {showGallery && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 overflow-y-auto" style={{ background: "rgba(255, 255, 255, 0.97)", backdropFilter: "blur(16px)" }}
+            className="fixed inset-0 z-50 overflow-y-auto" style={{ background: "rgba(5, 10, 6, 0.97)", backdropFilter: "blur(16px)" }}
           >
             <div className="p-4 max-w-2xl mx-auto">
               <div className="flex items-center justify-between mb-6 pt-2">
                 <div>
-                  <h2 className="text-lg font-semibold" style={{ color: "#0f172a" }}>Gallery</h2>
-                  <p className="text-[10px]" style={{ color: "#94a3b8" }}>{photos.length} photo{photos.length !== 1 ? "s" : ""}</p>
+                  <h2 className="text-lg font-semibold" style={{ color: "#e0f5e8" }}>Gallery</h2>
+                  <p className="text-[10px]" style={{ color: "#40a070" }}>{photos.length} photo{photos.length !== 1 ? "s" : ""}</p>
                 </div>
-                <button onClick={() => setShowGallery(false)} className="p-2 rounded-lg transition-all" style={{ color: "#94a3b8" }}>✕</button>
+                <button onClick={() => setShowGallery(false)} className="p-2 rounded-lg transition-all" style={{ color: "#40a070" }}>✕</button>
               </div>
               {photos.length === 0 ? (
                 <div className="text-center py-20">
                   <div className="text-4xl mb-3">📸</div>
-                  <p className="text-sm" style={{ color: "#94a3b8" }}>No photos yet</p>
+                  <p className="text-sm" style={{ color: "#40a070" }}>No photos yet</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-3">
                   {photos.map((photo, i) => (
                     <motion.div key={photo.timestamp} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-                      className="relative rounded-xl overflow-hidden group" style={{ border: "1px solid rgba(0, 0, 0, 0.06)" }}
+                      className="relative rounded-xl overflow-hidden group" style={{ border: "1px solid rgba(0, 255, 136, 0.08)" }}
                     >
                       <img src={photo.url} alt={`Photo ${i + 1}`} className="w-full aspect-[4/3] object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                         <div className="absolute bottom-0 left-0 right-0 p-3 flex items-center justify-between">
-                          <span className="text-[9px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(255, 255, 255, 0.9)", color: "#0891b2" }}>{photo.filter}</span>
+                          <span className="text-[9px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(0, 255, 136, 0.12)", color: "#00ff88" }}>{photo.filter}</span>
                           <div className="flex gap-1.5">
-                            <button onClick={() => downloadPhoto(photo.url)} className="p-1.5 rounded-lg text-xs" style={{ background: "rgba(255,255,255,0.9)" }}>⬇</button>
+                            <button onClick={() => downloadPhoto(photo.url)} className="p-1.5 rounded-lg text-xs" style={{ background: "rgba(0, 255, 136, 0.12)" }}>⬇</button>
                             <button onClick={() => deletePhoto(i)} className="p-1.5 rounded-lg text-xs" style={{ background: "rgba(239,68,68,0.8)", color: "#fff" }}>🗑</button>
                           </div>
                         </div>

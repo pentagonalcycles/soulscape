@@ -188,21 +188,21 @@ export default function IdeasFeed() {
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-5 gap-3">
-        <div className="flex gap-1 p-1 rounded-xl flex-wrap" style={{ background: "rgba(13, 148, 136, 0.03)" }}>
+        <div className="flex gap-1 p-1 rounded-xl flex-wrap" style={{ background: "rgba(0, 255, 136, 0.03)" }}>
           {filterTabs.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveFilter(tab.key)}
               className="relative px-3 py-1.5 rounded-lg text-[11px] transition-all"
               style={{
-                background: activeFilter === tab.key ? "rgba(13, 148, 136, 0.1)" : "transparent",
-                color: activeFilter === tab.key ? "#0d9488" : "var(--text-dim, #94a3b8)",
+                background: activeFilter === tab.key ? "rgba(0, 255, 136, 0.1)" : "transparent",
+                color: activeFilter === tab.key ? "#00ff88" : "var(--text-dim, #94a3b8)",
               }}
             >
               {activeFilter === tab.key && (
                 <motion.div
                   className="absolute inset-0 rounded-lg"
-                  style={{ background: "rgba(13, 148, 136, 0.08)", border: "1px solid rgba(13, 148, 136, 0.15)" }}
+                  style={{ background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.15)" }}
                   layoutId="ideaFilterTab"
                   transition={{ duration: 0.25 }}
                 />
@@ -216,13 +216,13 @@ export default function IdeasFeed() {
         </div>
 
         {/* Sort toggle */}
-        <div className="flex gap-1 p-1 rounded-lg" style={{ background: "rgba(13, 148, 136, 0.03)" }}>
+        <div className="flex gap-1 p-1 rounded-lg" style={{ background: "rgba(0, 255, 136, 0.03)" }}>
           <button
             onClick={() => setSortBy("popular")}
             className="px-3 py-1.5 rounded-md text-[11px] transition-all"
             style={{
-              background: sortBy === "popular" ? "rgba(13, 148, 136, 0.1)" : "transparent",
-              color: sortBy === "popular" ? "#0d9488" : "var(--text-dim, #94a3b8)",
+              background: sortBy === "popular" ? "rgba(0, 255, 136, 0.1)" : "transparent",
+              color: sortBy === "popular" ? "#00ff88" : "var(--text-dim, #94a3b8)",
             }}
           >
             Popular
@@ -231,8 +231,8 @@ export default function IdeasFeed() {
             onClick={() => setSortBy("newest")}
             className="px-3 py-1.5 rounded-md text-[11px] transition-all"
             style={{
-              background: sortBy === "newest" ? "rgba(13, 148, 136, 0.1)" : "transparent",
-              color: sortBy === "newest" ? "#0d9488" : "var(--text-dim, #94a3b8)",
+              background: sortBy === "newest" ? "rgba(0, 255, 136, 0.1)" : "transparent",
+              color: sortBy === "newest" ? "#00ff88" : "var(--text-dim, #94a3b8)",
             }}
           >
             Newest
@@ -244,13 +244,13 @@ export default function IdeasFeed() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="rounded-2xl p-5 animate-pulse" style={{ background: "var(--card-bg, rgba(13,148,136,0.04))", height: "120px" }} />
+            <div key={i} className="rounded-2xl p-5 animate-pulse" style={{ background: "var(--card-bg, rgba(0,255,136,0.04))", height: "120px" }} />
           ))}
         </div>
       ) : ideas.length === 0 ? (
         <motion.div
           className="rounded-2xl p-12 text-center"
-          style={{ background: "var(--card-bg, rgba(13, 148, 136, 0.04))", border: "1px solid var(--border-subtle, rgba(13,148,136,0.1))" }}
+          style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.04))", border: "1px solid var(--border-subtle, rgba(0,255,136,0.1))" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
@@ -286,7 +286,7 @@ export default function IdeasFeed() {
 
       {/* Stats */}
       {!loading && ideas.length > 0 && (
-        <p className="text-center text-[10px] mt-6" style={{ color: "var(--text-faint, rgba(15,23,42,0.3))" }}>
+        <p className="text-center text-[10px] mt-6" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
           {ideas.length} {ideas.length === 1 ? "idea" : "ideas"} · {ideas.reduce((sum, i) => sum + i.voteCount, 0)} votes
         </p>
       )}

@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { MuralRoom } from "@/lib/mural/types";
 
 const THEME_COLORS = [
-  "#0d9488", "#06b6d4", "#8b5cf6", "#ec4899",
+  "#00ff88", "#00cc6a", "#8b5cf6", "#ec4899",
   "#f97316", "#10b981", "#3b82f6", "#ef4444",
 ];
 
@@ -20,7 +20,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
   const [newName, setNewName] = useState("");
-  const [newTheme, setNewTheme] = useState("#0d9488");
+  const [newTheme, setNewTheme] = useState("#00ff88");
   const [creating, setCreating] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [clearConfirm, setClearConfirm] = useState(false);
@@ -124,9 +124,9 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
           href="/"
           className="inline-block mb-4 px-4 py-1.5 rounded-lg text-xs cursor-pointer"
           style={{
-            background: "rgba(13, 148, 136, 0.06)",
-            border: "1px solid rgba(13, 148, 136, 0.12)",
-            color: "#0d9488",
+            background: "rgba(0, 255, 136, 0.06)",
+            border: "1px solid rgba(0, 255, 136, 0.12)",
+            color: "#00ff88",
             textDecoration: "none",
           }}
         >
@@ -136,14 +136,14 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
           className="text-4xl font-light mb-3"
           style={{
             fontFamily: "var(--font-heading)",
-            background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+            background: "linear-gradient(135deg, #00ff88, #00cc6a)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
         >
           Collaborative Mural
         </h1>
-        <p className="text-sm" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+        <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
           Paint together. Create something beautiful.
         </p>
       </motion.div>
@@ -155,8 +155,8 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
           whileTap={{ scale: 0.98 }}
           className="px-8 py-3 rounded-xl text-white text-sm font-medium cursor-pointer"
           style={{
-            background: "linear-gradient(135deg, #0d9488, #06b6d4)",
-            boxShadow: "0 4px 20px rgba(13, 148, 136, 0.3)",
+            background: "linear-gradient(135deg, #00ff88, #00cc6a)",
+            boxShadow: "0 4px 20px rgba(0, 255, 136, 0.3)",
           }}
         >
           + Create New Room
@@ -166,7 +166,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
           <>
             {clearConfirm ? (
               <div className="flex items-center gap-2">
-                <span className="text-xs" style={{ color: "rgba(15,23,42,0.4)" }}>Clear all?</span>
+                <span className="text-xs" style={{ color: "rgba(224,245,232,0.4)" }}>Clear all?</span>
                 <button
                   onClick={clearAllRooms}
                   className="px-3 py-2 rounded-xl text-xs cursor-pointer text-white"
@@ -177,7 +177,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                 <button
                   onClick={() => setClearConfirm(false)}
                   className="px-3 py-2 rounded-xl text-xs cursor-pointer"
-                  style={{ background: "rgba(13,148,136,0.06)", border: "1px solid rgba(13,148,136,0.12)", color: "rgba(15,23,42,0.5)" }}
+                  style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.12)", color: "rgba(224,245,232,0.5)" }}
                 >
                   Cancel
                 </button>
@@ -202,11 +202,11 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
       </div>
 
       {loading ? (
-        <div className="text-sm" style={{ color: "rgba(15, 23, 42, 0.3)" }}>
+        <div className="text-sm" style={{ color: "rgba(224, 245, 232, 0.3)" }}>
           Loading rooms...
         </div>
       ) : rooms.length === 0 ? (
-        <div className="text-center" style={{ color: "rgba(15, 23, 42, 0.3)" }}>
+        <div className="text-center" style={{ color: "rgba(224, 245, 232, 0.3)" }}>
           <p className="text-lg mb-2">No active rooms</p>
           <p className="text-sm">Create one to start painting together</p>
         </div>
@@ -225,9 +225,10 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
               transition={{ delay: i * 0.05 }}
               className="p-5 rounded-xl relative group"
               style={{
-                background: "rgba(13, 148, 136, 0.06)",
+                background: "rgba(0, 255, 136, 0.06)",
                 backdropFilter: "blur(12px)",
                 border: `1px solid ${room.theme}33`,
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
               }}
             >
               <button
@@ -243,14 +244,14 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                     {room.name}
                   </span>
                 </div>
-                <p className="text-xs" style={{ color: "rgba(15, 23, 42, 0.35)" }}>
+                <p className="text-xs" style={{ color: "rgba(224, 245, 232, 0.35)" }}>
                   {room.canvas_width} x {room.canvas_height}
                 </p>
               </button>
               <div className="mt-3 flex gap-2">
                   {deleteConfirm === room.id ? (
                     <>
-                      <span className="text-xs py-1" style={{ color: "rgba(15,23,42,0.4)" }}>Delete?</span>
+                      <span className="text-xs py-1" style={{ color: "rgba(224,245,232,0.4)" }}>Delete?</span>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -268,7 +269,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                           setDeleteConfirm(null);
                         }}
                         className="px-2 py-1 rounded text-xs cursor-pointer"
-                        style={{ background: "rgba(13,148,136,0.06)", border: "1px solid rgba(13,148,136,0.12)", color: "rgba(15,23,42,0.5)" }}
+                        style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.12)", color: "rgba(224,245,232,0.5)" }}
                       >
                         No
                       </button>
@@ -316,7 +317,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
               style={{
                 background: "var(--card-bg, rgba(255,255,255,0.95))",
                 backdropFilter: "blur(16px)",
-                border: "1px solid rgba(13, 148, 136, 0.12)",
+                border: "1px solid rgba(0, 255, 136, 0.12)",
                 touchAction: "manipulation",
               }}
             >
@@ -324,7 +325,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                 className="text-xl mb-4 font-light"
                 style={{
                   fontFamily: "var(--font-heading)",
-                  background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                  background: "linear-gradient(135deg, #00ff88, #00cc6a)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -340,8 +341,8 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                 maxLength={40}
                 className="w-full px-4 py-2.5 rounded-lg text-sm mb-4 outline-none"
                 style={{
-                  background: "rgba(13, 148, 136, 0.06)",
-                  border: "1px solid rgba(13, 148, 136, 0.12)",
+                  background: "rgba(0, 255, 136, 0.06)",
+                  border: "1px solid rgba(0, 255, 136, 0.12)",
                   color: "#0f172a",
                   touchAction: "manipulation",
                 }}
@@ -354,7 +355,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                 </p>
               )}
 
-              <p className="text-xs mb-2" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+              <p className="text-xs mb-2" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
                 Theme color
               </p>
               <div className="flex gap-2 mb-5">
@@ -377,9 +378,9 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                   onClick={() => { setShowCreate(false); setError(null); }}
                   className="flex-1 px-4 py-2 rounded-lg text-sm cursor-pointer"
                   style={{
-                    background: "rgba(13, 148, 136, 0.06)",
-                    border: "1px solid rgba(13, 148, 136, 0.12)",
-                    color: "rgba(15, 23, 42, 0.6)",
+                    background: "rgba(0, 255, 136, 0.06)",
+                    border: "1px solid rgba(0, 255, 136, 0.12)",
+                    color: "rgba(224, 245, 232, 0.6)",
                   }}
                 >
                   Cancel
@@ -389,7 +390,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                   disabled={!newName.trim() || creating}
                   className="flex-1 px-4 py-2 rounded-lg text-sm text-white cursor-pointer disabled:opacity-50"
                   style={{
-                    background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                    background: "linear-gradient(135deg, #00ff88, #00cc6a)",
                   }}
                 >
                   {creating ? "Creating..." : "Create"}

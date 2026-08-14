@@ -277,7 +277,7 @@ export default function AdminPage() {
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at center, transparent 40%, rgba(13, 148, 136, 0.03) 100%)",
+          background: "radial-gradient(ellipse at center, transparent 40%, rgba(0, 255, 136, 0.03) 100%)",
           zIndex: 2,
         }}
       />
@@ -341,7 +341,7 @@ export default function AdminPage() {
                                 }
                               }}
                               className="w-20 px-2 py-1 rounded text-xs text-elovayne-light text-right"
-                              style={{ background: "rgba(13, 148, 136, 0.06)", border: "1px solid rgba(13, 148, 136, 0.15)" }}
+                              style={{ background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.15)" }}
                             />
                             <button
                               onClick={() => {
@@ -520,9 +520,9 @@ export default function AdminPage() {
                       onChange={(e) => setUserSearch(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && fetchUsers()}
                       className="flex-1 px-4 py-2.5 rounded-xl text-sm outline-none"
-                      style={{ background: "var(--input-bg, rgba(13,148,136,0.06))", border: "1px solid var(--border-subtle, rgba(13,148,136,0.12))", color: "var(--text-primary, #0f172a)" }}
+                      style={{ background: "var(--input-bg, rgba(0,255,136,0.06))", border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))", color: "var(--text-primary, #e0f5e8)" }}
                     />
-                    <button onClick={fetchUsers} className="px-4 py-2.5 rounded-xl text-sm" style={{ background: "var(--card-bg, rgba(13,148,136,0.06))", border: "1px solid var(--border-subtle, rgba(13,148,136,0.12))", color: "var(--text-secondary, #334155)" }}>
+                    <button onClick={fetchUsers} className="px-4 py-2.5 rounded-xl text-sm" style={{ background: "var(--card-bg, rgba(0,255,136,0.06))", border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))", color: "var(--text-secondary, #e2e8f0)" }}>
                       Search
                     </button>
                   </div>
@@ -540,9 +540,9 @@ export default function AdminPage() {
                         <div className="sanctuary-glass-card rounded-xl p-6">
                           <div className="flex items-start justify-between mb-4">
                             <div>
-                              <h3 className="text-lg font-heading" style={{ color: "var(--text-primary, #0f172a)" }}>{userDetail.profile.display_name || "Anonymous"}</h3>
+                              <h3 className="text-lg font-heading" style={{ color: "var(--text-primary, #e0f5e8)" }}>{userDetail.profile.display_name || "Anonymous"}</h3>
                               <p className="text-xs" style={{ color: "var(--text-dim, #94a3b8)" }}>{userDetail.profile.identity_type} · Joined {formatDate(userDetail.profile.created_at)}</p>
-                              {userDetail.profile.bio && <p className="text-sm mt-2" style={{ color: "var(--text-secondary, #334155)" }}>{userDetail.profile.bio}</p>}
+                              {userDetail.profile.bio && <p className="text-sm mt-2" style={{ color: "var(--text-secondary, #e2e8f0)" }}>{userDetail.profile.bio}</p>}
                               {userDetail.profile.is_banned && (
                                 <div className="mt-2 flex items-center gap-2">
                                   <span className="px-2 py-0.5 rounded-full text-xs bg-red-500/20 text-red-400">Banned</span>
@@ -559,14 +559,14 @@ export default function AdminPage() {
                                     value={banReason}
                                     onChange={(e) => setBanReason(e.target.value)}
                                     className="px-3 py-1.5 rounded-lg text-xs outline-none w-48"
-                                    style={{ background: "var(--input-bg, rgba(13,148,136,0.06))", border: "1px solid rgba(239, 68, 68, 0.2)", color: "var(--text-primary, #0f172a)" }}
+                                    style={{ background: "var(--input-bg, rgba(0,255,136,0.06))", border: "1px solid rgba(239, 68, 68, 0.2)", color: "var(--text-primary, #e0f5e8)" }}
                                     autoFocus
                                   />
                                   <div className="flex gap-2">
                                     <button onClick={() => toggleBan(selectedUser, userDetail.profile.is_banned)} className="px-3 py-1.5 text-xs rounded-lg bg-red-500 text-white">
                                       {userDetail.profile.is_banned ? "Unban" : "Ban"}
                                     </button>
-                                    <button onClick={() => { setBanConfirm(null); setBanReason(""); }} className="px-3 py-1.5 text-xs rounded-lg" style={{ background: "var(--card-bg, rgba(13,148,136,0.06))", border: "1px solid var(--border-subtle, rgba(13,148,136,0.12))" }}>
+                                    <button onClick={() => { setBanConfirm(null); setBanReason(""); }} className="px-3 py-1.5 text-xs rounded-lg" style={{ background: "var(--card-bg, rgba(0,255,136,0.06))", border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))" }}>
                                       Cancel
                                     </button>
                                   </div>
@@ -588,8 +588,8 @@ export default function AdminPage() {
                                 </h4>
                                 <div className="space-y-2">
                                   {items.map((item) => (
-                                    <div key={item.id} className="flex items-start justify-between gap-3 p-3 rounded-lg" style={{ background: "var(--card-bg, rgba(13,148,136,0.03))" }}>
-                                      <p className="text-sm line-clamp-2 flex-1" style={{ color: "var(--text-secondary, #334155)" }}>
+                                    <div key={item.id} className="flex items-start justify-between gap-3 p-3 rounded-lg" style={{ background: "var(--card-bg, rgba(0,255,136,0.03))" }}>
+                                      <p className="text-sm line-clamp-2 flex-1" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                                         {item.content || item.title || item.message || item.description || "No content"}
                                       </p>
                                       <div className="flex items-center gap-2 shrink-0">
@@ -597,7 +597,7 @@ export default function AdminPage() {
                                         {deleteConfirm === item.id ? (
                                           <div className="flex gap-1">
                                             <button onClick={() => deleteContent(item.id, type === "wish_lanterns" ? "wish_lanterns" : type === "stargazer_messages" ? "stargazer" : type)} className="px-2 py-1 rounded text-xs bg-red-500 text-white">Yes</button>
-                                            <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 rounded text-xs" style={{ background: "var(--card-bg, rgba(13,148,136,0.06))", border: "1px solid var(--border-subtle, rgba(13,148,136,0.12))" }}>No</button>
+                                            <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 rounded text-xs" style={{ background: "var(--card-bg, rgba(0,255,136,0.06))", border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))" }}>No</button>
                                           </div>
                                         ) : (
                                           <button onClick={() => setDeleteConfirm(item.id)} className="px-2 py-1 rounded text-xs text-red-400" style={{ background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.15)" }}>Delete</button>
@@ -625,12 +625,12 @@ export default function AdminPage() {
                         {users.map((u) => (
                           <div key={u.id} className="sanctuary-glass-card rounded-xl p-4 flex items-center justify-between gap-4 cursor-pointer hover:opacity-90 transition-opacity" onClick={() => fetchUserDetail(u.id)}>
                             <div className="flex items-center gap-3 min-w-0">
-                              <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium shrink-0" style={{ background: "var(--card-bg, rgba(13,148,136,0.06))", border: "1px solid var(--border-subtle, rgba(13,148,136,0.12))", color: "var(--text-secondary, #334155)" }}>
+                              <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium shrink-0" style={{ background: "var(--card-bg, rgba(0,255,136,0.06))", border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))", color: "var(--text-secondary, #e2e8f0)" }}>
                                 {(u.display_name || "A")[0].toUpperCase()}
                               </div>
                               <div className="min-w-0">
                                 <div className="flex items-center gap-2">
-                                  <span className="text-sm font-medium truncate" style={{ color: "var(--text-primary, #0f172a)" }}>{u.display_name || "Anonymous"}</span>
+                                  <span className="text-sm font-medium truncate" style={{ color: "var(--text-primary, #e0f5e8)" }}>{u.display_name || "Anonymous"}</span>
                                   {u.is_banned && <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-red-500/20 text-red-400">Banned</span>}
                                 </div>
                                 <p className="text-xs" style={{ color: "var(--text-dim, #94a3b8)" }}>{u.identity_type} · {formatDate(u.created_at)}</p>
@@ -690,7 +690,7 @@ export default function AdminPage() {
                           {deleteConfirm === item.id ? (
                             <div className="flex gap-1 shrink-0">
                               <button onClick={() => deleteContent(item.id, item._type)} className="px-2 py-1 rounded text-xs bg-red-500 text-white">Delete</button>
-                              <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 rounded text-xs" style={{ background: "var(--card-bg, rgba(13,148,136,0.06))", border: "1px solid var(--border-subtle, rgba(13,148,136,0.12))" }}>Cancel</button>
+                              <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 rounded text-xs" style={{ background: "var(--card-bg, rgba(0,255,136,0.06))", border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))" }}>Cancel</button>
                             </div>
                           ) : (
                             <button onClick={() => setDeleteConfirm(item.id)} className="px-3 py-1.5 text-xs rounded-lg text-red-400 shrink-0" style={{ background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.15)" }}>Delete</button>

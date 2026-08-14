@@ -39,7 +39,7 @@ const moodGlowColors: Record<string, string> = {
   "✨": "0 0 14px rgba(16, 185, 129, 0.45)",       // Hopeful — gold
   "🌿": "0 0 14px rgba(50, 200, 160, 0.4)",        // Healing — green/teal
   "☁️": "0 0 14px rgba(160, 140, 210, 0.35)",      // Drifting — soft violet
-  "💫": "0 0 14px rgba(6, 182, 212, 0.4)",       // Grateful — warm pink
+  "💫": "0 0 14px rgba(0, 204, 106, 0.4)",       // Grateful — warm pink
   "🦋": "0 0 14px rgba(147, 130, 220, 0.5)",       // Transforming — purple
   "🌊": "0 0 14px rgba(80, 180, 220, 0.45)",       // Flowing — ocean blue
   "🔮": "0 0 14px rgba(180, 100, 255, 0.5)",       // Mystical — deep violet
@@ -122,7 +122,7 @@ export default function SanctuaryComposer({ onSubmit, externalExpand, onExpandCh
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           whileHover={{
-            boxShadow: "0 0 30px rgba(13, 148, 136, 0.2)",
+            boxShadow: "0 0 30px rgba(0, 255, 136, 0.2)",
           }}
           aria-label="Open post composer"
         >
@@ -137,6 +137,10 @@ export default function SanctuaryComposer({ onSubmit, externalExpand, onExpandCh
         <motion.div
           key="composer"
           className="rounded-2xl sanctuary-glass-card overflow-visible"
+          style={{
+            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+            backdropFilter: "blur(16px)",
+          }}
           initial={{ opacity: 0, y: 20, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -171,14 +175,18 @@ export default function SanctuaryComposer({ onSubmit, externalExpand, onExpandCh
                   rows={4}
                   className="w-full bg-elovayne-void/40 border border-elovayne-violet/15 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-elovayne-light placeholder-elovayne-dim/70 resize-none focus:outline-none transition-colors font-body text-xs sm:text-sm leading-relaxed"
                   style={isTextareaFocused ? {
-                    borderColor: "rgba(13, 148, 136, 0.35)",
-                    boxShadow: "0 0 15px rgba(13, 148, 136, 0.08), inset 0 0 15px rgba(13, 148, 136, 0.03)",
-                  } : undefined}
+                    border: "1px solid rgba(0, 255, 136, 0.12)",
+                    background: "rgba(0, 255, 136, 0.04)",
+                    boxShadow: "0 0 20px rgba(0, 255, 136, 0.08)",
+                  } : {
+                    border: "1px solid rgba(0, 255, 136, 0.12)",
+                    background: "rgba(0, 255, 136, 0.04)",
+                  }}
                   animate={isTextareaFocused ? {
                     boxShadow: [
-                      "0 0 15px rgba(13, 148, 136, 0.08), inset 0 0 15px rgba(13, 148, 136, 0.03)",
-                      "0 0 25px rgba(13, 148, 136, 0.14), inset 0 0 25px rgba(13, 148, 136, 0.05)",
-                      "0 0 15px rgba(13, 148, 136, 0.08), inset 0 0 15px rgba(13, 148, 136, 0.03)",
+                      "0 0 15px rgba(0, 255, 136, 0.08), inset 0 0 15px rgba(0, 255, 136, 0.03)",
+                      "0 0 25px rgba(0, 255, 136, 0.14), inset 0 0 25px rgba(0, 255, 136, 0.05)",
+                      "0 0 15px rgba(0, 255, 136, 0.08), inset 0 0 15px rgba(0, 255, 136, 0.03)",
                     ],
                   } : {}}
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -291,13 +299,13 @@ export default function SanctuaryComposer({ onSubmit, externalExpand, onExpandCh
                     className="relative px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-body text-xs sm:text-sm text-elovayne-light transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed overflow-hidden"
                     style={{
                       background: content.trim() && !isOverLimit
-                        ? "linear-gradient(135deg, rgba(50, 30, 90, 0.7), rgba(13, 148, 136, 0.7))"
+                        ? "linear-gradient(135deg, rgba(50, 30, 90, 0.7), rgba(0, 255, 136, 0.7))"
                         : "rgba(50, 30, 90, 0.2)",
                       boxShadow: content.trim() && !isOverLimit
-                        ? "0 0 25px rgba(13, 148, 136, 0.3)"
+                        ? "0 2px 16px rgba(0, 255, 136, 0.2)"
                         : "none",
                     }}
-                    whileHover={content.trim() && !isOverLimit ? { scale: 1.03, boxShadow: "0 0 30px rgba(13, 148, 136, 0.4)" } : {}}
+                    whileHover={content.trim() && !isOverLimit ? { scale: 1.03, boxShadow: "0 0 30px rgba(0, 255, 136, 0.4)" } : {}}
                     whileTap={content.trim() && !isOverLimit ? { scale: 0.97 } : {}}
                     aria-label="Share post"
                   >

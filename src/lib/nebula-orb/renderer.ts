@@ -1153,7 +1153,7 @@ function drawSingularity(ctx: CanvasRenderingContext2D, sig: Singularity) {
     const jetGrad = ctx.createLinearGradient(0, 0, 0, jetLen);
     jetGrad.addColorStop(0, `rgba(100, 200, 255, ${0.3 * pulse})`);
     jetGrad.addColorStop(0.3, `rgba(150, 100, 255, ${0.15 * pulse})`);
-    jetGrad.addColorStop(1, "rgba(6, 182, 212, 0)");
+    jetGrad.addColorStop(1, "rgba(0, 204, 106, 0)");
 
     ctx.fillStyle = jetGrad;
     ctx.beginPath();
@@ -1189,7 +1189,7 @@ function drawSingularity(ctx: CanvasRenderingContext2D, sig: Singularity) {
     const debrisY = Math.sin(angle) * dist * 0.3;
     const debrisAlpha = 0.2 + Math.sin(t * 3 + i * 1.5) * 0.15;
 
-    ctx.fillStyle = `rgba(13, 148, 136, ${debrisAlpha})`;
+    ctx.fillStyle = `rgba(0, 255, 136, ${debrisAlpha})`;
     ctx.beginPath();
     ctx.arc(debrisX, debrisY, 1.5, 0, Math.PI * 2);
     ctx.fill();
@@ -1202,7 +1202,7 @@ function drawSingularity(ctx: CanvasRenderingContext2D, sig: Singularity) {
     const tendrilAngle = (Math.PI * 2 * i) / 6 + t * 0.5;
     const tendrilLen = sig.radius * (1.5 + Math.sin(t * 2 + i) * 0.5);
 
-    ctx.strokeStyle = `rgba(13, 148, 136, ${0.08 + Math.sin(t * 3 + i) * 0.05})`;
+    ctx.strokeStyle = `rgba(0, 255, 136, ${0.08 + Math.sin(t * 3 + i) * 0.05})`;
     ctx.lineWidth = 0.8;
     ctx.beginPath();
 
@@ -2433,7 +2433,7 @@ function drawMassPulse(ctx: CanvasRenderingContext2D, orb: Orb) {
   const progress = orb.massPulseRadius / 200;
   const alpha = (1 - progress) * 0.5;
 
-  ctx.strokeStyle = `rgba(13, 148, 136, ${alpha})`;
+  ctx.strokeStyle = `rgba(0, 255, 136, ${alpha})`;
   ctx.lineWidth = 3;
   ctx.beginPath();
   ctx.arc(orb.x, orb.y, orb.massPulseRadius, 0, Math.PI * 2);

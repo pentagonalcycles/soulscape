@@ -13,8 +13,8 @@ interface DeathScreenProps {
 
 function getRating(kills: number, score: number): { label: string; color: string; glow: string } {
   if (kills >= 20 || score >= 5000) return { label: "Legendary", color: "#10b981", glow: "rgba(16, 185, 129, 0.4)" };
-  if (kills >= 15 || score >= 3000) return { label: "Mythic", color: "#0d9488", glow: "rgba(13, 148, 136, 0.4)" };
-  if (kills >= 10 || score >= 2000) return { label: "Champion", color: "#06b6d4", glow: "rgba(6, 182, 212, 0.4)" };
+  if (kills >= 15 || score >= 3000) return { label: "Mythic", color: "#00ff88", glow: "rgba(0, 255, 136, 0.4)" };
+  if (kills >= 10 || score >= 2000) return { label: "Champion", color: "#00cc6a", glow: "rgba(0, 204, 106, 0.4)" };
   if (kills >= 7 || score >= 1200) return { label: "Expert", color: "#22d3ee", glow: "rgba(34, 211, 238, 0.4)" };
   if (kills >= 5 || score >= 800) return { label: "Skilled", color: "#14b8a6", glow: "rgba(20, 184, 166, 0.4)" };
   if (kills >= 3 || score >= 400) return { label: "Promising", color: "#5eead4", glow: "rgba(94, 234, 212, 0.4)" };
@@ -34,16 +34,16 @@ export default function DeathScreen({ score, kills, timeSurvived, onPlayAgain, o
 
   // Dark game aesthetic
   const panelBg = "rgba(15, 15, 35, 0.95)";
-  const panelBorder = "rgba(13, 148, 136, 0.2)";
+  const panelBorder = "rgba(0, 255, 136, 0.2)";
   const textPrimary = "#e2e8f0";
   const textSecondary = "#94a3b8";
-  const statBg = "rgba(13, 148, 136, 0.08)";
-  const statBorder = "rgba(13, 148, 136, 0.12)";
+  const statBg = "rgba(0, 255, 136, 0.08)";
+  const statBorder = "rgba(0, 255, 136, 0.12)";
 
   const stats = [
-    { label: "Final Score", value: Math.round(score).toLocaleString(), color: "#0d9488" },
+    { label: "Final Score", value: Math.round(score).toLocaleString(), color: "#00ff88" },
     { label: "Eliminations", value: kills.toString(), color: "#10b981" },
-    { label: "Time Survived", value: formatTime(timeSurvived), color: "#06b6d4" },
+    { label: "Time Survived", value: formatTime(timeSurvived), color: "#00cc6a" },
     { label: "Score/Kill", value: scorePerKill.toLocaleString(), color: "#14b8a6" },
   ];
 
@@ -123,10 +123,10 @@ export default function DeathScreen({ score, kills, timeSurvived, onPlayAgain, o
             onClick={onPlayAgain}
             className={isMobile ? "w-full py-4 rounded-xl text-base cursor-pointer" : "w-full py-3 rounded-xl text-sm cursor-pointer"}
             style={{
-              background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+              background: "linear-gradient(135deg, #00ff88, #00cc6a)",
               color: "#fff",
-              border: "1px solid rgba(13, 148, 136, 0.3)",
-              boxShadow: "0 4px 20px rgba(13, 148, 136, 0.25)",
+              border: "1px solid rgba(0, 255, 136, 0.3)",
+              boxShadow: "0 4px 20px rgba(0, 255, 136, 0.25)",
               fontWeight: 500,
             }}
             whileHover={{ scale: 1.02 }}

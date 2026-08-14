@@ -58,7 +58,7 @@ export default function IdeasPage() {
             <a
               href="/"
               className="text-xs hover:opacity-50 transition-opacity"
-              style={{ color: "var(--text-faint, rgba(15, 23, 42, 0.3))", textDecoration: "none", fontSize: "11px", letterSpacing: "0.05em" }}
+              style={{ color: "var(--text-faint, rgba(224, 245, 232, 0.3))", textDecoration: "none", fontSize: "11px", letterSpacing: "0.05em" }}
             >
               ← Return home
             </a>

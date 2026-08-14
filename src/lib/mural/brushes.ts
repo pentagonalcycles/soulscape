@@ -45,7 +45,7 @@ export const BRUSH_PRESETS: { type: BrushType; name: string; icon: string; descr
 
 export const COLOR_PALETTE = [
   ["#000000", "#374151", "#6b7280", "#9ca3af", "#d1d5db", "#ffffff"],
-  ["#0369a1", "#0ea5e9", "#38bdf8", "#0d9488", "#14b8a6", "#2dd4bf"],
+  ["#0369a1", "#0ea5e9", "#38bdf8", "#00ff88", "#14b8a6", "#2dd4bf"],
   ["#065f46", "#059669", "#10b981", "#34d399", "#84cc16", "#a3e635"],
   ["#dc2626", "#ef4444", "#f97316", "#f59e0b", "#eab308", "#fbbf24"],
   ["#7c3aed", "#8b5cf6", "#a855f7", "#ec4899", "#f472b6", "#fb7185"],

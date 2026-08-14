@@ -310,8 +310,8 @@ const GameCanvas = forwardRef<GameCanvasRef, GameCanvasProps>(({ state, onDeath,
         // Joystick base
         ctx.save();
         ctx.globalAlpha = 0.25;
-        ctx.fillStyle = "rgba(13, 148, 136, 0.15)";
-        ctx.strokeStyle = "rgba(13, 148, 136, 0.4)";
+        ctx.fillStyle = "rgba(0, 255, 136, 0.15)";
+        ctx.strokeStyle = "rgba(0, 255, 136, 0.4)";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(base.x, base.y, JOYSTICK_RADIUS, 0, Math.PI * 2);
@@ -322,7 +322,7 @@ const GameCanvas = forwardRef<GameCanvasRef, GameCanvasProps>(({ state, onDeath,
         const knobX = base.x + joy.dx * JOYSTICK_RADIUS;
         const knobY = base.y + joy.dy * JOYSTICK_RADIUS;
         ctx.globalAlpha = joy.active ? 0.5 : 0.35;
-        ctx.fillStyle = "#0d9488";
+        ctx.fillStyle = "#00ff88";
         ctx.beginPath();
         ctx.arc(knobX, knobY, JOYSTICK_KNOB_RADIUS, 0, Math.PI * 2);
         ctx.fill();
@@ -331,8 +331,8 @@ const GameCanvas = forwardRef<GameCanvasRef, GameCanvasProps>(({ state, onDeath,
         // Boost button
         ctx.save();
         ctx.globalAlpha = isBoostingRef.current ? 0.55 : 0.3;
-        ctx.fillStyle = isBoostingRef.current ? "#10b981" : "rgba(13, 148, 136, 0.2)";
-        ctx.strokeStyle = isBoostingRef.current ? "#34d399" : "rgba(13, 148, 136, 0.4)";
+        ctx.fillStyle = isBoostingRef.current ? "#10b981" : "rgba(0, 255, 136, 0.2)";
+        ctx.strokeStyle = isBoostingRef.current ? "#34d399" : "rgba(0, 255, 136, 0.4)";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.roundRect(boost.x - BOOST_BTN_SIZE / 2, boost.y - BOOST_BTN_SIZE / 2, BOOST_BTN_SIZE, BOOST_BTN_SIZE, 14);

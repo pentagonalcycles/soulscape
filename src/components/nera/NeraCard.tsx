@@ -22,15 +22,15 @@ export default function NeraCard({ nera, onClick, onDelete }: NeraCardProps) {
     <motion.div
       className="group rounded-2xl overflow-hidden cursor-pointer"
       style={{
-        background: "var(--card-bg, rgba(13, 148, 136, 0.04))",
+        background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        border: "1px solid var(--border-subtle, rgba(13, 148, 136, 0.07))",
-        boxShadow: "0 1px 2px rgba(13, 148, 136, 0.03), 0 4px 12px rgba(13, 148, 136, 0.02)",
+        border: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.07))",
+        boxShadow: "0 1px 2px rgba(0, 255, 136, 0.03), 0 4px 12px rgba(0, 255, 136, 0.02)",
       }}
       whileHover={{
         y: -4,
-        boxShadow: "0 8px 32px rgba(13, 148, 136, 0.08), 0 2px 8px rgba(13, 148, 136, 0.04)",
+        boxShadow: "0 8px 32px rgba(0, 255, 136, 0.08), 0 2px 8px rgba(0, 255, 136, 0.04)",
         transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
       }}
       whileTap={{ scale: 0.985 }}
@@ -108,7 +108,7 @@ export default function NeraCard({ nera, onClick, onDelete }: NeraCardProps) {
               {nera.is_online ? "Online" : nera.approximate_location || nera.city || "Location TBD"}
             </span>
             {nera.distance_miles !== undefined && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "rgba(13, 148, 136, 0.06)", color: "#0d9488" }}>
+              <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "rgba(0, 255, 136, 0.06)", color: "#00ff88" }}>
                 {nera.distance_miles.toFixed(1)} mi
               </span>
             )}
@@ -140,7 +140,7 @@ export default function NeraCard({ nera, onClick, onDelete }: NeraCardProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-4" style={{ borderTop: "1px solid rgba(13, 148, 136, 0.06)" }}>
+        <div className="flex items-center justify-between pt-4" style={{ borderTop: "1px solid rgba(0, 255, 136, 0.06)" }}>
           {/* Left: attendees + host */}
           <div className="flex items-center gap-3">
             {/* Avatar stack */}
@@ -162,7 +162,7 @@ export default function NeraCard({ nera, onClick, onDelete }: NeraCardProps) {
               {nera.current_participants > 3 && (
                 <div
                   className="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-medium ring-2 ring-white"
-                  style={{ background: "rgba(13, 148, 136, 0.06)", color: "var(--text-muted, #64748b)" }}
+                  style={{ background: "rgba(0, 255, 136, 0.06)", color: "var(--text-muted, #64748b)" }}
                 >
                   +{nera.current_participants - 3}
                 </div>
@@ -194,7 +194,7 @@ export default function NeraCard({ nera, onClick, onDelete }: NeraCardProps) {
                     <button
                       onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); }}
                       className="text-[11px] px-2 py-1 rounded-lg"
-                      style={{ background: "var(--card-bg, rgba(13,148,136,0.06))", border: "1px solid var(--border-subtle, rgba(13,148,136,0.12))" }}
+                      style={{ background: "var(--card-bg, rgba(0,255,136,0.06))", border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))" }}
                     >
                       Cancel
                     </button>
@@ -213,11 +213,11 @@ export default function NeraCard({ nera, onClick, onDelete }: NeraCardProps) {
             <motion.button
               className="text-[12px] px-4 py-2 rounded-xl font-medium transition-colors"
               style={{
-                background: "rgba(13, 148, 136, 0.06)",
-                color: "#0d9488",
-                border: "1px solid rgba(13, 148, 136, 0.1)",
+                background: "rgba(0, 255, 136, 0.06)",
+                color: "#00ff88",
+                border: "1px solid rgba(0, 255, 136, 0.1)",
               }}
-              whileHover={{ background: "rgba(13, 148, 136, 0.1)", borderColor: "rgba(13, 148, 136, 0.18)" }}
+              whileHover={{ background: "rgba(0, 255, 136, 0.1)", borderColor: "rgba(0, 255, 136, 0.18)" }}
               onClick={(e) => { e.stopPropagation(); onClick(); }}
             >
               View Nera

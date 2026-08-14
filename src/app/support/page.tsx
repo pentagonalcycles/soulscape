@@ -51,7 +51,7 @@ const resources = [
     title: "International Association for Suicide Prevention",
     desc: "Crisis centers worldwide",
     link: "https://www.iasp.info/resources/Crisis_Centres/",
-    color: "#0d9488",
+    color: "#00ff88",
   },
   {
     icon: "💜",
@@ -86,14 +86,15 @@ export default function SupportPage() {
             <h1
               className="text-3xl sm:text-4xl font-light tracking-wide mb-3"
               style={{
-                background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                background: "linear-gradient(135deg, #00ff88, #00cc6a)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
+                textShadow: "0 0 30px rgba(0, 255, 136, 0.2), 0 0 60px rgba(57, 255, 20, 0.08)",
               }}
             >
               We&apos;re Here For You
             </h1>
-            <p className="text-sm" style={{ color: "rgba(15, 23, 42, 0.5)" }}>
+            <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.5)" }}>
               No question is too small. No concern is too quiet. You are not alone.
             </p>
           </motion.div>
@@ -109,14 +110,16 @@ export default function SupportPage() {
               href="/faq"
               className="p-5 rounded-2xl text-center transition-all hover:scale-[1.02]"
               style={{
-                background: "rgba(13, 148, 136, 0.04)",
-                border: "1px solid rgba(13, 148, 136, 0.1)",
+                background: "rgba(0, 255, 136, 0.04)",
+                border: "1px solid rgba(0, 255, 136, 0.1)",
                 textDecoration: "none",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+                backdropFilter: "blur(8px)",
               }}
             >
               <div className="text-2xl mb-2">📖</div>
-              <div className="text-sm font-medium" style={{ color: "rgba(15, 23, 42, 0.9)" }}>FAQ</div>
-              <div className="text-[10px]" style={{ color: "rgba(15, 23, 42, 0.4)" }}>Common questions</div>
+              <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>FAQ</div>
+              <div className="text-[10px]" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Common questions</div>
             </Link>
             <a
               href="https://discord.gg/elovayne"
@@ -124,40 +127,46 @@ export default function SupportPage() {
               rel="noopener noreferrer"
               className="p-5 rounded-2xl text-center transition-all hover:scale-[1.02]"
               style={{
-                background: "rgba(13, 148, 136, 0.04)",
-                border: "1px solid rgba(13, 148, 136, 0.1)",
+                background: "rgba(0, 255, 136, 0.04)",
+                border: "1px solid rgba(0, 255, 136, 0.1)",
                 textDecoration: "none",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+                backdropFilter: "blur(8px)",
               }}
             >
               <div className="text-2xl mb-2">💬</div>
-              <div className="text-sm font-medium" style={{ color: "rgba(15, 23, 42, 0.9)" }}>Discord</div>
-              <div className="text-[10px]" style={{ color: "rgba(15, 23, 42, 0.4)" }}>Join our community</div>
+              <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>Discord</div>
+              <div className="text-[10px]" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Join our community</div>
             </a>
             <a
               href="mailto:support@elovayne.com"
               className="p-5 rounded-2xl text-center transition-all hover:scale-[1.02]"
               style={{
-                background: "rgba(13, 148, 136, 0.04)",
-                border: "1px solid rgba(13, 148, 136, 0.1)",
+                background: "rgba(0, 255, 136, 0.04)",
+                border: "1px solid rgba(0, 255, 136, 0.1)",
                 textDecoration: "none",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+                backdropFilter: "blur(8px)",
               }}
             >
               <div className="text-2xl mb-2">📧</div>
-              <div className="text-sm font-medium" style={{ color: "rgba(15, 23, 42, 0.9)" }}>Email</div>
-              <div className="text-[10px]" style={{ color: "rgba(15, 23, 42, 0.4)" }}>support@elovayne.com</div>
+              <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>Email</div>
+              <div className="text-[10px]" style={{ color: "rgba(224, 245, 232, 0.4)" }}>support@elovayne.com</div>
             </a>
             <Link
               href="/about"
               className="p-5 rounded-2xl text-center transition-all hover:scale-[1.02]"
               style={{
-                background: "rgba(13, 148, 136, 0.04)",
-                border: "1px solid rgba(13, 148, 136, 0.1)",
+                background: "rgba(0, 255, 136, 0.04)",
+                border: "1px solid rgba(0, 255, 136, 0.1)",
                 textDecoration: "none",
+                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+                backdropFilter: "blur(8px)",
               }}
             >
               <div className="text-2xl mb-2">✨</div>
-              <div className="text-sm font-medium" style={{ color: "rgba(15, 23, 42, 0.9)" }}>About</div>
-              <div className="text-[10px]" style={{ color: "rgba(15, 23, 42, 0.4)" }}>Our story</div>
+              <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>About</div>
+              <div className="text-[10px]" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Our story</div>
             </Link>
           </motion.div>
 
@@ -168,7 +177,7 @@ export default function SupportPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h2 className="text-lg font-light mb-4" style={{ color: "rgba(15, 23, 42, 0.9)" }}>
+            <h2 className="text-lg font-light mb-4" style={{ color: "rgba(224, 245, 232, 0.9)" }}>
               Frequently Asked
             </h2>
             <div className="space-y-2">
@@ -177,8 +186,10 @@ export default function SupportPage() {
                   key={i}
                   className="rounded-xl overflow-hidden"
                   style={{
-                    background: openFaq === i ? "rgba(13, 148, 136, 0.06)" : "rgba(13, 148, 136, 0.03)",
-                    border: `1px solid ${openFaq === i ? "rgba(13, 148, 136, 0.15)" : "rgba(13, 148, 136, 0.08)"}`,
+                    background: openFaq === i ? "rgba(0, 255, 136, 0.06)" : "rgba(0, 255, 136, 0.03)",
+                    border: `1px solid ${openFaq === i ? "rgba(0, 255, 136, 0.15)" : "rgba(0, 255, 136, 0.08)"}`,
+                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+                    backdropFilter: "blur(8px)",
                   }}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -187,14 +198,14 @@ export default function SupportPage() {
                   <button
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     className="w-full flex items-center justify-between p-4 text-left cursor-pointer"
-                    style={{ background: "none", border: "none", color: "rgba(15, 23, 42, 0.9)" }}
+                    style={{ background: "none", border: "none", color: "rgba(224, 245, 232, 0.9)" }}
                   >
                     <span className="text-sm font-medium pr-4">{item.q}</span>
                     <motion.span
                       animate={{ rotate: openFaq === i ? 45 : 0 }}
                       transition={{ duration: 0.2 }}
                       className="text-lg flex-shrink-0"
-                      style={{ color: "#0d9488" }}
+                      style={{ color: "#00ff88" }}
                     >
                       +
                     </motion.span>
@@ -208,7 +219,7 @@ export default function SupportPage() {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <p className="px-4 pb-4 text-xs leading-relaxed" style={{ color: "rgba(15, 23, 42, 0.6)" }}>
+                    <p className="px-4 pb-4 text-xs leading-relaxed" style={{ color: "rgba(224, 245, 232, 0.6)" }}>
                       {item.a}
                     </p>
                   </motion.div>
@@ -223,10 +234,10 @@ export default function SupportPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            <h2 className="text-lg font-light mb-4" style={{ color: "rgba(15, 23, 42, 0.9)" }}>
+            <h2 className="text-lg font-light mb-4" style={{ color: "rgba(224, 245, 232, 0.9)" }}>
               Crisis Resources
             </h2>
-            <p className="text-xs mb-4 leading-relaxed" style={{ color: "rgba(15, 23, 42, 0.5)" }}>
+            <p className="text-xs mb-4 leading-relaxed" style={{ color: "rgba(224, 245, 232, 0.5)" }}>
               If you or someone you know is in crisis, please reach out. You are not alone.
             </p>
             <div className="space-y-3">
@@ -238,18 +249,17 @@ export default function SupportPage() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 rounded-xl transition-all hover:scale-[1.01]"
                   style={{
-                    background: "rgba(13, 148, 136, 0.03)",
+                    background: "rgba(0, 255, 136, 0.03)",
                     border: `1px solid ${r.color}20`,
                     textDecoration: "none",
+                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+                    backdropFilter: "blur(8px)",
                   }}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 + i * 0.1 }}
                 >
                   <span className="text-2xl">{r.icon}</span>
                   <div>
                     <div className="text-sm font-medium" style={{ color: r.color }}>{r.title}</div>
-                    <div className="text-[11px]" style={{ color: "rgba(15, 23, 42, 0.5)" }}>{r.desc}</div>
+                    <div className="text-[11px]" style={{ color: "rgba(224, 245, 232, 0.5)" }}>{r.desc}</div>
                   </div>
                 </motion.a>
               ))}
@@ -266,7 +276,7 @@ export default function SupportPage() {
             <Link
               href="/"
               className="text-xs"
-              style={{ color: "rgba(15, 23, 42, 0.3)", textDecoration: "none" }}
+              style={{ color: "rgba(224, 245, 232, 0.3)", textDecoration: "none" }}
             >
               ← Go back
             </Link>

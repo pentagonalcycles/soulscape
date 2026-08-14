@@ -45,7 +45,7 @@ export default function Minimap({ state, cameraX, cameraY, cameraZoom, screenWid
     ctx.fill();
 
     // Border
-    ctx.strokeStyle = "rgba(13, 148, 136, 0.2)";
+    ctx.strokeStyle = "rgba(0, 255, 136, 0.2)";
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.roundRect(0, 0, size, size, 10);
@@ -60,7 +60,7 @@ export default function Minimap({ state, cameraX, cameraY, cameraZoom, screenWid
     ctx.fillRect(ox, oy, mapWidth * scale, mapHeight * scale);
 
     // Map border
-    ctx.strokeStyle = "rgba(13, 148, 136, 0.1)";
+    ctx.strokeStyle = "rgba(0, 255, 136, 0.1)";
     ctx.lineWidth = 0.5;
     ctx.strokeRect(ox, oy, mapWidth * scale, mapHeight * scale);
 
@@ -215,8 +215,8 @@ export default function Minimap({ state, cameraX, cameraY, cameraZoom, screenWid
       // Glow for player
       if (isPlayer) {
         const glow = ctx.createRadialGradient(cx, cy, r, cx, cy, r * 3);
-        glow.addColorStop(0, "rgba(13, 148, 136, 0.3)");
-        glow.addColorStop(1, "rgba(13, 148, 136, 0)");
+        glow.addColorStop(0, "rgba(0, 255, 136, 0.3)");
+        glow.addColorStop(1, "rgba(0, 255, 136, 0)");
         ctx.fillStyle = glow;
         ctx.beginPath();
         ctx.arc(cx, cy, r * 3, 0, Math.PI * 2);
@@ -291,7 +291,7 @@ export default function Minimap({ state, cameraX, cameraY, cameraZoom, screenWid
         width: `${size}px`,
         height: `${size}px`,
         background: "rgba(5, 5, 16, 0.9)",
-        border: "1px solid rgba(13, 148, 136, 0.12)",
+        border: "1px solid rgba(0, 255, 136, 0.12)",
         boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
       }}
     >

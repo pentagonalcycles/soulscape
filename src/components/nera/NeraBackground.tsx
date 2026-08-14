@@ -30,7 +30,7 @@ export default function NeraBackground() {
           maxHeight: "800px",
           top: "-25%",
           right: "-20%",
-          background: "radial-gradient(circle, rgba(13, 148, 136, 0.05) 0%, rgba(6, 182, 212, 0.02) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 255, 136, 0.05) 0%, rgba(0, 204, 106, 0.02) 40%, transparent 70%)",
           filter: "blur(60px)",
         }}
         animate={{ x: [0, 30, -20, 0], y: [0, -25, 35, 0] }}
@@ -47,7 +47,7 @@ export default function NeraBackground() {
           maxHeight: "600px",
           bottom: "-20%",
           left: "-15%",
-          background: "radial-gradient(circle, rgba(6, 182, 212, 0.04) 0%, rgba(16, 185, 129, 0.02) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 204, 106, 0.04) 0%, rgba(16, 185, 129, 0.02) 40%, transparent 70%)",
           filter: "blur(50px)",
         }}
         animate={{ x: [0, -25, 20, 0], y: [0, 30, -20, 0] }}
@@ -84,7 +84,7 @@ export default function NeraBackground() {
       <div
         className="absolute top-0 left-0 right-0 h-px"
         style={{
-          background: "linear-gradient(90deg, transparent 10%, rgba(13, 148, 136, 0.08) 50%, transparent 90%)",
+          background: "linear-gradient(90deg, transparent 10%, rgba(0, 255, 136, 0.08) 50%, transparent 90%)",
         }}
       />
     </div>

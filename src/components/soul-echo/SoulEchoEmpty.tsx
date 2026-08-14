@@ -48,7 +48,7 @@ export default function SoulEchoEmpty({ onNewReflection }: SoulEchoEmptyProps) {
           style={{
             width: `${60 + i * 20}px`,
             height: `${60 + i * 20}px`,
-            background: "radial-gradient(circle, rgba(13, 148, 136, 0.1) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%)",
             filter: "blur(20px)",
             top: `${35 + i * 12}%`,
             left: `${25 + i * 20}%`,
@@ -81,8 +81,8 @@ export default function SoulEchoEmpty({ onNewReflection }: SoulEchoEmptyProps) {
         onClick={onNewReflection}
         className="relative z-10 px-8 py-3 rounded-2xl text-sm font-body tracking-wide transition-all duration-500"
         style={{
-          background: "linear-gradient(135deg, rgba(13, 148, 136, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%)",
-          border: "1px solid rgba(13, 148, 136, 0.2)",
+          background: "linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 204, 106, 0.1) 100%)",
+          border: "1px solid rgba(0, 255, 136, 0.2)",
           color: "rgba(94, 234, 212, 0.7)",
           backdropFilter: "blur(12px)",
         }}

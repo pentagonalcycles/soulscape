@@ -6,7 +6,7 @@ export interface Question {
 
 export const CATEGORIES: Record<string, { color: string; glow: string }> = {
   emotions: { color: "#f59e0b", glow: "rgba(245, 158, 11, 0.3)" },
-  values: { color: "#0d9488", glow: "rgba(13, 148, 136, 0.3)" },
+  values: { color: "#00ff88", glow: "rgba(0, 255, 136, 0.3)" },
   fears: { color: "#6366f1", glow: "rgba(99, 102, 241, 0.3)" },
   dreams: { color: "#eab308", glow: "rgba(234, 179, 8, 0.3)" },
   identity: { color: "#ec4899", glow: "rgba(236, 72, 153, 0.3)" },

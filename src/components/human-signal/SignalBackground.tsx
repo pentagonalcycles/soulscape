@@ -15,28 +15,28 @@ export default function SignalBackground({ mood = "default" }: SignalBackgroundP
   const gradients: Record<string, { main: string; orb1: string; orb2: string }> = {
     default: {
       main: "linear-gradient(160deg, #0a0a12 0%, #0f1520 40%, #0a1018 100%)",
-      orb1: "rgba(13, 148, 136, 0.06)",
+      orb1: "rgba(0, 255, 136, 0.06)",
       orb2: "rgba(99, 102, 241, 0.04)",
     },
     sending: {
       main: "linear-gradient(160deg, #0a0a12 0%, #0d1520 40%, #0a1018 100%)",
-      orb1: "rgba(13, 148, 136, 0.1)",
-      orb2: "rgba(6, 182, 212, 0.06)",
+      orb1: "rgba(0, 255, 136, 0.1)",
+      orb2: "rgba(0, 204, 106, 0.06)",
     },
     waiting: {
       main: "linear-gradient(160deg, #080810 0%, #0c1018 40%, #080c14 100%)",
-      orb1: "rgba(13, 148, 136, 0.05)",
+      orb1: "rgba(0, 255, 136, 0.05)",
       orb2: "rgba(99, 102, 241, 0.03)",
     },
     heard: {
       main: "linear-gradient(160deg, #0c0a14 0%, #12101e 40%, #0e0c18 100%)",
       orb1: "rgba(236, 72, 153, 0.08)",
-      orb2: "rgba(13, 148, 136, 0.06)",
+      orb2: "rgba(0, 255, 136, 0.06)",
     },
     receiving: {
       main: "linear-gradient(160deg, #0a0a12 0%, #10141c 40%, #0c1018 100%)",
       orb1: "rgba(99, 102, 241, 0.07)",
-      orb2: "rgba(13, 148, 136, 0.05)",
+      orb2: "rgba(0, 255, 136, 0.05)",
     },
   };
 

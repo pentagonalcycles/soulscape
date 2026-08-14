@@ -24,7 +24,7 @@ export default function SoulEchoMatchReveal({ matchedReflection, onContinue }: S
         transition={{ duration: 2, ease: "easeOut" }}
         className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(13, 148, 136, 0.1) 0%, rgba(96, 165, 250, 0.05) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, rgba(96, 165, 250, 0.05) 40%, transparent 70%)",
           filter: "blur(60px)",
         }}
       />
@@ -46,8 +46,8 @@ export default function SoulEchoMatchReveal({ matchedReflection, onContinue }: S
         transition={{ duration: 1.2, delay: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="relative z-10 w-full max-w-lg rounded-2xl p-8 md:p-10"
         style={{
-          background: "rgba(13, 148, 136, 0.06)",
-          border: "1px solid rgba(13, 148, 136, 0.15)",
+          background: "rgba(0, 255, 136, 0.06)",
+          border: "1px solid rgba(0, 255, 136, 0.15)",
           backdropFilter: "blur(24px)",
           boxShadow: "0 12px 40px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.03)",
         }}
@@ -66,7 +66,7 @@ export default function SoulEchoMatchReveal({ matchedReflection, onContinue }: S
 
         <div
           className="mt-6 w-12 h-px"
-          style={{ background: "rgba(13, 148, 136, 0.2)" }}
+          style={{ background: "rgba(0, 255, 136, 0.2)" }}
         />
       </motion.div>
 
@@ -80,8 +80,8 @@ export default function SoulEchoMatchReveal({ matchedReflection, onContinue }: S
         onClick={onContinue}
         className="relative z-10 mt-10 px-8 py-3 rounded-2xl text-sm font-body tracking-wide transition-all duration-500"
         style={{
-          background: "linear-gradient(135deg, rgba(13, 148, 136, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%)",
-          border: "1px solid rgba(13, 148, 136, 0.3)",
+          background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 204, 106, 0.15) 100%)",
+          border: "1px solid rgba(0, 255, 136, 0.3)",
           color: "#5eead4",
           backdropFilter: "blur(12px)",
         }}

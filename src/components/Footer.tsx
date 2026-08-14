@@ -7,16 +7,16 @@ const footerLinks = [
   { href: "/faq", label: "FAQ" },
   { href: "/support", label: "Support" },
   { href: "/ideas", label: "Ideas" },
-  { href: "/settings", label: "Settings" },
   { href: "https://findahelpline.com", label: "Crisis Support", external: true },
 ];
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 py-12 px-6" style={{ background: "#060d08" }}>
+    <footer className="relative z-10 py-12 px-6" style={{ background: "rgba(5, 10, 6, 0.9)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 -4px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(16px)" }}>
+      <style>{`.footer-link:hover { text-shadow: 0 0 8px rgba(0, 255, 136, 0.4); }`}</style>
       {/* Divider */}
       <div className="w-full h-px mx-auto mb-10" style={{
-        background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.12), transparent)",
+        background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent)",
       }} />
 
       <div className="max-w-2xl mx-auto text-center">
@@ -29,7 +29,7 @@ export default function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs tracking-wide hover:opacity-50 transition-opacity duration-300"
+                className="footer-link text-xs tracking-wide hover:opacity-50 transition-opacity duration-300"
                 style={{ color: "rgba(224, 245, 232, 0.35)", textDecoration: "none", fontSize: "11px", letterSpacing: "0.03em" }}
               >
                 {link.label}
@@ -38,7 +38,7 @@ export default function Footer() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-xs tracking-wide hover:opacity-50 transition-opacity duration-300"
+                className="footer-link text-xs tracking-wide hover:opacity-50 transition-opacity duration-300"
                 style={{ color: "rgba(224, 245, 232, 0.35)", textDecoration: "none", fontSize: "11px", letterSpacing: "0.03em" }}
               >
                 {link.label}

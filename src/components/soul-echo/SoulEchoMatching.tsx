@@ -20,7 +20,7 @@ export default function SoulEchoMatching() {
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(13, 148, 136, 0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 255, 136, 0.12) 0%, transparent 70%)",
           filter: "blur(50px)",
         }}
       />
@@ -42,7 +42,7 @@ export default function SoulEchoMatching() {
           }}
           className="absolute w-1.5 h-1.5 rounded-full"
           style={{
-            background: "rgba(13, 148, 136, 0.4)",
+            background: "rgba(0, 255, 136, 0.4)",
             top: `${30 + i * 10}%`,
             left: `${20 + i * 15}%`,
           }}
@@ -69,7 +69,7 @@ export default function SoulEchoMatching() {
           transition={{ duration: 2, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="mt-6 w-16 h-px mx-auto"
           style={{
-            background: "linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.3), transparent)",
+            background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent)",
           }}
         />
       </motion.div>

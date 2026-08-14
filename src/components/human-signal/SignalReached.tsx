@@ -68,15 +68,15 @@ export default function SignalReached({ onReturn }: SignalReachedProps) {
         <motion.div
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full mb-10"
           style={{
-            background: "rgba(13, 148, 136, 0.1)",
-            border: "1px solid rgba(13, 148, 136, 0.2)",
+            background: "rgba(0, 255, 136, 0.1)",
+            border: "1px solid rgba(0, 255, 136, 0.2)",
           }}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.4 }}
         >
-          <span className="text-sm" style={{ color: "rgba(13, 148, 136, 0.8)" }}>✓</span>
-          <span className="text-xs tracking-wider" style={{ color: "rgba(13, 148, 136, 0.7)" }}>
+          <span className="text-sm" style={{ color: "rgba(0, 255, 136, 0.8)" }}>✓</span>
+          <span className="text-xs tracking-wider" style={{ color: "rgba(0, 255, 136, 0.7)" }}>
             Signal Heard
           </span>
         </motion.div>

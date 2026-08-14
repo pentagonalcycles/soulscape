@@ -39,16 +39,16 @@ function PageVisitors({ pathname }: { pathname: string }) {
     <div
       className="fixed bottom-4 left-4 z-50 flex items-center gap-2 px-3 py-2 rounded-full"
       style={{
-        background: "rgba(13, 148, 136, 0.08)",
+        background: "rgba(0, 255, 136, 0.08)",
         backdropFilter: "blur(12px)",
-        border: "1px solid rgba(13, 148, 136, 0.15)",
+        border: "1px solid rgba(0, 255, 136, 0.15)",
       }}
     >
       <div className="relative">
         <div className="w-2 h-2 rounded-full" style={{ background: "#10b981" }} />
         <div className="absolute inset-0 w-2 h-2 rounded-full animate-ping" style={{ background: "#10b981", opacity: 0.4 }} />
       </div>
-      <span className="text-[10px]" style={{ color: "rgba(13, 148, 136, 0.7)" }}>
+      <span className="text-[10px]" style={{ color: "rgba(0, 255, 136, 0.7)" }}>
         {count} {count === 1 ? "person" : "people"} here
       </span>
     </div>
@@ -68,8 +68,8 @@ function BannedScreen() {
       <div
         className="max-w-md w-full rounded-2xl p-8 text-center"
         style={{
-          background: "var(--card-bg, rgba(13, 148, 136, 0.04))",
-          border: "1px solid var(--border-subtle, rgba(13, 148, 136, 0.12))",
+          background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
+          border: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.12))",
           boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
         }}
       >
@@ -92,8 +92,8 @@ function BannedScreen() {
           onClick={() => signOut()}
           className="px-6 py-2.5 rounded-xl text-sm font-medium cursor-pointer"
           style={{
-            background: "var(--card-bg, rgba(13, 148, 136, 0.06))",
-            border: "1px solid var(--border-subtle, rgba(13, 148, 136, 0.12))",
+            background: "var(--card-bg, rgba(0, 255, 136, 0.06))",
+            border: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.12))",
             color: "var(--text-secondary, #334155)",
           }}
         >
@@ -152,7 +152,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
     "/nera": "nera",
     "/elyra": "elyra ai",
     "/soul-echo": "soul echo",
-    "/stargazing": "stargazing",
     "/reflection-room": "reflection",
     "/dream-canvas": "canvas",
     "/camera": "camera",
@@ -163,9 +162,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
     "/music": "music",
     "/soul-map": "soul map",
     "/nebula-orb": "nebula orb",
-    "/human-weather": "human weather",
     "/human-signal": "human signal",
-    "/unseen": "unseen",
     "/ideas": "ideas",
     "/settings": "settings",
     "/admin": "admin",

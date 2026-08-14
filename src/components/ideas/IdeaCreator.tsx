@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const categories = [
-  { value: "improvement", label: "Improvement", icon: "✦", color: "#0d9488" },
+  { value: "improvement", label: "Improvement", icon: "✦", color: "#00ff88" },
   { value: "addition", label: "Addition", icon: "◎", color: "#3b82f6" },
   { value: "change", label: "Change", icon: "◇", color: "#8b5cf6" },
   { value: "bug", label: "Bug", icon: "△", color: "#ef4444" },
@@ -44,8 +44,8 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
             onClick={() => setExpanded(true)}
             className="w-full p-5 rounded-2xl text-left transition-all"
             style={{
-              background: "rgba(13, 148, 136, 0.04)",
-              border: "1px solid rgba(13, 148, 136, 0.1)",
+              background: "rgba(0, 255, 136, 0.04)",
+              border: "1px solid rgba(0, 255, 136, 0.1)",
             }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -64,8 +64,8 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
             key="expanded"
             className="rounded-2xl p-5"
             style={{
-              background: "rgba(13, 148, 136, 0.04)",
-              border: "1px solid rgba(13, 148, 136, 0.1)",
+              background: "rgba(0, 255, 136, 0.04)",
+              border: "1px solid rgba(0, 255, 136, 0.1)",
             }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -83,8 +83,8 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
                     onClick={() => setCategory(cat.value)}
                     className="px-3 py-1.5 rounded-lg text-[11px] transition-all"
                     style={{
-                      background: category === cat.value ? `${cat.color}15` : "rgba(13, 148, 136, 0.03)",
-                      border: `1px solid ${category === cat.value ? `${cat.color}30` : "rgba(13, 148, 136, 0.08)"}`,
+                      background: category === cat.value ? `${cat.color}15` : "rgba(0, 255, 136, 0.03)",
+                      border: `1px solid ${category === cat.value ? `${cat.color}30` : "rgba(0, 255, 136, 0.08)"}`,
                       color: category === cat.value ? cat.color : "var(--text-dim, #94a3b8)",
                     }}
                   >
@@ -102,8 +102,8 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
               rows={3}
               className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
               style={{
-                background: "var(--input-bg, rgba(13,148,136,0.06))",
-                border: "1px solid var(--border-subtle, rgba(13,148,136,0.12))",
+                background: "var(--input-bg, rgba(0,255,136,0.06))",
+                border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))",
                 color: "var(--text-primary, #0f172a)",
               }}
               onKeyDown={(e) => {
@@ -121,7 +121,7 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
                     className="relative w-9 h-5 rounded-full cursor-pointer transition-all"
                     onClick={() => setIsAnonymous(!isAnonymous)}
                     style={{
-                      background: isAnonymous ? "#0d9488" : "rgba(13, 148, 136, 0.15)",
+                      background: isAnonymous ? "#00ff88" : "rgba(0, 255, 136, 0.15)",
                     }}
                   >
                     <div
@@ -138,7 +138,7 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
                 </label>
 
                 {/* Character count */}
-                <span className="text-[10px]" style={{ color: content.length > 450 ? "#ef4444" : "var(--text-faint, rgba(15,23,42,0.4))" }}>
+                <span className="text-[10px]" style={{ color: content.length > 450 ? "#ef4444" : "var(--text-faint, rgba(224,245,232,0.4))" }}>
                   {content.length}/500
                 </span>
               </div>
@@ -164,7 +164,7 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
               </div>
             </div>
 
-            <p className="text-[10px] mt-2" style={{ color: "var(--text-faint, rgba(15,23,42,0.3))" }}>
+            <p className="text-[10px] mt-2" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
               Ctrl+Enter to submit
             </p>
           </motion.div>

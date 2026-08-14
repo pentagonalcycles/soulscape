@@ -163,15 +163,15 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
               onClick={findSignal}
               className="px-8 py-3 rounded-2xl text-sm tracking-wide transition-all"
               style={{
-                background: "rgba(13, 148, 136, 0.1)",
-                border: "1px solid rgba(13, 148, 136, 0.2)",
+                background: "rgba(0, 255, 136, 0.1)",
+                border: "1px solid rgba(0, 255, 136, 0.2)",
                 color: "rgba(224, 231, 255, 0.8)",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(13, 148, 136, 0.15)";
+                e.currentTarget.style.background = "rgba(0, 255, 136, 0.15)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(13, 148, 136, 0.1)";
+                e.currentTarget.style.background = "rgba(0, 255, 136, 0.1)";
               }}
             >
               Try Again
@@ -287,7 +287,7 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <p className="text-xs uppercase tracking-widest mb-6" style={{ color: "rgba(13, 148, 136, 0.5)" }}>
+          <p className="text-xs uppercase tracking-widest mb-6" style={{ color: "rgba(0, 255, 136, 0.5)" }}>
             A human signal has reached you.
           </p>
 
@@ -318,7 +318,7 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
               onClick={acknowledgeSignal}
               className="px-10 py-4 rounded-2xl text-sm tracking-wide transition-all"
               style={{
-                background: "linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(13, 148, 136, 0.1))",
+                background: "linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(0, 255, 136, 0.1))",
                 border: "1px solid rgba(236, 72, 153, 0.25)",
                 color: "rgba(224, 231, 255, 0.9)",
               }}

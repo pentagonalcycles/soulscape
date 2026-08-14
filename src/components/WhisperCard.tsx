@@ -13,11 +13,11 @@ interface ReactionConfig {
 }
 
 const reactionConfigs: ReactionConfig[] = [
-  { type: "understanding", label: "I feel this", icon: "🤍", color: "#0d9488" },
+  { type: "understanding", label: "I feel this", icon: "🤍", color: "#00ff88" },
   { type: "hope", label: "This gave me hope", icon: "✨", color: "#10b981" },
   { type: "company", label: "You are not alone", icon: "🫂", color: "#2dd4a8" },
   { type: "less_alone", label: "Less alone", icon: "🌌", color: "#60a5fa" },
-  { type: "comfort", label: "Send warmth", icon: "💫", color: "#06b6d4" },
+  { type: "comfort", label: "Send warmth", icon: "💫", color: "#00cc6a" },
 ];
 
 interface Reply {
@@ -122,6 +122,10 @@ export default function WhisperCard({
   return (
     <motion.article
       className="rounded-2xl sanctuary-glass-card p-4 sm:p-6 relative group"
+      style={{
+        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+        backdropFilter: "blur(12px)",
+      }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -286,6 +290,7 @@ export default function WhisperCard({
                     ? "bg-elovayne-violet/20 border border-elovayne-violet/30 text-elovayne-light"
                     : "bg-elovayne-void/30 border border-transparent text-elovayne-dim hover:text-elovayne-muted hover:border-elovayne-violet/10"
                 }`}
+                style={{ transition: "all 0.3s ease" }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label={`${config.label}: ${reaction.count}`}
@@ -300,6 +305,7 @@ export default function WhisperCard({
           <motion.button
             onClick={() => setShowReactions(!showReactions)}
             className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-body bg-elovayne-void/30 border border-transparent text-elovayne-dim hover:text-elovayne-muted hover:border-elovayne-violet/10 transition-all duration-300"
+            style={{ transition: "all 0.3s ease" }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Add reaction"
@@ -322,6 +328,7 @@ export default function WhisperCard({
                     key={rc.type}
                     onClick={() => { onReact(id, rc.type); setShowReactions(false); }}
                     className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-left hover:bg-elovayne-violet/10 transition-colors font-body"
+                    style={{ transition: "all 0.3s ease" }}
                   >
                     <span>{rc.icon}</span>
                     <span className="text-sm text-elovayne-muted hover:text-elovayne-light">

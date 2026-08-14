@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 
 const categoryConfig: Record<string, { label: string; icon: string; color: string }> = {
-  improvement: { label: "Improvement", icon: "✦", color: "#0d9488" },
+  improvement: { label: "Improvement", icon: "✦", color: "#00ff88" },
   addition: { label: "Addition", icon: "◎", color: "#3b82f6" },
   change: { label: "Change", icon: "◇", color: "#8b5cf6" },
   bug: { label: "Bug", icon: "△", color: "#ef4444" },
@@ -123,8 +123,8 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
     <motion.div
       className="rounded-2xl p-5"
       style={{
-        background: "var(--card-bg, rgba(13, 148, 136, 0.04))",
-        border: "1px solid var(--border-subtle, rgba(13, 148, 136, 0.1))",
+        background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
+        border: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.1))",
       }}
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
@@ -137,9 +137,9 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
             onClick={() => onVote(idea.id)}
             className="w-11 h-11 rounded-xl flex flex-col items-center justify-center transition-all"
             style={{
-              background: idea.userVoted ? "rgba(13, 148, 136, 0.12)" : "rgba(13, 148, 136, 0.04)",
-              border: `1px solid ${idea.userVoted ? "rgba(13, 148, 136, 0.25)" : "rgba(13, 148, 136, 0.08)"}`,
-              color: idea.userVoted ? "#0d9488" : "var(--text-dim, #94a3b8)",
+              background: idea.userVoted ? "rgba(0, 255, 136, 0.12)" : "rgba(0, 255, 136, 0.04)",
+              border: `1px solid ${idea.userVoted ? "rgba(0, 255, 136, 0.25)" : "rgba(0, 255, 136, 0.08)"}`,
+              color: idea.userVoted ? "#00ff88" : "var(--text-dim, #94a3b8)",
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -148,7 +148,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
               <path d="M12 4l-8 8h5v8h6v-8h5z" />
             </svg>
           </motion.button>
-          <span className="text-xs font-medium" style={{ color: idea.userVoted ? "#0d9488" : "var(--text-dim, #94a3b8)" }}>
+          <span className="text-xs font-medium" style={{ color: idea.userVoted ? "#00ff88" : "var(--text-dim, #94a3b8)" }}>
             {idea.voteCount}
           </span>
         </div>
@@ -171,7 +171,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                 {status.label}
               </span>
             )}
-            <span className="text-[10px]" style={{ color: "var(--text-faint, rgba(15,23,42,0.3))" }}>
+            <span className="text-[10px]" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
               {getTimeAgo(idea.created_at)}
             </span>
           </div>
@@ -182,7 +182,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
           </p>
 
           {/* Author */}
-          <p className="text-[10px] mb-3" style={{ color: "var(--text-faint, rgba(15,23,42,0.3))" }}>
+          <p className="text-[10px] mb-3" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
             {idea.is_anonymous ? "🌙 Anonymous" : `✦ ${idea.authorName || "Anonymous"}`}
           </p>
 
@@ -191,7 +191,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
             <button
               onClick={() => setShowComments(!showComments)}
               className="flex items-center gap-1.5 text-xs transition-colors"
-              style={{ color: showComments ? "#0d9488" : "var(--text-dim, #94a3b8)" }}
+              style={{ color: showComments ? "#00ff88" : "var(--text-dim, #94a3b8)" }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
@@ -203,7 +203,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                 {confirmDelete ? (
                   <div className="flex items-center gap-1">
                     <button onClick={() => { onDelete(idea.id); setConfirmDelete(false); }} className="px-2 py-1 rounded text-xs bg-red-500 text-white">Delete</button>
-                    <button onClick={() => setConfirmDelete(false)} className="px-2 py-1 rounded text-xs" style={{ background: "var(--card-bg, rgba(13,148,136,0.06))", border: "1px solid var(--border-subtle, rgba(13,148,136,0.12))" }}>Cancel</button>
+                    <button onClick={() => setConfirmDelete(false)} className="px-2 py-1 rounded text-xs" style={{ background: "var(--card-bg, rgba(0,255,136,0.06))", border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))" }}>Cancel</button>
                   </div>
                 ) : (
                   <button onClick={() => setConfirmDelete(true)} className="text-xs px-2 py-1 rounded" style={{ background: "rgba(239, 68, 68, 0.08)", color: "#ef4444", border: "1px solid rgba(239, 68, 68, 0.15)" }}>Delete</button>
@@ -222,21 +222,21 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                 transition={{ duration: 0.25 }}
                 className="overflow-hidden"
               >
-                <div className="mt-4 pt-4" style={{ borderTop: "1px solid var(--border-subtle, rgba(13,148,136,0.08))" }}>
+                <div className="mt-4 pt-4" style={{ borderTop: "1px solid var(--border-subtle, rgba(0,255,136,0.08))" }}>
                   {/* Comment list */}
                   {loadingComments ? (
                     <p className="text-xs py-3 text-center" style={{ color: "var(--text-dim, #94a3b8)" }}>
                       Loading comments...
                     </p>
                   ) : comments.length === 0 ? (
-                    <p className="text-xs py-3 text-center" style={{ color: "var(--text-faint, rgba(15,23,42,0.3))" }}>
+                    <p className="text-xs py-3 text-center" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
                       No comments yet. Be the first to share your thoughts.
                     </p>
                   ) : (
                     <div className="space-y-3 mb-4">
                       {comments.map((comment) => (
                         <div key={comment.id} className="flex gap-2">
-                          <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(13, 148, 136, 0.08)" }}>
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(0, 255, 136, 0.08)" }}>
                             <span className="text-[10px]">{comment.is_anonymous ? "🌙" : "✦"}</span>
                           </div>
                           <div className="flex-1 min-w-0">
@@ -244,7 +244,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                               <span className="text-[11px] font-medium" style={{ color: "var(--text-muted, #64748b)" }}>
                                 {comment.authorName}
                               </span>
-                              <span className="text-[10px]" style={{ color: "var(--text-faint, rgba(15,23,42,0.25))" }}>
+                              <span className="text-[10px]" style={{ color: "var(--text-faint, rgba(224,245,232,0.25))" }}>
                                 {getTimeAgo(comment.created_at)}
                               </span>
                             </div>
@@ -267,8 +267,8 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                         placeholder="Add a comment..."
                         className="flex-1 px-3 py-2 rounded-lg text-xs outline-none"
                         style={{
-                          background: "var(--input-bg, rgba(13,148,136,0.06))",
-                          border: "1px solid var(--border-subtle, rgba(13,148,136,0.12))",
+                          background: "var(--input-bg, rgba(0,255,136,0.06))",
+                          border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))",
                           color: "var(--text-primary, #0f172a)",
                         }}
                         onKeyDown={(e) => {
@@ -282,8 +282,8 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                         onClick={() => setCommentAnonymous(!commentAnonymous)}
                         className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0 transition-all"
                         style={{
-                          background: commentAnonymous ? "rgba(13, 148, 136, 0.1)" : "rgba(13, 148, 136, 0.04)",
-                          border: `1px solid ${commentAnonymous ? "rgba(13, 148, 136, 0.2)" : "rgba(13, 148, 136, 0.08)"}`,
+                          background: commentAnonymous ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)",
+                          border: `1px solid ${commentAnonymous ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.08)"}`,
                         }}
                         title={commentAnonymous ? "Commenting anonymously" : "Commenting as yourself"}
                       >
@@ -298,7 +298,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                       </button>
                     </div>
                   ) : (
-                    <p className="text-[10px] mt-2" style={{ color: "var(--text-faint, rgba(15,23,42,0.3))" }}>
+                    <p className="text-[10px] mt-2" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
                       Sign in to comment
                     </p>
                   )}

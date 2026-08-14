@@ -19,10 +19,10 @@ export function createFood(mapWidth?: number, mapHeight?: number): FoodParticle 
 
   switch (type) {
     case "plasma": color = "#ef4444"; glowColor = "rgba(239, 68, 68, 0.6)"; break;
-    case "void": color = "#0d9488"; glowColor = "rgba(13, 148, 136, 0.6)"; break;
+    case "void": color = "#00ff88"; glowColor = "rgba(0, 255, 136, 0.6)"; break;
     case "solar": color = "#fbbf24"; glowColor = "rgba(251, 191, 36, 0.6)"; break;
     case "cosmic": color = "#22d3ee"; glowColor = "rgba(34, 211, 238, 0.6)"; break;
-    case "nebula": color = "#06b6d4"; glowColor = "rgba(6, 182, 212, 0.6)"; break;
+    case "nebula": color = "#00cc6a"; glowColor = "rgba(0, 204, 106, 0.6)"; break;
     default: color = "#5eead4"; glowColor = "rgba(94, 234, 212, 0.4)";
   }
 

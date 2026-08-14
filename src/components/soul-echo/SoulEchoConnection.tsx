@@ -121,7 +121,7 @@ export default function SoulEchoConnection({ match, userId, onLeave }: SoulEchoC
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="flex items-center justify-between py-4 mb-2"
-        style={{ borderBottom: "1px solid rgba(13, 148, 136, 0.1)" }}
+        style={{ borderBottom: "1px solid rgba(0, 255, 136, 0.1)" }}
       >
         <div>
           <p className="text-elovayne-light text-sm font-body">Connection Room</p>
@@ -131,7 +131,7 @@ export default function SoulEchoConnection({ match, userId, onLeave }: SoulEchoC
           onClick={onLeave}
           className="px-3 py-1.5 rounded-lg text-xs text-elovayne-dim/60 transition-all duration-300 hover:text-elovayne-dim"
           style={{
-            border: "1px solid rgba(13, 148, 136, 0.1)",
+            border: "1px solid rgba(0, 255, 136, 0.1)",
           }}
         >
           Leave quietly
@@ -181,10 +181,10 @@ export default function SoulEchoConnection({ match, userId, onLeave }: SoulEchoC
                     className="max-w-[80%] rounded-2xl p-5"
                     style={{
                       background: isOwn
-                        ? "rgba(13, 148, 136, 0.08)"
+                        ? "rgba(0, 255, 136, 0.08)"
                         : "rgba(96, 165, 250, 0.06)",
                       border: `1px solid ${isOwn
-                        ? "rgba(13, 148, 136, 0.15)"
+                        ? "rgba(0, 255, 136, 0.15)"
                         : "rgba(96, 165, 250, 0.1)"}`,
                       backdropFilter: "blur(16px)",
                       boxShadow: "0 4px 16px rgba(0, 0, 0, 0.08)",
@@ -217,13 +217,15 @@ export default function SoulEchoConnection({ match, userId, onLeave }: SoulEchoC
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
         className="py-4"
-        style={{ borderTop: "1px solid rgba(13, 148, 136, 0.1)" }}
+        style={{ borderTop: "1px solid rgba(0, 255, 136, 0.1)" }}
       >
         <div
           className="flex items-end gap-3 rounded-2xl p-4"
           style={{
-            background: "rgba(13, 148, 136, 0.04)",
-            border: "1px solid rgba(13, 148, 136, 0.12)",
+            background: "rgba(0, 255, 136, 0.04)",
+            border: "1px solid rgba(0, 255, 136, 0.12)",
+            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
+            backdropFilter: "blur(12px)",
           }}
         >
           <textarea
@@ -245,12 +247,12 @@ export default function SoulEchoConnection({ match, userId, onLeave }: SoulEchoC
             className="px-4 py-2 rounded-xl text-xs font-body transition-all duration-300 disabled:opacity-30"
             style={{
               background: newMessage.trim()
-                ? "rgba(13, 148, 136, 0.2)"
-                : "rgba(13, 148, 136, 0.05)",
+                ? "rgba(0, 255, 136, 0.2)"
+                : "rgba(0, 255, 136, 0.05)",
               border: `1px solid ${newMessage.trim()
-                ? "rgba(13, 148, 136, 0.3)"
-                : "rgba(13, 148, 136, 0.1)"}`,
-              color: newMessage.trim() ? "#5eead4" : "rgba(13, 148, 136, 0.3)",
+                ? "rgba(0, 255, 136, 0.3)"
+                : "rgba(0, 255, 136, 0.1)"}`,
+              color: newMessage.trim() ? "#5eead4" : "rgba(0, 255, 136, 0.3)",
             }}
           >
             {sending ? "..." : "Send"}
