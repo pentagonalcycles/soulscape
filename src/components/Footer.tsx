@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const footerLinks = [
   { href: "/about", label: "About" },
@@ -12,55 +13,57 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 py-12 px-6" style={{ background: "rgba(5, 10, 6, 0.9)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 -4px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(16px)" }}>
-      <style>{`.footer-link:hover { text-shadow: 0 0 8px rgba(0, 255, 136, 0.4); }`}</style>
-      {/* Divider */}
-      <div className="w-full h-px mx-auto mb-10" style={{
-        background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent)",
+    <footer className="relative z-10 py-14 px-6"
+      style={{
+        background: "rgba(5, 10, 6, 0.95)",
+        borderTop: "1px solid rgba(0, 255, 136, 0.06)",
+        boxShadow: "0 -4px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(0, 255, 136, 0.03)",
+        backdropFilter: "blur(20px) saturate(1.2)",
+      }}>
+      {/* Top gradient line */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{
+        background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent)",
       }} />
 
       <div className="max-w-2xl mx-auto text-center">
-        {/* Links */}
-        <div className="flex flex-wrap justify-center gap-8 mb-8">
-          {footerLinks.map((link) =>
-            link.external ? (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-link text-xs tracking-wide hover:opacity-50 transition-opacity duration-300"
-                style={{ color: "rgba(224, 245, 232, 0.35)", textDecoration: "none", fontSize: "11px", letterSpacing: "0.03em" }}
-              >
-                {link.label}
-              </a>
-            ) : (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="footer-link text-xs tracking-wide hover:opacity-50 transition-opacity duration-300"
-                style={{ color: "rgba(224, 245, 232, 0.35)", textDecoration: "none", fontSize: "11px", letterSpacing: "0.03em" }}
-              >
-                {link.label}
-              </Link>
-            )
-          )}
+        {/* Links row */}
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 mb-8">
+          {footerLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-xs tracking-wider transition-all duration-300"
+              style={{
+                color: "rgba(224, 245, 232, 0.35)",
+                textDecoration: "none",
+                fontSize: "11px",
+                letterSpacing: "0.05em",
+              }}
+              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
 
-        {/* Decorative divider */}
-        <div className="flex items-center justify-center gap-5 mb-6">
-          <div className="h-px w-12" style={{ background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1))" }} />
-          <span style={{ color: "rgba(0, 255, 136, 0.2)", fontSize: "8px" }}>✦</span>
-          <div className="h-px w-12" style={{ background: "linear-gradient(90deg, rgba(0, 255, 136, 0.1), transparent)" }} />
+        {/* Divider */}
+        <div className="flex items-center justify-center gap-3 mb-6">
+          <div className="h-px flex-1 max-w-16" style={{ background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1))" }} />
+          <span className="text-[10px]" style={{ color: "rgba(0, 255, 136, 0.3)" }}>✦</span>
+          <div className="h-px flex-1 max-w-16" style={{ background: "linear-gradient(90deg, rgba(0, 255, 136, 0.1), transparent)" }} />
         </div>
 
         {/* Tagline */}
-        <p className="mb-3" style={{ color: "rgba(224, 245, 232, 0.25)", fontFamily: "var(--font-accent)", fontSize: "14px" }}>
+        <p className="text-xs mb-2" style={{
+          color: "rgba(224, 245, 232, 0.25)",
+          fontFamily: "var(--font-accent)",
+          letterSpacing: "0.04em",
+        }}>
           A safe place for anyone who needs a quiet moment
         </p>
 
         {/* Brand */}
-        <p className="tracking-widest uppercase" style={{ color: "rgba(0, 255, 136, 0.15)", fontSize: "9px", letterSpacing: "0.15em" }}>
+        <p className="text-[10px]" style={{ color: "rgba(0, 255, 136, 0.2)", letterSpacing: "0.08em" }}>
           Elovayne · Always free
         </p>
       </div>

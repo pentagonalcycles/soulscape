@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const faqSections = [
   {
@@ -69,14 +69,6 @@ const faqSections = [
         a: "Connects you with another person based on shared emotional reflections. Write what you're feeling, and the system finds someone who understands. Anonymous conversations.",
       },
       {
-        q: "What is the Ambient Room?",
-        a: "Calming procedural sounds — rain, ocean, wind, singing bowls, fire, birdsong, and more. Includes a timer and 12 different sound scenes.",
-      },
-      {
-        q: "What is Stargazing?",
-        a: "A peaceful night sky where every star holds an anonymous message. Click stars to read, leave your own for others. 3 messages per day.",
-      },
-      {
         q: "What is the Dream Canvas?",
         a: "A full drawing tool with 32 brush types — pen, neon, watercolor, galaxy, fire, sparkle, and more. Export your art.",
       },
@@ -104,6 +96,10 @@ const faqSections = [
         q: "What is Nebula Orb?",
         a: "A multiplayer cosmic arena where you consume orbs, grow, and compete. Choose your skin, trail, and pet. Play on mobile or desktop.",
       },
+      {
+        q: "What is NERA?",
+        a: "Anonymous story sharing with atmospheric backgrounds. Choose a room that matches your mood, share your story, and read others'.",
+      },
     ],
   },
   {
@@ -125,6 +121,7 @@ const faqSections = [
 
 export default function FAQPage() {
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
+  const [search, setSearch] = useState("");
 
   const toggle = (key: string) => {
     setOpenItems((prev) => {
@@ -135,13 +132,26 @@ export default function FAQPage() {
     });
   };
 
+  const filteredSections = useMemo(() => {
+    if (!search.trim()) return faqSections;
+    const q = search.toLowerCase();
+    return faqSections
+      .map((section) => ({
+        ...section,
+        items: section.items.filter(
+          (item) => item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q)
+        ),
+      }))
+      .filter((section) => section.items.length > 0);
+  }, [search]);
+
   return (
     <main className="relative min-h-screen overflow-hidden">
       <div className="relative z-10 pt-20 sm:pt-28 pb-16 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <motion.div
-            className="text-center mb-12"
+            className="text-center mb-10"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
@@ -162,17 +172,46 @@ export default function FAQPage() {
             </p>
           </motion.div>
 
+          {/* Search */}
+          <motion.div
+            className="mb-8"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search questions..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="neon-input w-full pl-10 pr-4 py-3"
+              />
+              <svg
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4"
+                fill="none"
+                stroke="rgba(224, 245, 232, 0.3)"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="8" strokeWidth="1.5" />
+                <path d="M21 21l-4.35-4.35" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </div>
+          </motion.div>
+
           {/* FAQ sections */}
-          {faqSections.map((section, si) => (
+          {filteredSections.map((section, si) => (
             <motion.div
               key={section.title}
               className="mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: si * 0.1 }}
+              transition={{ duration: 0.5, delay: si * 0.08 }}
             >
               <div className="flex items-center gap-2 mb-3">
-                <span style={{ color: section.color }}>{section.icon}</span>
+                <div className="icon-glow" style={{ width: "28px", height: "28px", fontSize: "12px", borderColor: `${section.color}20`, background: `${section.color}08` }}>
+                  <span style={{ color: section.color }}>{section.icon}</span>
+                </div>
                 <h2 className="text-sm uppercase tracking-wider" style={{ color: section.color }}>
                   {section.title}
                 </h2>
@@ -185,13 +224,9 @@ export default function FAQPage() {
                   return (
                     <motion.div
                       key={key}
-                      className="rounded-xl overflow-hidden"
-                      style={{
-                        background: isOpen ? `${section.color}08` : "rgba(0, 255, 136, 0.03)",
-                        border: `1px solid ${isOpen ? `${section.color}20` : "rgba(0, 255, 136, 0.08)"}`,
-                        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
-                        backdropFilter: "blur(8px)",
-                      }}
+                      className="glass-elevated overflow-hidden"
+                      style={isOpen ? { borderColor: `${section.color}20` } : {}}
+                      layout
                     >
                       <button
                         onClick={() => toggle(key)}
@@ -225,15 +260,29 @@ export default function FAQPage() {
             </motion.div>
           ))}
 
+          {/* No results */}
+          {filteredSections.length === 0 && (
+            <motion.div
+              className="text-center py-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.35)" }}>
+                No matching questions found
+              </p>
+              <button
+                onClick={() => setSearch("")}
+                className="mt-3 text-xs"
+                style={{ color: "#00ff88", background: "none", border: "none", cursor: "pointer" }}
+              >
+                Clear search
+              </button>
+            </motion.div>
+          )}
+
           {/* Still have questions */}
           <motion.div
-            className="text-center mt-8 p-6 rounded-2xl"
-            style={{
-              background: "rgba(0, 255, 136, 0.04)",
-              border: "1px solid rgba(0, 255, 136, 0.1)",
-              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
-              backdropFilter: "blur(8px)",
-            }}
+            className="glass-elevated text-center mt-8 p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
@@ -243,14 +292,7 @@ export default function FAQPage() {
             </p>
             <Link
               href="/support"
-              className="px-5 py-2 rounded-lg text-xs"
-              style={{
-                background: "rgba(0, 255, 136, 0.08)",
-                border: "1px solid rgba(0, 255, 136, 0.15)",
-                color: "#00ff88",
-                textDecoration: "none",
-                boxShadow: "0 4px 20px rgba(0, 255, 136, 0.2)",
-              }}
+              className="btn btn-primary btn-sm"
             >
               Contact Support
             </Link>

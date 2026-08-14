@@ -108,67 +108,54 @@ export default function SupportPage() {
           >
             <Link
               href="/faq"
-              className="p-5 rounded-2xl text-center transition-all hover:scale-[1.02]"
-              style={{
-                background: "rgba(0, 255, 136, 0.04)",
-                border: "1px solid rgba(0, 255, 136, 0.1)",
-                textDecoration: "none",
-                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
-                backdropFilter: "blur(8px)",
-              }}
+              className="glass-elevated p-5 text-center transition-all hover:scale-[1.02]"
+              style={{ textDecoration: "none" }}
             >
-              <div className="text-2xl mb-2">📖</div>
+              <div className="icon-glow mx-auto mb-3">
+                <span>📖</span>
+              </div>
               <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>FAQ</div>
-              <div className="text-[10px]" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Common questions</div>
+              <div className="text-[10px] mt-1" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Common questions</div>
             </Link>
             <a
               href="https://discord.gg/elovayne"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-5 rounded-2xl text-center transition-all hover:scale-[1.02]"
-              style={{
-                background: "rgba(0, 255, 136, 0.04)",
-                border: "1px solid rgba(0, 255, 136, 0.1)",
-                textDecoration: "none",
-                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
-                backdropFilter: "blur(8px)",
-              }}
+              className="glass-elevated p-5 text-center transition-all hover:scale-[1.02]"
+              style={{ textDecoration: "none" }}
             >
-              <div className="text-2xl mb-2">💬</div>
+              <div className="icon-glow mx-auto mb-3">
+                <span>💬</span>
+              </div>
               <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>Discord</div>
-              <div className="text-[10px]" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Join our community</div>
+              <div className="text-[10px] mt-1" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Join our community</div>
             </a>
             <a
               href="mailto:support@elovayne.com"
-              className="p-5 rounded-2xl text-center transition-all hover:scale-[1.02]"
-              style={{
-                background: "rgba(0, 255, 136, 0.04)",
-                border: "1px solid rgba(0, 255, 136, 0.1)",
-                textDecoration: "none",
-                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
-                backdropFilter: "blur(8px)",
-              }}
+              className="glass-elevated p-5 text-center transition-all hover:scale-[1.02]"
+              style={{ textDecoration: "none" }}
             >
-              <div className="text-2xl mb-2">📧</div>
+              <div className="icon-glow mx-auto mb-3">
+                <span>📧</span>
+              </div>
               <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>Email</div>
-              <div className="text-[10px]" style={{ color: "rgba(224, 245, 232, 0.4)" }}>support@elovayne.com</div>
+              <div className="text-[10px] mt-1" style={{ color: "rgba(224, 245, 232, 0.4)" }}>support@elovayne.com</div>
             </a>
             <Link
               href="/about"
-              className="p-5 rounded-2xl text-center transition-all hover:scale-[1.02]"
-              style={{
-                background: "rgba(0, 255, 136, 0.04)",
-                border: "1px solid rgba(0, 255, 136, 0.1)",
-                textDecoration: "none",
-                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
-                backdropFilter: "blur(8px)",
-              }}
+              className="glass-elevated p-5 text-center transition-all hover:scale-[1.02]"
+              style={{ textDecoration: "none" }}
             >
-              <div className="text-2xl mb-2">✨</div>
+              <div className="icon-glow mx-auto mb-3">
+                <span>✨</span>
+              </div>
               <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>About</div>
-              <div className="text-[10px]" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Our story</div>
+              <div className="text-[10px] mt-1" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Our story</div>
             </Link>
           </motion.div>
+
+          {/* Divider */}
+          <div className="section-divider my-8" />
 
           {/* FAQ accordion */}
           <motion.div
@@ -184,13 +171,7 @@ export default function SupportPage() {
               {faqItems.map((item, i) => (
                 <motion.div
                   key={i}
-                  className="rounded-xl overflow-hidden"
-                  style={{
-                    background: openFaq === i ? "rgba(0, 255, 136, 0.06)" : "rgba(0, 255, 136, 0.03)",
-                    border: `1px solid ${openFaq === i ? "rgba(0, 255, 136, 0.15)" : "rgba(0, 255, 136, 0.08)"}`,
-                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
-                    backdropFilter: "blur(8px)",
-                  }}
+                  className="glass-elevated overflow-hidden"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + i * 0.05 }}
@@ -228,6 +209,9 @@ export default function SupportPage() {
             </div>
           </motion.div>
 
+          {/* Divider */}
+          <div className="section-divider my-8" />
+
           {/* Crisis Support */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -247,16 +231,15 @@ export default function SupportPage() {
                   href={r.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl transition-all hover:scale-[1.01]"
-                  style={{
-                    background: "rgba(0, 255, 136, 0.03)",
-                    border: `1px solid ${r.color}20`,
-                    textDecoration: "none",
-                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
-                    backdropFilter: "blur(8px)",
-                  }}
+                  className="glass-elevated flex items-center gap-4 p-4 transition-all hover:scale-[1.01]"
+                  style={{ textDecoration: "none", borderColor: `${r.color}15` }}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 + i * 0.08 }}
                 >
-                  <span className="text-2xl">{r.icon}</span>
+                  <div className="icon-glow" style={{ borderColor: `${r.color}20`, background: `${r.color}08` }}>
+                    <span>{r.icon}</span>
+                  </div>
                   <div>
                     <div className="text-sm font-medium" style={{ color: r.color }}>{r.title}</div>
                     <div className="text-[11px]" style={{ color: "rgba(224, 245, 232, 0.5)" }}>{r.desc}</div>

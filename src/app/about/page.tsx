@@ -58,11 +58,8 @@ const sections = [
     items: [
       "Talk to Elyra, an AI companion who listens without judgment.",
       "Share your feelings through Soul Echo and connect with someone who understands.",
-      "Look up at the night sky in Stargazing and read messages left by others.",
       "Reflect in the Reflection Room with daily prompts.",
-      "Listen to calming sounds in the Ambient Room.",
       "Create art in the Dream Canvas with 32 brush types.",
-      "Take photos with the Cosmic Camera — 36+ dreamlike filters.",
       "Paint together in the Collaborative Mural in real-time.",
       "Release glowing Wish Lanterns into the night sky.",
       "Sit around a Campfire and chat anonymously.",
@@ -112,23 +109,20 @@ export default function AboutPage() {
           </motion.div>
 
           {/* Sections */}
-          <div className="space-y-5">
+          <div className="space-y-4">
             {sections.map((section, index) => (
               <motion.div
                 key={section.title}
-                className="rounded-2xl p-6 sm:p-7"
-                style={{
-                  background: `${section.color}03`,
-                  border: `1px solid ${section.color}10`,
-                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
-                  backdropFilter: "blur(8px)",
-                }}
+                className="glass-elevated p-6 sm:p-7"
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.08 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: index * 0.05 }}
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="text-sm opacity-60" style={{ color: section.color }}>{section.icon}</span>
+                  <div className="icon-glow" style={{ borderColor: `${section.color}20`, background: `${section.color}08` }}>
+                    <span style={{ color: section.color }}>{section.icon}</span>
+                  </div>
                   <h2 className="text-base" style={{ color: section.color, fontWeight: 400, letterSpacing: "0.01em" }}>
                     {section.title}
                   </h2>
@@ -155,20 +149,22 @@ export default function AboutPage() {
               </motion.div>
             ))}
 
+            {/* Divider */}
+            <div className="section-divider my-8" />
+
             {/* Crisis support */}
             <motion.div
-              className="rounded-2xl p-6 sm:p-7"
-              style={{
-                background: "rgba(236, 72, 153, 0.02)",
-                border: "1px solid rgba(236, 72, 153, 0.06)",
-                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(236, 72, 153, 0.04)",
-              }}
+              className="glass-elevated p-6 sm:p-7"
+              style={{ borderColor: "rgba(236, 72, 153, 0.1)", boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(236, 72, 153, 0.02), inset 0 1px 0 rgba(236, 72, 153, 0.06)" }}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-sm opacity-60" style={{ color: "#ec4899" }}>✦</span>
+                <div className="icon-glow" style={{ borderColor: "rgba(236, 72, 153, 0.2)", background: "rgba(236, 72, 153, 0.08)" }}>
+                  <span style={{ color: "#ec4899" }}>✦</span>
+                </div>
                 <h2 className="text-base" style={{ color: "#ec4899", fontWeight: 400 }}>
                   If you are in crisis
                 </h2>
@@ -196,15 +192,11 @@ export default function AboutPage() {
 
             {/* Free */}
             <motion.div
-              className="rounded-2xl p-6 text-center"
-              style={{
-                background: "rgba(16, 185, 129, 0.02)",
-                border: "1px solid rgba(16, 185, 129, 0.06)",
-                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 255, 136, 0.04)",
-              }}
+              className="glass-elevated p-6 text-center"
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             >
               <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.5)", fontWeight: 300 }}>
                 Elovayne is <strong style={{ color: "#10b981", fontWeight: 500 }}>free for everyone</strong>. Always.
