@@ -43,7 +43,7 @@ function SunoIcon({ name, size = 18 }: { name: string; size?: number }) {
 }
 
 export default function MusicPage() {
-  const { userId } = useAuth();
+  const { userId, session } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>("create");
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -161,7 +161,7 @@ export default function MusicPage() {
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.3 }}
               >
-                <CreateView onTrackCreated={handleTrackCreated} userId={userId} />
+                <CreateView onTrackCreated={handleTrackCreated} userId={userId} session={session} />
               </motion.div>
             )}
             {activeTab === "library" && (

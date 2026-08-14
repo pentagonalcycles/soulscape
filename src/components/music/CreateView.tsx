@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Session } from "@supabase/supabase-js";
 
 interface CreateViewProps {
   onTrackCreated: () => void;
   userId: string | null;
+  session: Session | null;
 }
 
 const STYLE_PRESETS = [
@@ -43,7 +45,7 @@ const LYRIC_HELPERS = [
   { tag: "[Pre-Chorus]", desc: "Build-up to chorus" },
 ];
 
-export default function CreateView({ onTrackCreated, userId }: CreateViewProps) {
+export default function CreateView({ onTrackCreated, userId, session }: CreateViewProps) {
   const [prompt, setPrompt] = useState("");
   const [lyrics, setLyrics] = useState("");
   const [title, setTitle] = useState("");
@@ -72,7 +74,6 @@ export default function CreateView({ onTrackCreated, userId }: CreateViewProps) 
     setError("");
 
     try {
-      const { data: { session } } = await (await import("@/lib/supabase")).supabase().auth.getSession();
       const accessToken = session?.access_token;
       if (!accessToken) {
         setError("Authentication required to create music");
