@@ -197,7 +197,7 @@ export default function AdminPage() {
   };
 
   const deleteReportedContent = async (contentId: string, sourceType: string) => {
-    const typeMap: Record<string, string> = { post: "posts", nera: "neras", unseen: "posts", living_room: "posts" };
+    const typeMap: Record<string, string> = { post: "posts", nera: "neras", living_room: "posts" };
     await fetch("/api/admin/content", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -432,7 +432,7 @@ export default function AdminPage() {
                       ))}
                     </div>
                     <div className="flex gap-1 ml-auto">
-                      {["all", "post", "nera", "unseen", "living_room"].map((t) => (
+                      {["all", "post", "nera", "living_room"].map((t) => (
                         <button
                           key={t}
                           onClick={() => setReportTypeFilter(t)}
@@ -442,7 +442,7 @@ export default function AdminPage() {
                               : "text-elovayne-dim border border-transparent hover:border-elovayne-dim/20"
                           }`}
                         >
-                          {t === "all" ? "All Types" : t === "post" ? "Posts" : t === "nera" ? "NERAs" : t === "unseen" ? "UNSEEN" : "Living Room"}
+                          {t === "all" ? "All Types" : t === "post" ? "Posts" : t === "nera" ? "NERAs" : "Living Room"}
                         </button>
                       ))}
                     </div>
@@ -470,7 +470,7 @@ export default function AdminPage() {
                                 {r.status}
                               </span>
                               <span className="px-2 py-0.5 rounded-full text-xs bg-elovayne-deep/50 text-elovayne-muted capitalize">
-                                {r.source_type === "post" ? "Post" : r.source_type === "nera" ? "NERA" : r.source_type === "unseen" ? "UNSEEN" : "Living Room"}
+                                {r.source_type === "post" ? "Post" : r.source_type === "nera" ? "NERA" : "Living Room"}
                               </span>
                               <span className="text-xs text-elovayne-dim">Reason: {r.reason}</span>
                             </div>
