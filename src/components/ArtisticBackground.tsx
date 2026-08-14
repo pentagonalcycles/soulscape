@@ -29,13 +29,13 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
       duration: 8 + (i * 3) % 18,
       delay: (i * 0.5) % 7,
       color: [
-        "rgba(13, 148, 136, 0.8)",
-        "rgba(6, 182, 212, 0.7)",
-        "rgba(16, 185, 129, 0.6)",
-        "rgba(96, 165, 250, 0.7)",
-        "rgba(34, 211, 238, 0.6)",
-        "rgba(167, 139, 250, 0.5)",
-        "rgba(251, 146, 60, 0.4)",
+        "rgba(0, 255, 136, 0.8)",
+        "rgba(57, 255, 20, 0.7)",
+        "rgba(0, 204, 106, 0.6)",
+        "rgba(74, 222, 128, 0.7)",
+        "rgba(52, 211, 153, 0.6)",
+        "rgba(0, 180, 100, 0.5)",
+        "rgba(26, 92, 46, 0.4)",
       ][i % 7],
     }));
   }, []);
@@ -61,12 +61,12 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
   }, []);
 
   const orbColors = variant === "warm"
-    ? ["rgba(6, 182, 212, 0.25)", "rgba(16, 185, 129, 0.18)", "rgba(251, 146, 60, 0.15)", "rgba(244, 63, 94, 0.1)"]
+    ? ["rgba(0, 255, 136, 0.2)", "rgba(0, 204, 106, 0.14)", "rgba(57, 255, 20, 0.1)", "rgba(26, 92, 46, 0.08)"]
     : variant === "cool"
-    ? ["rgba(96, 165, 250, 0.25)", "rgba(34, 211, 238, 0.18)", "rgba(129, 140, 248, 0.15)", "rgba(139, 92, 246, 0.1)"]
+    ? ["rgba(0, 180, 100, 0.2)", "rgba(74, 222, 128, 0.14)", "rgba(0, 255, 136, 0.1)", "rgba(52, 211, 153, 0.08)"]
     : variant === "cosmic"
-    ? ["rgba(13, 148, 136, 0.25)", "rgba(6, 182, 212, 0.18)", "rgba(16, 185, 129, 0.12)", "rgba(167, 139, 250, 0.1)"]
-    : ["rgba(13, 148, 136, 0.18)", "rgba(6, 182, 212, 0.12)", "rgba(16, 185, 129, 0.1)", "rgba(96, 165, 250, 0.08)"];
+    ? ["rgba(0, 255, 136, 0.22)", "rgba(57, 255, 20, 0.14)", "rgba(0, 204, 106, 0.1)", "rgba(74, 222, 128, 0.08)"]
+    : ["rgba(0, 255, 136, 0.15)", "rgba(57, 255, 20, 0.1)", "rgba(0, 204, 106, 0.08)", "rgba(74, 222, 128, 0.06)"];
 
   return (
     <>
@@ -127,7 +127,7 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
           style={{
             top: "18%",
             left: "58%",
-            background: "radial-gradient(circle, rgba(96, 165, 250, 0.12) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, rgba(57, 255, 20, 0.04) 50%, transparent 60%)",
             filter: "blur(30px)",
             opacity: "var(--orb-opacity, 0.04)",
           }}
@@ -142,7 +142,7 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
           style={{
             bottom: "22%",
             right: "18%",
-            background: "radial-gradient(circle, rgba(34, 211, 238, 0.1) 0%, rgba(16, 185, 129, 0.04) 50%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(74, 222, 128, 0.08) 0%, rgba(0, 204, 106, 0.03) 50%, transparent 60%)",
             filter: "blur(35px)",
             opacity: "var(--orb-opacity, 0.03)",
           }}
@@ -157,7 +157,7 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
           style={{
             top: "60%",
             right: "40%",
-            background: "radial-gradient(circle, rgba(167, 139, 250, 0.08) 0%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(0, 180, 100, 0.06) 0%, transparent 60%)",
             filter: "blur(25px)",
             opacity: "var(--orb-opacity, 0.03)",
           }}
@@ -178,7 +178,7 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
             y1={`${line.y1}%`}
             x2={`${line.x2}%`}
             y2={`${line.y2}%`}
-            stroke={i % 3 === 0 ? "rgba(6, 182, 212, 0.3)" : i % 3 === 1 ? "rgba(96, 165, 250, 0.25)" : "rgba(13, 148, 136, 0.28)"}
+            stroke={i % 3 === 0 ? "rgba(0, 255, 136, 0.25)" : i % 3 === 1 ? "rgba(57, 255, 20, 0.2)" : "rgba(0, 204, 106, 0.22)"}
             strokeWidth="0.5"
             strokeDasharray={i % 4 === 0 ? "2 8" : "4 6"}
             initial={{ opacity: 0 }}
@@ -193,7 +193,7 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
             cx={`${point.x}%`}
             cy={`${point.y}%`}
             r="2"
-            fill={i % 4 === 0 ? "rgba(6, 182, 212, 0.6)" : i % 4 === 1 ? "rgba(96, 165, 250, 0.5)" : i % 4 === 2 ? "rgba(16, 185, 129, 0.5)" : "rgba(167, 139, 250, 0.45)"}
+            fill={i % 4 === 0 ? "rgba(0, 255, 136, 0.6)" : i % 4 === 1 ? "rgba(57, 255, 20, 0.5)" : i % 4 === 2 ? "rgba(0, 204, 106, 0.5)" : "rgba(74, 222, 128, 0.45)"}
             initial={{ opacity: 0 }}
             animate={{ opacity: [0.15, 0.75, 0.15], r: [1.2, 2.8, 1.2] }}
             transition={{ duration: 2 + i * 0.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.12 }}
@@ -226,7 +226,7 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
       <motion.div
         className="fixed inset-0 pointer-events-none z-[1]"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.05), rgba(6, 182, 212, 0.03), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.04), rgba(57, 255, 20, 0.02), transparent)",
           opacity: "var(--glow-opacity, 0.5)",
         }}
         animate={{
@@ -237,7 +237,7 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
       <motion.div
         className="fixed inset-0 pointer-events-none z-[1]"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.04), rgba(167, 139, 250, 0.02), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(0, 204, 106, 0.03), rgba(74, 222, 128, 0.015), transparent)",
           opacity: "var(--glow-opacity, 0.4)",
         }}
         animate={{
@@ -248,7 +248,7 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
       <motion.div
         className="fixed inset-0 pointer-events-none z-[1]"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.03), rgba(34, 211, 238, 0.02), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.02), rgba(0, 255, 136, 0.01), transparent)",
           opacity: "var(--glow-opacity, 0.3)",
         }}
         animate={{
@@ -257,14 +257,14 @@ export default function ArtisticBackground({ variant = "default" }: ArtisticBack
         transition={{ duration: 22, repeat: Infinity, ease: "linear", delay: 10 }}
       />
 
-      {/* Mouse-following glow — hidden on mobile */}
+      {/* Mouse-following glow */}
       {!isMobile && (
         <motion.div
           className="fixed pointer-events-none z-[2] w-[500px] h-[500px] rounded-full"
           style={{
             left: mousePos.x - 250,
             top: mousePos.y - 250,
-            background: "radial-gradient(circle, rgba(13, 148, 136, 0.07), rgba(6, 182, 212, 0.03) 40%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(0, 255, 136, 0.05), rgba(57, 255, 20, 0.02) 40%, transparent 70%)",
             filter: "blur(45px)",
             transition: "left 0.3s ease-out, top 0.3s ease-out",
             opacity: "var(--glow-opacity, 0.06)",

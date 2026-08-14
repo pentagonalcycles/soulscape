@@ -118,9 +118,9 @@ export default function Navigation({ activePage }: NavigationProps) {
                 left: 0,
                 bottom: 0,
                 width: isMobile ? "min(300px, 90vw)" : "min(260px, 85vw)",
-                background: "#ffffff",
-                borderRight: "1px solid rgba(13, 148, 136, 0.06)",
-                boxShadow: "8px 0 40px rgba(0,0,0,0.04)",
+                background: "#0a0f0b",
+                borderRight: "1px solid rgba(0, 255, 136, 0.08)",
+                boxShadow: "8px 0 40px rgba(0,0,0,0.3)",
                 zIndex: 1000,
                 display: "flex",
                 flexDirection: "column",
@@ -133,13 +133,13 @@ export default function Navigation({ activePage }: NavigationProps) {
                   fontSize: "20px",
                   fontWeight: 300,
                   letterSpacing: "0.12em",
-                  background: "linear-gradient(135deg, #0d9488, #06b6d4)",
+                  background: "linear-gradient(135deg, #00ff88, #00cc6a)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}>
                   Elovayne
                 </div>
-                <div style={{ fontSize: "11px", color: "rgba(15, 23, 42, 0.25)", marginTop: "4px", letterSpacing: "0.02em" }}>
+                <div style={{ fontSize: "11px", color: "rgba(224, 245, 232, 0.25)", marginTop: "4px", letterSpacing: "0.02em" }}>
                   A safe place for your soul
                 </div>
               </div>
@@ -165,13 +165,13 @@ export default function Navigation({ activePage }: NavigationProps) {
                           padding: isMobile ? "12px 16px" : "10px 16px",
                           borderRadius: "10px",
                           textDecoration: "none",
-                          color: isActive ? "#0f172a" : "rgba(15, 23, 42, 0.5)",
-                          background: isActive ? "rgba(13, 148, 136, 0.06)" : "transparent",
+                          color: isActive ? "#e0f5e8" : "rgba(224, 245, 232, 0.4)",
+                          background: isActive ? "rgba(0, 255, 136, 0.06)" : "transparent",
                           transition: "all 0.2s ease",
                           marginBottom: "2px",
                         }}
                         onMouseEnter={(e) => {
-                          if (!isActive) e.currentTarget.style.background = "rgba(13, 148, 136, 0.04)";
+                          if (!isActive) e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
                         }}
                         onMouseLeave={(e) => {
                           if (!isActive) e.currentTarget.style.background = "transparent";
@@ -182,7 +182,7 @@ export default function Navigation({ activePage }: NavigationProps) {
                           width: "20px",
                           textAlign: "center",
                           opacity: isActive ? 1 : 0.4,
-                          color: isActive ? "#0d9488" : "rgba(15, 23, 42, 0.5)",
+                          color: isActive ? "#00ff88" : "rgba(224, 245, 232, 0.4)",
                         }}>
                           {link.icon}
                         </span>
@@ -212,15 +212,15 @@ export default function Navigation({ activePage }: NavigationProps) {
                       padding: "10px 16px",
                       borderRadius: "10px",
                       textDecoration: "none",
-                      color: "rgba(239, 68, 68, 0.7)",
-                      background: "rgba(239, 68, 68, 0.04)",
-                      border: "1px solid rgba(239, 68, 68, 0.08)",
+                        color: "rgba(255, 100, 100, 0.7)",
+                        background: "rgba(255, 100, 100, 0.04)",
+                        border: "1px solid rgba(255, 100, 100, 0.08)",
                       transition: "all 0.2s ease",
                       marginBottom: "8px",
                       fontSize: "13px",
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(239, 68, 68, 0.08)"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(239, 68, 68, 0.04)"; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255, 100, 100, 0.08)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255, 100, 100, 0.04)"; }}
                   >
                     <span style={{ fontSize: "14px", width: "20px", textAlign: "center" }}>⚙</span>
                     Admin Dashboard
@@ -234,10 +234,10 @@ export default function Navigation({ activePage }: NavigationProps) {
                       onClick={close}
                       className="flex-1 text-center py-2.5 rounded-lg text-[11px] tracking-wide transition-all hover:shadow-sm"
                       style={{
-                        color: "rgba(15, 23, 42, 0.4)",
+                        color: "rgba(224, 245, 232, 0.35)",
                         textDecoration: "none",
-                        background: "rgba(13, 148, 136, 0.03)",
-                        border: "1px solid rgba(13, 148, 136, 0.06)",
+                        background: "rgba(0, 255, 136, 0.03)",
+                        border: "1px solid rgba(0, 255, 136, 0.06)",
                       }}
                     >
                       {link.label}
@@ -252,19 +252,19 @@ export default function Navigation({ activePage }: NavigationProps) {
                     textAlign: "center",
                     padding: "10px",
                     borderRadius: "10px",
-                    background: "rgba(13, 148, 136, 0.04)",
-                    border: "1px solid rgba(13, 148, 136, 0.08)",
-                    color: "#0d9488",
+                    background: "rgba(0, 255, 136, 0.04)",
+                    border: "1px solid rgba(0, 255, 136, 0.08)",
+                    color: "#00ff88",
                     textDecoration: "none",
                     fontSize: "12px",
                     letterSpacing: "0.02em",
                     transition: "all 0.2s ease",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(13, 148, 136, 0.08)";
+                    e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(13, 148, 136, 0.04)";
+                    e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
                   }}
                 >
                   ← Home

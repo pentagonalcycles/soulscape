@@ -16,10 +16,10 @@ export default function ElyraButton() {
           <motion.div
             className="px-3 py-1.5 rounded-lg text-xs whitespace-nowrap"
             style={{
-              background: "rgba(13, 148, 136, 0.08)",
-              border: "1px solid rgba(13, 148, 136, 0.15)",
+              background: "rgba(0, 255, 136, 0.06)",
+              border: "1px solid rgba(0, 255, 136, 0.12)",
               backdropFilter: "blur(12px)",
-              color: "rgba(15, 23, 42, 0.7)",
+              color: "rgba(224, 245, 232, 0.7)",
             }}
             initial={{ opacity: 0, y: 5, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -54,7 +54,7 @@ export default function ElyraButton() {
           <motion.div
             className="absolute inset-0 rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(45, 212, 191, 0.2) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(0, 255, 136, 0.15) 0%, transparent 70%)",
               filter: "blur(12px)",
             }}
             animate={{
@@ -68,7 +68,7 @@ export default function ElyraButton() {
           <motion.div
             className="absolute inset-[-4px] rounded-full"
             style={{
-              border: "1px solid rgba(45, 212, 191, 0.12)",
+              border: "1px solid rgba(0, 255, 136, 0.1)",
             }}
             animate={{ rotate: 360 }}
             transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
@@ -78,14 +78,14 @@ export default function ElyraButton() {
           <motion.div
             className="relative w-12 h-12 rounded-full flex items-center justify-center"
             style={{
-              background: "#ffffff",
-              border: "1px solid rgba(13, 148, 136, 0.15)",
-              boxShadow: "0 0 16px rgba(13, 148, 136, 0.1), 0 4px 16px rgba(13, 148, 136, 0.06)",
+              background: "#0a0f0b",
+              border: "1px solid rgba(0, 255, 136, 0.12)",
+              boxShadow: "0 0 16px rgba(0, 255, 136, 0.08), 0 4px 16px rgba(0, 255, 136, 0.05)",
             }}
             whileHover={{
               scale: 1.08,
-              borderColor: "rgba(13, 148, 136, 0.3)",
-              boxShadow: "0 0 24px rgba(13, 148, 136, 0.2), 0 0 48px rgba(13, 148, 136, 0.08), 0 4px 20px rgba(13, 148, 136, 0.08)",
+              borderColor: "rgba(0, 255, 136, 0.3)",
+              boxShadow: "0 0 24px rgba(0, 255, 136, 0.15), 0 0 48px rgba(0, 255, 136, 0.06), 0 4px 20px rgba(0, 255, 136, 0.06)",
             }}
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.3 }}
@@ -106,8 +106,8 @@ export default function ElyraButton() {
             <motion.div
               className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full"
               style={{
-                background: "rgba(45, 212, 191, 0.7)",
-                boxShadow: "0 0 6px rgba(45, 212, 191, 0.5)",
+                background: "rgba(0, 255, 136, 0.7)",
+                boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)",
               }}
               animate={{
                 scale: [1, 1.3, 1],

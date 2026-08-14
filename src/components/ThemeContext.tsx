@@ -13,7 +13,7 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType>({
   applyTheme: () => {},
-  colorScheme: "light",
+  colorScheme: "dark",
   toggleColorScheme: () => {},
 });
 
@@ -71,7 +71,7 @@ const fontSizeMap: Record<string, { base: string; heading: string; small: string
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const { userPreferences } = useAuth();
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(() => loadLocal("color_scheme", "light"));
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(() => loadLocal("color_scheme", "dark"));
 
   const toggleColorScheme = useCallback(() => {
     setColorScheme((prev) => {
@@ -93,10 +93,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--elovayne-muted", variants.muted);
 
     // Glow effects
-    root.style.setProperty("--glow-soft", `0 0 20px ${variants.primary}4d`);
-    root.style.setProperty("--glow-medium", `0 0 40px ${variants.primary}66`);
-    root.style.setProperty("--glow-strong", `0 0 60px ${variants.primary}80, 0 0 120px ${variants.primary}4d`);
-    root.style.setProperty("--glow-portal", `0 0 80px ${variants.primary}99, 0 0 160px ${variants.primary}66, 0 0 240px ${variants.glow}33`);
+    root.style.setProperty("--glow-soft", `0 0 20px ${variants.primary}26`);
+    root.style.setProperty("--glow-medium", `0 0 40px ${variants.primary}33`);
+    root.style.setProperty("--glow-strong", `0 0 60px ${variants.primary}40, 0 0 120px ${variants.primary}1f`);
+    root.style.setProperty("--glow-portal", `0 0 80px ${variants.primary}4d, 0 0 160px ${variants.primary}2e, 0 0 240px ${variants.glow}14`);
 
     // Animation speed
     if (userPreferences.reduce_motion) {
@@ -107,7 +107,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       document.body.classList.remove("reduce-motion");
     }
 
-    // Compact mode - check localStorage since it's not in UserPreferences
+    // Compact mode
     const compactMode = localStorage.getItem("compact_mode") === "true";
     if (compactMode) {
       root.style.setProperty("--compact-multiplier", "0.75");
@@ -124,14 +124,29 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--font-size-small", fs.small);
     root.style.setProperty("--font-size-xs", fs.xs);
 
-    // Color scheme — always light
-    root.style.setProperty("--elovayne-bg", "#ffffff");
-    root.style.setProperty("--elovayne-surface", "#f0fdf9");
-    root.style.setProperty("--elovayne-surface-alt", "#e6f7f2");
-    root.style.setProperty("--elovayne-text-primary", "#0f172a");
-    root.style.setProperty("--elovayne-text-secondary", "#155e75");
-    root.style.setProperty("--elovayne-border", "rgba(13, 148, 136, 0.15)");
-    root.setAttribute("data-theme", "light");
+    // Color scheme — always dark (bioluminescent)
+    root.style.setProperty("--elovayne-bg", "#050a06");
+    root.style.setProperty("--elovayne-surface", "#070e08");
+    root.style.setProperty("--elovayne-surface-alt", "#0a150c");
+    root.style.setProperty("--elovayne-text-primary", "#e0f5e8");
+    root.style.setProperty("--elovayne-text-secondary", "#b0d4be");
+    root.style.setProperty("--elovayne-border", "rgba(0, 255, 136, 0.1)");
+    root.style.setProperty("--bg-color", "#050a06");
+    root.style.setProperty("--text-primary", "#e0f5e8");
+    root.style.setProperty("--text-secondary", "#b0d4be");
+    root.style.setProperty("--text-muted", "#6b9a7a");
+    root.style.setProperty("--text-dim", "#3d6b4e");
+    root.style.setProperty("--text-faint", "rgba(224, 245, 232, 0.3)");
+    root.style.setProperty("--border-subtle", "rgba(0, 255, 136, 0.1)");
+    root.style.setProperty("--card-bg", "rgba(0, 255, 136, 0.03)");
+    root.style.setProperty("--input-bg", "rgba(0, 255, 136, 0.05)");
+    root.style.setProperty("--nebula-opacity", "0.2");
+    root.style.setProperty("--particle-opacity", "0.8");
+    root.style.setProperty("--constellation-opacity", "0.3");
+    root.style.setProperty("--glow-opacity", "0.08");
+    root.style.setProperty("--orb-opacity", "0.15");
+    document.body.style.background = "#050a06";
+    root.setAttribute("data-theme", "dark");
   }, [userPreferences]);
 
   useEffect(() => {

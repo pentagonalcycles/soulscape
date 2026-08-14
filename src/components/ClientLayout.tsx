@@ -121,64 +121,24 @@ function LayoutInner({ children }: { children: ReactNode }) {
   }, [pathname]);
 
   useEffect(() => {
-    const storedBg = localStorage.getItem("bg-color");
-    if (storedBg) {
-      document.documentElement.style.setProperty("--bg-color", storedBg);
-      document.body.style.background = storedBg;
+    // Always use dark bioluminescent theme
+    document.documentElement.style.setProperty("--bg-color", "#050a06");
+    document.body.style.background = "#050a06";
 
-      // Determine if background is light or dark
-      let isLight = true;
-      if (storedBg.startsWith("#") && storedBg.length >= 7) {
-        const r = parseInt(storedBg.slice(1, 3), 16) / 255;
-        const g = parseInt(storedBg.slice(3, 5), 16) / 255;
-        const b = parseInt(storedBg.slice(5, 7), 16) / 255;
-        const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        isLight = luminance > 0.5;
-      } else if (storedBg.startsWith("linear-gradient") || storedBg.startsWith("radial-gradient")) {
-        const hexMatch = storedBg.match(/#[0-9a-fA-F]{6}/);
-        if (hexMatch) {
-          const hex = hexMatch[0];
-          const r = parseInt(hex.slice(1, 3), 16) / 255;
-          const g = parseInt(hex.slice(3, 5), 16) / 255;
-          const b = parseInt(hex.slice(5, 7), 16) / 255;
-          const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-          isLight = luminance > 0.5;
-        }
-      }
-
-      const root = document.documentElement.style;
-      if (isLight) {
-        root.setProperty("--text-primary", "#0f172a");
-        root.setProperty("--text-secondary", "#334155");
-        root.setProperty("--text-muted", "#64748b");
-        root.setProperty("--text-dim", "#94a3b8");
-        root.setProperty("--text-faint", "rgba(15, 23, 42, 0.4)");
-        root.setProperty("--border-subtle", "rgba(13, 148, 136, 0.12)");
-        root.setProperty("--card-bg", "rgba(13, 148, 136, 0.04)");
-        root.setProperty("--input-bg", "rgba(13,148,136,0.06)");
-        // Brighter animations on light backgrounds
-        root.setProperty("--nebula-opacity", "0.25");
-        root.setProperty("--particle-opacity", "0.9");
-        root.setProperty("--constellation-opacity", "0.35");
-        root.setProperty("--glow-opacity", "0.1");
-        root.setProperty("--orb-opacity", "0.2");
-      } else {
-        root.setProperty("--text-primary", "#f1f5f9");
-        root.setProperty("--text-secondary", "#e2e8f0");
-        root.setProperty("--text-muted", "#94a3b8");
-        root.setProperty("--text-dim", "#64748b");
-        root.setProperty("--text-faint", "rgba(241, 245, 249, 0.4)");
-        root.setProperty("--border-subtle", "rgba(13, 148, 136, 0.2)");
-        root.setProperty("--card-bg", "rgba(13, 148, 136, 0.08)");
-        root.setProperty("--input-bg", "rgba(13,148,136,0.12)");
-        // Subtle animations on dark backgrounds
-        root.setProperty("--nebula-opacity", "0.15");
-        root.setProperty("--particle-opacity", "0.7");
-        root.setProperty("--constellation-opacity", "0.25");
-        root.setProperty("--glow-opacity", "0.06");
-        root.setProperty("--orb-opacity", "0.12");
-      }
-    }
+    const root = document.documentElement.style;
+    root.setProperty("--text-primary", "#e0f5e8");
+    root.setProperty("--text-secondary", "#b0d4be");
+    root.setProperty("--text-muted", "#6b9a7a");
+    root.setProperty("--text-dim", "#3d6b4e");
+    root.setProperty("--text-faint", "rgba(224, 245, 232, 0.3)");
+    root.setProperty("--border-subtle", "rgba(0, 255, 136, 0.1)");
+    root.setProperty("--card-bg", "rgba(0, 255, 136, 0.03)");
+    root.setProperty("--input-bg", "rgba(0, 255, 136, 0.05)");
+    root.setProperty("--nebula-opacity", "0.2");
+    root.setProperty("--particle-opacity", "0.8");
+    root.setProperty("--constellation-opacity", "0.3");
+    root.setProperty("--glow-opacity", "0.08");
+    root.setProperty("--orb-opacity", "0.15");
   }, []);
 
   const isHeavyPage = HEAVY_BG_ROUTES.some((r) => pathname?.startsWith(r));

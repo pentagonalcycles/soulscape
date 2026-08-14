@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter, Caveat } from "next/font/google";
+import { Space_Grotesk, Inter, Share_Tech_Mono } from "next/font/google";
 import ClientLayout from "@/components/ClientLayout";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
@@ -14,10 +14,10 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const caveat = Caveat({
-  variable: "--font-caveat",
+const shareTechMono = Share_Tech_Mono({
+  variable: "--font-share-tech-mono",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "400",
 });
 
 export const viewport: Viewport = {
@@ -26,7 +26,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
   viewportFit: "cover",
-  themeColor: "#ffffff",
+  themeColor: "#050a06",
 };
 
 export const metadata: Metadata = {
@@ -44,7 +44,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${cormorant.variable} ${inter.variable} ${caveat.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${shareTechMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col text-elovayne-light font-body">
         <ClientLayout>{children}</ClientLayout>

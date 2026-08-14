@@ -45,7 +45,7 @@ export default function WelcomeModal() {
       height: 1.5 + (((i * 11 + 5) % 10) / 10) * 2,
       left: `${15 + ((i * 17 + 2) % 70)}%`,
       top: `${15 + ((i * 23 + 7) % 70)}%`,
-      color: ['#0d9488', '#06b6d4', '#10b981'][i % 3],
+      color: ['#00ff88', '#57ff14', '#00cc6a'][i % 3],
       opacity: 0.12 + (((i * 13 + 1) % 10) / 10) * 0.2,
       duration: 4 + ((i * 9 + 4) % 10) * 0.3,
       delay: ((i * 7 + 6) % 10) * 0.3,
@@ -68,7 +68,7 @@ export default function WelcomeModal() {
           {/* Backdrop */}
           <motion.div
             className="absolute inset-0 backdrop-blur-sm"
-            style={{ background: 'rgba(13, 148, 136, 0.04)' }}
+            style={{ background: 'rgba(0, 255, 136, 0.03)' }}
             onClick={dismiss}
           >
             {visibleParticles.map((p, i) => (
@@ -108,10 +108,10 @@ export default function WelcomeModal() {
               <div className="flex justify-center mb-5">
                 <ElovayneLogo />
               </div>
-              <h2 className="text-2xl mb-4" style={{ color: "#0f172a", fontWeight: 300, letterSpacing: "0.02em" }}>
+               <h2 className="text-2xl mb-4" style={{ color: "#e0f5e8", fontWeight: 300, letterSpacing: "0.02em" }}>
                 You are safe here
               </h2>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(15, 23, 42, 0.5)", fontWeight: 300 }}>
+              <p className="text-sm leading-relaxed" style={{ color: "rgba(224, 245, 232, 0.5)", fontWeight: 300 }}>
                 Welcome home. This is a quiet place where your feelings are welcome,
                 your words are held gently, and you never have to face the dark alone.
                 You can share, or you can simply listen. There is no rush.
@@ -126,22 +126,22 @@ export default function WelcomeModal() {
                   onClick={() => handleAction(action.href)}
                   className="w-full flex items-center gap-3 p-4 rounded-xl transition-all text-left group"
                   style={{
-                    background: "rgba(13, 148, 136, 0.03)",
-                    border: "1px solid rgba(13, 148, 136, 0.08)",
+                    background: "rgba(0, 255, 136, 0.03)",
+                    border: "1px solid rgba(0, 255, 136, 0.06)",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(13, 148, 136, 0.06)";
-                    e.currentTarget.style.borderColor = "rgba(13, 148, 136, 0.15)";
-                    e.currentTarget.style.boxShadow = "0 4px 16px rgba(13, 148, 136, 0.08)";
+                    e.currentTarget.style.background = "rgba(0, 255, 136, 0.05)";
+                    e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.12)";
+                    e.currentTarget.style.boxShadow = "0 4px 16px rgba(0, 255, 136, 0.06)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(13, 148, 136, 0.03)";
-                    e.currentTarget.style.borderColor = "rgba(13, 148, 136, 0.08)";
+                    e.currentTarget.style.background = "rgba(0, 255, 136, 0.03)";
+                    e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.06)";
                     e.currentTarget.style.boxShadow = "none";
                   }}
                 >
                   <span className="text-lg opacity-60">{action.icon}</span>
-                  <span className="text-sm" style={{ color: "#0f172a", fontWeight: 400 }}>
+                   <span className="text-sm" style={{ color: "#e0f5e8", fontWeight: 400 }}>
                     {action.label}
                   </span>
                 </button>
@@ -156,9 +156,9 @@ export default function WelcomeModal() {
                   checked={dontShow}
                   onChange={(e) => setDontShow(e.target.checked)}
                   className="w-4 h-4 rounded"
-                  style={{ accentColor: "#0d9488" }}
+                   style={{ accentColor: "#00ff88" }}
                 />
-                <span className="text-xs" style={{ color: "rgba(13, 148, 136, 0.5)", fontWeight: 300 }}>
+                <span className="text-xs" style={{ color: "rgba(0, 255, 136, 0.45)", fontWeight: 300 }}>
                   I&apos;ll remember this path
                 </span>
               </label>
@@ -166,7 +166,7 @@ export default function WelcomeModal() {
               <button
                 onClick={dismiss}
                 className="text-sm transition-colors hover:opacity-60"
-                style={{ color: "rgba(13, 148, 136, 0.6)", fontWeight: 300 }}
+                style={{ color: "rgba(0, 255, 136, 0.55)", fontWeight: 300 }}
               >
                 Continue
               </button>

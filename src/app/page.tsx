@@ -6,22 +6,22 @@ import ElovayneLogo from "@/components/ElovayneLogo";
 import GlowingPortal from "@/components/GlowingPortal";
 
 const features = [
-  { icon: "✦", label: "Elyra AI", href: "/elyra", color: "#8b5cf6" },
-  { icon: "◎", label: "Soul Echo", href: "/soul-echo", color: "#0d9488" },
-  { icon: "✧", label: "Stargazing", href: "/stargazing", color: "#3b82f6" },
-  { icon: "◈", label: "Reflection", href: "/reflection-room", color: "#10b981" },
-  { icon: "△", label: "Canvas", href: "/dream-canvas", color: "#f59e0b" },
-  { icon: "⊡", label: "Camera", href: "/camera", color: "#ec4899" },
-  { icon: "◇", label: "Mural", href: "/mural", color: "#0d9488" },
-  { icon: "●", label: "Nebula Orb", href: "/nebula-orb", color: "#ef4444" },
-  { icon: "◈", label: "Wish Lanterns", href: "/wish-lanterns", color: "#f59e0b" },
-  { icon: "◆", label: "Campfire", href: "/campfire", color: "#f97316" },
-  { icon: "❋", label: "Poetry", href: "/poetry", color: "#ca8a04" },
-  { icon: "◎", label: "Soul Map", href: "/soul-map", color: "#8b5cf6" },
-  { icon: "🌤️", label: "Human Weather", href: "/human-weather", color: "#06b6d4" },
-  { icon: "📡", label: "Human Signal", href: "/human-signal", color: "#6366f1" },
-  { icon: "◎", label: "UNSEEN", href: "/unseen", color: "#8b5cf6" },
-  { icon: "💡", label: "Ideas", href: "/ideas", color: "#f59e0b" },
+  { icon: "✦", label: "Elyra AI", href: "/elyra", color: "#00ff88" },
+  { icon: "◎", label: "Soul Echo", href: "/soul-echo", color: "#00cc6a" },
+  { icon: "✧", label: "Stargazing", href: "/stargazing", color: "#57ff14" },
+  { icon: "◈", label: "Reflection", href: "/reflection-room", color: "#74de9a" },
+  { icon: "△", label: "Canvas", href: "/dream-canvas", color: "#4ade80" },
+  { icon: "⊡", label: "Camera", href: "/camera", color: "#00e676" },
+  { icon: "◇", label: "Mural", href: "/mural", color: "#00cc6a" },
+  { icon: "●", label: "Nebula Orb", href: "/nebula-orb", color: "#26a65a" },
+  { icon: "◈", label: "Wish Lanterns", href: "/wish-lanterns", color: "#52d398" },
+  { icon: "◆", label: "Campfire", href: "/campfire", color: "#1a5c2e" },
+  { icon: "❋", label: "Poetry", href: "/poetry", color: "#00ff88" },
+  { icon: "◎", label: "Soul Map", href: "/soul-map", color: "#00cc6a" },
+  { icon: "🌤️", label: "Human Weather", href: "/human-weather", color: "#57ff14" },
+  { icon: "📡", label: "Human Signal", href: "/human-signal", color: "#74de9a" },
+  { icon: "◎", label: "UNSEEN", href: "/unseen", color: "#4ade80" },
+  { icon: "💡", label: "Ideas", href: "/ideas", color: "#00e676" },
 ];
 
 export default function Home() {
@@ -116,14 +116,14 @@ export default function Home() {
           {/* Free banner */}
           <motion.div
             className="text-center mb-8 p-5 rounded-2xl"
-            style={{ background: "rgba(13, 148, 136, 0.03)", border: "1px solid rgba(13, 148, 136, 0.06)" }}
+            style={{ background: "rgba(0, 255, 136, 0.02)", border: "1px solid rgba(0, 255, 136, 0.05)" }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
             <p className="text-sm" style={{ color: "var(--text-muted)", fontWeight: 300 }}>
-              <strong style={{ color: "#10b981", fontWeight: 500 }}>Free for everyone</strong>. Always. No ads. No tracking.
+              <strong style={{ color: "#00ff88", fontWeight: 500 }}>Free for everyone</strong>. Always. No ads. No tracking.
             </p>
           </motion.div>
 
@@ -136,9 +136,9 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
           >
-            <p className="text-xs leading-relaxed" style={{ color: "rgba(15, 23, 42, 0.4)" }}>
+            <p className="text-xs leading-relaxed" style={{ color: "rgba(224, 245, 232, 0.35)" }}>
               In crisis? Reach out — you are not alone.{" "}
-              <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "#0d9488", textDecoration: "none", borderBottom: "1px solid rgba(13, 148, 136, 0.2)" }}>
+              <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "#00ff88", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
                 findahelpline.com
               </a>
               {" "} · US: 988 · UK: 116 123

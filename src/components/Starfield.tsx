@@ -41,9 +41,8 @@ export default function Starfield() {
       canvas.style.height = `${h}px`;
       ctx.scale(dpr, dpr);
 
-      // Fewer stars for better performance
       const total = Math.floor((w * h) / 6000);
-      const hueRanges = [170, 180, 165, 175, 185, 160];
+      const hueRanges = [120, 140, 130, 150, 110, 160, 100];
 
       for (let i = 0; i < total; i++) {
         const rand = Math.random();
@@ -68,18 +67,16 @@ export default function Starfield() {
         const x = Math.random() * w;
         const y = Math.random() * h;
         const hue = hueRanges[Math.floor(Math.random() * hueRanges.length)];
-        const sat = layer === 2 ? 70 : layer === 1 ? 50 : 40;
-        const light = layer === 2 ? 85 : layer === 1 ? 75 : 70;
+        const sat = layer === 2 ? 80 : layer === 1 ? 60 : 50;
+        const light = layer === 2 ? 75 : layer === 1 ? 65 : 60;
 
-        // Draw star
         ctx.fillStyle = `hsla(${hue}, ${sat}%, ${light}%, ${opacity})`;
         ctx.beginPath();
         ctx.arc(x, y, size, 0, Math.PI * 2);
         ctx.fill();
 
-        // Glow for bright stars
         if (layer === 2 && size > 1.2) {
-          ctx.fillStyle = `hsla(${hue}, 80%, 70%, ${opacity * 0.1})`;
+          ctx.fillStyle = `hsla(${hue}, 90%, 60%, ${opacity * 0.12})`;
           ctx.beginPath();
           ctx.arc(x, y, size * 3, 0, Math.PI * 2);
           ctx.fill();
@@ -88,8 +85,6 @@ export default function Starfield() {
     };
 
     render();
-
-    // Only re-render on resize
     window.addEventListener("resize", render);
     return () => window.removeEventListener("resize", render);
   }, []);
@@ -100,7 +95,6 @@ export default function Starfield() {
       className="fixed inset-0 pointer-events-none"
       style={{
         zIndex: 1,
-        // CSS-based twinkle via opacity animation on the whole canvas
         animation: prefersReducedMotion ? "none" : "starfieldTwinkle 8s ease-in-out infinite",
       }}
     />

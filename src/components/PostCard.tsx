@@ -132,13 +132,13 @@ export default function PostCard({
     <motion.article
       className="glass rounded-2xl p-6 relative group"
       style={{
-        boxShadow: "0 0 30px rgba(0, 230, 138, 0.05)",
+        boxShadow: "0 0 30px rgba(0, 255, 136, 0.03)",
       }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       whileHover={{
-        boxShadow: "0 0 40px rgba(0, 230, 138, 0.1)",
+        boxShadow: "0 0 40px rgba(0, 255, 136, 0.06)",
       }}
     >
       {/* Header */}

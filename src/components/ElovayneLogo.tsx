@@ -17,7 +17,7 @@ export default function ElovayneLogo() {
           className="absolute rounded-full pointer-events-none"
           style={{
             inset: -60,
-            background: "radial-gradient(circle, rgba(13, 148, 136, 0.12) 0%, rgba(6, 182, 212, 0.04) 40%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, rgba(57, 255, 20, 0.03) 40%, transparent 65%)",
             filter: "blur(50px)",
           }}
           animate={{ opacity: [0.3, 0.6, 0.3] }}
@@ -29,7 +29,7 @@ export default function ElovayneLogo() {
           className="absolute rounded-full pointer-events-none"
           style={{
             inset: -8,
-            border: "1px solid rgba(13, 148, 136, 0.06)",
+            border: "1px solid rgba(0, 255, 136, 0.06)",
           }}
           animate={{ rotate: 360 }}
           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
@@ -39,8 +39,8 @@ export default function ElovayneLogo() {
             style={{
               top: "50%",
               left: "-3px",
-              background: "#0d9488",
-              boxShadow: "0 0 8px rgba(13, 148, 136, 0.6)",
+              background: "#00ff88",
+              boxShadow: "0 0 8px rgba(0, 255, 136, 0.6)",
             }}
           />
         </motion.div>
@@ -50,7 +50,7 @@ export default function ElovayneLogo() {
           className="absolute rounded-full pointer-events-none"
           style={{
             inset: -18,
-            border: "1px dashed rgba(6, 182, 212, 0.04)",
+            border: "1px dashed rgba(57, 255, 20, 0.04)",
           }}
           animate={{ rotate: -360 }}
           transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
@@ -60,8 +60,8 @@ export default function ElovayneLogo() {
             style={{
               top: "-2px",
               left: "50%",
-              background: "rgba(6, 182, 212, 0.5)",
-              boxShadow: "0 0 6px rgba(6, 182, 212, 0.4)",
+              background: "rgba(57, 255, 20, 0.5)",
+              boxShadow: "0 0 6px rgba(57, 255, 20, 0.4)",
             }}
           />
         </motion.div>
@@ -71,9 +71,9 @@ export default function ElovayneLogo() {
           className="absolute inset-0"
           animate={{
             filter: [
-              "drop-shadow(0 0 8px rgba(13, 148, 136, 0.25))",
-              "drop-shadow(0 0 16px rgba(13, 148, 136, 0.45))",
-              "drop-shadow(0 0 8px rgba(13, 148, 136, 0.25))",
+              "drop-shadow(0 0 8px rgba(0, 255, 136, 0.25))",
+              "drop-shadow(0 0 16px rgba(0, 255, 136, 0.45))",
+              "drop-shadow(0 0 8px rgba(0, 255, 136, 0.25))",
             ],
           }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -81,16 +81,16 @@ export default function ElovayneLogo() {
           <svg viewBox="0 0 200 200" className="w-full h-full">
             <defs>
               <linearGradient id="logoGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#0d9488" />
-                <stop offset="100%" stopColor="#06b6d4" />
+                <stop offset="0%" stopColor="#00ff88" />
+                <stop offset="100%" stopColor="#00cc6a" />
               </linearGradient>
               <linearGradient id="logoGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#06b6d4" />
-                <stop offset="100%" stopColor="#10b981" />
+                <stop offset="0%" stopColor="#57ff14" />
+                <stop offset="100%" stopColor="#00ff88" />
               </linearGradient>
               <linearGradient id="logoGrad3" x1="50%" y1="0%" x2="50%" y2="100%">
-                <stop offset="0%" stopColor="#10b981" />
-                <stop offset="100%" stopColor="#0d9488" />
+                <stop offset="0%" stopColor="#74de9a" />
+                <stop offset="100%" stopColor="#00cc6a" />
               </linearGradient>
               <filter id="logoGlow">
                 <feGaussianBlur stdDeviation="2.5" result="blur" />
@@ -119,15 +119,15 @@ export default function ElovayneLogo() {
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <circle cx="100" cy="100" r="6" fill="url(#logoGrad1)" filter="url(#logoGlow)" />
-              <circle cx="86" cy="86" r="2.5" fill="#0d9488" opacity="0.7" />
-              <circle cx="114" cy="86" r="2.5" fill="#06b6d4" opacity="0.7" />
-              <circle cx="86" cy="114" r="2.5" fill="#06b6d4" opacity="0.7" />
-              <circle cx="114" cy="114" r="2.5" fill="#0d9488" opacity="0.7" />
+              <circle cx="86" cy="86" r="2.5" fill="#00ff88" opacity="0.7" />
+              <circle cx="114" cy="86" r="2.5" fill="#57ff14" opacity="0.7" />
+              <circle cx="86" cy="114" r="2.5" fill="#57ff14" opacity="0.7" />
+              <circle cx="114" cy="114" r="2.5" fill="#00ff88" opacity="0.7" />
             </motion.g>
 
             {/* Connection lines */}
             <motion.g
-              stroke="rgba(13, 148, 136, 0.2)"
+              stroke="rgba(0, 255, 136, 0.2)"
               strokeWidth="0.5"
               animate={{ opacity: [0.1, 0.35, 0.1] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -143,19 +143,19 @@ export default function ElovayneLogo() {
               animate={{ opacity: [0.2, 0.6, 0.2] }}
               transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              <circle cx="100" cy="45" r="2" fill="rgba(13, 148, 136, 0.45)" />
-              <circle cx="155" cy="100" r="2" fill="rgba(6, 182, 212, 0.45)" />
-              <circle cx="100" cy="155" r="2" fill="rgba(13, 148, 136, 0.45)" />
-              <circle cx="45" cy="100" r="2" fill="rgba(6, 182, 212, 0.45)" />
-              <circle cx="138" cy="62" r="1.5" fill="rgba(16, 185, 129, 0.35)" />
-              <circle cx="138" cy="138" r="1.5" fill="rgba(16, 185, 129, 0.35)" />
-              <circle cx="62" cy="138" r="1.5" fill="rgba(16, 185, 129, 0.35)" />
-              <circle cx="62" cy="62" r="1.5" fill="rgba(16, 185, 129, 0.35)" />
+              <circle cx="100" cy="45" r="2" fill="rgba(0, 255, 136, 0.45)" />
+              <circle cx="155" cy="100" r="2" fill="rgba(57, 255, 20, 0.45)" />
+              <circle cx="100" cy="155" r="2" fill="rgba(0, 255, 136, 0.45)" />
+              <circle cx="45" cy="100" r="2" fill="rgba(57, 255, 20, 0.45)" />
+              <circle cx="138" cy="62" r="1.5" fill="rgba(74, 222, 128, 0.35)" />
+              <circle cx="138" cy="138" r="1.5" fill="rgba(74, 222, 128, 0.35)" />
+              <circle cx="62" cy="138" r="1.5" fill="rgba(74, 222, 128, 0.35)" />
+              <circle cx="62" cy="62" r="1.5" fill="rgba(74, 222, 128, 0.35)" />
             </motion.g>
 
             {/* Connecting threads */}
             <motion.g
-              stroke="rgba(13, 148, 136, 0.1)"
+              stroke="rgba(0, 255, 136, 0.1)"
               strokeWidth="0.5"
               strokeDasharray="2 4"
               animate={{ opacity: [0.15, 0.4, 0.15] }}
@@ -174,7 +174,7 @@ export default function ElovayneLogo() {
             {/* Pulsing center */}
             <motion.circle
               cx="100" cy="100" r="4"
-              fill="#0d9488"
+              fill="#00ff88"
               filter="url(#logoGlow)"
               animate={{
                 r: [4, 6, 4],
@@ -190,7 +190,7 @@ export default function ElovayneLogo() {
       <motion.h1
         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
         style={{
-          background: "linear-gradient(135deg, #0d9488, #06b6d4, #10b981)",
+          background: "linear-gradient(135deg, #00ff88, #00cc6a, #57ff14)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
@@ -209,7 +209,7 @@ export default function ElovayneLogo() {
         style={{
           width: "60px",
           height: "1px",
-          background: "linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.3), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent)",
         }}
         initial={{ opacity: 0, width: 0 }}
         animate={{ opacity: 1, width: 60 }}
@@ -219,7 +219,7 @@ export default function ElovayneLogo() {
       {/* Tagline */}
       <motion.p
         className="text-base sm:text-lg tracking-widest"
-        style={{ color: "rgba(13, 148, 136, 0.55)", fontWeight: 300, letterSpacing: "0.15em" }}
+        style={{ color: "rgba(0, 255, 136, 0.5)", fontWeight: 300, letterSpacing: "0.15em" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 3, delay: 1.5 }}

@@ -12,7 +12,7 @@ export default function Nebula() {
         <motion.div
           className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(13, 148, 136, 0.3) 0%, rgba(6, 182, 212, 0.15) 40%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(0, 255, 136, 0.2) 0%, rgba(0, 204, 106, 0.1) 40%, transparent 70%)",
             filter: "blur(80px)",
             opacity: "var(--nebula-opacity, 0.12)",
           }}
@@ -26,7 +26,7 @@ export default function Nebula() {
         <motion.div
           className="absolute -bottom-1/4 -left-1/4 w-[500px] h-[500px] rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, rgba(16, 185, 129, 0.12) 40%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(57, 255, 20, 0.18) 0%, rgba(74, 222, 128, 0.08) 40%, transparent 70%)",
             filter: "blur(65px)",
             opacity: "var(--nebula-opacity, 0.1)",
           }}
@@ -42,11 +42,11 @@ export default function Nebula() {
   }
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
-      {/* Main nebula blob - top right — teal */}
+      {/* Main nebula blob - top right — green */}
       <motion.div
         className="absolute -top-1/4 -right-1/4 w-[900px] h-[900px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(13, 148, 136, 0.35) 0%, rgba(6, 182, 212, 0.18) 35%, rgba(96, 165, 250, 0.08) 55%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 255, 136, 0.25) 0%, rgba(0, 204, 106, 0.12) 35%, rgba(57, 255, 20, 0.06) 55%, transparent 70%)",
           filter: "blur(80px)",
           opacity: "var(--nebula-opacity, 0.15)",
         }}
@@ -58,11 +58,11 @@ export default function Nebula() {
         transition={{ duration: 40, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Secondary nebula blob - bottom left — cyan */}
+      {/* Secondary nebula blob - bottom left — emerald */}
       <motion.div
         className="absolute -bottom-1/4 -left-1/4 w-[700px] h-[700px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, rgba(16, 185, 129, 0.15) 35%, rgba(34, 211, 238, 0.08) 55%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 204, 106, 0.22) 0%, rgba(74, 222, 128, 0.1) 35%, rgba(52, 211, 153, 0.05) 55%, transparent 70%)",
           filter: "blur(65px)",
           opacity: "var(--nebula-opacity, 0.12)",
         }}
@@ -74,11 +74,11 @@ export default function Nebula() {
         transition={{ duration: 45, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Accent nebula blob - center — emerald */}
+      {/* Accent nebula blob - center — lime */}
       <motion.div
         className="absolute top-1/3 left-1/3 w-[500px] h-[500px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(13, 148, 136, 0.12) 35%, rgba(52, 211, 153, 0.06) 55%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(57, 255, 20, 0.18) 0%, rgba(0, 255, 136, 0.08) 35%, rgba(74, 222, 128, 0.04) 55%, transparent 70%)",
           filter: "blur(55px)",
           opacity: "var(--nebula-opacity, 0.08)",
         }}
@@ -90,11 +90,11 @@ export default function Nebula() {
         transition={{ duration: 50, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* New: Warm accent blob — top center — rose */}
+      {/* Warm accent blob — top center — deep forest */}
       <motion.div
         className="absolute -top-[10%] left-[30%] w-[500px] h-[500px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(244, 63, 94, 0.15) 0%, rgba(251, 113, 133, 0.08) 40%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(26, 92, 46, 0.3) 0%, rgba(0, 204, 106, 0.12) 40%, transparent 65%)",
           filter: "blur(70px)",
           opacity: "var(--nebula-opacity, 0.06)",
         }}
@@ -106,11 +106,11 @@ export default function Nebula() {
         transition={{ duration: 55, repeat: Infinity, ease: "easeInOut", delay: 10 }}
       />
 
-      {/* New: Deep violet blob — bottom right */}
+      {/* Deep green blob — bottom right */}
       <motion.div
         className="absolute -bottom-[15%] right-[5%] w-[550px] h-[550px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, rgba(167, 139, 250, 0.1) 35%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(0, 100, 60, 0.25) 0%, rgba(0, 255, 136, 0.08) 35%, transparent 65%)",
           filter: "blur(75px)",
           opacity: "var(--nebula-opacity, 0.08)",
         }}
@@ -126,7 +126,7 @@ export default function Nebula() {
       <motion.div
         className="absolute top-[10%] left-[15%] w-[220px] h-[220px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(59, 130, 246, 0.06) 50%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(0, 255, 136, 0.12) 0%, rgba(57, 255, 20, 0.04) 50%, transparent 60%)",
           filter: "blur(40px)",
           opacity: "var(--orb-opacity, 0.06)",
         }}
@@ -141,7 +141,7 @@ export default function Nebula() {
       <motion.div
         className="absolute bottom-[15%] right-[10%] w-[280px] h-[280px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.06) 50%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(74, 222, 128, 0.1) 0%, rgba(0, 204, 106, 0.04) 50%, transparent 60%)",
           filter: "blur(45px)",
           opacity: "var(--orb-opacity, 0.05)",
         }}
@@ -152,11 +152,11 @@ export default function Nebula() {
         transition={{ duration: 38, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* New: Warm floating orb - center right */}
+      {/* Warm floating orb - center right */}
       <motion.div
         className="absolute top-[45%] right-[20%] w-[180px] h-[180px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(251, 146, 60, 0.12) 0%, rgba(245, 158, 11, 0.05) 50%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(0, 180, 100, 0.1) 0%, rgba(57, 255, 20, 0.04) 50%, transparent 60%)",
           filter: "blur(35px)",
           opacity: "var(--orb-opacity, 0.04)",
         }}
@@ -171,7 +171,7 @@ export default function Nebula() {
       <motion.div
         className="absolute top-1/2 left-0 right-0 h-[2px]"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.1), rgba(6, 182, 212, 0.08), rgba(96, 165, 250, 0.06), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.08), rgba(57, 255, 20, 0.05), rgba(0, 204, 106, 0.04), transparent)",
           opacity: "var(--glow-opacity, 0.5)",
         }}
         animate={{
@@ -184,7 +184,7 @@ export default function Nebula() {
       <motion.div
         className="absolute top-0 left-0 w-full h-full"
         style={{
-          background: "linear-gradient(135deg, transparent 38%, rgba(13, 148, 136, 0.04) 50%, transparent 62%)",
+          background: "linear-gradient(135deg, transparent 38%, rgba(0, 255, 136, 0.03) 50%, transparent 62%)",
           opacity: "var(--glow-opacity, 0.6)",
         }}
         animate={{
@@ -193,11 +193,11 @@ export default function Nebula() {
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* New: Vertical energy wave */}
+      {/* Vertical energy wave */}
       <motion.div
         className="absolute top-0 left-0 w-full h-full"
         style={{
-          background: "linear-gradient(180deg, transparent 35%, rgba(96, 165, 250, 0.03) 50%, transparent 65%)",
+          background: "linear-gradient(180deg, transparent 35%, rgba(0, 204, 106, 0.02) 50%, transparent 65%)",
           opacity: "var(--glow-opacity, 0.4)",
         }}
         animate={{
@@ -210,7 +210,7 @@ export default function Nebula() {
       <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(13, 148, 136, 0.08) 0%, rgba(6, 182, 212, 0.04) 40%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(0, 255, 136, 0.06) 0%, rgba(57, 255, 20, 0.03) 40%, transparent 60%)",
           filter: "blur(35px)",
           opacity: "var(--glow-opacity, 0.04)",
         }}
@@ -220,11 +220,11 @@ export default function Nebula() {
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* New: Secondary pulsing glow */}
+      {/* Secondary pulsing glow */}
       <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(96, 165, 250, 0.04) 0%, transparent 55%)",
+          background: "radial-gradient(circle, rgba(0, 204, 106, 0.03) 0%, transparent 55%)",
           filter: "blur(50px)",
           opacity: "var(--glow-opacity, 0.03)",
         }}

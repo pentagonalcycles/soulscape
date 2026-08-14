@@ -52,9 +52,9 @@ export default function CelestialBorder() {
           />
           <defs>
             <radialGradient id="moonGradTL" cx="50%" cy="50%">
-              <stop offset="0%" stopColor="#10b981" />
-              <stop offset="60%" stopColor="#e8b84d" />
-              <stop offset="100%" stopColor="#c49a3c" />
+              <stop offset="0%" stopColor="#00ff88" />
+              <stop offset="60%" stopColor="#00cc6a" />
+              <stop offset="100%" stopColor="#1a5c2e" />
             </radialGradient>
           </defs>
         </svg>
@@ -70,9 +70,9 @@ export default function CelestialBorder() {
           />
           <defs>
             <radialGradient id="moonGradTR" cx="50%" cy="50%">
-              <stop offset="0%" stopColor="#10b981" />
-              <stop offset="60%" stopColor="#e8b84d" />
-              <stop offset="100%" stopColor="#c49a3c" />
+              <stop offset="0%" stopColor="#00ff88" />
+              <stop offset="60%" stopColor="#00cc6a" />
+              <stop offset="100%" stopColor="#1a5c2e" />
             </radialGradient>
           </defs>
         </svg>
@@ -96,7 +96,7 @@ export default function CelestialBorder() {
             strokeWidth="2"
             opacity="0.6"
           />
-          <circle cx="60" cy="90" r="4" fill="#10b981" opacity="0.7" />
+          <circle cx="60" cy="90" r="4" fill="#00ff88" opacity="0.7" />
           <polygon
             points="25,30 35,50 25,60 15,50"
             fill="url(#crystalSideL)"
@@ -109,21 +109,21 @@ export default function CelestialBorder() {
           />
           <defs>
             <linearGradient id="crystalTop" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#c4b5fd" />
-              <stop offset="50%" stopColor="#0d9488" />
-              <stop offset="100%" stopColor="#7c5cbf" />
+              <stop offset="0%" stopColor="#74de9a" />
+              <stop offset="50%" stopColor="#00ff88" />
+              <stop offset="100%" stopColor="#00cc6a" />
             </linearGradient>
             <linearGradient id="crystalStem" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#0d9488" />
+              <stop offset="0%" stopColor="#00ff88" />
               <stop offset="100%" stopColor="transparent" />
             </linearGradient>
             <linearGradient id="crystalSideL" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#60a5fa" />
-              <stop offset="100%" stopColor="#0d9488" />
+              <stop offset="0%" stopColor="#74de9a" />
+              <stop offset="100%" stopColor="#00ff88" />
             </linearGradient>
             <linearGradient id="crystalSideR" x1="1" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#06b6d4" />
-              <stop offset="100%" stopColor="#0d9488" />
+              <stop offset="0%" stopColor="#00ff88" />
+              <stop offset="100%" stopColor="#00cc6a" />
             </linearGradient>
           </defs>
         </svg>
@@ -194,36 +194,36 @@ export default function CelestialBorder() {
             opacity="0.45"
             transform="rotate(75,80,60)"
           />
-          <circle cx="80" cy="58" r="8" fill="#10b981" opacity="0.6" />
+          <circle cx="80" cy="58" r="8" fill="#00ff88" opacity="0.6" />
           <circle cx="80" cy="58" r="4" fill="#ffffff" opacity="0.4" />
           <defs>
             <linearGradient id="lotusCenter" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#06b6d4" />
-              <stop offset="100%" stopColor="#c4b5fd" />
+              <stop offset="0%" stopColor="#00ff88" />
+              <stop offset="100%" stopColor="#74de9a" />
             </linearGradient>
             <linearGradient id="lotusL1" x1="1" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#0d9488" />
-              <stop offset="100%" stopColor="#60a5fa" />
+              <stop offset="0%" stopColor="#00cc6a" />
+              <stop offset="100%" stopColor="#74de9a" />
             </linearGradient>
             <linearGradient id="lotusL2" x1="1" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#60a5fa" />
-              <stop offset="100%" stopColor="#22d3ee" />
+              <stop offset="0%" stopColor="#57ff14" />
+              <stop offset="100%" stopColor="#00ff88" />
             </linearGradient>
             <linearGradient id="lotusR1" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#06b6d4" />
-              <stop offset="100%" stopColor="#10b981" />
+              <stop offset="0%" stopColor="#00ff88" />
+              <stop offset="100%" stopColor="#00cc6a" />
             </linearGradient>
             <linearGradient id="lotusR2" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#10b981" />
-              <stop offset="100%" stopColor="#fb923c" />
+              <stop offset="0%" stopColor="#74de9a" />
+              <stop offset="100%" stopColor="#1a5c2e" />
             </linearGradient>
             <linearGradient id="lotusOuterL" x1="1" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#22d3ee" />
-              <stop offset="100%" stopColor="#818cf8" />
+              <stop offset="0%" stopColor="#00ff88" />
+              <stop offset="100%" stopColor="#4ade80" />
             </linearGradient>
             <linearGradient id="lotusOuterR" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#fb923c" />
-              <stop offset="100%" stopColor="#f87171" />
+              <stop offset="0%" stopColor="#57ff14" />
+              <stop offset="100%" stopColor="#00ff88" />
             </linearGradient>
           </defs>
         </svg>
@@ -246,22 +246,22 @@ export default function CelestialBorder() {
             fill="none"
             opacity="0.35"
           />
-          <polygon points="30,150 37,170 30,180 23,170" fill="#60a5fa" opacity="0.5" />
-          <polygon points="20,350 27,365 20,375 13,365" fill="#0d9488" opacity="0.5" />
-          <polygon points="35,550 42,565 35,575 28,565" fill="#22d3ee" opacity="0.5" />
-          <circle cx="15" cy="100" r="1.5" fill="#10b981" opacity="0.6" />
+          <polygon points="30,150 37,170 30,180 23,170" fill="#00ff88" opacity="0.5" />
+          <polygon points="20,350 27,365 20,375 13,365" fill="#00cc6a" opacity="0.5" />
+          <polygon points="35,550 42,565 35,575 28,565" fill="#57ff14" opacity="0.5" />
+          <circle cx="15" cy="100" r="1.5" fill="#00ff88" opacity="0.6" />
           <circle cx="40" cy="250" r="1" fill="#ffffff" opacity="0.5" />
-          <circle cx="10" cy="450" r="1.5" fill="#06b6d4" opacity="0.5" />
-          <circle cx="45" cy="650" r="1" fill="#10b981" opacity="0.6" />
+          <circle cx="10" cy="450" r="1.5" fill="#74de9a" opacity="0.5" />
+          <circle cx="45" cy="650" r="1" fill="#00cc6a" opacity="0.6" />
           <defs>
             <linearGradient id="vineL" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#60a5fa" />
-              <stop offset="50%" stopColor="#0d9488" />
-              <stop offset="100%" stopColor="#22d3ee" />
+              <stop offset="0%" stopColor="#00ff88" />
+              <stop offset="50%" stopColor="#00cc6a" />
+              <stop offset="100%" stopColor="#57ff14" />
             </linearGradient>
             <linearGradient id="vineL2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#818cf8" />
-              <stop offset="100%" stopColor="#6366f1" />
+              <stop offset="0%" stopColor="#74de9a" />
+              <stop offset="100%" stopColor="#4ade80" />
             </linearGradient>
           </defs>
         </svg>
@@ -284,22 +284,22 @@ export default function CelestialBorder() {
             fill="none"
             opacity="0.35"
           />
-          <polygon points="30,150 37,170 30,180 23,170" fill="#06b6d4" opacity="0.5" />
-          <polygon points="40,350 47,365 40,375 33,365" fill="#10b981" opacity="0.5" />
-          <polygon points="25,550 32,565 25,575 18,565" fill="#fb923c" opacity="0.5" />
-          <circle cx="45" cy="100" r="1.5" fill="#10b981" opacity="0.6" />
+          <polygon points="30,150 37,170 30,180 23,170" fill="#00ff88" opacity="0.5" />
+          <polygon points="40,350 47,365 40,375 33,365" fill="#74de9a" opacity="0.5" />
+          <polygon points="25,550 32,565 25,575 18,565" fill="#00cc6a" opacity="0.5" />
+          <circle cx="45" cy="100" r="1.5" fill="#00ff88" opacity="0.6" />
           <circle cx="20" cy="250" r="1" fill="#ffffff" opacity="0.5" />
-          <circle cx="50" cy="450" r="1.5" fill="#06b6d4" opacity="0.5" />
-          <circle cx="15" cy="650" r="1" fill="#10b981" opacity="0.6" />
+          <circle cx="50" cy="450" r="1.5" fill="#57ff14" opacity="0.5" />
+          <circle cx="15" cy="650" r="1" fill="#00cc6a" opacity="0.6" />
           <defs>
             <linearGradient id="vineR" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#06b6d4" />
-              <stop offset="50%" stopColor="#10b981" />
-              <stop offset="100%" stopColor="#fb923c" />
+              <stop offset="0%" stopColor="#00ff88" />
+              <stop offset="50%" stopColor="#74de9a" />
+              <stop offset="100%" stopColor="#57ff14" />
             </linearGradient>
             <linearGradient id="vineR2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#f472b6" />
-              <stop offset="100%" stopColor="#f97316" />
+              <stop offset="0%" stopColor="#4ade80" />
+              <stop offset="100%" stopColor="#00cc6a" />
             </linearGradient>
           </defs>
         </svg>
