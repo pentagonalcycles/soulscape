@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
+import { supabase } from "@/lib/supabase";
 import AudioPlayer from "./AudioPlayer";
 
 interface CommunityFile {
@@ -24,8 +25,9 @@ interface FileCardProps {
 }
 
 export default function FileCard({ file }: FileCardProps) {
-  const { userId } = useAuth();
+  const { userId, session } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const isOwner = userId === file.user_id;
 
   const formatSize = (bytes: number) => {
@@ -57,6 +59,25 @@ export default function FileCard({ file }: FileCardProps) {
       window.URL.revokeObjectURL(url);
     } catch {
       window.open(file.file_url, "_blank");
+    }
+  };
+
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!confirm("Delete this file?")) return;
+    setDeleting(true);
+    try {
+      const token = session?.access_token;
+      if (!token) return;
+      const res = await fetch(`/api/community-files/${file.id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        window.location.reload();
+      }
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -127,6 +148,26 @@ export default function FileCard({ file }: FileCardProps) {
             }}
           >
             ↓ Download
+          </motion.button>
+        )}
+
+        {isOwner && (
+          <motion.button
+            onClick={handleDelete}
+            disabled={deleting}
+            whileTap={{ scale: 0.9 }}
+            style={{
+              padding: "6px 12px",
+              borderRadius: "8px",
+              border: "1px solid rgba(255, 80, 80, 0.15)",
+              background: "rgba(255, 80, 80, 0.06)",
+              color: "rgba(255, 120, 120, 0.8)",
+              fontSize: "11px",
+              cursor: deleting ? "wait" : "pointer",
+              flexShrink: 0,
+            }}
+          >
+            {deleting ? "..." : "✕ Delete"}
           </motion.button>
         )}
       </div>

@@ -15,6 +15,7 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.8);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -26,14 +27,22 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
       setIsLoading(false);
     };
     const onEnded = () => setIsPlaying(false);
-    const onLoadStart = () => setIsLoading(true);
+    const onLoadStart = () => {
+      setIsLoading(true);
+      setError(null);
+    };
     const onCanPlay = () => setIsLoading(false);
+    const onError = () => {
+      setIsLoading(false);
+      setError("Failed to load audio");
+    };
 
     audio.addEventListener("timeupdate", onTimeUpdate);
     audio.addEventListener("durationchange", onDurationChange);
     audio.addEventListener("ended", onEnded);
     audio.addEventListener("loadstart", onLoadStart);
     audio.addEventListener("canplay", onCanPlay);
+    audio.addEventListener("error", onError);
 
     return () => {
       audio.removeEventListener("timeupdate", onTimeUpdate);
@@ -41,6 +50,7 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
       audio.removeEventListener("ended", onEnded);
       audio.removeEventListener("loadstart", onLoadStart);
       audio.removeEventListener("canplay", onCanPlay);
+      audio.removeEventListener("error", onError);
     };
   }, []);
 
@@ -50,15 +60,21 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
     }
   }, [volume]);
 
-  const togglePlay = () => {
+  const togglePlay = async () => {
     const audio = audioRef.current;
     if (!audio) return;
     if (isPlaying) {
       audio.pause();
+      setIsPlaying(false);
     } else {
-      audio.play();
+      try {
+        await audio.play();
+        setIsPlaying(true);
+      } catch {
+        setError("Playback failed");
+        setIsPlaying(false);
+      }
     }
-    setIsPlaying(!isPlaying);
   };
 
   const seek = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -80,6 +96,20 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
   return (
     <div style={{ width: "100%" }}>
       <audio ref={audioRef} src={src} preload="metadata" />
+
+      {error && (
+        <div style={{
+          padding: "8px 12px",
+          borderRadius: "8px",
+          background: "rgba(255, 80, 80, 0.08)",
+          border: "1px solid rgba(255, 80, 80, 0.15)",
+          color: "rgba(255, 120, 120, 0.8)",
+          fontSize: "11px",
+          marginBottom: "8px",
+        }}>
+          {error}
+        </div>
+      )}
 
       {/* Play button + progress */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
