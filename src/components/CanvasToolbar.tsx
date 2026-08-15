@@ -575,7 +575,7 @@ export default function CanvasToolbar({
   if (!showLeftPanel && !showRightPanel) return null;
 
   return (
-    <div className="canvas-pro-layout" style={{ background: "rgba(5, 10, 6, 0.9)", backdropFilter: "blur(16px)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 -2px 20px rgba(0, 0, 0, 0.3)" }}>
+    <div className="canvas-pro-layout" style={{ background: "rgba(21, 38, 29, 0.94)", backdropFilter: "blur(16px)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 -2px 20px rgba(0, 0, 0, 0.3)" }}>
       {showLeftPanel && (
       <motion.div
         className="canvas-pro-panel canvas-tools-panel"

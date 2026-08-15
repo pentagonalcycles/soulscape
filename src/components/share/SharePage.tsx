@@ -60,7 +60,7 @@ export default function SharePage() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "linear-gradient(180deg, #050a06 0%, #0a120c 50%, #050a06 100%)",
+      background: "linear-gradient(180deg, #15261d 0%, #1a2e23 50%, #15261d 100%)",
       position: "relative",
       overflow: "hidden",
     }}>
@@ -72,7 +72,7 @@ export default function SharePage() {
         width: "500px",
         height: "500px",
         borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(0, 255, 136, 0.04) 0%, transparent 70%)",
+        background: "radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, transparent 70%)",
         filter: "blur(60px)",
         pointerEvents: "none",
       }} />
@@ -83,7 +83,7 @@ export default function SharePage() {
         width: "400px",
         height: "400px",
         borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(0, 204, 255, 0.03) 0%, transparent 70%)",
+        background: "radial-gradient(circle, rgba(255, 215, 0, 0.04) 0%, transparent 70%)",
         filter: "blur(60px)",
         pointerEvents: "none",
       }} />
@@ -106,7 +106,7 @@ export default function SharePage() {
             fontSize: "28px",
             fontWeight: 300,
             letterSpacing: "0.08em",
-            background: "linear-gradient(135deg, #00ff88, #00cc6a)",
+            background: "linear-gradient(135deg, #00d4aa, #ffd700, #00ff88)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             margin: "0 0 8px",

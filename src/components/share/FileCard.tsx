@@ -67,7 +67,7 @@ export default function FileCard({ file }: FileCardProps) {
       transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
       onClick={() => setIsExpanded(!isExpanded)}
       style={{
-        background: "rgba(5, 10, 6, 0.6)",
+        background: "rgba(21, 38, 29, 0.75)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         border: "1px solid rgba(0, 255, 136, 0.08)",

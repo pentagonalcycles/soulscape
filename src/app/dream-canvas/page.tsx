@@ -1188,7 +1188,7 @@ export default function DreamCanvasPage() {
   }, [canvasSize]);
 
   return (
-    <main className="relative min-h-screen overflow-hidden" style={{ background: "#050a06" }}>
+    <main className="relative min-h-screen overflow-hidden" style={{ background: "#15261d" }}>
       <div className="pt-14 h-screen flex flex-col">
         {/* Toolbar - hidden on mobile */}
         {!isMobile && <div className="flex items-center gap-1 px-3 py-2 flex-wrap" style={{ background: "#0a0f0b", borderBottom: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
@@ -1654,7 +1654,7 @@ export default function DreamCanvasPage() {
                     {EXPORT_FORMATS.map(f => (
                       <button key={f.value} onClick={() => setExportFormat(f.value as typeof exportFormat)}
                         className="px-3 py-2.5 rounded-xl text-center transition-all"
-                        style={{ background: exportFormat === f.value ? "rgba(0, 255, 136, 0.08)" : "#050a06", border: `1px solid ${exportFormat === f.value ? "rgba(0, 255, 136, 0.25)" : "rgba(0,0,0,0.06)"}` }}
+                        style={{ background: exportFormat === f.value ? "rgba(0, 255, 136, 0.08)" : "#15261d", border: `1px solid ${exportFormat === f.value ? "rgba(0, 255, 136, 0.25)" : "rgba(0,0,0,0.06)"}` }}
                       >
                         <div className="text-xs font-semibold" style={{ color: exportFormat === f.value ? "#00ff88" : "#a0d4b0" }}>{f.label}</div>
                         <div className="text-[9px] text-gray-400 mt-0.5">{f.description}</div>
@@ -2065,11 +2065,11 @@ export default function DreamCanvasPage() {
               <div className="flex gap-1 overflow-x-auto pb-1 mb-2">
                 {BRUSH_PRESETS.filter(b => b.category === "basic").map(p => (
                   <button key={p.type} onClick={() => setBrushType(p.type)} className="flex-shrink-0 p-2 rounded-lg text-lg transition-all"
-                    style={{ background: brushType === p.type ? "rgba(0, 255, 136, 0.1)" : "#050a06", border: `1px solid ${brushType === p.type ? "rgba(0, 255, 136, 0.3)" : "rgba(0,0,0,0.06)"}` }}
+                    style={{ background: brushType === p.type ? "rgba(0, 255, 136, 0.1)" : "#15261d", border: `1px solid ${brushType === p.type ? "rgba(0, 255, 136, 0.3)" : "rgba(0,0,0,0.06)"}` }}
                     title={p.name}
                   >{p.icon}</button>
                 ))}
-                <button onClick={() => setShowBrushPanel(true)} className="flex-shrink-0 p-2 rounded-lg text-sm transition-all" style={{ background: "#050a06", border: "1px solid rgba(0,0,0,0.06)", color: "#60b890" }}>+</button>
+                <button onClick={() => setShowBrushPanel(true)} className="flex-shrink-0 p-2 rounded-lg text-sm transition-all" style={{ background: "#15261d", border: "1px solid rgba(0,0,0,0.06)", color: "#60b890" }}>+</button>
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-[10px] text-gray-400 w-10">Size</span>
@@ -2105,12 +2105,12 @@ export default function DreamCanvasPage() {
           {mobileTab === "settings" && (
             <div className="px-3 py-2 space-y-2">
               <div className="flex items-center gap-2">
-                <button onClick={undo} disabled={historyIndex <= 0} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: historyIndex <= 0 ? "rgba(0, 255, 136, 0.06)" : "#050a06", color: historyIndex <= 0 ? "#cbd5e1" : "#60b890", border: "1px solid rgba(0,0,0,0.06)" }}>↩ Undo</button>
-                <button onClick={redo} disabled={historyIndex >= history.length - 1} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: historyIndex >= history.length - 1 ? "rgba(0, 255, 136, 0.06)" : "#050a06", color: historyIndex >= history.length - 1 ? "#cbd5e1" : "#60b890", border: "1px solid rgba(0,0,0,0.06)" }}>↪ Redo</button>
+                <button onClick={undo} disabled={historyIndex <= 0} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: historyIndex <= 0 ? "rgba(0, 255, 136, 0.06)" : "#15261d", color: historyIndex <= 0 ? "#cbd5e1" : "#60b890", border: "1px solid rgba(0,0,0,0.06)" }}>↩ Undo</button>
+                <button onClick={redo} disabled={historyIndex >= history.length - 1} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: historyIndex >= history.length - 1 ? "rgba(0, 255, 136, 0.06)" : "#15261d", color: historyIndex >= history.length - 1 ? "#cbd5e1" : "#60b890", border: "1px solid rgba(0,0,0,0.06)" }}>↪ Redo</button>
               </div>
               <div className="flex items-center gap-2">
-                <button onClick={() => setSymmetry(s => !s)} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: symmetry ? "rgba(0,255,136,0.08)" : "#050a06", color: symmetry ? "#00ff88" : "#60b890", border: `1px solid ${symmetry ? "rgba(0,255,136,0.2)" : "rgba(0,0,0,0.06)"}` }}>✦ Symmetry</button>
-                <button onClick={() => setShowGrid(g => !g)} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: showGrid ? "rgba(0,255,136,0.08)" : "#050a06", color: showGrid ? "#00ff88" : "#60b890", border: `1px solid ${showGrid ? "rgba(0,255,136,0.2)" : "rgba(0,0,0,0.06)"}` }}># Grid</button>
+                <button onClick={() => setSymmetry(s => !s)} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: symmetry ? "rgba(0,255,136,0.08)" : "#15261d", color: symmetry ? "#00ff88" : "#60b890", border: `1px solid ${symmetry ? "rgba(0,255,136,0.2)" : "rgba(0,0,0,0.06)"}` }}>✦ Symmetry</button>
+                <button onClick={() => setShowGrid(g => !g)} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: showGrid ? "rgba(0,255,136,0.08)" : "#15261d", color: showGrid ? "#00ff88" : "#60b890", border: `1px solid ${showGrid ? "rgba(0,255,136,0.2)" : "rgba(0,0,0,0.06)"}` }}># Grid</button>
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={() => setShowExportModal(true)} className="flex-1 py-2.5 rounded-xl text-xs font-semibold text-white transition-all" style={{ background: "#00ff88" }}>Export</button>

@@ -27,7 +27,7 @@ export default function GlowingPortal() {
           className="absolute rounded-full pointer-events-none"
           style={{
             inset: -60,
-            background: "radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, rgba(57, 255, 20, 0.04) 35%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(0, 212, 170, 0.08) 0%, rgba(255, 215, 0, 0.05) 35%, transparent 65%)",
             filter: "blur(40px)",
           }}
         />

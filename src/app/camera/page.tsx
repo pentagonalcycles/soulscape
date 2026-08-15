@@ -176,7 +176,7 @@ export default function CameraPage() {
     <main className="relative min-h-screen">
       <div className="relative z-10 pt-14 h-screen flex flex-col">
         {/* Header */}
-        <div className="px-4 py-2 flex items-center justify-between" style={{ background: "rgba(5, 10, 6, 0.95)", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)" }}>
+        <div className="px-4 py-2 flex items-center justify-between" style={{ background: "rgba(21, 38, 29, 0.95)", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)" }}>
           <div className="flex items-center gap-3">
             <h1 className="text-base font-semibold tracking-wide" style={{ color: "#00ff88" }}>Cosmic Camera</h1>
             <span className="text-[9px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(0, 255, 136, 0.08)", color: "rgba(0, 255, 136, 0.6)", border: "1px solid rgba(0, 255, 136, 0.12)" }}>{resolution}</span>
@@ -245,7 +245,7 @@ export default function CameraPage() {
                 {showSettings && (
                   <motion.div initial={{ x: 300, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: 300, opacity: 0 }}
                     className="absolute top-0 right-0 bottom-0 w-72 z-30 overflow-y-auto"
-                    style={{ background: "rgba(5, 10, 6, 0.97)", borderLeft: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(16px)", boxShadow: "-4px 0 30px rgba(0, 0, 0, 0.4)" }}
+                    style={{ background: "rgba(21, 38, 29, 0.97)", borderLeft: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(16px)", boxShadow: "-4px 0 30px rgba(0, 0, 0, 0.4)" }}
                   >
                     <div className="p-4">
                       <div className="flex items-center justify-between mb-4">
@@ -321,7 +321,7 @@ export default function CameraPage() {
         </div>
 
         {/* Filter selector */}
-        <div className="px-2 py-2" style={{ background: "rgba(5, 10, 6, 0.95)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)", boxShadow: "0 -4px 30px rgba(0, 0, 0, 0.3)" }}>
+        <div className="px-2 py-2" style={{ background: "rgba(21, 38, 29, 0.95)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)", boxShadow: "0 -4px 30px rgba(0, 0, 0, 0.3)" }}>
           {/* Category tabs */}
           <div className="flex gap-1 mb-2 px-1">
             {categories.map(cat => (
@@ -349,7 +349,7 @@ export default function CameraPage() {
         </div>
 
         {/* Capture controls */}
-        <div className="px-4 py-3 flex items-center justify-between" style={{ background: "rgba(5, 10, 6, 0.95)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 -2px 20px rgba(0, 0, 0, 0.2)" }}>
+        <div className="px-4 py-3 flex items-center justify-between" style={{ background: "rgba(21, 38, 29, 0.95)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", boxShadow: "0 -2px 20px rgba(0, 0, 0, 0.2)" }}>
           {/* Last photo preview */}
           <div className="w-12 h-12 rounded-lg overflow-hidden" style={{ border: "1px solid rgba(0, 255, 136, 0.1)" }}>
             {photos.length > 0 ? (
@@ -398,7 +398,7 @@ export default function CameraPage() {
       <AnimatePresence>
         {showGallery && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 overflow-y-auto" style={{ background: "rgba(5, 10, 6, 0.97)", backdropFilter: "blur(16px)" }}
+            className="fixed inset-0 z-50 overflow-y-auto" style={{ background: "rgba(21, 38, 29, 0.97)", backdropFilter: "blur(16px)" }}
           >
             <div className="p-4 max-w-2xl mx-auto">
               <div className="flex items-center justify-between mb-6 pt-2">

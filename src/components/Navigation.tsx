@@ -71,11 +71,11 @@ export default function Navigation({ activePage }: NavigationProps) {
           aria-label={isOpen ? "Close navigation" : "Open navigation"}
           className={`btn-icon fixed top-5 left-5 z-[1000] ${isMobile ? "w-12 h-12" : ""}`}
           style={{
-            background: "rgba(5, 10, 6, 0.8)",
+            background: "rgba(21, 38, 29, 0.9)",
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
-            boxShadow: "0 0 20px rgba(0, 255, 136, 0.1), inset 0 0 20px rgba(0, 255, 136, 0.03)",
-            border: "1px solid rgba(0, 255, 136, 0.15)",
+            boxShadow: "0 0 20px rgba(0, 255, 136, 0.12), inset 0 0 20px rgba(0, 255, 136, 0.04)",
+            border: "1px solid rgba(0, 255, 136, 0.2)",
             fontSize: isMobile ? "18px" : "16px",
           }}
         >
@@ -115,11 +115,11 @@ export default function Navigation({ activePage }: NavigationProps) {
                 left: 0,
                 bottom: 0,
                 width: isMobile ? "min(300px, 90vw)" : "min(260px, 85vw)",
-                background: "rgba(5, 10, 6, 0.95)",
-                backdropFilter: "blur(24px) saturate(1.2)",
-                WebkitBackdropFilter: "blur(24px) saturate(1.2)",
-                borderRight: "1px solid rgba(0, 255, 136, 0.12)",
-                boxShadow: "8px 0 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 255, 136, 0.03)",
+                background: "rgba(26, 46, 35, 0.98)",
+                backdropFilter: "blur(24px) saturate(1.3)",
+                WebkitBackdropFilter: "blur(24px) saturate(1.3)",
+                borderRight: "1px solid rgba(0, 255, 136, 0.2)",
+                boxShadow: "8px 0 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 255, 136, 0.05)",
                 zIndex: 1000,
                 display: "flex",
                 flexDirection: "column",
@@ -127,19 +127,19 @@ export default function Navigation({ activePage }: NavigationProps) {
               }}
             >
               {/* Header */}
-              <div style={{ padding: "32px 24px 24px", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", position: "relative" }}>
-                <div style={{ position: "absolute", bottom: 0, left: "24px", right: "24px", height: "1px", background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent)" }} />
+              <div style={{ padding: "32px 24px 24px", borderBottom: "1px solid rgba(0, 212, 170, 0.12)", position: "relative" }}>
+                <div style={{ position: "absolute", bottom: 0, left: "24px", right: "24px", height: "1px", background: "linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.35), transparent)" }} />
                 <div style={{
                   fontSize: "20px",
                   fontWeight: 300,
                   letterSpacing: "0.12em",
-                  background: "linear-gradient(135deg, #00ff88, #00cc6a)",
+                  background: "linear-gradient(135deg, #00d4aa, #ffd700, #00ff88)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}>
                   Elovayne
                 </div>
-                <div style={{ fontSize: "11px", color: "rgba(224, 245, 232, 0.25)", marginTop: "4px", letterSpacing: "0.02em" }}>
+                <div style={{ fontSize: "11px", color: "rgba(0, 212, 170, 0.45)", marginTop: "4px", letterSpacing: "0.02em" }}>
                   A safe place for your soul
                 </div>
               </div>
@@ -158,6 +158,7 @@ export default function Navigation({ activePage }: NavigationProps) {
                       <Link
                         href={link.href}
                         onClick={close}
+                        className={isActive ? "nav-link-active" : "nav-link"}
                         style={{
                           display: "flex",
                           alignItems: "center",
@@ -165,17 +166,13 @@ export default function Navigation({ activePage }: NavigationProps) {
                           padding: isMobile ? "12px 16px" : "10px 16px",
                           borderRadius: "10px",
                           textDecoration: "none",
-                          color: isActive ? "#e0f5e8" : "rgba(224, 245, 232, 0.4)",
-                          background: isActive ? "rgba(0, 255, 136, 0.08)" : "transparent",
-                          border: isActive ? "1px solid rgba(0, 255, 136, 0.12)" : "1px solid transparent",
-                          boxShadow: isActive ? "0 0 20px rgba(0, 255, 136, 0.06)" : "none",
                           transition: "all 0.3s ease",
                           marginBottom: "2px",
                         }}
                         onMouseEnter={(e) => {
                           if (!isActive) {
-                            e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
-                            e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.06)";
+                            e.currentTarget.style.background = "rgba(0, 212, 170, 0.06)";
+                            e.currentTarget.style.borderColor = "rgba(0, 212, 170, 0.1)";
                           }
                         }}
                         onMouseLeave={(e) => {
@@ -185,12 +182,10 @@ export default function Navigation({ activePage }: NavigationProps) {
                           }
                         }}
                       >
-                        <span style={{
+                        <span className={isActive ? "nav-icon-active" : "nav-icon"} style={{
                           fontSize: "14px",
                           width: "20px",
                           textAlign: "center",
-                          opacity: isActive ? 1 : 0.4,
-                          color: isActive ? "#00ff88" : "rgba(224, 245, 232, 0.4)",
                         }}>
                           {link.icon}
                         </span>
@@ -208,7 +203,7 @@ export default function Navigation({ activePage }: NavigationProps) {
               </div>
 
               {/* Bottom */}
-              <div style={{ padding: "16px 16px 20px", borderTop: "1px solid rgba(0, 255, 136, 0.05)" }}>
+              <div style={{ padding: "16px 16px 20px", borderTop: "1px solid rgba(0, 212, 170, 0.1)" }}>
                 {isAdmin && (
                   <Link
                     href="/admin"
@@ -242,10 +237,10 @@ export default function Navigation({ activePage }: NavigationProps) {
                       onClick={close}
                       className="flex-1 text-center py-2.5 rounded-lg text-[11px] tracking-wide transition-all hover:shadow-sm"
                       style={{
-                        color: "rgba(224, 245, 232, 0.35)",
+                        color: "rgba(0, 212, 170, 0.5)",
                         textDecoration: "none",
-                        background: "rgba(0, 255, 136, 0.03)",
-                        border: "1px solid rgba(0, 255, 136, 0.06)",
+                        background: "rgba(0, 212, 170, 0.06)",
+                        border: "1px solid rgba(0, 212, 170, 0.1)",
                       }}
                     >
                       {link.label}
@@ -260,19 +255,19 @@ export default function Navigation({ activePage }: NavigationProps) {
                     textAlign: "center",
                     padding: "10px",
                     borderRadius: "10px",
-                    background: "rgba(0, 255, 136, 0.04)",
-                    border: "1px solid rgba(0, 255, 136, 0.08)",
-                    color: "#00ff88",
+                    background: "rgba(0, 212, 170, 0.08)",
+                    border: "1px solid rgba(0, 212, 170, 0.15)",
+                    color: "#00d4aa",
                     textDecoration: "none",
                     fontSize: "12px",
                     letterSpacing: "0.02em",
                     transition: "all 0.2s ease",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
+                    e.currentTarget.style.background = "rgba(0, 212, 170, 0.15)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
+                    e.currentTarget.style.background = "rgba(0, 212, 170, 0.08)";
                   }}
                 >
                   ← Home

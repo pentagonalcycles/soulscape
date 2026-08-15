@@ -124,28 +124,30 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--font-size-small", fs.small);
     root.style.setProperty("--font-size-xs", fs.xs);
 
-    // Color scheme — always dark (bioluminescent)
-    root.style.setProperty("--elovayne-bg", "#050a06");
-    root.style.setProperty("--elovayne-surface", "#070e08");
-    root.style.setProperty("--elovayne-surface-alt", "#0a150c");
-    root.style.setProperty("--elovayne-text-primary", "#e0f5e8");
-    root.style.setProperty("--elovayne-text-secondary", "#b0d4be");
-    root.style.setProperty("--elovayne-border", "rgba(0, 255, 136, 0.1)");
-    root.style.setProperty("--bg-color", "#050a06");
-    root.style.setProperty("--text-primary", "#e0f5e8");
-    root.style.setProperty("--text-secondary", "#b0d4be");
-    root.style.setProperty("--text-muted", "#6b9a7a");
-    root.style.setProperty("--text-dim", "#3d6b4e");
-    root.style.setProperty("--text-faint", "rgba(224, 245, 232, 0.3)");
-    root.style.setProperty("--border-subtle", "rgba(0, 255, 136, 0.1)");
-    root.style.setProperty("--card-bg", "rgba(0, 255, 136, 0.03)");
-    root.style.setProperty("--input-bg", "rgba(0, 255, 136, 0.05)");
-    root.style.setProperty("--nebula-opacity", "0.2");
-    root.style.setProperty("--particle-opacity", "0.8");
-    root.style.setProperty("--constellation-opacity", "0.3");
-    root.style.setProperty("--glow-opacity", "0.08");
-    root.style.setProperty("--orb-opacity", "0.15");
-    document.body.style.background = "#050a06";
+    // Color scheme — always dark (bioluminescent, brightened)
+    root.style.setProperty("--elovayne-bg", "#15261d");
+    root.style.setProperty("--elovayne-surface", "#1a2e23");
+    root.style.setProperty("--elovayne-surface-alt", "#1f3729");
+    root.style.setProperty("--elovayne-text-primary", "#edfcf3");
+    root.style.setProperty("--elovayne-text-secondary", "#cce8d8");
+    root.style.setProperty("--elovayne-border", "rgba(0, 255, 136, 0.18)");
+    root.style.setProperty("--elovayne-gold", "#ffd700");
+    root.style.setProperty("--elovayne-teal", "#00d4aa");
+    root.style.setProperty("--bg-color", "#15261d");
+    root.style.setProperty("--text-primary", "#edfcf3");
+    root.style.setProperty("--text-secondary", "#cce8d8");
+    root.style.setProperty("--text-muted", "#90c8a0");
+    root.style.setProperty("--text-dim", "#5a8d6e");
+    root.style.setProperty("--text-faint", "rgba(236, 252, 243, 0.4)");
+    root.style.setProperty("--border-subtle", "rgba(0, 255, 136, 0.18)");
+    root.style.setProperty("--card-bg", "rgba(0, 255, 136, 0.08)");
+    root.style.setProperty("--input-bg", "rgba(0, 255, 136, 0.1)");
+    root.style.setProperty("--nebula-opacity", "0.35");
+    root.style.setProperty("--particle-opacity", "1");
+    root.style.setProperty("--constellation-opacity", "0.45");
+    root.style.setProperty("--glow-opacity", "0.18");
+    root.style.setProperty("--orb-opacity", "0.28");
+    document.body.style.background = "#15261d";
     root.setAttribute("data-theme", "dark");
   }, [userPreferences]);
 

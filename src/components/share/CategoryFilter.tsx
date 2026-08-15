@@ -33,7 +33,7 @@ export default function CategoryFilter({ active, onChange, counts }: CategoryFil
               padding: "8px 14px",
               borderRadius: "10px",
               border: `1px solid ${isActive ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.06)"}`,
-              background: isActive ? "rgba(0, 255, 136, 0.08)" : "rgba(5, 10, 6, 0.4)",
+              background: isActive ? "rgba(0, 255, 136, 0.08)" : "rgba(21, 38, 29, 0.55)",
               color: isActive ? "#e0f5e8" : "rgba(224, 245, 232, 0.35)",
               fontSize: "12px",
               fontWeight: isActive ? 500 : 400,
