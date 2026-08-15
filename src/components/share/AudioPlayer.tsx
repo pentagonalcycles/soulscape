@@ -60,7 +60,8 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
     }
   }, [volume]);
 
-  const togglePlay = async () => {
+  const togglePlay = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     const audio = audioRef.current;
     if (!audio) return;
     if (isPlaying) {
@@ -78,6 +79,7 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
   };
 
   const seek = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     const audio = audioRef.current;
     if (!audio || !duration) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -94,7 +96,7 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
   };
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%" }} onClick={(e) => e.stopPropagation()}>
       <audio ref={audioRef} src={src} preload="metadata" />
 
       {error && (
@@ -178,7 +180,11 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
             max="1"
             step="0.05"
             value={volume}
-            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            onChange={(e) => {
+              e.stopPropagation();
+              setVolume(parseFloat(e.target.value));
+            }}
+            onClick={(e) => e.stopPropagation()}
             style={{
               width: "50px",
               height: "3px",
