@@ -15,7 +15,6 @@ const features = [
   { icon: "❋", label: "Poetry", desc: "Daily prompts inspire your words", href: "/poetry", color: "#a3e635" },
   { icon: "●", label: "Nebula Orb", desc: "A multiplayer cosmic arena", href: "/nebula-orb", color: "#00ff88" },
   { icon: "◈", label: "Wish Lanterns", desc: "Release your wishes into the sky", href: "/wish-lanterns", color: "#00cc6a" },
-  { icon: "ธร", label: "NERA", desc: "Anonymous stories with atmospheric rooms", href: "/nera", color: "#39ff14" },
   { icon: "◎", label: "Soul Map", desc: "Build your inner mandala, one answer at a time", href: "/soul-map", color: "#4ade80" },
   { icon: "📡", label: "Human Signal", desc: "Find someone who feels what you feel", href: "/human-signal", color: "#00e676" },
 ];

@@ -149,7 +149,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
   const isHome = pathname === "/";
 
   const pathToActivePage: Record<string, string> = {
-    "/nera": "nera",
     "/elyra": "elyra ai",
     "/soul-echo": "soul echo",
     "/reflection-room": "reflection",

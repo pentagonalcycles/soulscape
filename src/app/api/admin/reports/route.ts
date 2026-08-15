@@ -26,7 +26,6 @@ export async function GET(req: NextRequest) {
   // Fetch from all 4 report tables
   const tables = [
     { name: "reports", label: "post", joinTable: "posts", joinField: "post_id" },
-    { name: "nera_reports", label: "nera", joinTable: "neras", joinField: "nera_id" },
   ];
 
   for (const t of tables) {
@@ -56,17 +55,6 @@ export async function GET(req: NextRequest) {
           contentPreview = (post.content as string)?.slice(0, 200) || "Empty post";
           authorName = post.is_anonymous ? "Anonymous" : (post.display_name as string) || "Anonymous";
         }
-      } else if (t.label === "nera" && r.nera_id) {
-        const { data: nera } = await client
-          .from("neras")
-          .select("title, description, host_id")
-          .eq("id", r.nera_id)
-          .single();
-        if (nera) {
-          contentPreview = `${nera.title}: ${(nera.description as string)?.slice(0, 150) || ""}`;
-          const { data: host } = await client.from("users").select("display_name").eq("id", nera.host_id).single();
-          authorName = host?.display_name || "Unknown";
-        }
       }
 
       results.push({
@@ -77,7 +65,7 @@ export async function GET(req: NextRequest) {
         status: r.status,
         created_at: r.created_at,
         reporter_id: r.reporter_id,
-        content_id: r.post_id || r.nera_id,
+        content_id: r.post_id,
         content_preview: contentPreview,
         author_name: authorName,
       });
@@ -100,7 +88,6 @@ export async function PUT(req: NextRequest) {
 
   const tableMap: Record<string, string> = {
     post: "reports",
-    nera: "nera_reports",
   };
 
   const table = tableMap[source_type];

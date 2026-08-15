@@ -57,7 +57,6 @@ interface UserRecord {
   banned_at: string | null;
   created_at: string;
   post_count: number;
-  nera_count: number;
   idea_count: number;
   poem_count: number;
 }
@@ -197,7 +196,7 @@ export default function AdminPage() {
   };
 
   const deleteReportedContent = async (contentId: string, sourceType: string) => {
-    const typeMap: Record<string, string> = { post: "posts", nera: "neras" };
+    const typeMap: Record<string, string> = { post: "posts" };
     await fetch("/api/admin/content", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -432,7 +431,7 @@ export default function AdminPage() {
                       ))}
                     </div>
                     <div className="flex gap-1 ml-auto">
-                      {["all", "post", "nera"].map((t) => (
+                      {["all", "post"].map((t) => (
                         <button
                           key={t}
                           onClick={() => setReportTypeFilter(t)}
@@ -442,7 +441,7 @@ export default function AdminPage() {
                               : "text-elovayne-dim border border-transparent hover:border-elovayne-dim/20"
                           }`}
                         >
-                          {t === "all" ? "All Types" : t === "post" ? "Posts" : "NERAs"}
+                          {t === "all" ? "All Types" : "Posts"}
                         </button>
                       ))}
                     </div>
@@ -470,7 +469,7 @@ export default function AdminPage() {
                                 {r.status}
                               </span>
                               <span className="px-2 py-0.5 rounded-full text-xs bg-elovayne-deep/50 text-elovayne-muted capitalize">
-                                {r.source_type === "post" ? "Post" : "NERA"}
+                                Post
                               </span>
                               <span className="text-xs text-elovayne-dim">Reason: {r.reason}</span>
                             </div>
@@ -638,7 +637,6 @@ export default function AdminPage() {
                             </div>
                             <div className="flex gap-3 text-xs shrink-0" style={{ color: "var(--text-muted, #64748b)" }}>
                               <span>{u.post_count} posts</span>
-                              <span>{u.nera_count} neras</span>
                               <span>{u.idea_count} ideas</span>
                               <span>{u.poem_count} poems</span>
                             </div>
@@ -654,7 +652,7 @@ export default function AdminPage() {
               {tab === "content" && (
                 <div>
                   <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-                    {["all", "posts", "neras", "ideas", "poems", "wish_lanterns"].map((t) => (
+                    {["all", "posts", "ideas", "poems", "wish_lanterns"].map((t) => (
                       <button
                         key={t}
                         onClick={() => setContentTypeFilter(t)}

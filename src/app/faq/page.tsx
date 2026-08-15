@@ -24,7 +24,7 @@ const faqSections = [
       },
       {
         q: "How do I start sharing?",
-        a: "Use Soul Echo to connect with someone, share stories in NERA, write poems in Poetry, paint on the Mural, or chat at the Campfire.",
+        a: "Use Soul Echo to connect with someone, write poems in Poetry, paint on the Mural, or chat at the Campfire.",
       },
     ],
   },
@@ -95,10 +95,6 @@ const faqSections = [
       {
         q: "What is Nebula Orb?",
         a: "A multiplayer cosmic arena where you consume orbs, grow, and compete. Choose your skin, trail, and pet. Play on mobile or desktop.",
-      },
-      {
-        q: "What is NERA?",
-        a: "Anonymous story sharing with atmospheric backgrounds. Choose a room that matches your mood, share your story, and read others'.",
       },
     ],
   },

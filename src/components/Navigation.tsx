@@ -7,7 +7,6 @@ import { useAuth } from "@/components/AuthProvider";
 import { useIsMobile } from "@/lib/useIsMobile";
 
 const navLinks = [
-  { href: "/nera", label: "NERA", icon: "\ud83e\udee7" },
   { href: "/elyra", label: "Elyra AI", icon: "✦" },
   { href: "/soul-echo", label: "Soul Echo", icon: "◎" },
   { href: "/reflection-room", label: "Reflection", icon: "◈" },

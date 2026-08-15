@@ -127,7 +127,6 @@ Each room has its own atmosphere:
 - `ideas/` — Community feature-request voting board
 - `mural/` — Real-time collaborative painting canvas
 - `nebula-orb/` — Multiplayer cosmic arena game
-- `nera/` — Anonymous story sharing with atmospheric backgrounds
 - `poetry/` — Daily poetry composition with rotating prompts
 - `reflection-room/` — Private journaling with daily prompts and streak tracking
 - `soul-echo/` — Anonymous matching connecting two strangers
@@ -230,4 +229,4 @@ vercel --prod    # Deploy to production
 - **Phase 3:** ✅ Complete — Personal Space (profiles, saves, UI personalization)
 - **Phase 4:** ✅ Complete — Polish & Launch (email auth, journals, sound, moderation, 404)
 - **Phase 5:** ✅ Complete — Trust, Clarity & Engagement (about page, welcome modal, new rooms, footer, prompts, logo)
-- **Phase 6:** ✅ Complete — Immersive Experiences (Dream Canvas, Dream World, Campfire, Cosmic Camera, Human Signal, Nebula Orb, Soul Echo, Soul Map, Wish Lanterns, Elyra AI, Shop, Poetry, Mural, Nera, Ideas, Admin, FAQ, Support)
+- **Phase 6:** ✅ Complete — Immersive Experiences (Dream Canvas, Dream World, Campfire, Cosmic Camera, Human Signal, Nebula Orb, Soul Echo, Soul Map, Wish Lanterns, Elyra AI, Shop, Poetry, Mural, Ideas, Admin, FAQ, Support)

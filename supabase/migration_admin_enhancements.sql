@@ -22,17 +22,7 @@ DROP POLICY IF EXISTS "Admins can delete any post" ON posts;
 CREATE POLICY "Admins can delete any post" ON posts
   FOR DELETE USING (is_admin(auth.uid()));
 
--- 5. Admin RLS policies — allow admins to delete any nera
-DROP POLICY IF EXISTS "Admins can delete any nera" ON neras;
-CREATE POLICY "Admins can delete any nera" ON neras
-  FOR DELETE USING (is_admin(auth.uid()));
-
--- 6. Admin RLS policies — allow admins to delete nera messages
-DROP POLICY IF EXISTS "Admins can delete any nera message" ON nera_messages;
-CREATE POLICY "Admins can delete any nera message" ON nera_messages
-  FOR DELETE USING (is_admin(auth.uid()));
-
--- 7. Admin RLS policies — allow admins to delete any idea
+-- 5. Admin RLS policies — allow admins to delete any idea
 DROP POLICY IF EXISTS "Admins can delete any idea" ON ideas;
 CREATE POLICY "Admins can delete any idea" ON ideas
   FOR DELETE USING (is_admin(auth.uid()));
@@ -72,10 +62,6 @@ DROP POLICY IF EXISTS "Admins can update any report" ON reports;
 CREATE POLICY "Admins can update any report" ON reports
   FOR UPDATE USING (is_admin(auth.uid()));
 
-DROP POLICY IF EXISTS "Admins can update any nera report" ON nera_reports;
-CREATE POLICY "Admins can update any nera report" ON nera_reports
-  FOR UPDATE USING (is_admin(auth.uid()));
-
 DROP POLICY IF EXISTS "Admins can update any unseen report" ON unseen_reports;
 CREATE POLICY "Admins can update any unseen report" ON unseen_reports
   FOR UPDATE USING (is_admin(auth.uid()));
@@ -87,10 +73,6 @@ CREATE POLICY "Admins can update any living room report" ON living_room_reports
 -- 15. Admin RLS policies — allow admins to read all reports
 DROP POLICY IF EXISTS "Admins can read all reports" ON reports;
 CREATE POLICY "Admins can read all reports" ON reports
-  FOR SELECT USING (is_admin(auth.uid()));
-
-DROP POLICY IF EXISTS "Admins can read all nera reports" ON nera_reports;
-CREATE POLICY "Admins can read all nera reports" ON nera_reports
   FOR SELECT USING (is_admin(auth.uid()));
 
 DROP POLICY IF EXISTS "Admins can read all unseen reports" ON unseen_reports;

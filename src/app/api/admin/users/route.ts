@@ -36,9 +36,8 @@ export async function GET(req: NextRequest) {
   // Enrich with content counts
   const enriched = await Promise.all(
     users.map(async (u: Record<string, unknown>) => {
-      const [posts, neras, ideas, poems] = await Promise.all([
+      const [posts, ideas, poems] = await Promise.all([
         client.from("posts").select("id", { count: "exact", head: true }).eq("user_id", u.id),
-        client.from("neras").select("id", { count: "exact", head: true }).eq("host_id", u.id),
         client.from("ideas").select("id", { count: "exact", head: true }).eq("user_id", u.id),
         client.from("poems").select("id", { count: "exact", head: true }).eq("user_id", u.id),
       ]);
@@ -54,7 +53,6 @@ export async function GET(req: NextRequest) {
         banned_at: u.banned_at || null,
         created_at: u.created_at,
         post_count: posts.count || 0,
-        nera_count: neras.count || 0,
         idea_count: ideas.count || 0,
         poem_count: poems.count || 0,
       };

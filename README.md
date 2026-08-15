@@ -69,7 +69,6 @@ The website feels emotional, dreamlike, welcoming, mysterious, and visually arti
 - **Human Signal** — Send anonymous emotional signals and be reached by another person
 - **Soul Echo** — Anonymous matching that connects two strangers based on shared emotional reflections
 - **Nebula Orb** — Multiplayer cosmic arena game; consume orbs, compete on leaderboards
-- **NERA** — Anonymous story-sharing with custom atmospheric backgrounds
 - **Ideas** — Community feature-request board with voting
 
 ### AI Companion
@@ -193,7 +192,6 @@ soulscape/
 │   │   ├── moderation/page.tsx       # Moderation dashboard
 │   │   ├── mural/page.tsx            # Collaborative painting canvas
 │   │   ├── nebula-orb/page.tsx       # Multiplayer arena game
-│   │   ├── nera/page.tsx             # Anonymous story sharing
 │   │   ├── poetry/page.tsx           # Daily poetry composition
 │   │   ├── reflection-room/page.tsx  # Private journaling with prompts
 │   │   ├── shop/                     # E-commerce storefront
@@ -247,7 +245,6 @@ soulscape/
 │   │   ├── ideas/                    # Feature voting
 │   │   ├── mural/                    # Collaborative canvas
 │   │   ├── nebula-orb/               # Arena game
-│   │   ├── nera/                     # Story sharing
 │   │   ├── poetry/                   # Poetry composition
 │   │   ├── reflection-room/          # Journaling
 │   │   ├── soul-echo/                # Anonymous matching
@@ -268,7 +265,6 @@ soulscape/
 │       ├── dream-world/              # Game engine (world gen, blocks, AI)
 │       ├── mural/                    # Mural brushes & multiplayer
 │       ├── nebula-orb/               # Game engine (renderer, physics)
-│       ├── nera/                     # NERA constants & types
 │       ├── poetry/                   # Poetry prompts
 │       ├── soul-map/                 # Self-discovery questions
 │       ├── sound/                    # Audio engine
@@ -283,7 +279,6 @@ soulscape/
 │   ├── migration_human_signal.sql
 │   ├── migration_ideas.sql
 │   ├── migration_mural.sql
-│   ├── migration_nera.sql
 │   ├── migration_poems.sql
 │   ├── migration_sanctuary_enhancements.sql
 │   ├── migration_soul_echo.sql
@@ -411,7 +406,6 @@ See `supabase/schema.sql` for the full schema.
 - [x] Human Signal (anonymous connection)
 - [x] Soul Echo (anonymous matching)
 - [x] Nebula Orb (multiplayer arena game)
-- [x] NERA (anonymous story sharing)
 - [x] Ideas (community feature voting)
 - [x] Elyra AI companion (streaming chat)
 - [x] Elovayne Shop (digital products + Plus membership)

@@ -34,19 +34,6 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  if (type === "all" || type === "neras") {
-    fetchers.push(
-      client.from("neras").select("id, title, description, status, host_id, created_at").order("created_at", { ascending: false }).range(offset, offset + limit - 1).then(async ({ data }) => {
-        if (data) {
-          for (const n of data) {
-            const { data: host } = await client.from("users").select("display_name").eq("id", n.host_id).single();
-            results.push({ ...n, _type: "neras", author_name: host?.display_name || "Unknown" });
-          }
-        }
-      })
-    );
-  }
-
   if (type === "all" || type === "ideas") {
     fetchers.push(
       client.from("ideas").select("id, title, description, category, user_id, created_at").order("created_at", { ascending: false }).range(offset, offset + limit - 1).then(({ data }) => {
@@ -89,7 +76,6 @@ export async function DELETE(req: NextRequest) {
 
   const tableMap: Record<string, string> = {
     posts: "posts",
-    neras: "neras",
     ideas: "ideas",
     poems: "poems",
     wish_lanterns: "wish_lanterns",
