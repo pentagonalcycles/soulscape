@@ -129,12 +129,6 @@ Never commit `.env.local` to git (it's in `.gitignore`).
 - The most common cause is an invalid or missing Supabase environment variable
 - Verify the env var value in Vercel dashboard includes the full `https://` URL
 
-### Settings/preferences buttons don't work
-- Check browser console for "No session found when updating preferences"
-- This means anonymous auth is failing — go to **Authentication → Providers** in Supabase dashboard
-- Ensure **Anonymous** sign-in is enabled (ticked)
-- If it was disabled, enable it and test again — no redeploy needed
-
 ### Elyra AI not responding
 - Ensure `OPENROUTER_API_KEY` is set in environment variables
 - Check that the key is valid at [OpenRouter](https://openrouter.ai/keys)

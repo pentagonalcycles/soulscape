@@ -124,7 +124,6 @@ Each room has its own atmosphere:
 - `cosmic-camera/` — In-browser camera with 36 CSS filters and timer
 - `dream-world/` — 2D tile-based sandbox with procedural generation and crafting
 - `human-signal/` — Anonymous emotional signal connection system
-- `human-weather/` — Collective emotion visualization as weather
 - `ideas/` — Community feature-request voting board
 - `mural/` — Real-time collaborative painting canvas
 - `nebula-orb/` — Multiplayer cosmic arena game
@@ -133,7 +132,6 @@ Each room has its own atmosphere:
 - `reflection-room/` — Private journaling with daily prompts and streak tracking
 - `soul-echo/` — Anonymous matching connecting two strangers
 - `soul-map/` — Self-discovery mandala builder with daily questions
-- `stargazing/` — Night sky with anonymous messages in stars
 - `unseen/` — Anonymous human-connection with profile creation and reveal mechanics
 
 ---
@@ -232,4 +230,4 @@ vercel --prod    # Deploy to production
 - **Phase 3:** ✅ Complete — Personal Space (profiles, saves, UI personalization)
 - **Phase 4:** ✅ Complete — Polish & Launch (email auth, journals, sound, moderation, 404)
 - **Phase 5:** ✅ Complete — Trust, Clarity & Engagement (about page, welcome modal, new rooms, footer, prompts, logo)
-- **Phase 6:** ✅ Complete — Immersive Experiences (Dream Canvas, Dream World, Campfire, Cosmic Camera, Human Signal, Human Weather, Nebula Orb, Soul Echo, Soul Map, Unseen, Wish Lanterns, Elyra AI, Shop, Poetry, Mural, Stargazing, Nera, Ideas, Admin, FAQ, Support)
+- **Phase 6:** ✅ Complete — Immersive Experiences (Dream Canvas, Dream World, Campfire, Cosmic Camera, Human Signal, Nebula Orb, Soul Echo, Soul Map, Wish Lanterns, Elyra AI, Shop, Poetry, Mural, Nera, Ideas, Admin, FAQ, Support)

@@ -64,13 +64,10 @@ The website feels emotional, dreamlike, welcoming, mysterious, and visually arti
 - **Mural** — Real-time collaborative painting canvas where multiple users create art together
 - **Poetry** — Daily poetry composition with rotating prompts, pen names, and poetic reactions
 - **Wish Lanterns** — Release animated lanterns into a night sky; click to read others' wishes
-- **Stargazing** — Night sky where every star holds an anonymous message; leave your own for others
 - **Soul Map** — Self-discovery tool with daily questions that build a personal mandala over time
 - **Reflection Room** — Private journaling space with daily prompts and streak tracking
-- **Human Weather** — Emotion check-in system that visualizes collective mood as weather
 - **Human Signal** — Send anonymous emotional signals and be reached by another person
 - **Soul Echo** — Anonymous matching that connects two strangers based on shared emotional reflections
-- **UNSEEN** — Anonymous human-connection feature with profile creation, discovery, and reveal mechanics
 - **Nebula Orb** — Multiplayer cosmic arena game; consume orbs, compete on leaderboards
 - **NERA** — Anonymous story-sharing with custom atmospheric backgrounds
 - **Ideas** — Community feature-request board with voting
@@ -192,16 +189,13 @@ soulscape/
 │   │   ├── elyra/page.tsx            # AI companion chat
 │   │   ├── faq/page.tsx              # Frequently asked questions
 │   │   ├── human-signal/page.tsx     # Anonymous signal connection
-│   │   ├── human-weather/page.tsx    # Collective emotion weather
 │   │   ├── ideas/page.tsx            # Community feature voting
-│   │   ├── login/page.tsx            # Email magic link authentication
 │   │   ├── moderation/page.tsx       # Moderation dashboard
 │   │   ├── mural/page.tsx            # Collaborative painting canvas
 │   │   ├── nebula-orb/page.tsx       # Multiplayer arena game
 │   │   ├── nera/page.tsx             # Anonymous story sharing
 │   │   ├── poetry/page.tsx           # Daily poetry composition
 │   │   ├── reflection-room/page.tsx  # Private journaling with prompts
-│   │   ├── settings/page.tsx         # UI personalization controls
 │   │   ├── shop/                     # E-commerce storefront
 │   │   │   ├── page.tsx              # Shop catalog
 │   │   │   └── [id]/page.tsx         # Product detail
@@ -250,7 +244,6 @@ soulscape/
 │   │   ├── cosmic-camera/            # Camera with filters
 │   │   ├── dream-world/              # Sandbox game components
 │   │   ├── human-signal/             # Signal connection
-│   │   ├── human-weather/            # Emotion weather
 │   │   ├── ideas/                    # Feature voting
 │   │   ├── mural/                    # Collaborative canvas
 │   │   ├── nebula-orb/               # Arena game
@@ -259,7 +252,6 @@ soulscape/
 │   │   ├── reflection-room/          # Journaling
 │   │   ├── soul-echo/                # Anonymous matching
 │   │   ├── soul-map/                 # Mandala builder
-│   │   ├── stargazing/               # Night sky
 │   │   └── unseen/                   # Anonymous connection
 │   ├── hooks/
 │   │   ├── useCamera.ts              # Camera access hook
@@ -289,9 +281,7 @@ soulscape/
 │   ├── migration_admin_enhancements.sql
 │   ├── migration_campfire.sql
 │   ├── migration_human_signal.sql
-│   ├── migration_human_weather.sql
 │   ├── migration_ideas.sql
-│   ├── migration_living_room.sql
 │   ├── migration_mural.sql
 │   ├── migration_nera.sql
 │   ├── migration_poems.sql
@@ -416,13 +406,10 @@ See `supabase/schema.sql` for the full schema.
 - [x] Mural (collaborative painting)
 - [x] Poetry (daily prompts, pen names)
 - [x] Wish Lanterns (interactive sky canvas)
-- [x] Stargazing (night sky messages)
 - [x] Soul Map (mandala self-discovery)
 - [x] Reflection Room (private journaling)
-- [x] Human Weather (collective emotion visualization)
 - [x] Human Signal (anonymous connection)
 - [x] Soul Echo (anonymous matching)
-- [x] UNSEEN (anonymous connection/dating)
 - [x] Nebula Orb (multiplayer arena game)
 - [x] NERA (anonymous story sharing)
 - [x] Ideas (community feature voting)

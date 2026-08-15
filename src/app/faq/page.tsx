@@ -24,7 +24,7 @@ const faqSections = [
       },
       {
         q: "How do I start sharing?",
-        a: "Head to Stargazing and leave a message in the stars, or use Soul Echo to connect with someone. You can also write poems in Poetry, paint on the Mural, or chat at the Campfire.",
+        a: "Use Soul Echo to connect with someone, share stories in NERA, write poems in Poetry, paint on the Mural, or chat at the Campfire.",
       },
     ],
   },

@@ -197,7 +197,7 @@ export default function AdminPage() {
   };
 
   const deleteReportedContent = async (contentId: string, sourceType: string) => {
-    const typeMap: Record<string, string> = { post: "posts", nera: "neras", living_room: "posts" };
+    const typeMap: Record<string, string> = { post: "posts", nera: "neras" };
     await fetch("/api/admin/content", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -432,7 +432,7 @@ export default function AdminPage() {
                       ))}
                     </div>
                     <div className="flex gap-1 ml-auto">
-                      {["all", "post", "nera", "living_room"].map((t) => (
+                      {["all", "post", "nera"].map((t) => (
                         <button
                           key={t}
                           onClick={() => setReportTypeFilter(t)}
@@ -442,7 +442,7 @@ export default function AdminPage() {
                               : "text-elovayne-dim border border-transparent hover:border-elovayne-dim/20"
                           }`}
                         >
-                          {t === "all" ? "All Types" : t === "post" ? "Posts" : t === "nera" ? "NERAs" : "Living Room"}
+                          {t === "all" ? "All Types" : t === "post" ? "Posts" : "NERAs"}
                         </button>
                       ))}
                     </div>
@@ -470,7 +470,7 @@ export default function AdminPage() {
                                 {r.status}
                               </span>
                               <span className="px-2 py-0.5 rounded-full text-xs bg-elovayne-deep/50 text-elovayne-muted capitalize">
-                                {r.source_type === "post" ? "Post" : r.source_type === "nera" ? "NERA" : "Living Room"}
+                                {r.source_type === "post" ? "Post" : "NERA"}
                               </span>
                               <span className="text-xs text-elovayne-dim">Reason: {r.reason}</span>
                             </div>
@@ -596,7 +596,7 @@ export default function AdminPage() {
                                         <span className="text-xs" style={{ color: "var(--text-dim, #94a3b8)" }}>{formatDate(item.created_at)}</span>
                                         {deleteConfirm === item.id ? (
                                           <div className="flex gap-1">
-                                            <button onClick={() => deleteContent(item.id, type === "wish_lanterns" ? "wish_lanterns" : type === "stargazer_messages" ? "stargazer" : type)} className="px-2 py-1 rounded text-xs bg-red-500 text-white">Yes</button>
+                                             <button onClick={() => deleteContent(item.id, type)} className="px-2 py-1 rounded text-xs bg-red-500 text-white">Yes</button>
                                             <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 rounded text-xs" style={{ background: "var(--card-bg, rgba(0,255,136,0.06))", border: "1px solid var(--border-subtle, rgba(0,255,136,0.12))" }}>No</button>
                                           </div>
                                         ) : (
@@ -654,7 +654,7 @@ export default function AdminPage() {
               {tab === "content" && (
                 <div>
                   <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-                    {["all", "posts", "neras", "ideas", "poems", "stargazer", "wish_lanterns"].map((t) => (
+                    {["all", "posts", "neras", "ideas", "poems", "wish_lanterns"].map((t) => (
                       <button
                         key={t}
                         onClick={() => setContentTypeFilter(t)}
@@ -664,7 +664,7 @@ export default function AdminPage() {
                             : "text-elovayne-dim border border-transparent hover:border-elovayne-dim/20"
                         }`}
                       >
-                        {t === "all" ? "All" : t === "stargazer" ? "Stargazer" : t === "wish_lanterns" ? "Wish Lanterns" : t.charAt(0).toUpperCase() + t.slice(1)}
+                        {t === "all" ? "All" : t === "wish_lanterns" ? "Wish Lanterns" : t.charAt(0).toUpperCase() + t.slice(1)}
                       </button>
                     ))}
                   </div>
@@ -680,7 +680,7 @@ export default function AdminPage() {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
                               <span className="px-2 py-0.5 rounded-full text-[10px] bg-elovayne-deep/50 text-elovayne-muted capitalize">
-                                {item._type === "wish_lanterns" ? "Lantern" : item._type === "stargazer" ? "Star" : item._type.slice(0, -1)}
+                                {item._type === "wish_lanterns" ? "Lantern" : item._type.slice(0, -1)}
                               </span>
                               <span className="text-xs text-elovayne-dim">{item.author_name || item.display_name || "Unknown"}</span>
                               <span className="text-xs text-elovayne-dim">· {formatDate(item.created_at)}</span>

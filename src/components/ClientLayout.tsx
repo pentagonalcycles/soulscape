@@ -163,7 +163,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
     "/nebula-orb": "nebula orb",
     "/human-signal": "human signal",
     "/ideas": "ideas",
-    "/settings": "settings",
     "/admin": "admin",
     "/moderation": "moderation",
     "/shop": "shop",

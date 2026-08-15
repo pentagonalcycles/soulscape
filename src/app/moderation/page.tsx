@@ -55,7 +55,7 @@ export default function ModerationPage() {
   };
 
   const removeContent = async (contentId: string, sourceType: string) => {
-    const typeMap: Record<string, string> = { post: "posts", nera: "neras", living_room: "posts" };
+    const typeMap: Record<string, string> = { post: "posts", nera: "neras" };
     await fetch("/api/admin/content", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -158,7 +158,7 @@ export default function ModerationPage() {
                 ))}
               </div>
               <div className="flex gap-1">
-                {["all", "post", "nera", "living_room"].map((t) => (
+                {["all", "post", "nera"].map((t) => (
                   <button
                     key={t}
                     onClick={() => setTypeFilter(t)}
@@ -168,7 +168,7 @@ export default function ModerationPage() {
                         : "text-elovayne-dim border border-transparent hover:border-elovayne-dim/20"
                     }`}
                   >
-                    {t === "all" ? "All" : t === "post" ? "Posts" : t === "nera" ? "NERAs" : "Living Room"}
+                    {t === "all" ? "All" : t === "post" ? "Posts" : "NERAs"}
                   </button>
                 ))}
               </div>
@@ -212,7 +212,7 @@ export default function ModerationPage() {
                           </span>
                           <span className="text-xs text-elovayne-dim">·</span>
                           <span className="px-2 py-0.5 rounded-full text-[10px] bg-elovayne-deep/50 text-elovayne-muted capitalize">
-                            {report.source_type === "post" ? "Post" : report.source_type === "nera" ? "NERA" : "Living Room"}
+                            {report.source_type === "post" ? "Post" : "NERA"}
                           </span>
                           <span className="text-xs text-elovayne-dim">· Reason: {report.reason}</span>
                         </div>

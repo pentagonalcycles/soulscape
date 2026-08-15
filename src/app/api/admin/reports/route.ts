@@ -27,8 +27,6 @@ export async function GET(req: NextRequest) {
   const tables = [
     { name: "reports", label: "post", joinTable: "posts", joinField: "post_id" },
     { name: "nera_reports", label: "nera", joinTable: "neras", joinField: "nera_id" },
-    { name: "unseen_reports", label: "unseen", joinTable: "unseen_profiles", joinField: "reported_id" },
-    { name: "living_room_reports", label: "living_room", joinTable: "living_room_messages", joinField: "message_id" },
   ];
 
   for (const t of tables) {
@@ -69,25 +67,6 @@ export async function GET(req: NextRequest) {
           const { data: host } = await client.from("users").select("display_name").eq("id", nera.host_id).single();
           authorName = host?.display_name || "Unknown";
         }
-      } else if (t.label === "unseen" && r.reported_id) {
-        const { data: profile } = await client
-          .from("unseen_profiles")
-          .select("display_name")
-          .eq("user_id", r.reported_id)
-          .single();
-        authorName = profile?.display_name || "Unknown";
-        contentPreview = `Profile reported by ${r.reporter_id}`;
-      } else if (t.label === "living_room" && r.message_id) {
-        const { data: msg } = await client
-          .from("living_room_messages")
-          .select("content, user_id")
-          .eq("id", r.message_id)
-          .single();
-        if (msg) {
-          contentPreview = (msg.content as string)?.slice(0, 200) || "Empty message";
-          const { data: author } = await client.from("users").select("display_name").eq("id", msg.user_id).single();
-          authorName = author?.display_name || "Unknown";
-        }
       }
 
       results.push({
@@ -98,7 +77,7 @@ export async function GET(req: NextRequest) {
         status: r.status,
         created_at: r.created_at,
         reporter_id: r.reporter_id,
-        content_id: r.post_id || r.nera_id || r.reported_id || r.message_id,
+        content_id: r.post_id || r.nera_id,
         content_preview: contentPreview,
         author_name: authorName,
       });
@@ -122,8 +101,6 @@ export async function PUT(req: NextRequest) {
   const tableMap: Record<string, string> = {
     post: "reports",
     nera: "nera_reports",
-    unseen: "unseen_reports",
-    living_room: "living_room_reports",
   };
 
   const table = tableMap[source_type];

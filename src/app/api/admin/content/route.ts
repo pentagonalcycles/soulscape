@@ -63,14 +63,6 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  if (type === "all" || type === "stargazer") {
-    fetchers.push(
-      client.from("stargazer_messages").select("id, content, user_id, created_at").order("created_at", { ascending: false }).range(offset, offset + limit - 1).then(({ data }) => {
-        if (data) results.push(...data.map(d => ({ ...d, _type: "stargazer" })));
-      })
-    );
-  }
-
   if (type === "all" || type === "wish_lanterns") {
     fetchers.push(
       client.from("wish_lanterns").select("id, message, user_id, created_at").order("created_at", { ascending: false }).range(offset, offset + limit - 1).then(({ data }) => {
@@ -100,7 +92,6 @@ export async function DELETE(req: NextRequest) {
     neras: "neras",
     ideas: "ideas",
     poems: "poems",
-    stargazer: "stargazer_messages",
     wish_lanterns: "wish_lanterns",
   };
 

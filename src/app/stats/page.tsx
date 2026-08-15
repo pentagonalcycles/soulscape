@@ -51,7 +51,6 @@ const pageNames: Record<string, string> = {
   "/nebula-orb": "Nebula Orb",
   "/human-signal": "Signal",
   "/nera": "Nera",
-  "/settings": "Settings",
   "/support": "Support",
   "/faq": "FAQ",
   "/account": "Account",
@@ -78,7 +77,6 @@ const pageIcons: Record<string, string> = {
   "/support": "💙",
   "/faq": "❓",
   "/stats": "📊",
-  "/settings": "⚙️",
   "/account": "👤",
 };
 
