@@ -21,6 +21,7 @@ const navLinks = [
   { href: "/nebula-orb", label: "Nebula Orb", icon: "●" },
   { href: "/human-signal", label: "Human Signal", icon: "\ud83d\udce1" },
   { href: "/ideas", label: "Ideas", icon: "💡" },
+  { href: "/share", label: "Share", icon: "☁" },
 ];
 
 const bottomLinks = [
