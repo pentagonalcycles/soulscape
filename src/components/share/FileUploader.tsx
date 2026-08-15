@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
+import { supabase } from "@/lib/supabase";
 
 interface FileUploaderProps {
   onUploadComplete: () => void;
@@ -65,37 +66,43 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
     setError(null);
 
     try {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      formData.append("description", description);
-      formData.append("isDownloadable", String(isDownloadable));
+      const client = supabase();
+      const ext = selectedFile.name.split(".").pop() || "bin";
+      const filePath = `${userId}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
-      const xhr = new XMLHttpRequest();
-      xhr.upload.addEventListener("progress", (e) => {
-        if (e.lengthComputable) {
-          setProgress(Math.round((e.loaded / e.total) * 100));
-        }
+      const { error: uploadError } = await client.storage
+        .from("community-files")
+        .upload(filePath, selectedFile, {
+          contentType: selectedFile.type,
+          upsert: false,
+        });
+
+      if (uploadError) throw new Error(`Storage: ${uploadError.message}`);
+
+      const { data: urlData } = client.storage
+        .from("community-files")
+        .getPublicUrl(filePath);
+
+      const res = await fetch("/api/upload-meta", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          file_name: selectedFile.name,
+          file_type: selectedFile.type.startsWith("audio/") ? "music" : "image",
+          file_url: urlData.publicUrl,
+          file_size: selectedFile.size,
+          description,
+          is_downloadable: isDownloadable,
+        }),
       });
 
-      await new Promise<void>((resolve, reject) => {
-        xhr.onload = () => {
-          if (xhr.status >= 200 && xhr.status < 300) {
-            resolve();
-          } else {
-            try {
-              const data = JSON.parse(xhr.responseText);
-              reject(new Error(data.error || "Upload failed"));
-            } catch {
-              reject(new Error("Upload failed"));
-            }
-          }
-        };
-        xhr.onerror = () => reject(new Error("Network error"));
-
-        xhr.open("POST", "/api/upload");
-        xhr.setRequestHeader("Authorization", `Bearer ${userToken}`);
-        xhr.send(formData);
-      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Failed to save metadata");
+      }
 
       setSuccess(true);
       setSelectedFile(null);
@@ -326,11 +333,12 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
                   overflow: "hidden",
                 }}>
                   <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progress}%` }}
+                    animate={{ x: ["-100%", "100%"] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                     style={{
                       height: "100%",
-                      background: "linear-gradient(90deg, #00ff88, #00cc6a)",
+                      width: "40%",
+                      background: "linear-gradient(90deg, transparent, #00ff88, transparent)",
                       borderRadius: "2px",
                     }}
                   />
@@ -341,7 +349,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
                   marginTop: "4px",
                   textAlign: "center",
                 }}>
-                  {progress}% uploaded
+                  Uploading...
                 </div>
               </div>
             )}
