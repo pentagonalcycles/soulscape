@@ -84,7 +84,6 @@ const pageIcons: Record<string, string> = {
 
 const dotColors = ["#00ff88", "#00cc6a", "#3b82f6", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981"];
 
-// Visitor name/avatar generation
 const adjectives = ["Starry", "Quiet", "Gentle", "Cosmic", "Dreamy", "Silent", "Soft", "Wild", "Calm", "Bright", "Mystic", "Lunar", "Solar", "Astral", "Crystal"];
 const nouns = ["Gazer", "Dreamer", "Wanderer", "Seeker", "Explorer", "Soul", "Spirit", "Light", "Shadow", "Wave", "Star", "Moon", "Cloud", "Breeze", "Flame"];
 const avatarEmojis = ["🌙", "✨", "🎨", "💫", "🌊", "🔮", "🌸", "🦋", "🌿", "💎", "⭐", "🎭", "🪷", "🌻", "🦜", "🕊️", "🌈", "🍃", "💜", "🔥"];
@@ -116,8 +115,7 @@ function isOnline(lastVisit: string): boolean {
   return minutesAgo < 5;
 }
 
-// Animated counter component
-function AnimatedCounter({ value, className, style }: { value: number; className?: string; style?: React.CSSProperties }) {
+function AnimatedCounter({ value, color, className, style }: { value: number; color?: string; className?: string; style?: React.CSSProperties }) {
   const [displayValue, setDisplayValue] = useState(value);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -180,7 +178,7 @@ function getTimeAgo(dateStr: string): string {
   return `${Math.floor(seconds / 86400)}d ago`;
 }
 
-// Visitor Dots Canvas
+// Constellation-connected visitor dots canvas
 function VisitorDotsCanvas({ count }: { count: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dotsRef = useRef<VisitorDot[]>([]);
@@ -199,7 +197,6 @@ function VisitorDotsCanvas({ count }: { count: number }) {
     };
     resize();
 
-    // Generate dots based on count
     const targetCount = Math.min(count, 20);
     while (dotsRef.current.length < targetCount) {
       dotsRef.current.push({
@@ -220,12 +217,30 @@ function VisitorDotsCanvas({ count }: { count: number }) {
       const h = canvas.offsetHeight || 200;
       ctx.clearRect(0, 0, w, h);
 
+      // Draw connection lines between nearby dots
+      dotsRef.current.forEach((dot, i) => {
+        dotsRef.current.forEach((other, j) => {
+          if (j <= i) return;
+          const dx = dot.x - other.x;
+          const dy = dot.y - other.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            const alpha = (1 - dist / 120) * 0.12;
+            ctx.strokeStyle = `rgba(0, 255, 136, ${alpha})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(dot.x, dot.y);
+            ctx.lineTo(other.x, other.y);
+            ctx.stroke();
+          }
+        });
+      });
+
       dotsRef.current.forEach((dot) => {
         dot.x += dot.vx;
         dot.y += dot.vy;
         dot.pulse += 0.03;
 
-        // Bounce off edges
         if (dot.x < 0 || dot.x > w) dot.vx *= -1;
         if (dot.y < 0 || dot.y > h) dot.vy *= -1;
         dot.x = Math.max(0, Math.min(w, dot.x));
@@ -233,7 +248,6 @@ function VisitorDotsCanvas({ count }: { count: number }) {
 
         const pulseSize = dot.size * (0.8 + 0.2 * Math.sin(dot.pulse));
 
-        // Glow
         const grad = ctx.createRadialGradient(dot.x, dot.y, 0, dot.x, dot.y, pulseSize * 3);
         grad.addColorStop(0, `${dot.color}${Math.floor(dot.alpha * 255).toString(16).padStart(2, "0")}`);
         grad.addColorStop(1, "transparent");
@@ -242,7 +256,6 @@ function VisitorDotsCanvas({ count }: { count: number }) {
         ctx.arc(dot.x, dot.y, pulseSize * 3, 0, Math.PI * 2);
         ctx.fill();
 
-        // Core
         ctx.fillStyle = `${dot.color}${Math.floor(dot.alpha * 255).toString(16).padStart(2, "0")}`;
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, pulseSize, 0, Math.PI * 2);
@@ -288,24 +301,20 @@ export default function StatsPage() {
     weekStart.setDate(weekStart.getDate() - 7);
     const fiveMinAgo = new Date(now.getTime() - 5 * 60 * 1000);
 
-    // Total views
     const { count: totalViews } = await client
       .from("site_stats")
       .select("*", { count: "exact", head: true });
 
-    // Today views
     const { count: todayViews } = await client
       .from("site_stats")
       .select("*", { count: "exact", head: true })
       .gte("created_at", todayStart.toISOString());
 
-    // Week views
     const { count: weekViews } = await client
       .from("site_stats")
       .select("*", { count: "exact", head: true })
       .gte("created_at", weekStart.toISOString());
 
-    // All visitor data for unique count and new vs returning
     const { data: allVisitors } = await client
       .from("site_stats")
       .select("visitor_id");
@@ -318,14 +327,12 @@ export default function StatsPage() {
     const newVisitors = Object.values(visitorCounts).filter((c) => c === 1).length;
     const returningVisitors = Object.values(visitorCounts).filter((c) => c > 1).length;
 
-    // Today unique visitors
     const { data: todayVisitorsData } = await client
       .from("site_stats")
       .select("visitor_id")
       .gte("created_at", todayStart.toISOString());
     const todayVisitors = new Set(todayVisitorsData?.map((v) => v.visitor_id) || []).size;
 
-    // Top pages
     const { data: pageData } = await client
       .from("site_stats")
       .select("page");
@@ -339,21 +346,18 @@ export default function StatsPage() {
       .sort((a, b) => b.count - a.count)
       .slice(0, 10);
 
-    // Recent visits
     const { data: recent } = await client
       .from("site_stats")
       .select("*")
       .order("created_at", { ascending: false })
       .limit(10);
 
-    // Online now
     const { data: onlineData } = await client
       .from("site_stats")
       .select("visitor_id")
       .gte("created_at", fiveMinAgo.toISOString());
     const onlineCount = new Set(onlineData?.map((v) => v.visitor_id) || []).size;
 
-    // Visitor entries (last 24 hours)
     const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
     const { data: visitorData } = await client
       .from("site_stats")
@@ -361,7 +365,6 @@ export default function StatsPage() {
       .gte("created_at", oneDayAgo.toISOString())
       .order("created_at", { ascending: false });
 
-    // Group by visitor and get their last activity
     const visitorMap = new Map<string, { lastPage: string; lastVisit: string; visitCount: number }>();
     visitorData?.forEach((v) => {
       const existing = visitorMap.get(v.visitor_id);
@@ -415,43 +418,79 @@ export default function StatsPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Calculate glow intensity based on today's activity
-  const glowIntensity = stats ? Math.min(stats.todayViews / 50, 1) : 0;
-  const glowColor = `rgba(0, 255, 136, ${0.05 + glowIntensity * 0.15})`;
+  const totalVisitorTypes = stats ? stats.newVisitors + stats.returningVisitors : 1;
+  const newPct = stats ? (stats.newVisitors / totalVisitorTypes) * 100 : 0;
+  const returnPct = stats ? (stats.returningVisitors / totalVisitorTypes) * 100 : 0;
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      {/* Live visitor dots background */}
+    <main className="relative min-h-screen overflow-hidden" style={{ background: "var(--bg-color, #15261d)" }}>
+      {/* Tech grid background */}
+      <div className="fixed inset-0 pointer-events-none tech-grid" style={{ opacity: 0.4 }} />
+
+      {/* Vignette overlay */}
+      <div className="fixed inset-0 pointer-events-none" style={{
+        background: "radial-gradient(ellipse at center, transparent 40%, rgba(5,10,8,0.6) 100%)",
+        zIndex: 1,
+      }} />
+
+      {/* Live visitor constellation */}
       {onlineNow > 0 && (
         <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0 }}>
           <VisitorDotsCanvas count={onlineNow} />
         </div>
       )}
 
-      <div className="relative z-10 pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
+      <div className="relative z-10 pt-24 sm:pt-28 pb-20 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
-          {/* Header */}
+
+          {/* ═══ HEADER — Cosmic Observatory ═══ */}
           <motion.div
             className="text-center mb-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <motion.div
-              className="text-3xl mb-4"
-              animate={{ y: [0, -4, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
-              📊
-            </motion.div>
+            {/* Orbital ring */}
+            <div className="relative w-20 h-20 mx-auto mb-6">
+              <motion.div
+                className="absolute inset-0 rounded-full"
+                style={{ border: "1px dashed rgba(0, 255, 136, 0.15)" }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              />
+              <motion.div
+                className="absolute inset-2 rounded-full"
+                style={{ border: "1px dashed rgba(0, 212, 170, 0.1)" }}
+                animate={{ rotate: -360 }}
+                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+              />
+              {/* Center icon */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <motion.span
+                  className="text-3xl"
+                  animate={{ y: [0, -3, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  📊
+                </motion.span>
+              </div>
+              {/* Orbital dot */}
+              <motion.div
+                className="absolute w-1.5 h-1.5 rounded-full"
+                style={{ background: "#00ff88", boxShadow: "0 0 6px rgba(0, 255, 136, 0.6)", top: "50%", left: "-3px", transformOrigin: "calc(50% + 3px) 0" }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              />
+            </div>
+
             <h1
-              className="text-2xl sm:text-3xl mb-3"
+              className="text-2xl sm:text-3xl mb-3 title-shimmer"
               style={{
-                background: "linear-gradient(135deg, #00ff88, #00cc6a)",
+                background: "linear-gradient(135deg, #00ff88, #00d4aa, #ffd700)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 fontWeight: 300,
-                letterSpacing: "0.02em",
+                letterSpacing: "0.04em",
               }}
             >
               Community Stats
@@ -460,6 +499,9 @@ export default function StatsPage() {
               See how the Elovayne community is growing. Every view, every visitor, every connection.
             </p>
           </motion.div>
+
+          {/* ═══ DATA STREAM DIVIDER ═══ */}
+          <div className="data-stream mb-8" />
 
           {loading ? (
             <div className="space-y-4">
@@ -473,29 +515,45 @@ export default function StatsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              {/* Online now banner */}
+              {/* ═══ ONLINE NOW — Pulsing Signal ═══ */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="rounded-2xl p-5 mb-6 flex items-center justify-center gap-4"
+                className="rounded-2xl p-5 mb-8 flex items-center justify-center gap-5 relative overflow-hidden scanlines"
                 style={{
-                  background: "rgba(16, 185, 129, 0.06)",
+                  background: "radial-gradient(ellipse at center, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.03) 60%, transparent 100%)",
                   border: "1px solid rgba(16, 185, 129, 0.15)",
                 }}
               >
-                <div className="relative">
-                  <div className="w-4 h-4 rounded-full" style={{ background: "#10b981" }} />
-                  <div className="absolute inset-0 w-4 h-4 rounded-full animate-ping" style={{ background: "#10b981", opacity: 0.4 }} />
+                {/* Pulsing rings */}
+                <div className="relative w-10 h-10 flex-shrink-0">
+                  <motion.div
+                    className="absolute inset-0 rounded-full"
+                    style={{ border: "1px solid rgba(16, 185, 129, 0.3)" }}
+                    animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+                  />
+                  <motion.div
+                    className="absolute inset-0 rounded-full"
+                    style={{ border: "1px solid rgba(16, 185, 129, 0.2)" }}
+                    animate={{ scale: [1, 1.5], opacity: [0.4, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay: 0.5 }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-3 h-3 rounded-full" style={{ background: "#10b981", boxShadow: "0 0 12px rgba(16, 185, 129, 0.6)" }} />
+                  </div>
                 </div>
                 <div className="flex items-baseline gap-2">
                   <AnimatedCounter
                     value={onlineNow}
+                    color="#10b981"
                     style={{
                       fontSize: "28px",
                       fontWeight: 300,
                       color: "#10b981",
                       letterSpacing: "-0.02em",
+                      textShadow: "0 0 20px rgba(16, 185, 129, 0.3)",
                     }}
                   />
                   <span className="text-sm" style={{ color: "rgba(16, 185, 129, 0.7)" }}>
@@ -504,14 +562,14 @@ export default function StatsPage() {
                 </div>
               </motion.div>
 
-              {/* Main stats grid - with glow */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+              {/* ═══ STAT CARDS — Holographic Grid ═══ */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
                 {[
                   { label: "Total Views", value: stats.totalViews, icon: "👁️", color: "#00ff88", glow: true },
                   { label: "Unique Visitors", value: stats.uniqueVisitors, icon: "👤", color: "#3b82f6", glow: true },
                   { label: "Views Today", value: stats.todayViews, icon: "📅", color: "#f59e0b", glow: stats.todayViews > 0 },
                   { label: "Visitors Today", value: stats.todayVisitors, icon: "🌟", color: "#8b5cf6", glow: stats.todayVisitors > 0 },
-                  { label: "Views This Week", value: stats.weekViews, icon: "📈", color: "#10b981", glow: false },
+                  { label: "This Week", value: stats.weekViews, icon: "📈", color: "#10b981", glow: false },
                   { label: "Pages Tracked", value: stats.topPages.length, icon: "📄", color: "#ec4899", glow: false },
                 ].map((stat, i) => {
                   const intensity = stat.glow ? Math.min(stat.value / 20, 1) : 0;
@@ -521,32 +579,30 @@ export default function StatsPage() {
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 * i }}
-                      className="rounded-2xl p-5 text-center relative overflow-hidden"
+                      className="glass-futuristic corner-accents neon-border rounded-2xl p-4 text-center relative overflow-hidden card-hover"
                       style={{
-                        background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
-                        border: `1px solid ${stat.glow && intensity > 0.3 ? `${stat.color}30` : "var(--border-subtle, rgba(0,255,136,0.1))"}`,
-                        boxShadow: stat.glow && intensity > 0.3
-                          ? `0 0 ${20 + intensity * 30}px ${stat.color}${Math.floor(intensity * 40).toString(16).padStart(2, "0")}, inset 0 0 ${10 + intensity * 15}px ${stat.color}${Math.floor(intensity * 15).toString(16).padStart(2, "0")}`
-                          : "none",
-                        transition: "box-shadow 0.5s ease, border-color 0.5s ease",
+                        borderColor: stat.glow && intensity > 0.3 ? `${stat.color}25` : undefined,
                       }}
                     >
-                      {/* Breathing glow background */}
+                      {/* Color-coded breathing glow */}
                       {stat.glow && intensity > 0.3 && (
                         <motion.div
                           className="absolute inset-0 rounded-2xl"
                           style={{
-                            background: `radial-gradient(circle at center, ${stat.color}${Math.floor(intensity * 20).toString(16).padStart(2, "0")}, transparent 70%)`,
+                            background: `radial-gradient(circle at center, ${stat.color}${Math.floor(intensity * 15).toString(16).padStart(2, "0")}, transparent 70%)`,
                           }}
-                          animate={{ opacity: [0.5, 1, 0.5] }}
+                          animate={{ opacity: [0.4, 0.8, 0.4] }}
                           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                         />
                       )}
-                      <span className="text-2xl block mb-2 relative z-10">{stat.icon}</span>
-                      <p className="text-2xl font-light mb-1 relative z-10" style={{ color: stat.color }}>
-                        {stat.value.toLocaleString()}
+                      <span className="text-xl block mb-1.5 relative z-10">{stat.icon}</span>
+                      <p className="text-xl font-light mb-0.5 relative z-10" style={{
+                        color: stat.color,
+                        textShadow: stat.glow && intensity > 0.3 ? `0 0 15px ${stat.color}40` : "none",
+                      }}>
+                        <AnimatedCounter value={stat.value} />
                       </p>
-                      <p className="text-[11px] relative z-10" style={{ color: "var(--text-dim, #40a070)" }}>
+                      <p className="text-[10px] relative z-10" style={{ color: "var(--text-dim, #40a070)" }}>
                         {stat.label}
                       </p>
                     </motion.div>
@@ -554,162 +610,123 @@ export default function StatsPage() {
                 })}
               </div>
 
-              {/* New vs Returning visitors */}
+              {/* ═══ VISITOR TYPES — Donut Chart ═══ */}
               {(stats.newVisitors > 0 || stats.returningVisitors > 0) && (
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="rounded-2xl p-5 mb-6"
-                  style={{
-                    background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
-                    border: "1px solid var(--border-subtle, rgba(0,255,136,0.1))",
-                  }}
+                  className="glass-futuristic corner-accents neon-border rounded-2xl p-6 mb-8"
                 >
-                  <h2 className="text-sm font-medium mb-4" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
+                  <h2 className="text-xs font-medium mb-5 uppercase tracking-wider" style={{ color: "var(--text-muted, #60b890)" }}>
                     Visitor Types
                   </h2>
-                  <div className="flex items-center gap-4">
-                    {/* Visual bar */}
-                    <div className="flex-1">
-                      <div className="h-4 rounded-full overflow-hidden flex" style={{ background: "rgba(0,255,136,0.08)" }}>
-                        {stats.newVisitors > 0 && (
-                          <motion.div
-                            className="h-full"
-                            style={{ background: "linear-gradient(90deg, #3b82f6, #60a5fa)" }}
-                            initial={{ width: 0 }}
-                            animate={{ width: `${(stats.newVisitors / (stats.newVisitors + stats.returningVisitors)) * 100}%` }}
-                            transition={{ duration: 0.8, delay: 0.4 }}
-                          />
-                        )}
-                        {stats.returningVisitors > 0 && (
-                          <motion.div
-                            className="h-full"
-                            style={{ background: "linear-gradient(90deg, #8b5cf6, #a78bfa)" }}
-                            initial={{ width: 0 }}
-                            animate={{ width: `${(stats.returningVisitors / (stats.newVisitors + stats.returningVisitors)) * 100}%` }}
-                            transition={{ duration: 0.8, delay: 0.5 }}
-                          />
-                        )}
-                      </div>
-                    </div>
-                    {/* Labels */}
-                    <div className="flex flex-col gap-1 flex-shrink-0">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full" style={{ background: "#3b82f6" }} />
-                        <span className="text-xs" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
-                          {stats.newVisitors} new
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full" style={{ background: "#8b5cf6" }} />
-                        <span className="text-xs" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
-                          {stats.returningVisitors} returning
+                  <div className="flex items-center gap-6">
+                    {/* Donut chart */}
+                    <div className="relative w-24 h-24 flex-shrink-0">
+                      <svg viewBox="0 0 36 36" className="w-full h-full" style={{ transform: "rotate(-90deg)" }}>
+                        {/* Background ring */}
+                        <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(0,255,136,0.06)" strokeWidth="4" />
+                        {/* New visitors ring */}
+                        <motion.circle
+                          cx="18" cy="18" r="14" fill="none"
+                          stroke="#3b82f6" strokeWidth="4" strokeLinecap="round"
+                          strokeDasharray={`${newPct * 0.88} ${100 - newPct * 0.88}`}
+                          initial={{ strokeDashoffset: 88 }}
+                          animate={{ strokeDashoffset: 0 }}
+                          transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        />
+                        {/* Returning visitors ring */}
+                        <motion.circle
+                          cx="18" cy="18" r="14" fill="none"
+                          stroke="#8b5cf6" strokeWidth="4" strokeLinecap="round"
+                          strokeDasharray={`${returnPct * 0.88} ${100 - returnPct * 0.88}`}
+                          strokeDashoffset={-newPct * 0.88}
+                          initial={{ strokeDashoffset: 88 - newPct * 0.88 }}
+                          animate={{ strokeDashoffset: -newPct * 0.88 }}
+                          transition={{ duration: 1, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        />
+                      </svg>
+                      {/* Center text */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-lg font-light" style={{ color: "var(--text-primary, #e0f5e8)" }}>
+                          {totalVisitorTypes}
                         </span>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Visitor Ticker */}
-              {visitorEntries.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.35 }}
-                  className="rounded-2xl p-6 mb-6"
-                  style={{
-                    background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
-                    border: "1px solid var(--border-subtle, rgba(0,255,136,0.1))",
-                  }}
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-sm font-medium" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
-                      Who's Been Here
-                    </h2>
-                    <span className="text-[10px]" style={{ color: "var(--text-dim, #40a070)" }}>
-                      Last 24 hours
-                    </span>
-                  </div>
-                  <div className="space-y-2 max-h-[300px] overflow-y-auto" style={{ scrollbarWidth: "thin" }}>
-                    <AnimatePresence mode="popLayout">
-                      {visitorEntries.map((visitor, i) => (
-                        <motion.div
-                          key={visitor.visitorId}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: i * 0.04 }}
-                          className="flex items-center gap-3 py-2 px-3 rounded-lg"
-                          style={{
-                            background: visitor.online ? "rgba(16, 185, 129, 0.04)" : "transparent",
-                          }}
-                        >
-                          {/* Avatar */}
-                          <span className="text-lg flex-shrink-0">{visitor.avatar}</span>
-                          
-                          {/* Name and activity */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs font-medium" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
-                                {visitor.name}
-                              </span>
-                              {visitor.online && (
-                                <div className="flex items-center gap-1">
-                                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#10b981" }} />
-                                  <span className="text-[9px]" style={{ color: "#10b981" }}>online</span>
-                                </div>
-                              )}
-                            </div>
-                            <p className="text-[10px]" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
-                              {visitor.online ? "exploring" : "visited"} {pageNames[visitor.lastPage] || visitor.lastPage} · {getTimeAgo(visitor.lastVisit)}
-                            </p>
+                    {/* Legend */}
+                    <div className="flex-1 space-y-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#3b82f6", boxShadow: "0 0 8px rgba(59,130,246,0.4)" }} />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs" style={{ color: "var(--text-secondary, #e2e8f0)" }}>New visitors</span>
+                            <span className="text-xs font-mono" style={{ color: "#3b82f6" }}>{stats.newVisitors}</span>
                           </div>
-
-                          {/* Visit count */}
-                          {visitor.visitCount > 1 && (
-                            <span className="text-[9px] px-1.5 py-0.5 rounded-full flex-shrink-0" style={{ 
-                              background: "rgba(0, 255, 136, 0.08)", 
-                              color: "var(--text-dim, #40a070)" 
-                            }}>
-                              {visitor.visitCount} pages
-                            </span>
-                          )}
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
+                          <div className="h-1 rounded-full mt-1 overflow-hidden" style={{ background: "rgba(59,130,246,0.1)" }}>
+                            <motion.div className="h-full rounded-full" style={{ background: "#3b82f6" }}
+                              initial={{ width: 0 }} animate={{ width: `${newPct}%` }}
+                              transition={{ duration: 0.8, delay: 0.6 }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#8b5cf6", boxShadow: "0 0 8px rgba(139,92,246,0.4)" }} />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs" style={{ color: "var(--text-secondary, #e2e8f0)" }}>Returning</span>
+                            <span className="text-xs font-mono" style={{ color: "#8b5cf6" }}>{stats.returningVisitors}</span>
+                          </div>
+                          <div className="h-1 rounded-full mt-1 overflow-hidden" style={{ background: "rgba(139,92,246,0.1)" }}>
+                            <motion.div className="h-full rounded-full" style={{ background: "#8b5cf6" }}
+                              initial={{ width: 0 }} animate={{ width: `${returnPct}%` }}
+                              transition={{ duration: 0.8, delay: 0.7 }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               )}
 
-              {/* Live Activity Feed */}
+              {/* ═══ LIVE ACTIVITY — Terminal Feed ═══ */}
               {recentVisits.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="rounded-2xl p-6 mb-6"
-                  style={{
-                    background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
-                    border: "1px solid var(--border-subtle, rgba(0,255,136,0.1))",
-                  }}
+                  className="glass-futuristic corner-accents neon-border rounded-2xl p-6 mb-8"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-sm font-medium" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
+                    <h2 className="text-xs font-medium uppercase tracking-wider" style={{ color: "var(--text-muted, #60b890)" }}>
                       Live Activity
                     </h2>
-                    <span className="text-[9px] px-2 py-1 rounded-full" style={{ background: "rgba(16,185,129,0.1)", color: "#10b981" }}>
-                      LIVE
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <motion.div
+                        className="w-1.5 h-1.5 rounded-full"
+                        style={{ background: "#10b981" }}
+                        animate={{ opacity: [0.4, 1, 0.4] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      />
+                      <span className="text-[9px] px-2 py-0.5 rounded-full font-medium" style={{
+                        background: "rgba(16,185,129,0.1)",
+                        color: "#10b981",
+                        border: "1px solid rgba(16,185,129,0.15)",
+                      }}>
+                        LIVE
+                      </span>
+                    </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1">
                     <AnimatePresence mode="popLayout">
                       {recentVisits.map((visit, i) => (
                         <motion.div
                           key={visit.id}
-                          initial={{ opacity: 0, x: -10, height: 0 }}
+                          initial={{ opacity: 0, x: 10, height: 0 }}
                           animate={{ opacity: 1, x: 0, height: "auto" }}
-                          exit={{ opacity: 0, x: 10 }}
+                          exit={{ opacity: 0, x: -10 }}
                           transition={{ duration: 0.3, delay: i * 0.03 }}
                           className="flex items-center gap-3 py-2 px-3 rounded-lg"
                           style={{
@@ -724,7 +741,7 @@ export default function StatsPage() {
                               {pageNames[visit.page] || visit.page}
                             </span>
                           </div>
-                          <span className="text-[10px] flex-shrink-0" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
+                          <span className="text-[10px] flex-shrink-0 font-mono" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
                             {getTimeAgo(visit.created_at)}
                           </span>
                         </motion.div>
@@ -734,71 +751,93 @@ export default function StatsPage() {
                 </motion.div>
               )}
 
-              {/* Top pages */}
+              {/* ═══ DATA STREAM DIVIDER ═══ */}
+              <div className="data-stream mb-8" />
+
+              {/* ═══ TOP PAGES — Ranked Leaderboard ═══ */}
               {stats.topPages.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
-                  className="rounded-2xl p-6"
-                  style={{
-                    background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
-                    border: "1px solid var(--border-subtle, rgba(0,255,136,0.1))",
-                  }}
+                  className="glass-futuristic corner-accents neon-border rounded-2xl p-6 mb-8"
                 >
-                  <h2 className="text-sm font-medium mb-4" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
+                  <h2 className="text-xs font-medium mb-5 uppercase tracking-wider" style={{ color: "var(--text-muted, #60b890)" }}>
                     Most Visited Pages
                   </h2>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     {stats.topPages.map((page, i) => {
                       const maxCount = stats.topPages[0]?.count || 1;
                       const percentage = (page.count / maxCount) * 100;
+                      const rankColors = ["#ffd700", "#c0c0c0", "#cd7f32"];
+                      const isTop3 = i < 3;
+                      const rankColor = isTop3 ? rankColors[i] : "rgba(0,255,136,0.3)";
                       return (
-                        <div key={page.page} className="flex items-center gap-3">
+                        <motion.div
+                          key={page.page}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.5 + i * 0.04 }}
+                          className="flex items-center gap-3 py-2 px-3 rounded-lg transition-all hover:bg-white/[0.02]"
+                        >
+                          {/* Rank number */}
+                          <span className="text-[10px] font-mono w-5 text-center flex-shrink-0 font-medium" style={{
+                            color: rankColor,
+                            textShadow: isTop3 ? `0 0 8px ${rankColor}40` : "none",
+                          }}>
+                            #{i + 1}
+                          </span>
+
                           <span className="text-sm w-6 text-center flex-shrink-0">
                             {pageIcons[page.page] || "📄"}
                           </span>
-                          <div className="flex-1">
+
+                          <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
+                              <span className="text-xs truncate" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
                                 {pageNames[page.page] || page.page}
                               </span>
-                              <span className="text-[10px]" style={{ color: "var(--text-dim, #40a070)" }}>
-                                {page.count.toLocaleString()} views
+                              <span className="text-[10px] font-mono flex-shrink-0 ml-2" style={{ color: isTop3 ? rankColor : "var(--text-dim, #40a070)" }}>
+                                {page.count.toLocaleString()}
                               </span>
                             </div>
-                            <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(0,255,136,0.08)" }}>
+                            <div className="h-1 rounded-full overflow-hidden" style={{ background: "rgba(0,255,136,0.06)" }}>
                               <motion.div
                                 className="h-full rounded-full"
-                                style={{ background: "linear-gradient(90deg, #00ff88, #00cc6a)" }}
+                                style={{
+                                  background: isTop3
+                                    ? `linear-gradient(90deg, ${rankColor}cc, ${rankColor}80)`
+                                    : "linear-gradient(90deg, rgba(0,255,136,0.4), rgba(0,255,136,0.2))",
+                                  boxShadow: isTop3 ? `0 0 8px ${rankColor}30` : "none",
+                                }}
                                 initial={{ width: 0 }}
                                 animate={{ width: `${percentage}%` }}
                                 transition={{ duration: 0.8, delay: 0.6 + i * 0.05 }}
                               />
                             </div>
                           </div>
-                        </div>
+                        </motion.div>
                       );
                     })}
                   </div>
                 </motion.div>
               )}
 
-              {/* Footer */}
+              {/* ═══ FOOTER ═══ */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
                 className="text-center mt-6"
               >
-                <p className="text-[10px]" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
-                  Auto-refreshes every 15 seconds · Last updated {lastUpdated.toLocaleTimeString()}
+                <p className="text-[10px] font-mono" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
+                  Auto-refreshes every 15s · Last updated {lastUpdated.toLocaleTimeString()}
                 </p>
               </motion.div>
             </motion.div>
           ) : null}
 
-          {/* Bottom link */}
+          {/* ═══ BOTTOM LINK ═══ */}
           <motion.div
             className="text-center mt-12"
             initial={{ opacity: 0 }}
