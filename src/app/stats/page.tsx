@@ -288,6 +288,7 @@ export default function StatsPage() {
   const [visitorEntries, setVisitorEntries] = useState<VisitorEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const trackedRef = useRef(false);
 
   const fetchStats = async () => {
@@ -563,23 +564,27 @@ export default function StatsPage() {
               {/* ═══ STAT CARDS — Holographic Grid ═══ */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
                 {[
-                  { label: "Total Views", value: stats.totalViews, icon: "👁️", color: "#00ff88", glow: true },
-                  { label: "Unique Visitors", value: stats.uniqueVisitors, icon: "👤", color: "#3b82f6", glow: true },
-                  { label: "Views Today", value: stats.todayViews, icon: "📅", color: "#f59e0b", glow: stats.todayViews > 0 },
-                  { label: "Visitors Today", value: stats.todayVisitors, icon: "🌟", color: "#8b5cf6", glow: stats.todayVisitors > 0 },
-                  { label: "This Week", value: stats.weekViews, icon: "📈", color: "#10b981", glow: false },
-                  { label: "Pages Tracked", value: stats.topPages.length, icon: "📄", color: "#ec4899", glow: false },
+                  { id: "total", label: "Total Views", value: stats.totalViews, icon: "👁️", color: "#00ff88", glow: true },
+                  { id: "visitors", label: "Unique Visitors", value: stats.uniqueVisitors, icon: "👤", color: "#3b82f6", glow: true },
+                  { id: "today", label: "Views Today", value: stats.todayViews, icon: "📅", color: "#f59e0b", glow: stats.todayViews > 0 },
+                  { id: "todayVisitors", label: "Visitors Today", value: stats.todayVisitors, icon: "🌟", color: "#8b5cf6", glow: stats.todayVisitors > 0 },
+                  { id: "week", label: "This Week", value: stats.weekViews, icon: "📈", color: "#10b981", glow: false },
+                  { id: "pages", label: "Pages Tracked", value: stats.topPages.length, icon: "📄", color: "#ec4899", glow: false },
                 ].map((stat, i) => {
                   const intensity = stat.glow ? Math.min(stat.value / 20, 1) : 0;
+                  const isExpanded = expandedCard === stat.id;
                   return (
                     <motion.div
                       key={stat.label}
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 * i }}
+                      onClick={() => setExpandedCard(isExpanded ? null : stat.id)}
                       className="glass-futuristic corner-accents neon-border rounded-2xl p-4 text-center relative overflow-hidden card-hover"
                       style={{
                         borderColor: stat.glow && intensity > 0.3 ? `${stat.color}25` : undefined,
+                        cursor: "pointer",
+                        gridColumn: isExpanded ? "1 / -1" : undefined,
                       }}
                     >
                       {/* Color-coded breathing glow */}
@@ -603,6 +608,76 @@ export default function StatsPage() {
                       <p className="text-[10px] relative z-10" style={{ color: "var(--text-dim, #40a070)" }}>
                         {stat.label}
                       </p>
+
+                      {/* Expanded detail */}
+                      <AnimatePresence>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="relative z-10 mt-4 pt-4 text-left overflow-hidden"
+                            style={{ borderTop: `1px solid ${stat.color}20` }}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {stat.id === "total" && (
+                              <div className="space-y-2">
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>All time views</span><span style={{ color: stat.color }}>{stats.totalViews.toLocaleString()}</span></div>
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>This week</span><span style={{ color: stat.color }}>{stats.weekViews.toLocaleString()}</span></div>
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>Today</span><span style={{ color: stat.color }}>{stats.todayViews.toLocaleString()}</span></div>
+                              </div>
+                            )}
+                            {stat.id === "visitors" && (
+                              <div className="space-y-2">
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>New visitors</span><span style={{ color: "#3b82f6" }}>{stats.newVisitors}</span></div>
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>Returning visitors</span><span style={{ color: "#8b5cf6" }}>{stats.returningVisitors}</span></div>
+                                <div className="h-1.5 rounded-full overflow-hidden mt-2" style={{ background: "rgba(59,130,246,0.1)" }}>
+                                  <div className="h-full rounded-full" style={{ background: "#3b82f6", width: `${newPct}%` }} />
+                                </div>
+                              </div>
+                            )}
+                            {stat.id === "today" && (
+                              <div className="space-y-2">
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>Today's views</span><span style={{ color: stat.color }}>{stats.todayViews.toLocaleString()}</span></div>
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>Today's visitors</span><span style={{ color: "#8b5cf6" }}>{stats.todayVisitors}</span></div>
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>Views per visitor</span><span style={{ color: stat.color }}>{stats.todayVisitors > 0 ? (stats.todayViews / stats.todayVisitors).toFixed(1) : "0"}</span></div>
+                              </div>
+                            )}
+                            {stat.id === "todayVisitors" && (
+                              <div className="space-y-2">
+                                {visitorEntries.slice(0, 5).map((v) => (
+                                  <div key={v.visitorId} className="flex items-center gap-2">
+                                    <span className="text-sm">{v.avatar}</span>
+                                    <span className="text-xs truncate flex-1" style={{ color: "var(--text-secondary)" }}>{v.name}</span>
+                                    <span className="text-[10px]" style={{ color: v.online ? "#10b981" : "var(--text-dim)" }}>{v.online ? "online" : getTimeAgo(v.lastVisit)}</span>
+                                  </div>
+                                ))}
+                                {visitorEntries.length === 0 && <p className="text-xs" style={{ color: "var(--text-dim)" }}>No recent visitors</p>}
+                              </div>
+                            )}
+                            {stat.id === "week" && (
+                              <div className="space-y-2">
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>This week's views</span><span style={{ color: stat.color }}>{stats.weekViews.toLocaleString()}</span></div>
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>Daily average</span><span style={{ color: stat.color }}>{(stats.weekViews / 7).toFixed(1)}</span></div>
+                                <div className="flex justify-between text-xs"><span style={{ color: "var(--text-muted)" }}>Unique visitors this week</span><span style={{ color: "#3b82f6" }}>{stats.uniqueVisitors}</span></div>
+                              </div>
+                            )}
+                            {stat.id === "pages" && (
+                              <div className="space-y-1.5">
+                                {stats.topPages.slice(0, 5).map((p, i) => (
+                                  <div key={p.page} className="flex items-center gap-2">
+                                    <span className="text-[10px] font-mono w-4" style={{ color: "var(--text-dim)" }}>#{i + 1}</span>
+                                    <span className="text-sm">{pageIcons[p.page] || "📄"}</span>
+                                    <span className="text-xs flex-1 truncate" style={{ color: "var(--text-secondary)" }}>{pageNames[p.page] || p.page}</span>
+                                    <span className="text-[10px] font-mono" style={{ color: stat.color }}>{p.count}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </motion.div>
                   );
                 })}
@@ -685,66 +760,6 @@ export default function StatsPage() {
                         </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              )}
-
-              {/* ═══ LIVE ACTIVITY — Terminal Feed ═══ */}
-              {recentVisits.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="glass-futuristic corner-accents neon-border rounded-2xl p-6 mb-8"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xs font-medium uppercase tracking-wider" style={{ color: "var(--text-muted, #60b890)" }}>
-                      Live Activity
-                    </h2>
-                    <div className="flex items-center gap-1.5">
-                      <motion.div
-                        className="w-1.5 h-1.5 rounded-full"
-                        style={{ background: "#10b981" }}
-                        animate={{ opacity: [0.4, 1, 0.4] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                      />
-                      <span className="text-[9px] px-2 py-0.5 rounded-full font-medium" style={{
-                        background: "rgba(16,185,129,0.1)",
-                        color: "#10b981",
-                        border: "1px solid rgba(16,185,129,0.15)",
-                      }}>
-                        LIVE
-                      </span>
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <AnimatePresence mode="popLayout">
-                      {recentVisits.map((visit, i) => (
-                        <motion.div
-                          key={visit.id}
-                          initial={{ opacity: 0, x: 10, height: 0 }}
-                          animate={{ opacity: 1, x: 0, height: "auto" }}
-                          exit={{ opacity: 0, x: -10 }}
-                          transition={{ duration: 0.3, delay: i * 0.03 }}
-                          className="flex items-center gap-3 py-2 px-3 rounded-lg"
-                          style={{
-                            background: i === 0 ? "rgba(0, 255, 136, 0.04)" : "transparent",
-                          }}
-                        >
-                          <span className="text-sm flex-shrink-0">
-                            {pageIcons[visit.page] || "📄"}
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <span className="text-xs" style={{ color: "var(--text-secondary, #e2e8f0)" }}>
-                              {pageNames[visit.page] || visit.page}
-                            </span>
-                          </div>
-                          <span className="text-[10px] flex-shrink-0 font-mono" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
-                            {getTimeAgo(visit.created_at)}
-                          </span>
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
                   </div>
                 </motion.div>
               )}
