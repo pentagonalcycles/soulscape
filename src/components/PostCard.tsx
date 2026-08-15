@@ -130,7 +130,7 @@ export default function PostCard({
 
   return (
     <motion.article
-      className="glass rounded-2xl p-6 relative group"
+      className="glass-futuristic corner-accents neon-border rounded-2xl p-6 relative group"
       style={{
         boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
         backdropFilter: "blur(12px)",

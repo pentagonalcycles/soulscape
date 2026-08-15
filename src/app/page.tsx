@@ -37,7 +37,7 @@ export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden">
       {/* HERO SECTION */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 tech-grid">
         {/* Background floating orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <motion.div
@@ -162,7 +162,7 @@ export default function Home() {
       </section>
 
       {/* Divider */}
-      <div className="section-divider" />
+      <div className="section-divider data-stream" />
 
       {/* FEATURES SECTION */}
       <section className="relative z-10 py-24 px-6">
@@ -192,7 +192,7 @@ export default function Home() {
             {features.map((f) => (
               <motion.div key={f.href} variants={itemVariants}>
                 <Link href={f.href} style={{ textDecoration: "none" }}>
-                  <div className="feature-card" style={{ "--card-accent": `${f.color}30` } as React.CSSProperties}>
+                  <div className="feature-card corner-accents neon-border" style={{ "--card-accent": `${f.color}30` } as React.CSSProperties}>
                     <div className="icon-glow" style={{ borderColor: `${f.color}20`, background: `${f.color}08` }}>
                       <span style={{ color: f.color }}>{f.icon}</span>
                     </div>
@@ -211,7 +211,7 @@ export default function Home() {
       </section>
 
       {/* Divider */}
-      <div className="section-divider" />
+      <div className="section-divider data-stream" />
 
       {/* BOTTOM LINKS */}
       <section className="relative z-10 py-20 px-6">

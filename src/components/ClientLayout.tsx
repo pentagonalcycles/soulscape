@@ -183,7 +183,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
           <Nebula />
         </>
       )}
-      <div className="min-h-screen flex flex-col relative" style={{ zIndex: 1 }}>
+      <div className="min-h-screen flex flex-col relative scanlines grain-overlay" style={{ zIndex: 1 }}>
         <div className="flex-1">
           {loading ? null : isBanned ? <BannedScreen /> : children}
         </div>

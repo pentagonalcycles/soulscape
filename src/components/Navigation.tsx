@@ -108,7 +108,7 @@ export default function Navigation({ activePage }: NavigationProps) {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="nav-sidebar"
+              className="nav-sidebar hex-pattern"
               style={{
                 position: "fixed",
                 top: 0,

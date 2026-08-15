@@ -21,7 +21,7 @@ export default function GlowingPortal() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2, delay: 0.6 }}
     >
-      <div className="relative w-[200px] h-[200px] sm:w-[260px] sm:h-[260px]">
+      <div className="relative w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] gradient-border">
         {/* Ambient glow */}
         <div
           className="absolute rounded-full pointer-events-none"
