@@ -66,7 +66,7 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
 
   if (!ready || !MapContainer) {
     return (
-      <div className="rounded-2xl h-72 sm:h-96 flex items-center justify-center" style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.04))", border: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.08))" }}>
+      <div className="glass-futuristic corner-accents rounded-2xl h-72 sm:h-96 flex items-center justify-center" style={{ border: "1px solid rgba(0, 255, 136, 0.08)" }}>
         <p className="text-xs" style={{ color: "var(--text-dim, #94a3b8)" }}>Loading map...</p>
       </div>
     );
@@ -74,11 +74,8 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
 
   return (
     <motion.div
-      className="rounded-2xl overflow-hidden"
-      style={{
-        border: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.08))",
-        boxShadow: "0 1px 3px rgba(0, 255, 136, 0.04)",
-      }}
+      className="glass-futuristic corner-accents neon-border rounded-2xl overflow-hidden"
+      style={{ border: "1px solid rgba(0, 255, 136, 0.1)" }}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
@@ -135,7 +132,7 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
       </div>
 
       {nerasWithCoords.length > 0 && (
-        <div className="px-4 py-3 flex items-center gap-3 overflow-x-auto" style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.03))", borderTop: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.06))" }}>
+        <div className="px-4 py-3 flex items-center gap-3 overflow-x-auto" style={{ background: "rgba(0, 255, 136, 0.03)", borderTop: "1px solid rgba(0, 255, 136, 0.06)" }}>
           {nerasWithCoords.slice(0, 6).map((n) => {
             const t = getNeraTypeById(n.nera_type);
             return (
@@ -143,7 +140,7 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
                 key={n.id}
                 onClick={() => onSelect(n)}
                 className="flex-shrink-0 flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-full transition-all"
-                style={{ background: `${t.color}08`, color: t.color, border: `1px solid ${t.color}15`, cursor: "pointer" }}
+                style={{ background: `${t.color}0A`, color: t.color, border: `1px solid ${t.color}18`, cursor: "pointer" }}
               >
                 <span>{t.icon}</span>
                 <span style={{ maxWidth: "80px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{n.title}</span>

@@ -152,28 +152,30 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          {/* Brand mark */}
           <motion.div
-            className="inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-5"
+            className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-5 relative"
             style={{
-              background: "linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 204, 106, 0.06))",
-              border: "1px solid rgba(0, 255, 136, 0.1)",
+              background: "linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 106, 0.06))",
+              border: "1px solid rgba(0, 255, 136, 0.15)",
+              boxShadow: "0 0 20px rgba(0, 255, 136, 0.08)",
             }}
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.1, duration: 0.5 }}
           >
-            <span className="text-xl" style={{ color: "#00ff88" }}>{'\ud83e\udee7'}</span>
+            <span className="text-2xl icon-glow">{'\ud83e\udee7'}</span>
+            <div className="absolute inset-0 rounded-2xl" style={{ border: "1px solid rgba(0, 255, 136, 0.05)" }} />
           </motion.div>
 
           <h1
             className="text-4xl sm:text-5xl mb-3"
             style={{
               fontWeight: 300,
-              color: "var(--text-primary, #0f172a)",
-              letterSpacing: "0.08em",
+              color: "var(--text-primary, #e2e8f0)",
+              letterSpacing: "0.12em",
               fontFamily: "var(--font-heading)",
               lineHeight: 1.1,
+              textShadow: "0 0 30px rgba(0, 255, 136, 0.1)",
             }}
           >
             NERA
@@ -181,7 +183,7 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
           <p
             className="text-base sm:text-lg mb-2"
             style={{
-              color: "var(--text-muted, #64748b)",
+              color: "var(--text-muted, #94a3b8)",
               fontFamily: "var(--font-accent)",
               letterSpacing: "0.01em",
               fontWeight: 400,
@@ -189,7 +191,7 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
           >
             Find people. Find a place. Be there.
           </p>
-          <p className="text-[13px]" style={{ color: "var(--text-dim, #94a3b8)" }}>
+          <p className="text-[13px]" style={{ color: "var(--text-dim, #60b890)" }}>
             How do you want to connect today?
           </p>
         </motion.div>
@@ -197,20 +199,21 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
         {/* Start a Nera CTA */}
         <motion.button
           onClick={onCreate}
-          className="w-full py-4 rounded-2xl text-[15px] mb-10 flex items-center justify-center gap-2.5 font-medium"
+          className="w-full py-4 rounded-2xl text-[15px] mb-10 flex items-center justify-center gap-2.5 font-medium relative overflow-hidden"
           style={{
             background: "linear-gradient(135deg, #00ff88, #00cc6a)",
             color: "#ffffff",
-            boxShadow: "0 4px 24px rgba(0, 255, 136, 0.2), 0 1px 4px rgba(0, 255, 136, 0.1)",
-            border: "none",
+            boxShadow: "0 4px 24px rgba(0, 255, 136, 0.25), 0 1px 4px rgba(0, 255, 136, 0.1)",
+            border: "1px solid rgba(0, 255, 136, 0.3)",
             letterSpacing: "0.02em",
           }}
-          whileHover={{ y: -2, boxShadow: "0 8px 32px rgba(0, 255, 136, 0.28), 0 2px 8px rgba(0, 255, 136, 0.12)" }}
+          whileHover={{ y: -2, boxShadow: "0 8px 32px rgba(0, 255, 136, 0.35), 0 2px 8px rgba(0, 255, 136, 0.15)" }}
           whileTap={{ scale: 0.98 }}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.5 }}
         >
+          <div className="scanlines pointer-events-none absolute inset-0 opacity-20" />
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
           </svg>
@@ -226,7 +229,7 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
         >
           <p
             className="text-[11px] mb-3 uppercase tracking-widest font-medium"
-            style={{ color: "var(--text-dim, #94a3b8)", letterSpacing: "0.12em" }}
+            style={{ color: "var(--text-dim, #60b890)", letterSpacing: "0.12em" }}
           >
             How are you feeling?
           </p>
@@ -235,9 +238,10 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
               onClick={() => setActiveEmotion("all")}
               className="flex-shrink-0 px-4 py-2 rounded-full text-[12px] font-medium transition-all"
               style={{
-                background: activeEmotion === "all" ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.03)",
-                color: activeEmotion === "all" ? "#00ff88" : "var(--text-muted, #64748b)",
-                border: `1px solid ${activeEmotion === "all" ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.06)"}`,
+                background: activeEmotion === "all" ? "rgba(0, 255, 136, 0.12)" : "rgba(0, 255, 136, 0.03)",
+                color: activeEmotion === "all" ? "#00ff88" : "var(--text-muted, #94a3b8)",
+                border: `1px solid ${activeEmotion === "all" ? "rgba(0, 255, 136, 0.25)" : "rgba(0, 255, 136, 0.06)"}`,
+                boxShadow: activeEmotion === "all" ? "0 0 12px rgba(0, 255, 136, 0.08)" : "none",
               }}
             >
               All
@@ -248,9 +252,10 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
                 onClick={() => setActiveEmotion(activeEmotion === e.id ? "all" : e.id)}
                 className="flex-shrink-0 px-4 py-2 rounded-full text-[12px] font-medium transition-all whitespace-nowrap"
                 style={{
-                  background: activeEmotion === e.id ? `${e.color}10` : "rgba(0, 255, 136, 0.03)",
-                  color: activeEmotion === e.id ? e.color : "var(--text-muted, #64748b)",
-                  border: `1px solid ${activeEmotion === e.id ? `${e.color}20` : "rgba(0, 255, 136, 0.06)"}`,
+                  background: activeEmotion === e.id ? `${e.color}12` : "rgba(0, 255, 136, 0.03)",
+                  color: activeEmotion === e.id ? e.color : "var(--text-muted, #94a3b8)",
+                  border: `1px solid ${activeEmotion === e.id ? `${e.color}25` : "rgba(0, 255, 136, 0.06)"}`,
+                  boxShadow: activeEmotion === e.id ? `0 0 12px ${e.color}15` : "none",
                 }}
               >
                 {e.icon} {e.label}
@@ -261,7 +266,7 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
 
         {/* Section tabs + View toggle */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="flex gap-1 p-1 rounded-2xl flex-1" style={{ background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.05)" }}>
+          <div className="glass-futuristic flex gap-1 p-1 rounded-2xl flex-1" style={{ border: "1px solid rgba(0, 255, 136, 0.06)" }}>
             {sectionTabs.map((s) => (
               <button
                 key={s.id}
@@ -271,24 +276,23 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
                 }}
                 className="flex-1 py-2.5 rounded-xl text-[12px] font-medium transition-all"
                 style={{
-                  background: section === s.id ? "var(--card-bg, rgba(0, 255, 136, 0.06))" : "transparent",
-                  color: section === s.id ? "#00ff88" : "var(--text-dim, #94a3b8)",
-                  boxShadow: section === s.id ? "0 1px 4px rgba(0, 255, 136, 0.08)" : "none",
+                  background: section === s.id ? "rgba(0, 255, 136, 0.08)" : "transparent",
+                  color: section === s.id ? "#00ff88" : "var(--text-dim, #60b890)",
+                  boxShadow: section === s.id ? "0 1px 4px rgba(0, 255, 136, 0.1)" : "none",
                 }}
               >
                 {s.label}
               </button>
             ))}
           </div>
-          {/* Map/List toggle */}
-          <div className="flex gap-0.5 p-1 rounded-xl" style={{ background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.05)" }}>
+          <div className="glass-futuristic flex gap-0.5 p-1 rounded-xl" style={{ border: "1px solid rgba(0, 255, 136, 0.06)" }}>
             <button
               onClick={() => setViewMode("list")}
               className="w-9 h-9 rounded-lg flex items-center justify-center transition-all"
               style={{
-                background: viewMode === "list" ? "var(--card-bg, rgba(0, 255, 136, 0.06))" : "transparent",
-                color: viewMode === "list" ? "#00ff88" : "var(--text-dim, #94a3b8)",
-                boxShadow: viewMode === "list" ? "0 1px 4px rgba(0, 255, 136, 0.08)" : "none",
+                background: viewMode === "list" ? "rgba(0, 255, 136, 0.08)" : "transparent",
+                color: viewMode === "list" ? "#00ff88" : "var(--text-dim, #60b890)",
+                boxShadow: viewMode === "list" ? "0 1px 4px rgba(0, 255, 136, 0.1)" : "none",
               }}
               title="List view"
             >
@@ -301,9 +305,9 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
               onClick={() => setViewMode("map")}
               className="w-9 h-9 rounded-lg flex items-center justify-center transition-all"
               style={{
-                background: viewMode === "map" ? "var(--card-bg, rgba(0, 255, 136, 0.06))" : "transparent",
-                color: viewMode === "map" ? "#00ff88" : "var(--text-dim, #94a3b8)",
-                boxShadow: viewMode === "map" ? "0 1px 4px rgba(0, 255, 136, 0.08)" : "none",
+                background: viewMode === "map" ? "rgba(0, 255, 136, 0.08)" : "transparent",
+                color: viewMode === "map" ? "#00ff88" : "var(--text-dim, #60b890)",
+                boxShadow: viewMode === "map" ? "0 1px 4px rgba(0, 255, 136, 0.1)" : "none",
               }}
               title="Map view"
             >
@@ -321,9 +325,9 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
             onClick={() => setActiveType("all")}
             className="flex-shrink-0 px-4 py-2 rounded-xl text-[11px] font-medium transition-all"
             style={{
-              background: activeType === "all" ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
-              color: activeType === "all" ? "#00ff88" : "var(--text-muted, #64748b)",
-              border: `1px solid ${activeType === "all" ? "rgba(0, 255, 136, 0.15)" : "rgba(0, 255, 136, 0.05)"}`,
+              background: activeType === "all" ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.02)",
+              color: activeType === "all" ? "#00ff88" : "var(--text-muted, #94a3b8)",
+              border: `1px solid ${activeType === "all" ? "rgba(0, 255, 136, 0.18)" : "rgba(0, 255, 136, 0.05)"}`,
             }}
           >
             All types
@@ -335,7 +339,7 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
               className="flex-shrink-0 px-4 py-2 rounded-xl text-[11px] font-medium transition-all whitespace-nowrap"
               style={{
                 background: activeType === t.id ? `${t.color}0D` : "rgba(0, 255, 136, 0.02)",
-                color: activeType === t.id ? t.color : "var(--text-muted, #64748b)",
+                color: activeType === t.id ? t.color : "var(--text-muted, #94a3b8)",
                 border: `1px solid ${activeType === t.id ? `${t.color}20` : "rgba(0, 255, 136, 0.05)"}`,
               }}
             >
@@ -347,16 +351,16 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
         {/* Content: Map or List */}
         {loading ? (
           viewMode === "map" ? (
-            <div className="rounded-2xl h-72 sm:h-96 flex items-center justify-center" style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.04))", border: "1px solid var(--border-subtle, rgba(0, 255, 136, 0.06))" }}>
+            <div className="glass-futuristic corner-accents rounded-2xl h-72 sm:h-96 flex items-center justify-center" style={{ border: "1px solid rgba(0, 255, 136, 0.08)" }}>
               <div className="flex items-center gap-3">
                 <div className="w-4 h-4 rounded-full border-2 animate-spin" style={{ borderColor: "rgba(0, 255, 136, 0.15)", borderTopColor: "#00ff88" }} />
-                <p className="text-[13px]" style={{ color: "var(--text-dim, #94a3b8)" }}>Loading map...</p>
+                <p className="text-[13px]" style={{ color: "var(--text-dim, #60b890)" }}>Loading map...</p>
               </div>
             </div>
           ) : (
             <div className="space-y-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="rounded-2xl h-44 animate-pulse" style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.04))" }} />
+                <div key={i} className="glass-futuristic rounded-2xl h-44 animate-pulse" style={{ border: "1px solid rgba(0, 255, 136, 0.05)" }} />
               ))}
             </div>
           )
@@ -373,15 +377,16 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
               className="inline-flex items-center justify-center w-16 h-16 rounded-3xl mb-5"
               style={{
                 background: "rgba(0, 255, 136, 0.05)",
-                border: "1px solid rgba(0, 255, 136, 0.08)",
+                border: "1px solid rgba(0, 255, 136, 0.1)",
+                boxShadow: "0 0 20px rgba(0, 255, 136, 0.05)",
               }}
             >
-              <span className="text-3xl">{'\ud83e\udee7'}</span>
+              <span className="text-3xl icon-glow">{'\ud83e\udee7'}</span>
             </div>
-            <p className="text-[15px] mb-2 font-medium" style={{ color: "var(--text-primary, #0f172a)", fontFamily: "var(--font-heading)" }}>
+            <p className="text-[15px] mb-2 font-medium" style={{ color: "var(--text-primary, #e2e8f0)", fontFamily: "var(--font-heading)" }}>
               {activeEmotion !== "all" || activeType !== "all" ? "No matching nerabs" : "No nerabs yet"}
             </p>
-            <p className="text-[13px] mb-6" style={{ color: "var(--text-muted, #64748b)" }}>
+            <p className="text-[13px] mb-6" style={{ color: "var(--text-muted, #94a3b8)" }}>
               {activeEmotion !== "all" || activeType !== "all"
                 ? "Try adjusting your filters or create the first one."
                 : "Be the first to bring people together."}
@@ -390,9 +395,9 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
               onClick={onCreate}
               className="text-[13px] px-5 py-2.5 rounded-xl font-medium"
               style={{
-                background: "rgba(0, 255, 136, 0.06)",
+                background: "rgba(0, 255, 136, 0.08)",
                 color: "#00ff88",
-                border: "1px solid rgba(0, 255, 136, 0.12)",
+                border: "1px solid rgba(0, 255, 136, 0.15)",
               }}
             >
               + Start a Nera
@@ -400,9 +405,8 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
           </motion.div>
         ) : (
           <div className="space-y-4">
-            {/* Results count */}
             <div className="flex items-center justify-between px-1">
-              <p className="text-[12px]" style={{ color: "var(--text-dim, #94a3b8)" }}>
+              <p className="text-[12px]" style={{ color: "var(--text-dim, #60b890)" }}>
                 {neras.length} gathering{neras.length !== 1 ? "s" : ""}
               </p>
             </div>
@@ -429,14 +433,13 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
+          <div className="data-stream h-px w-full mb-6" />
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px w-16" style={{ background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1))" }} />
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(0, 255, 136, 0.2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(0, 255, 136, 0.25)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
-            <div className="h-px w-16" style={{ background: "linear-gradient(90deg, rgba(0, 255, 136, 0.1), transparent)" }} />
           </div>
-          <p className="text-[11px] leading-relaxed" style={{ color: "var(--text-dim, #94a3b8)", maxWidth: "320px", margin: "0 auto" }}>
+          <p className="text-[11px] leading-relaxed" style={{ color: "var(--text-dim, #60b890)", maxWidth: "320px", margin: "0 auto" }}>
             Always meet in public places for the first time. Never share your exact address. Trust your instincts.
           </p>
         </motion.div>
@@ -449,8 +452,8 @@ export default function NeraFeed({ onSelect, onCreate }: NeraFeedProps) {
         style={{
           background: "linear-gradient(135deg, #00ff88, #00cc6a)",
           color: "#ffffff",
-          boxShadow: "0 8px 28px rgba(0, 255, 136, 0.3), 0 2px 8px rgba(0, 255, 136, 0.15)",
-          border: "none",
+          boxShadow: "0 8px 28px rgba(0, 255, 136, 0.35), 0 2px 8px rgba(0, 255, 136, 0.15)",
+          border: "1px solid rgba(0, 255, 136, 0.3)",
         }}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

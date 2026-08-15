@@ -37,7 +37,9 @@ export default function NeraPage() {
   return (
     <>
       <NeraBackground />
-      <div className="relative z-10">
+      <div className="relative z-10 min-h-screen">
+        <div className="tech-grid" />
+        <div className="scanlines pointer-events-none fixed inset-0 z-50" />
         {view === "feed" && (
           <NeraFeed onSelect={handleSelect} onCreate={() => setView("create")} />
         )}
