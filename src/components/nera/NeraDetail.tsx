@@ -141,23 +141,24 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
   }
 
   const inputStyle: React.CSSProperties = {
-    background: "rgba(0, 255, 136, 0.03)",
+    background: "var(--card-bg, rgba(0, 255, 136, 0.04))",
     border: "1px solid rgba(0, 255, 136, 0.12)",
-    color: "var(--text-primary, #e2e8f0)",
+    color: "var(--text-primary)",
     outline: "none",
     borderRadius: "14px",
     backdropFilter: "blur(16px)",
+    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
   };
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-2xl mx-auto px-5 sm:px-8 pt-24 pb-20">
+      <div className="max-w-2xl mx-auto px-6 pt-24 pb-20">
         {/* Back + Admin Delete */}
         <div className="flex items-center justify-between mb-8">
           <motion.button
             onClick={onBack}
             className="inline-flex items-center gap-1.5 text-[13px] font-medium"
-            style={{ color: "var(--text-dim, #60b890)" }}
+            style={{ color: "var(--text-dim)" }}
             whileHover={{ color: "#00ff88" }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -169,9 +170,9 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
             <>
               {confirmDelete ? (
                 <div className="flex items-center gap-2">
-                  <span className="text-xs" style={{ color: "var(--text-dim, #60b890)" }}>Delete this Nera?</span>
+                  <span className="text-xs" style={{ color: "var(--text-dim)" }}>Delete this Nera?</span>
                   <button onClick={() => { onDelete(nera.id); onBack(); }} className="px-3 py-1.5 text-xs rounded-lg bg-red-500 text-white">Yes, delete</button>
-                  <button onClick={() => setConfirmDelete(false)} className="px-3 py-1.5 text-xs rounded-lg" style={{ background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.12)" }}>Cancel</button>
+                  <button onClick={() => setConfirmDelete(false)} className="px-3 py-1.5 text-xs rounded-lg" style={{ background: "var(--card-bg, rgba(0,255,136,0.06))", border: "1px solid rgba(0, 255, 136, 0.12)" }}>Cancel</button>
                 </div>
               ) : (
                 <button onClick={() => setConfirmDelete(true)} className="px-3 py-1.5 text-xs rounded-lg" style={{ background: "rgba(239, 68, 68, 0.08)", color: "#ef4444", border: "1px solid rgba(239, 68, 68, 0.15)" }}>
@@ -185,53 +186,54 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
         {/* Header card */}
         <motion.div
           className="glass-futuristic corner-accents neon-border rounded-3xl p-6 sm:p-8 mb-6"
+          style={{ boxShadow: "0 4px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(0,255,136,0.04)" }}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           {/* Badges */}
           <div className="flex items-center gap-2 mb-4">
-            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full font-medium icon-glow" style={{ background: `${neraType.color}0D`, color: neraType.color, border: `1px solid ${neraType.color}20` }}>
+            <span className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full font-medium icon-glow" style={{ background: `${neraType.color}0A`, color: neraType.color, border: `1px solid ${neraType.color}18` }}>
               <span className="text-[13px]">{neraType.icon}</span> {neraType.label}
             </span>
-            {nera.is_online && <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(99, 102, 241, 0.08)", color: "#818cf8", border: "1px solid rgba(99, 102, 241, 0.15)" }}>Online</span>}
-            {!nera.is_public && <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(148, 163, 184, 0.08)", color: "#94a3b8", border: "1px solid rgba(148, 163, 184, 0.12)" }}>Private</span>}
-            {nera.status === "cancelled" && <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(239, 68, 68, 0.08)", color: "#ef4444", border: "1px solid rgba(239, 68, 68, 0.15)" }}>Cancelled</span>}
+            {nera.is_online && <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(99, 102, 241, 0.06)", color: "#6366f1", border: "1px solid rgba(99, 102, 241, 0.12)" }}>Online</span>}
+            {!nera.is_public && <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(100, 116, 139, 0.06)", color: "#64748b", border: "1px solid rgba(100, 116, 139, 0.1)" }}>Private</span>}
+            {nera.status === "cancelled" && <span className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(239, 68, 68, 0.06)", color: "#ef4444", border: "1px solid rgba(239, 68, 68, 0.12)" }}>Cancelled</span>}
           </div>
 
           {/* Title */}
           <h1
             className="text-2xl sm:text-3xl mb-3"
-            style={{ fontWeight: 400, color: "var(--text-primary, #e2e8f0)", fontFamily: "var(--font-heading)", letterSpacing: "0.02em", lineHeight: 1.2 }}
+            style={{ fontWeight: 300, color: "var(--text-primary)", fontFamily: "var(--font-heading)", letterSpacing: "0.01em", lineHeight: 1.2 }}
           >
             {nera.title}
           </h1>
 
           {/* Host */}
-          <p className="text-[13px] mb-4" style={{ color: "var(--text-muted, #94a3b8)" }}>
-            Hosted by <span className="font-medium" style={{ color: "var(--text-primary, #e2e8f0)" }}>{nera.host_name}</span>
+          <p className="text-[13px] mb-4" style={{ color: "var(--text-muted)" }}>
+            Hosted by <span className="font-medium" style={{ color: "var(--text-primary)" }}>{nera.host_name}</span>
           </p>
 
           {/* Meta */}
           <div className="flex flex-wrap gap-x-5 gap-y-2 mb-5">
             <div className="flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim, #60b890)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
               </svg>
-              <span className="text-[13px]" style={{ color: "var(--text-muted, #94a3b8)" }}>
+              <span className="text-[13px]" style={{ color: "var(--text-muted)" }}>
                 {nera.is_online ? "Online" : nera.approximate_location || nera.city || "Location TBD"}
               </span>
               {nera.distance_miles !== undefined && (
-                <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "rgba(0, 255, 136, 0.08)", color: "#00ff88" }}>
+                <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "rgba(0, 255, 136, 0.06)", color: "#00ff88" }}>
                   {nera.distance_miles.toFixed(1)} mi
                 </span>
               )}
             </div>
             <div className="flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim, #60b890)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
               </svg>
-              <span className="text-[13px]" style={{ color: "var(--text-muted, #94a3b8)" }}>
+              <span className="text-[13px]" style={{ color: "var(--text-muted)" }}>
                 {formatNeraDateTime(nera.date_time)} &middot; {getTimeUntil(nera.date_time)}
               </span>
             </div>
@@ -239,8 +241,8 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
 
           {/* Description */}
           {nera.description && (
-            <div className="glass-futuristic p-4 rounded-2xl mb-5" style={{ border: "1px solid rgba(0, 255, 136, 0.05)" }}>
-              <p className="text-[14px] leading-relaxed" style={{ color: "var(--text-secondary, #94a3b8)" }}>{nera.description}</p>
+            <div className="p-4 rounded-2xl mb-5" style={{ background: "rgba(0, 255, 136, 0.02)", border: "1px solid rgba(0, 255, 136, 0.05)" }}>
+              <p className="text-[14px] leading-relaxed" style={{ color: "var(--text-muted)" }}>{nera.description}</p>
             </div>
           )}
 
@@ -248,17 +250,16 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
           {nera.status !== "cancelled" && !isPast && (
             <div className="flex gap-3">
               {isAttending ? (
-                <button onClick={handleLeave} disabled={leaving} className="flex-1 py-3.5 rounded-2xl text-[14px] font-medium" style={{ background: "rgba(239, 68, 68, 0.05)", border: "1px solid rgba(239, 68, 68, 0.12)", color: "#ef4444" }}>
+                <button onClick={handleLeave} disabled={leaving} className="flex-1 py-3.5 rounded-2xl text-[14px] font-medium" style={{ background: "rgba(239, 68, 68, 0.05)", border: "1px solid rgba(239, 68, 68, 0.1)", color: "#ef4444" }}>
                   {leaving ? "Leaving..." : "Leave Nera"}
                 </button>
               ) : needsJoinRequest ? (
-                <button onClick={handleJoin} disabled={joining} className="flex-1 py-3.5 rounded-2xl text-[14px] font-medium relative overflow-hidden" style={{ background: "linear-gradient(135deg, #00ff88, #00cc6a)", color: "#ffffff", boxShadow: "0 4px 16px rgba(0, 255, 136, 0.25)" }}>
-                  <div className="scanlines pointer-events-none absolute inset-0 opacity-10" />
+                <button onClick={handleJoin} disabled={joining} className="flex-1 py-3.5 rounded-2xl text-[14px] font-medium" style={{ background: "linear-gradient(135deg, #00ff88, #00cc6a)", color: "#ffffff", boxShadow: "0 4px 16px rgba(0, 255, 136, 0.2)" }}>
                   {joining ? "Requesting..." : "Request to Join"}
                 </button>
               ) : (
-                <button onClick={handleJoin} disabled={joining || isFull} className="flex-1 py-3.5 rounded-2xl text-[14px] font-medium relative overflow-hidden" style={{ background: isFull ? "rgba(0, 255, 136, 0.04)" : "linear-gradient(135deg, #00ff88, #00cc6a)", color: isFull ? "var(--text-dim, #60b890)" : "#ffffff", boxShadow: isFull ? "none" : "0 4px 16px rgba(0, 255, 136, 0.25)" }}>
-                  {isFull ? "Full" : <><div className="scanlines pointer-events-none absolute inset-0 opacity-10" />{"I\u2019m In"}</>}
+                <button onClick={handleJoin} disabled={joining || isFull} className="flex-1 py-3.5 rounded-2xl text-[14px] font-medium" style={{ background: isFull ? "rgba(0, 255, 136, 0.04)" : "linear-gradient(135deg, #00ff88, #00cc6a)", color: isFull ? "var(--text-dim)" : "#ffffff", boxShadow: isFull ? "none" : "0 4px 16px rgba(0, 255, 136, 0.2)" }}>
+                  {isFull ? "Full" : "I\u2019m In"}
                 </button>
               )}
             </div>
@@ -268,27 +269,27 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
         {/* Attendees card */}
         <motion.div
           className="glass-futuristic corner-accents rounded-3xl p-6 mb-6"
-          style={{ border: "1px solid rgba(0, 255, 136, 0.06)" }}
+          style={{ boxShadow: "0 4px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(0,255,136,0.04)" }}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.4 }}
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-[13px] font-medium" style={{ color: "var(--text-primary, #e2e8f0)" }}>Attendees</h3>
-            <span className="text-[12px]" style={{ color: isFull ? "#ef4444" : "var(--text-dim, #60b890)" }}>
+            <h3 className="text-[13px] font-medium" style={{ color: "var(--text-primary)" }}>Attendees</h3>
+            <span className="text-[12px]" style={{ color: isFull ? "#ef4444" : "var(--text-dim)" }}>
               {nera.current_participants}/{nera.max_participants}
             </span>
           </div>
           {attendees.length === 0 ? (
-            <p className="text-[13px]" style={{ color: "var(--text-dim, #60b890)" }}>No one has joined yet.</p>
+            <p className="text-[13px]" style={{ color: "var(--text-dim)" }}>No one has joined yet.</p>
           ) : (
             <div className="flex flex-wrap gap-2">
               {attendees.map((a, i) => (
-                <div key={i} className="flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: `${neraType.color}08`, border: `1px solid ${neraType.color}15` }}>
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-semibold" style={{ background: `${neraType.color}18`, color: neraType.color }}>
+                <div key={i} className="flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: `${neraType.color}08`, border: `1px solid ${neraType.color}12` }}>
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-semibold" style={{ background: `${neraType.color}15`, color: neraType.color }}>
                     {a.name.charAt(0).toUpperCase()}
                   </div>
-                  <span className="text-[12px] font-medium" style={{ color: "var(--text-primary, #e2e8f0)" }}>{a.name}</span>
+                  <span className="text-[12px] font-medium" style={{ color: "var(--text-primary)" }}>{a.name}</span>
                 </div>
               ))}
             </div>
@@ -299,7 +300,7 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
         {isAttending && (
           <motion.div
             className="glass-futuristic corner-accents rounded-3xl p-6 mb-6"
-            style={{ border: "1px solid rgba(0, 255, 136, 0.06)" }}
+            style={{ boxShadow: "0 4px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(0,255,136,0.04)" }}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.4 }}
@@ -307,10 +308,10 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
             <button
               onClick={() => setShowChat(!showChat)}
               className="w-full flex items-center justify-between text-[13px] font-medium"
-              style={{ color: "var(--text-primary, #e2e8f0)" }}
+              style={{ color: "var(--text-primary)" }}
             >
               <span>Group Chat</span>
-              <span className="text-[11px] px-2 py-0.5 rounded-full" style={{ background: "rgba(0, 255, 136, 0.08)", color: "var(--text-dim, #60b890)" }}>
+              <span className="text-[11px] px-2 py-0.5 rounded-full" style={{ background: "rgba(0, 255, 136, 0.06)", color: "var(--text-dim)" }}>
                 {messages.length}
               </span>
             </button>
@@ -319,12 +320,12 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
                 <div className="max-h-56 overflow-y-auto mb-4 space-y-3 pr-1" style={{ scrollbarWidth: "thin" }}>
                   {messages.map((m) => (
                     <div key={m.id} className="text-[13px]">
-                      <span className="font-medium" style={{ color: "#00ff88" }}>{m.author_name}: </span>
-                      <span style={{ color: "var(--text-muted, #94a3b8)" }}>{m.content}</span>
+                      <span className="font-medium" style={{ color: "var(--text-primary)" }}>{m.author_name}: </span>
+                      <span style={{ color: "var(--text-muted)" }}>{m.content}</span>
                     </div>
                   ))}
                   {messages.length === 0 && (
-                    <p className="text-[12px]" style={{ color: "var(--text-dim, #60b890)" }}>No messages yet. Say something!</p>
+                    <p className="text-[12px]" style={{ color: "var(--text-dim)" }}>No messages yet. Say something!</p>
                   )}
                   <div ref={messagesEndRef} />
                 </div>
@@ -342,9 +343,9 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
                     disabled={!messageText.trim()}
                     className="px-4 py-2.5 rounded-2xl text-[12px] font-medium transition-all"
                     style={{
-                      background: messageText.trim() ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.03)",
-                      color: messageText.trim() ? "#00ff88" : "var(--text-dim, #60b890)",
-                      border: `1px solid ${messageText.trim() ? "rgba(0, 255, 136, 0.18)" : "rgba(0, 255, 136, 0.06)"}`,
+                      background: messageText.trim() ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.03)",
+                      color: messageText.trim() ? "#00ff88" : "var(--text-dim)",
+                      border: `1px solid ${messageText.trim() ? "rgba(0, 255, 136, 0.15)" : "rgba(0, 255, 136, 0.06)"}`,
                     }}
                   >
                     Send
@@ -359,13 +360,13 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
         {isHost && nera.status === "upcoming" && (
           <motion.div
             className="glass-futuristic corner-accents rounded-3xl p-6 mb-6"
-            style={{ border: "1px solid rgba(0, 255, 136, 0.06)" }}
+            style={{ boxShadow: "0 4px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(0,255,136,0.04)" }}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.4 }}
           >
-            <h3 className="text-[13px] font-medium mb-3" style={{ color: "var(--text-primary, #e2e8f0)" }}>Host Controls</h3>
-            <button onClick={cancelNera} className="w-full py-2.5 rounded-xl text-[12px] font-medium" style={{ background: "rgba(239, 68, 68, 0.04)", border: "1px solid rgba(239, 68, 68, 0.1)", color: "#ef4444" }}>
+            <h3 className="text-[13px] font-medium mb-3" style={{ color: "var(--text-primary)" }}>Host Controls</h3>
+            <button onClick={cancelNera} className="w-full py-2.5 rounded-xl text-[12px] font-medium" style={{ background: "rgba(239, 68, 68, 0.04)", border: "1px solid rgba(239, 68, 68, 0.08)", color: "#ef4444" }}>
               Cancel Nera
             </button>
           </motion.div>
@@ -374,7 +375,7 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
         {/* Safety */}
         <motion.div
           className="glass-futuristic corner-accents rounded-3xl p-6 mb-6"
-          style={{ border: "1px solid rgba(0, 255, 136, 0.06)" }}
+          style={{ boxShadow: "0 4px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(0,255,136,0.04)" }}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.4 }}
@@ -383,9 +384,9 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff88" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
-            <h3 className="text-[13px] font-medium" style={{ color: "var(--text-primary, #e2e8f0)" }}>Community & Safety</h3>
+            <h3 className="text-[13px] font-medium" style={{ color: "var(--text-primary)" }}>Community & Safety</h3>
           </div>
-          <ul className="text-[12px] space-y-1.5" style={{ color: "var(--text-muted, #94a3b8)", lineHeight: 1.6 }}>
+          <ul className="text-[12px] space-y-1.5" style={{ color: "var(--text-muted)", lineHeight: 1.6 }}>
             <li>Always meet in public places for the first time</li>
             <li>Never share your home address or personal location</li>
             <li>Trust your instincts &mdash; leave if something feels wrong</li>
@@ -395,38 +396,38 @@ export default function NeraDetail({ nera, onBack, onDelete }: NeraDetailProps) 
 
         {/* Report */}
         {!isHost && !showReport && !reported && (
-          <button onClick={() => setShowReport(true)} className="text-[12px]" style={{ color: "var(--text-dim, #60b890)" }}>
+          <button onClick={() => setShowReport(true)} className="text-[12px]" style={{ color: "var(--text-dim)" }}>
             Report this Nera
           </button>
         )}
         {showReport && !reported && (
           <motion.div
-            className="glass-futuristic corner-accents rounded-3xl p-6"
-            style={{ border: "1px solid rgba(239, 68, 68, 0.08)" }}
+            className="rounded-3xl p-6"
+            style={{ background: "rgba(239, 68, 68, 0.02)", border: "1px solid rgba(239, 68, 68, 0.06)" }}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <p className="text-[13px] font-medium mb-3" style={{ color: "var(--text-primary, #e2e8f0)" }}>Why are you reporting?</p>
+            <p className="text-[13px] font-medium mb-3" style={{ color: "var(--text-primary)" }}>Why are you reporting?</p>
             <div className="space-y-2 mb-3">
               {REPORT_REASONS.map((r) => (
                 <button key={r.value} onClick={() => setReportReason(r.value)}
                   className="w-full text-left px-4 py-2.5 rounded-xl text-[13px] transition-all"
-                  style={{ background: reportReason === r.value ? "rgba(239, 68, 68, 0.06)" : "rgba(0, 255, 136, 0.02)", border: `1px solid ${reportReason === r.value ? "rgba(239, 68, 68, 0.12)" : "rgba(0, 255, 136, 0.06)"}`, color: reportReason === r.value ? "#ef4444" : "var(--text-muted, #94a3b8)" }}>
+                  style={{ background: reportReason === r.value ? "rgba(239, 68, 68, 0.06)" : "var(--card-bg, rgba(0, 255, 136, 0.03))", border: `1px solid ${reportReason === r.value ? "rgba(239, 68, 68, 0.12)" : "rgba(0, 255, 136, 0.06)"}`, color: reportReason === r.value ? "#ef4444" : "var(--text-muted)" }}>
                   {r.label}
                 </button>
               ))}
             </div>
             <textarea value={reportDetails} onChange={(e) => setReportDetails(e.target.value)} rows={2} placeholder="Details (optional)..." className="w-full px-4 py-3 rounded-xl text-[13px] resize-none mb-3" style={inputStyle} />
             <div className="flex gap-3">
-              <button onClick={() => setShowReport(false)} className="flex-1 py-2.5 rounded-xl text-[13px]" style={{ background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)", color: "var(--text-muted, #94a3b8)" }}>Cancel</button>
-              <button onClick={submitReport} disabled={!reportReason} className="flex-1 py-2.5 rounded-xl text-[13px] font-medium" style={{ background: reportReason ? "rgba(239, 68, 68, 0.08)" : "rgba(0, 255, 136, 0.03)", border: `1px solid ${reportReason ? "rgba(239, 68, 68, 0.15)" : "rgba(0, 255, 136, 0.06)"}`, color: reportReason ? "#ef4444" : "var(--text-dim, #60b890)" }}>
+              <button onClick={() => setShowReport(false)} className="flex-1 py-2.5 rounded-xl text-[13px]" style={{ background: "var(--card-bg, rgba(0, 255, 136, 0.03))", border: "1px solid rgba(0, 255, 136, 0.08)", color: "var(--text-muted)" }}>Cancel</button>
+              <button onClick={submitReport} disabled={!reportReason} className="flex-1 py-2.5 rounded-xl text-[13px] font-medium" style={{ background: reportReason ? "rgba(239, 68, 68, 0.08)" : "var(--card-bg, rgba(0, 255, 136, 0.03))", border: `1px solid ${reportReason ? "rgba(239, 68, 68, 0.15)" : "rgba(0, 255, 136, 0.06)"}`, color: reportReason ? "#ef4444" : "var(--text-dim)" }}>
                 Submit
               </button>
             </div>
           </motion.div>
         )}
         {reported && (
-          <p className="text-[13px] font-medium" style={{ color: "#34d399" }}>Report submitted. Thank you.</p>
+          <p className="text-[13px] font-medium" style={{ color: "#059669" }}>Report submitted. Thank you.</p>
         )}
       </div>
     </div>

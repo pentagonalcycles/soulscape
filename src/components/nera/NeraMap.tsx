@@ -67,7 +67,7 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
   if (!ready || !MapContainer) {
     return (
       <div className="glass-futuristic corner-accents rounded-2xl h-72 sm:h-96 flex items-center justify-center" style={{ border: "1px solid rgba(0, 255, 136, 0.08)" }}>
-        <p className="text-xs" style={{ color: "var(--text-dim, #94a3b8)" }}>Loading map...</p>
+        <p className="text-xs" style={{ color: "var(--text-dim)" }}>Loading map...</p>
       </div>
     );
   }
@@ -75,7 +75,7 @@ export default function NeraMap({ neras, onSelect, userLat, userLng }: NeraMapPr
   return (
     <motion.div
       className="glass-futuristic corner-accents neon-border rounded-2xl overflow-hidden"
-      style={{ border: "1px solid rgba(0, 255, 136, 0.1)" }}
+      style={{ boxShadow: "0 4px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(0,255,136,0.04)" }}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}

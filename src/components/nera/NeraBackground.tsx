@@ -19,7 +19,7 @@ export default function NeraBackground() {
     <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
       <div className="absolute inset-0" style={{ background: bgColor }} />
 
-      {/* Ambient orb — top right */}
+      {/* Ambient orb — top right (matches homepage) */}
       <motion.div
         className="absolute rounded-full"
         style={{
@@ -29,14 +29,14 @@ export default function NeraBackground() {
           maxHeight: "800px",
           top: "-25%",
           right: "-20%",
-          background: "radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, rgba(0, 204, 106, 0.04) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, rgba(0, 204, 106, 0.02) 40%, transparent 70%)",
           filter: "blur(60px)",
         }}
         animate={{ x: [0, 30, -20, 0], y: [0, -25, 35, 0] }}
         transition={{ duration: 35, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Secondary orb — bottom left */}
+      {/* Secondary orb — bottom left (matches homepage) */}
       <motion.div
         className="absolute rounded-full"
         style={{
@@ -46,14 +46,14 @@ export default function NeraBackground() {
           maxHeight: "600px",
           bottom: "-20%",
           left: "-15%",
-          background: "radial-gradient(circle, rgba(0, 204, 106, 0.06) 0%, rgba(16, 185, 129, 0.03) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(0, 255, 136, 0.04) 0%, rgba(16, 185, 129, 0.02) 40%, transparent 70%)",
           filter: "blur(50px)",
         }}
         animate={{ x: [0, -25, 20, 0], y: [0, 30, -20, 0] }}
         transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Accent orb — center */}
+      {/* Accent orb — center (matches homepage) */}
       <motion.div
         className="absolute rounded-full"
         style={{
@@ -63,29 +63,27 @@ export default function NeraBackground() {
           maxHeight: "450px",
           top: "35%",
           left: "15%",
-          background: "radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(255, 215, 0, 0.04) 0%, transparent 60%)",
           filter: "blur(50px)",
         }}
         animate={{ x: [0, 20, -15, 0], y: [0, -20, 25, 0] }}
         transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Tech grid overlay */}
-      <div className="tech-grid absolute inset-0" />
-
-      {/* Top edge glow */}
+      {/* Subtle grain (matches rest of site) */}
       <div
-        className="absolute top-0 left-0 right-0 h-px"
+        className="absolute inset-0"
         style={{
-          background: "linear-gradient(90deg, transparent 10%, rgba(0, 255, 136, 0.12) 50%, transparent 90%)",
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E\")",
+          opacity: 0.25,
         }}
       />
 
-      {/* Bottom edge glow */}
+      {/* Top edge glow (matches rest of site) */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-px"
+        className="absolute top-0 left-0 right-0 h-px"
         style={{
-          background: "linear-gradient(90deg, transparent 10%, rgba(0, 255, 136, 0.06) 50%, transparent 90%)",
+          background: "linear-gradient(90deg, transparent 10%, rgba(0, 212, 170, 0.3) 50%, transparent 90%)",
         }}
       />
     </div>
