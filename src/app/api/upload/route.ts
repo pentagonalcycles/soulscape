@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseService } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 const ALLOWED_TYPES: Record<string, string[]> = {
-  music: ["audio/mpeg", "audio/wav", "audio/ogg", "audio/flac", "audio/mp4", "audio/aac"],
+  music: ["audio/mpeg", "audio/wav", "audio/ogg", "audio/flac", "audio/mp4", "audio/aac", "audio/x-m4a"],
   image: ["image/jpeg", "image/png", "image/gif", "image/webp"],
 };
 
@@ -31,30 +34,26 @@ export async function POST(request: NextRequest) {
 
     const category = getFileCategory(file.type);
     if (!category) {
-      return NextResponse.json({ error: "File type not allowed. Only music and image files are accepted." }, { status: 400 });
+      return NextResponse.json({ error: `File type not allowed (${file.type}). Only music and image files are accepted.` }, { status: 400 });
     }
 
     const authHeader = request.headers.get("Authorization");
     if (!authHeader?.startsWith("Bearer ")) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "No auth token" }, { status: 401 });
     }
 
     const token = authHeader.slice(7);
 
-    // Use a temporary client to validate the user's token
-    const { createClient } = await import("@supabase/supabase-js");
-    const tempClient = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
-    );
-    const { data: { user }, error: authError } = await tempClient.auth.getUser(token);
+    // Validate user token with anon client
+    const anonClient = createClient(supabaseUrl, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!);
+    const { data: { user }, error: authError } = await anonClient.auth.getUser(token);
 
     if (authError || !user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: `Auth failed: ${authError?.message || "no user"}` }, { status: 401 });
     }
 
     // Use service role client for storage + DB (bypasses RLS)
-    const client = supabaseService();
+    const admin = createClient(supabaseUrl, supabaseServiceKey);
 
     const ext = file.name.split(".").pop() || "bin";
     const filePath = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
@@ -62,7 +61,7 @@ export async function POST(request: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const fileBuffer = new Uint8Array(arrayBuffer);
 
-    const { error: uploadError } = await client.storage
+    const { error: uploadError } = await admin.storage
       .from("community-files")
       .upload(filePath, fileBuffer, {
         contentType: file.type,
@@ -70,15 +69,15 @@ export async function POST(request: NextRequest) {
       });
 
     if (uploadError) {
-      console.error("Upload error:", uploadError);
-      return NextResponse.json({ error: "Failed to upload file" }, { status: 500 });
+      console.error("Storage upload error:", JSON.stringify(uploadError));
+      return NextResponse.json({ error: `Storage error: ${uploadError.message}` }, { status: 500 });
     }
 
-    const { data: urlData } = client.storage
+    const { data: urlData } = admin.storage
       .from("community-files")
       .getPublicUrl(filePath);
 
-    const { data: dbData, error: dbError } = await client
+    const { data: dbData, error: dbError } = await admin
       .from("community_files")
       .insert({
         user_id: user.id,
@@ -94,13 +93,13 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (dbError) {
-      console.error("DB error:", dbError);
-      return NextResponse.json({ error: "Failed to save file metadata" }, { status: 500 });
+      console.error("DB insert error:", JSON.stringify(dbError));
+      return NextResponse.json({ error: `DB error: ${dbError.message}` }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, file: dbData });
   } catch (error) {
-    console.error("Upload route error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    console.error("Upload route error:", String(error));
+    return NextResponse.json({ error: `Server error: ${String(error)}` }, { status: 500 });
   }
 }

@@ -79,7 +79,6 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
 
       await new Promise<void>((resolve, reject) => {
         xhr.onload = () => {
-          console.log("[Upload] Status:", xhr.status, "Body:", xhr.responseText);
           if (xhr.status >= 200 && xhr.status < 300) {
             resolve();
           } else {
