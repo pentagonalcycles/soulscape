@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabaseService } from "@/lib/supabase";
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 const ALLOWED_TYPES: Record<string, string[]> = {
@@ -40,12 +40,21 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.slice(7);
-    const client = supabase();
-    const { data: { user }, error: authError } = await client.auth.getUser(token);
+
+    // Use a temporary client to validate the user's token
+    const { createClient } = await import("@supabase/supabase-js");
+    const tempClient = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
+    );
+    const { data: { user }, error: authError } = await tempClient.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    // Use service role client for storage + DB (bypasses RLS)
+    const client = supabaseService();
 
     const ext = file.name.split(".").pop() || "bin";
     const filePath = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
