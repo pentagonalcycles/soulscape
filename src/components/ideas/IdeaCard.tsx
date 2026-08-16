@@ -171,7 +171,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                 {status.label}
               </span>
             )}
-            <span className="text-[10px]" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
+            <span className="text-[10px]" style={{ color: "var(--text-faint, rgba(240,255,245,0.6))" }}>
               {getTimeAgo(idea.created_at)}
             </span>
           </div>
@@ -182,7 +182,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
           </p>
 
           {/* Author */}
-          <p className="text-[10px] mb-3" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
+          <p className="text-[10px] mb-3" style={{ color: "var(--text-faint, rgba(240,255,245,0.6))" }}>
             {idea.is_anonymous ? "🌙 Anonymous" : `✦ ${idea.authorName || "Anonymous"}`}
           </p>
 
@@ -229,7 +229,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                       Loading comments...
                     </p>
                   ) : comments.length === 0 ? (
-                    <p className="text-xs py-3 text-center" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
+                    <p className="text-xs py-3 text-center" style={{ color: "var(--text-faint, rgba(240,255,245,0.6))" }}>
                       No comments yet. Be the first to share your thoughts.
                     </p>
                   ) : (
@@ -244,7 +244,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                               <span className="text-[11px] font-medium" style={{ color: "var(--text-muted, #64748b)" }}>
                                 {comment.authorName}
                               </span>
-                              <span className="text-[10px]" style={{ color: "var(--text-faint, rgba(224,245,232,0.25))" }}>
+                              <span className="text-[10px]" style={{ color: "var(--text-faint, rgba(240,255,245,0.55))" }}>
                                 {getTimeAgo(comment.created_at)}
                               </span>
                             </div>
@@ -298,7 +298,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
                       </button>
                     </div>
                   ) : (
-                    <p className="text-[10px] mt-2" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
+                    <p className="text-[10px] mt-2" style={{ color: "var(--text-faint, rgba(240,255,245,0.6))" }}>
                       Sign in to comment
                     </p>
                   )}

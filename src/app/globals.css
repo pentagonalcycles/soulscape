@@ -51,9 +51,9 @@
   /* Adaptive text colors */
   --text-primary: #f0fff5;
   --text-secondary: #d8f5e2;
-  --text-muted: #a0deb0;
-  --text-dim: #68b080;
-  --text-faint: rgba(240, 255, 245, 0.5);
+  --text-muted: #a8e4b8;
+  --text-dim: #78c090;
+  --text-faint: rgba(240, 255, 245, 0.6);
   --border-subtle: rgba(0, 255, 136, 0.25);
   --card-bg: rgba(0, 255, 136, 0.12);
   --input-bg: rgba(0, 255, 136, 0.14);
@@ -600,7 +600,7 @@ button {
 }
 
 .neon-input::placeholder {
-  color: rgba(224, 245, 232, 0.25);
+  color: rgba(240, 255, 245, 0.55);
 }
 
 /* Cyber card — hoverable glass card */

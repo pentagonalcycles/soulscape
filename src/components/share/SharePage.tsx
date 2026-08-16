@@ -115,7 +115,7 @@ export default function SharePage() {
           </h1>
           <p style={{
             fontSize: "13px",
-            color: "rgba(224, 245, 232, 0.35)",
+            color: "rgba(240, 255, 245, 0.65)",
             margin: 0,
             lineHeight: "1.6",
           }}>
@@ -184,7 +184,7 @@ export default function SharePage() {
             <div style={{
               textAlign: "center",
               padding: "48px 20px",
-              color: "rgba(224, 245, 232, 0.25)",
+              color: "rgba(240, 255, 245, 0.55)",
               fontSize: "13px",
             }}>
               {activeCategory === "all"

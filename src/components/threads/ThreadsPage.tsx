@@ -260,7 +260,7 @@ export default function ThreadsPage() {
             }}>
               THREADS
             </h1>
-            <p style={{ fontSize: 13, color: "rgba(224, 245, 232, 0.35)", textAlign: "center", margin: "0 0 48px", lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: "rgba(240, 255, 245, 0.65)", textAlign: "center", margin: "0 0 48px", lineHeight: 1.6 }}>
               Make something, one stitch at a time.
             </p>
 

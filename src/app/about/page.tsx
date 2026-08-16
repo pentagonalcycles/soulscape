@@ -107,7 +107,7 @@ export default function AboutPage() {
             >
               About Elovayne
             </h1>
-            <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.35)", fontWeight: 300 }}>
+            <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.65)", fontWeight: 300 }}>
               A letter to anyone who needs a quiet place to land
             </p>
           </motion.div>
@@ -133,7 +133,7 @@ export default function AboutPage() {
                 </div>
 
                 {section.content && (
-                  <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(224, 245, 232, 0.6)", fontWeight: 300 }}>
+                  <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(240, 255, 245, 0.75)", fontWeight: 300 }}>
                     {section.content}
                   </p>
                 )}
@@ -143,7 +143,7 @@ export default function AboutPage() {
                     {section.items.map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="mt-2 w-1 h-1 rounded-full flex-shrink-0" style={{ background: section.color, opacity: 0.4 }} />
-                        <span className="text-xs leading-relaxed" style={{ color: "rgba(224, 245, 232, 0.5)", fontWeight: 300 }}>
+                        <span className="text-xs leading-relaxed" style={{ color: "rgba(240, 255, 245, 0.75)", fontWeight: 300 }}>
                           {item}
                         </span>
                       </li>
@@ -173,7 +173,7 @@ export default function AboutPage() {
                   If you are in crisis
                 </h2>
               </div>
-              <p className="text-xs leading-relaxed mb-4" style={{ color: "rgba(224, 245, 232, 0.5)", fontWeight: 300 }}>
+              <p className="text-xs leading-relaxed mb-4" style={{ color: "rgba(240, 255, 245, 0.75)", fontWeight: 300 }}>
                 You are not alone. Please reach out. There are people who want to help.
               </p>
               <div className="space-y-2 text-xs">
@@ -185,11 +185,11 @@ export default function AboutPage() {
                 </p>
                 <p style={{ color: "var(--text-dim)" }}>
                   <span style={{ color: "#3b82f6", fontWeight: 400 }}>US:</span>{" "}
-                  <span style={{ color: "rgba(224, 245, 232, 0.6)" }}>988 Lifeline — call or text 988</span>
+                  <span style={{ color: "rgba(240, 255, 245, 0.75)" }}>988 Lifeline — call or text 988</span>
                 </p>
                 <p style={{ color: "var(--text-dim)" }}>
                   <span style={{ color: "#3b82f6", fontWeight: 400 }}>UK:</span>{" "}
-                  <span style={{ color: "rgba(224, 245, 232, 0.6)" }}>Samaritans — call 116 123</span>
+                  <span style={{ color: "rgba(240, 255, 245, 0.75)" }}>Samaritans — call 116 123</span>
                 </p>
               </div>
             </motion.div>
@@ -202,7 +202,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.5)", fontWeight: 300 }}>
+              <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.75)", fontWeight: 300 }}>
                 Elovayne is <strong style={{ color: "#10b981", fontWeight: 500 }}>free for everyone</strong>. Always.
                 No premium walls. No hidden fees. No ads.
               </p>

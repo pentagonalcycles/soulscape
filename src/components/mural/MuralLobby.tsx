@@ -143,7 +143,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
         >
           Collaborative Mural
         </h1>
-        <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
+        <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
           Paint together. Create something beautiful.
         </p>
       </motion.div>
@@ -166,7 +166,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
           <>
             {clearConfirm ? (
               <div className="flex items-center gap-2">
-                <span className="text-xs" style={{ color: "rgba(224,245,232,0.4)" }}>Clear all?</span>
+                <span className="text-xs" style={{ color: "rgba(240,255,245,0.65)" }}>Clear all?</span>
                 <button
                   onClick={clearAllRooms}
                   className="px-3 py-2 rounded-xl text-xs cursor-pointer text-white"
@@ -202,11 +202,11 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
       </div>
 
       {loading ? (
-        <div className="text-sm" style={{ color: "rgba(224, 245, 232, 0.3)" }}>
+        <div className="text-sm" style={{ color: "rgba(240, 255, 245, 0.6)" }}>
           Loading rooms...
         </div>
       ) : rooms.length === 0 ? (
-        <div className="text-center" style={{ color: "rgba(224, 245, 232, 0.3)" }}>
+        <div className="text-center" style={{ color: "rgba(240, 255, 245, 0.6)" }}>
           <p className="text-lg mb-2">No active rooms</p>
           <p className="text-sm">Create one to start painting together</p>
         </div>
@@ -244,14 +244,14 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                     {room.name}
                   </span>
                 </div>
-                <p className="text-xs" style={{ color: "rgba(224, 245, 232, 0.35)" }}>
+                <p className="text-xs" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
                   {room.canvas_width} x {room.canvas_height}
                 </p>
               </button>
               <div className="mt-3 flex gap-2">
                   {deleteConfirm === room.id ? (
                     <>
-                      <span className="text-xs py-1" style={{ color: "rgba(224,245,232,0.4)" }}>Delete?</span>
+                      <span className="text-xs py-1" style={{ color: "rgba(240,255,245,0.65)" }}>Delete?</span>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -355,7 +355,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                 </p>
               )}
 
-              <p className="text-xs mb-2" style={{ color: "rgba(224, 245, 232, 0.4)" }}>
+              <p className="text-xs mb-2" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
                 Theme color
               </p>
               <div className="flex gap-2 mb-5">

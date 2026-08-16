@@ -133,7 +133,7 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
           >
-            <p className="text-xs leading-relaxed" style={{ color: "rgba(224, 245, 232, 0.35)" }}>
+            <p className="text-xs leading-relaxed" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
               In crisis? Reach out — you are not alone.{" "}
               <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "#00ff88", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
                 findahelpline.com

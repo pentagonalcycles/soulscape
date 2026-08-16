@@ -138,7 +138,7 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
                 </label>
 
                 {/* Character count */}
-                <span className="text-[10px]" style={{ color: content.length > 450 ? "#ef4444" : "var(--text-faint, rgba(224,245,232,0.4))" }}>
+                <span className="text-[10px]" style={{ color: content.length > 450 ? "#ef4444" : "var(--text-faint, rgba(240,255,245,0.65))" }}>
                   {content.length}/500
                 </span>
               </div>
@@ -164,7 +164,7 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
               </div>
             </div>
 
-            <p className="text-[10px] mt-2" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
+            <p className="text-[10px] mt-2" style={{ color: "var(--text-faint, rgba(240,255,245,0.6))" }}>
               Ctrl+Enter to submit
             </p>
           </motion.div>

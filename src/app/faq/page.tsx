@@ -163,7 +163,7 @@ export default function FAQPage() {
             >
               Frequently Asked
             </h1>
-            <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.5)" }}>
+            <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.75)" }}>
               Every question answered with care
             </p>
           </motion.div>
@@ -186,7 +186,7 @@ export default function FAQPage() {
               <svg
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4"
                 fill="none"
-                stroke="rgba(224, 245, 232, 0.3)"
+                stroke="rgba(240, 255, 245, 0.6)"
                 viewBox="0 0 24 24"
               >
                 <circle cx="11" cy="11" r="8" strokeWidth="1.5" />
@@ -263,7 +263,7 @@ export default function FAQPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.35)" }}>
+              <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
                 No matching questions found
               </p>
               <button
@@ -300,7 +300,7 @@ export default function FAQPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
           >
-            <Link href="/" className="text-xs" style={{ color: "rgba(224, 245, 232, 0.3)", textDecoration: "none" }}>
+            <Link href="/" className="text-xs" style={{ color: "rgba(240, 255, 245, 0.6)", textDecoration: "none" }}>
               ← Go back
             </Link>
           </motion.div>

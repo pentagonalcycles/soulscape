@@ -286,7 +286,7 @@ export default function IdeasFeed() {
 
       {/* Stats */}
       {!loading && ideas.length > 0 && (
-        <p className="text-center text-[10px] mt-6" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
+        <p className="text-center text-[10px] mt-6" style={{ color: "var(--text-faint, rgba(240,255,245,0.6))" }}>
           {ideas.length} {ideas.length === 1 ? "idea" : "ideas"} · {ideas.reduce((sum, i) => sum + i.voteCount, 0)} votes
         </p>
       )}

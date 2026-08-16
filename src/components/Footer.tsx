@@ -34,7 +34,7 @@ export default function Footer() {
               href={link.href}
               className="text-xs tracking-wider transition-all duration-300"
               style={{
-                color: "rgba(224, 245, 232, 0.35)",
+                color: "rgba(240, 255, 245, 0.65)",
                 textDecoration: "none",
                 fontSize: "11px",
                 letterSpacing: "0.05em",
@@ -55,7 +55,7 @@ export default function Footer() {
 
         {/* Tagline */}
         <p className="text-xs mb-2" style={{
-          color: "rgba(224, 245, 232, 0.25)",
+          color: "rgba(240, 255, 245, 0.55)",
           fontFamily: "var(--font-accent)",
           letterSpacing: "0.04em",
         }}>

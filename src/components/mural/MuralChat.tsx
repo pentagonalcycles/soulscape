@@ -62,7 +62,7 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
             className="px-4 py-2.5 text-xs font-medium"
             style={{
               borderBottom: "1px solid rgba(0, 255, 136, 0.08)",
-              color: "rgba(224, 245, 232, 0.5)",
+              color: "rgba(240, 255, 245, 0.75)",
             }}
           >
             Room Chat
@@ -70,7 +70,7 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
 
           <div className="flex-1 overflow-y-auto p-3 space-y-2">
             {messages.length === 0 ? (
-              <p className="text-xs text-center py-8" style={{ color: "rgba(224, 245, 232, 0.2)" }}>
+              <p className="text-xs text-center py-8" style={{ color: "rgba(240, 255, 245, 0.5)" }}>
                 No messages yet. Say hi!
               </p>
             ) : (

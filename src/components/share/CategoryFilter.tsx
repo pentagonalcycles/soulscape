@@ -34,7 +34,7 @@ export default function CategoryFilter({ active, onChange, counts }: CategoryFil
               borderRadius: "10px",
               border: `1px solid ${isActive ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.06)"}`,
               background: isActive ? "rgba(0, 255, 136, 0.08)" : "rgba(31, 56, 40, 0.55)",
-              color: isActive ? "#e0f5e8" : "rgba(224, 245, 232, 0.35)",
+              color: isActive ? "#e0f5e8" : "rgba(240, 255, 245, 0.65)",
               fontSize: "12px",
               fontWeight: isActive ? 500 : 400,
               cursor: "pointer",
@@ -48,7 +48,7 @@ export default function CategoryFilter({ active, onChange, counts }: CategoryFil
               padding: "1px 6px",
               borderRadius: "6px",
               background: isActive ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)",
-              color: isActive ? "rgba(0, 255, 136, 0.6)" : "rgba(224, 245, 232, 0.2)",
+              color: isActive ? "rgba(0, 255, 136, 0.6)" : "rgba(240, 255, 245, 0.5)",
             }}>
               {counts[cat.key]}
             </span>

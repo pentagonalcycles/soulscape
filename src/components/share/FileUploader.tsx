@@ -134,7 +134,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
       <div style={{
         padding: "24px",
         textAlign: "center",
-        color: "rgba(224, 245, 232, 0.4)",
+        color: "rgba(240, 255, 245, 0.65)",
         fontSize: "13px",
       }}>
         Sign in to upload files
@@ -217,10 +217,10 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
             <div style={{ fontSize: "28px", marginBottom: "8px" }}>
               {isDragging ? "☁" : "↑"}
             </div>
-            <div style={{ fontSize: "13px", color: "rgba(224, 245, 232, 0.5)", marginBottom: "4px" }}>
+            <div style={{ fontSize: "13px", color: "rgba(240, 255, 245, 0.75)", marginBottom: "4px" }}>
               {isDragging ? "Drop your file here" : "Click or drag to upload"}
             </div>
-            <div style={{ fontSize: "11px", color: "rgba(224, 245, 232, 0.25)" }}>
+            <div style={{ fontSize: "11px", color: "rgba(240, 255, 245, 0.55)" }}>
               Music: MP3, WAV, OGG, FLAC · Images: JPG, PNG, GIF, WebP · Max 50MB
             </div>
             <input
@@ -266,7 +266,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
                 }}>
                   {selectedFile.name}
                 </div>
-                <div style={{ fontSize: "11px", color: "rgba(224, 245, 232, 0.3)" }}>
+                <div style={{ fontSize: "11px", color: "rgba(240, 255, 245, 0.6)" }}>
                   {formatSize(selectedFile.size)}
                 </div>
               </div>
@@ -275,7 +275,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
                 style={{
                   background: "none",
                   border: "none",
-                  color: "rgba(224, 245, 232, 0.3)",
+                  color: "rgba(240, 255, 245, 0.6)",
                   cursor: "pointer",
                   fontSize: "14px",
                 }}
@@ -312,7 +312,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
               marginBottom: "16px",
               cursor: "pointer",
               fontSize: "12px",
-              color: "rgba(224, 245, 232, 0.5)",
+              color: "rgba(240, 255, 245, 0.75)",
             }}>
               <input
                 type="checkbox"
@@ -345,7 +345,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
                 </div>
                 <div style={{
                   fontSize: "11px",
-                  color: "rgba(224, 245, 232, 0.3)",
+                  color: "rgba(240, 255, 245, 0.6)",
                   marginTop: "4px",
                   textAlign: "center",
                 }}>
@@ -382,7 +382,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
                 background: uploading
                   ? "rgba(0, 255, 136, 0.05)"
                   : "linear-gradient(135deg, rgba(0, 255, 136, 0.12), rgba(0, 204, 106, 0.12))",
-                color: uploading ? "rgba(224, 245, 232, 0.3)" : "#00ff88",
+                color: uploading ? "rgba(240, 255, 245, 0.6)" : "#00ff88",
                 fontSize: "13px",
                 fontWeight: 500,
                 cursor: uploading ? "wait" : "pointer",

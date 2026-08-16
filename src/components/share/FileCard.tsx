@@ -123,7 +123,7 @@ export default function FileCard({ file }: FileCardProps) {
               {file.file_name}
             </span>
           </div>
-          <div style={{ fontSize: "11px", color: "rgba(224, 245, 232, 0.3)" }}>
+          <div style={{ fontSize: "11px", color: "rgba(240, 255, 245, 0.6)" }}>
             {formatSize(file.file_size)} · {formatDate(file.created_at)}
             {isOwner && <span style={{ marginLeft: "8px", color: "rgba(0, 255, 136, 0.5)" }}>yours</span>}
           </div>
@@ -176,7 +176,7 @@ export default function FileCard({ file }: FileCardProps) {
       {file.description && (
         <p style={{
           fontSize: "12px",
-          color: "rgba(224, 245, 232, 0.45)",
+          color: "rgba(240, 255, 245, 0.7)",
           margin: "0 0 10px",
           lineHeight: "1.5",
         }}>
@@ -211,7 +211,7 @@ export default function FileCard({ file }: FileCardProps) {
       <div style={{
         marginTop: "8px",
         fontSize: "10px",
-        color: "rgba(224, 245, 232, 0.2)",
+        color: "rgba(240, 255, 245, 0.5)",
       }}>
         {file.download_count} downloads
       </div>

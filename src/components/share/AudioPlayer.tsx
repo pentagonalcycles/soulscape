@@ -165,7 +165,7 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
           </div>
 
           {/* Time display */}
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "10px", color: "rgba(224, 245, 232, 0.35)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "10px", color: "rgba(240, 255, 245, 0.65)" }}>
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
@@ -173,7 +173,7 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
 
         {/* Volume */}
         <div style={{ display: "flex", alignItems: "center", gap: "4px", flexShrink: 0 }}>
-          <span style={{ fontSize: "12px", color: "rgba(224, 245, 232, 0.35)" }}>🔊</span>
+          <span style={{ fontSize: "12px", color: "rgba(240, 255, 245, 0.65)" }}>🔊</span>
           <input
             type="range"
             min="0"

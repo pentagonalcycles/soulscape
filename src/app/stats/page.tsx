@@ -772,7 +772,7 @@ export default function StatsPage() {
                 transition={{ delay: 0.8 }}
                 className="text-center mt-6"
               >
-                <p className="text-[10px] font-mono" style={{ color: "var(--text-faint, rgba(224,245,232,0.3))" }}>
+                <p className="text-[10px] font-mono" style={{ color: "var(--text-faint, rgba(240,255,245,0.6))" }}>
                   Auto-refreshes every 15s · Last updated {lastUpdated.toLocaleTimeString()}
                 </p>
               </motion.div>
@@ -789,7 +789,7 @@ export default function StatsPage() {
             <a
               href="/"
               className="text-xs hover:opacity-50 transition-opacity"
-              style={{ color: "var(--text-faint, rgba(224, 245, 232, 0.3))", textDecoration: "none", fontSize: "11px", letterSpacing: "0.05em" }}
+              style={{ color: "var(--text-faint, rgba(240, 255, 245, 0.6))", textDecoration: "none", fontSize: "11px", letterSpacing: "0.05em" }}
             >
               ← Return home
             </a>

@@ -126,11 +126,11 @@ function LayoutInner({ children }: { children: ReactNode }) {
     document.body.style.background = "#1f3828";
 
     const root = document.documentElement.style;
-    root.setProperty("--text-primary", "#e0f5e8");
-    root.setProperty("--text-secondary", "#b0d4be");
-    root.setProperty("--text-muted", "#6b9a7a");
-    root.setProperty("--text-dim", "#3d6b4e");
-    root.setProperty("--text-faint", "rgba(224, 245, 232, 0.3)");
+    root.setProperty("--text-primary", "#e8fff0");
+    root.setProperty("--text-secondary", "#c0e8d0");
+    root.setProperty("--text-muted", "#78b890");
+    root.setProperty("--text-dim", "#4a8a60");
+    root.setProperty("--text-faint", "rgba(240, 255, 245, 0.6)");
     root.setProperty("--border-subtle", "rgba(0, 255, 136, 0.1)");
     root.setProperty("--card-bg", "rgba(0, 255, 136, 0.03)");
     root.setProperty("--input-bg", "rgba(0, 255, 136, 0.05)");

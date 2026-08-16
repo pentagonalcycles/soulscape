@@ -582,7 +582,7 @@ export default function TarotPage() {
             </h1>
             <p style={{
               fontSize: 13,
-              color: "rgba(224, 245, 232, 0.35)",
+              color: "rgba(240, 255, 245, 0.65)",
               textAlign: "center",
               margin: "0 0 48px",
               lineHeight: 1.6,
@@ -658,7 +658,7 @@ export default function TarotPage() {
                 >
                   <div style={{ fontSize: 24, marginBottom: 8 }}>{opt.icon}</div>
                   <div style={{ fontSize: 12, color: "#e0f5e8", fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", marginBottom: 4 }}>{opt.label}</div>
-                  <div style={{ fontSize: 10, color: "rgba(224, 245, 232, 0.35)" }}>{opt.desc}</div>
+                  <div style={{ fontSize: 10, color: "rgba(240, 255, 245, 0.65)" }}>{opt.desc}</div>
                 </motion.button>
               ))}
             </div>
@@ -676,7 +676,7 @@ export default function TarotPage() {
                 justifyContent: "space-between",
                 gap: 12,
               }}>
-                <p style={{ fontSize: 10, color: "rgba(224, 245, 232, 0.3)", margin: 0, lineHeight: 1.5 }}>
+                <p style={{ fontSize: 10, color: "rgba(240, 255, 245, 0.6)", margin: 0, lineHeight: 1.5 }}>
                   Tarot in Elovayne is designed for reflection, creativity and personal exploration. It should not be treated as guaranteed prediction or as professional medical, legal or financial advice.
                 </p>
                 <button onClick={() => setShowDisclaimer(false)} style={{
@@ -741,7 +741,7 @@ export default function TarotPage() {
                       padding: "16px",
                     }}>
                       <div style={{ fontSize: 12, color: "#e0f5e8", fontWeight: 600, marginBottom: 4 }}>{spread.name}</div>
-                      <div style={{ fontSize: 10, color: "rgba(224, 245, 232, 0.35)" }}>{spread.positions.length} card{spread.positions.length > 1 ? "s" : ""}</div>
+                      <div style={{ fontSize: 10, color: "rgba(240, 255, 245, 0.65)" }}>{spread.positions.length} card{spread.positions.length > 1 ? "s" : ""}</div>
                     </button>
                   ))}
                 </div>
@@ -922,7 +922,7 @@ export default function TarotPage() {
                   padding: "20px",
                 }}>
                   <div style={{ fontSize: 13, color: "#e0f5e8", fontWeight: 600, marginBottom: 8, letterSpacing: "1px" }}>{spread.name}</div>
-                  <div style={{ fontSize: 11, color: "rgba(224, 245, 232, 0.4)", marginBottom: 12, lineHeight: 1.5 }}>{spread.description}</div>
+                  <div style={{ fontSize: 11, color: "rgba(240, 255, 245, 0.65)", marginBottom: 12, lineHeight: 1.5 }}>{spread.description}</div>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                     {spread.positions.map((pos, i) => (
                       <span key={i} style={{

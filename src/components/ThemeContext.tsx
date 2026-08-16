@@ -138,7 +138,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--text-secondary", "#cce8d8");
     root.style.setProperty("--text-muted", "#90c8a0");
     root.style.setProperty("--text-dim", "#5a8d6e");
-    root.style.setProperty("--text-faint", "rgba(236, 252, 243, 0.4)");
+    root.style.setProperty("--text-faint", "rgba(240, 255, 245, 0.6)");
     root.style.setProperty("--border-subtle", "rgba(0, 255, 136, 0.18)");
     root.style.setProperty("--card-bg", "rgba(0, 255, 136, 0.08)");
     root.style.setProperty("--input-bg", "rgba(0, 255, 136, 0.1)");

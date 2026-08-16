@@ -94,7 +94,7 @@ export default function SupportPage() {
             >
               We&apos;re Here For You
             </h1>
-            <p className="text-sm" style={{ color: "rgba(224, 245, 232, 0.5)" }}>
+            <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.75)" }}>
               No question is too small. No concern is too quiet. You are not alone.
             </p>
           </motion.div>
@@ -115,7 +115,7 @@ export default function SupportPage() {
                 <span>📖</span>
               </div>
               <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>FAQ</div>
-              <div className="text-[10px] mt-1" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Common questions</div>
+              <div className="text-[10px] mt-1" style={{ color: "rgba(240, 255, 245, 0.65)" }}>Common questions</div>
             </Link>
             <a
               href="https://discord.gg/elovayne"
@@ -128,7 +128,7 @@ export default function SupportPage() {
                 <span>💬</span>
               </div>
               <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>Discord</div>
-              <div className="text-[10px] mt-1" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Join our community</div>
+              <div className="text-[10px] mt-1" style={{ color: "rgba(240, 255, 245, 0.65)" }}>Join our community</div>
             </a>
             <a
               href="mailto:support@elovayne.com"
@@ -139,7 +139,7 @@ export default function SupportPage() {
                 <span>📧</span>
               </div>
               <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>Email</div>
-              <div className="text-[10px] mt-1" style={{ color: "rgba(224, 245, 232, 0.4)" }}>support@elovayne.com</div>
+              <div className="text-[10px] mt-1" style={{ color: "rgba(240, 255, 245, 0.65)" }}>support@elovayne.com</div>
             </a>
             <Link
               href="/about"
@@ -150,7 +150,7 @@ export default function SupportPage() {
                 <span>✨</span>
               </div>
               <div className="text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>About</div>
-              <div className="text-[10px] mt-1" style={{ color: "rgba(224, 245, 232, 0.4)" }}>Our story</div>
+              <div className="text-[10px] mt-1" style={{ color: "rgba(240, 255, 245, 0.65)" }}>Our story</div>
             </Link>
           </motion.div>
 
@@ -221,7 +221,7 @@ export default function SupportPage() {
             <h2 className="text-lg font-light mb-4" style={{ color: "rgba(224, 245, 232, 0.9)" }}>
               Crisis Resources
             </h2>
-            <p className="text-xs mb-4 leading-relaxed" style={{ color: "rgba(224, 245, 232, 0.5)" }}>
+            <p className="text-xs mb-4 leading-relaxed" style={{ color: "rgba(240, 255, 245, 0.75)" }}>
               If you or someone you know is in crisis, please reach out. You are not alone.
             </p>
             <div className="space-y-3">
@@ -242,7 +242,7 @@ export default function SupportPage() {
                   </div>
                   <div>
                     <div className="text-sm font-medium" style={{ color: r.color }}>{r.title}</div>
-                    <div className="text-[11px]" style={{ color: "rgba(224, 245, 232, 0.5)" }}>{r.desc}</div>
+                    <div className="text-[11px]" style={{ color: "rgba(240, 255, 245, 0.75)" }}>{r.desc}</div>
                   </div>
                 </motion.a>
               ))}
@@ -259,7 +259,7 @@ export default function SupportPage() {
             <Link
               href="/"
               className="text-xs"
-              style={{ color: "rgba(224, 245, 232, 0.3)", textDecoration: "none" }}
+              style={{ color: "rgba(240, 255, 245, 0.6)", textDecoration: "none" }}
             >
               ← Go back
             </Link>
