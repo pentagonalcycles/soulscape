@@ -78,7 +78,7 @@ export default function ElyraButton() {
           <motion.div
             className="relative w-12 h-12 rounded-full flex items-center justify-center"
             style={{
-              background: "#1f3729",
+              background: "#2a4d3a",
               border: "1px solid rgba(0, 255, 136, 0.12)",
               boxShadow: "0 0 16px rgba(0, 255, 136, 0.08), 0 4px 16px rgba(0, 255, 136, 0.05)",
             }}

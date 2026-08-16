@@ -91,7 +91,7 @@ export default function MuralToolbar({
                 left: 0,
                 bottom: 0,
                 width: "min(300px, 85vw)",
-                background: "rgba(21, 38, 29, 0.94)",
+                background: "rgba(31, 56, 40, 0.94)",
                 backdropFilter: "blur(16px)",
                 borderRight: "1px solid rgba(0, 255, 136, 0.1)",
                 boxShadow: "0 2px 20px rgba(0, 0, 0, 0.3)",

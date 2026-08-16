@@ -15,7 +15,7 @@ export default function Footer() {
   return (
     <footer className="relative z-10 py-14 px-6"
       style={{
-        background: "rgba(21, 38, 29, 0.98)",
+        background: "rgba(31, 56, 40, 0.98)",
         borderTop: "1px solid rgba(0, 255, 136, 0.1)",
         boxShadow: "0 -4px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(0, 255, 136, 0.04)",
         backdropFilter: "blur(20px) saturate(1.2)",

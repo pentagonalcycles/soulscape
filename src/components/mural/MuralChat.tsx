@@ -53,7 +53,7 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
           style={{
             width: "min(320px, calc(100vw - 32px))",
             height: "min(400px, calc(100vh - 120px))",
-              background: "rgba(21, 38, 29, 0.88)",
+              background: "rgba(31, 56, 40, 0.88)",
             backdropFilter: "blur(12px)",
             border: "1px solid rgba(0, 255, 136, 0.08)",
           }}

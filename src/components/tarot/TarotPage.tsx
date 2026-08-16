@@ -104,7 +104,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           inset: 0,
           backfaceVisibility: "hidden",
           borderRadius: size === "sm" ? 8 : 12,
-          background: "linear-gradient(145deg, rgba(21, 38, 29, 0.95), rgba(31, 55, 41, 0.95))",
+          background: "linear-gradient(145deg, rgba(31, 56, 40, 0.95), rgba(42, 77, 58, 0.95))",
           border: `1px solid ${selected ? "rgba(168, 85, 247, 0.5)" : "rgba(168, 85, 247, 0.15)"}`,
           boxShadow: selected
             ? "0 0 30px rgba(168, 85, 247, 0.2), inset 0 0 20px rgba(168, 85, 247, 0.05)"
@@ -517,7 +517,7 @@ export default function TarotPage() {
   const cardOfMonth = getCardOfMonth();
 
   const glassStyle = {
-    background: "rgba(21, 38, 29, 0.75)",
+    background: "rgba(31, 56, 40, 0.75)",
     backdropFilter: "blur(12px)",
     border: "1px solid rgba(168, 85, 247, 0.08)",
     borderRadius: 16,

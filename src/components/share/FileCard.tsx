@@ -89,7 +89,7 @@ export default function FileCard({ file }: FileCardProps) {
       className="corner-accents"
       onClick={() => setIsExpanded(!isExpanded)}
       style={{
-        background: "rgba(21, 38, 29, 0.75)",
+        background: "rgba(31, 56, 40, 0.75)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         border: "1px solid rgba(0, 255, 136, 0.08)",

@@ -144,7 +144,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
 
   return (
     <div style={{
-      background: "rgba(21, 38, 29, 0.65)",
+      background: "rgba(31, 56, 40, 0.65)",
       backdropFilter: "blur(12px)",
       WebkitBackdropFilter: "blur(12px)",
       border: "1px solid rgba(0, 255, 136, 0.1)",

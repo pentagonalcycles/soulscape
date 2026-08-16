@@ -260,7 +260,7 @@ export default function ElyraPage() {
       <div style={{
         position: "fixed", inset: 0,
         display: "flex", alignItems: "center", justifyContent: "center",
-        background: "#15261d",
+        background: "#1f3828",
         overflow: "hidden",
       }}>
         {/* Background grid */}
@@ -355,7 +355,7 @@ export default function ElyraPage() {
     <div style={{
       position: "fixed", inset: 0,
       display: "flex", flexDirection: "column",
-      background: "#15261d",
+      background: "#1f3828",
     }}>
       {/* Animated background */}
       <AnimatedBackground />
@@ -407,7 +407,7 @@ export default function ElyraPage() {
           <div style={{
             position: "absolute", bottom: "-3px", right: "-3px",
             width: "10px", height: "10px", borderRadius: "50%",
-            background: "#00ff88", border: "2px solid #15261d",
+            background: "#00ff88", border: "2px solid #1f3828",
             boxShadow: "0 0 12px rgba(34, 197, 94, 0.8), 0 0 24px rgba(34, 197, 94, 0.4)",
             animation: "pulse 1.5s ease-in-out infinite",
           }} />

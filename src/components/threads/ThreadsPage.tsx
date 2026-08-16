@@ -55,7 +55,7 @@ interface Project {
 }
 
 const glassStyle = {
-  background: "rgba(21, 38, 29, 0.75)",
+  background: "rgba(31, 56, 40, 0.75)",
   backdropFilter: "blur(12px)",
   border: "1px solid rgba(0, 255, 136, 0.08)",
   borderRadius: 16,
@@ -237,7 +237,7 @@ export default function ThreadsPage() {
   return (
     <main style={{
       minHeight: "100vh",
-      background: "linear-gradient(180deg, #1a3024 0%, #1f3a2a 50%, #1a3024 100%)",
+      background: "linear-gradient(180deg, #1f3828 0%, #244232 50%, #1f3828 100%)",
       position: "relative",
       overflow: "hidden",
     }}>
@@ -396,7 +396,7 @@ export default function ThreadsPage() {
               }}>
                 <option value="">Select yarn weight</option>
                 {YARN_WEIGHTS.map(yw => (
-                  <option key={yw.id} value={yw.id} style={{ background: "#1f3a2a" }}>{yw.name} (Category {yw.category})</option>
+                  <option key={yw.id} value={yw.id} style={{ background: "#244232" }}>{yw.name} (Category {yw.category})</option>
                 ))}
               </select>
 
@@ -717,7 +717,7 @@ export default function ThreadsPage() {
                 borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 16,
               }}>
                 {["scarf", "beanie", "sweater", "blanket", "socks", "hat", "bag", "cardigan"].map(p => (
-                  <option key={p} value={p} style={{ background: "#1f3a2a" }}>{p.charAt(0).toUpperCase() + p.slice(1)}</option>
+                  <option key={p} value={p} style={{ background: "#244232" }}>{p.charAt(0).toUpperCase() + p.slice(1)}</option>
                 ))}
               </select>
 
@@ -727,7 +727,7 @@ export default function ThreadsPage() {
                 borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 24,
               }}>
                 {YARN_WEIGHTS.map(yw => (
-                  <option key={yw.id} value={yw.id} style={{ background: "#1f3a2a" }}>{yw.name}</option>
+                  <option key={yw.id} value={yw.id} style={{ background: "#244232" }}>{yw.name}</option>
                 ))}
               </select>
 

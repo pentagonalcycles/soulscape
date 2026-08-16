@@ -420,7 +420,7 @@ export default function StatsPage() {
   const returnPct = stats ? (stats.returningVisitors / totalVisitorTypes) * 100 : 0;
 
   return (
-    <main className="relative min-h-screen overflow-hidden" style={{ background: "var(--bg-color, #15261d)" }}>
+    <main className="relative min-h-screen overflow-hidden" style={{ background: "var(--bg-color, #1f3828)" }}>
       {/* Tech grid background */}
       <div className="fixed inset-0 pointer-events-none tech-grid" style={{ opacity: 0.4 }} />
 
