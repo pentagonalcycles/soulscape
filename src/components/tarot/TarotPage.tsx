@@ -102,9 +102,9 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           backfaceVisibility: "hidden",
           borderRadius: size === "sm" ? 8 : 12,
           background: "linear-gradient(145deg, rgba(21, 38, 29, 0.95), rgba(31, 55, 41, 0.95))",
-          border: `1px solid ${selected ? "rgba(0, 255, 136, 0.5)" : "rgba(0, 255, 136, 0.15)"}`,
+          border: `1px solid ${selected ? "rgba(168, 85, 247, 0.5)" : "rgba(168, 85, 247, 0.15)"}`,
           boxShadow: selected
-            ? "0 0 30px rgba(0, 255, 136, 0.2), inset 0 0 20px rgba(0, 255, 136, 0.05)"
+            ? "0 0 30px rgba(168, 85, 247, 0.2), inset 0 0 20px rgba(168, 85, 247, 0.05)"
             : "0 4px 20px rgba(0, 0, 0, 0.3)",
           display: "flex",
           flexDirection: "column",
@@ -121,7 +121,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
             left: -1,
             width: size === "sm" ? 12 : 20,
             height: size === "sm" ? 1 : 2,
-            background: "linear-gradient(90deg, #00ff88, transparent)",
+            background: "linear-gradient(90deg, #a855f7, transparent)",
           }} />
           <div style={{
             position: "absolute",
@@ -129,7 +129,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
             left: -1,
             width: size === "sm" ? 1 : 2,
             height: size === "sm" ? 12 : 20,
-            background: "linear-gradient(180deg, #00ff88, transparent)",
+            background: "linear-gradient(180deg, #a855f7, transparent)",
           }} />
           {/* Bottom corner accent */}
           <div style={{
@@ -138,7 +138,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
             right: -1,
             width: size === "sm" ? 12 : 20,
             height: size === "sm" ? 1 : 2,
-            background: "linear-gradient(270deg, #00ff88, transparent)",
+            background: "linear-gradient(270deg, #a855f7, transparent)",
           }} />
           <div style={{
             position: "absolute",
@@ -146,7 +146,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
             right: -1,
             width: size === "sm" ? 1 : 2,
             height: size === "sm" ? 12 : 20,
-            background: "linear-gradient(0deg, #00ff88, transparent)",
+            background: "linear-gradient(0deg, #a855f7, transparent)",
           }} />
 
           {/* Symbol */}
@@ -154,7 +154,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
             fontSize: size === "sm" ? "20px" : size === "lg" ? "48px" : "32px",
             marginBottom: size === "sm" ? 2 : 8,
             opacity: 0.9,
-            filter: "drop-shadow(0 0 8px rgba(0, 255, 136, 0.3))",
+            filter: "drop-shadow(0 0 8px rgba(168, 85, 247, 0.3))",
           }}>
             {symbol}
           </div>
@@ -182,7 +182,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           {card.number !== null && (
             <div style={{
               fontSize: size === "sm" ? "6px" : "8px",
-              color: "rgba(0, 255, 136, 0.4)",
+              color: "rgba(168, 85, 247, 0.4)",
               marginTop: size === "sm" ? 1 : 4,
               fontFamily: "monospace",
             }}>
@@ -214,7 +214,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           transform: "rotateY(180deg)",
           borderRadius: size === "sm" ? 8 : 12,
           background: "linear-gradient(145deg, #1a2e23, #254030)",
-          border: "1px solid rgba(0, 255, 136, 0.2)",
+          border: "1px solid rgba(168, 85, 247, 0.2)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -223,12 +223,12 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           <div style={{
             width: "70%",
             height: "80%",
-            border: "1px solid rgba(0, 255, 136, 0.15)",
+            border: "1px solid rgba(168, 85, 247, 0.15)",
             borderRadius: 6,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "rgba(0, 255, 136, 0.02)",
+            background: "rgba(168, 85, 247, 0.02)",
           }}>
             <div style={{
               fontSize: size === "sm" ? "16px" : size === "lg" ? "36px" : "24px",
@@ -253,7 +253,7 @@ function CardMeaningPanel({ card, reversed, onClose }: { card: TarotCard; revers
         background: "rgba(3, 7, 18, 0.95)",
         backdropFilter: "blur(20px)",
         borderRadius: 16,
-        border: "1px solid rgba(0, 255, 136, 0.15)",
+        border: "1px solid rgba(168, 85, 247, 0.15)",
         padding: 24,
         maxWidth: 500,
         width: "100%",
@@ -266,14 +266,14 @@ function CardMeaningPanel({ card, reversed, onClose }: { card: TarotCard; revers
           <h3 style={{ fontSize: 20, fontWeight: 600, color: "#e0f5e8", margin: 0, letterSpacing: "2px", textTransform: "uppercase" }}>
             {card.name}
           </h3>
-          <div style={{ fontSize: 11, color: "rgba(0, 255, 136, 0.5)", marginTop: 4, fontFamily: "monospace" }}>
+          <div style={{ fontSize: 11, color: "rgba(168, 85, 247, 0.5)", marginTop: 4, fontFamily: "monospace" }}>
             {card.arcana === "major" ? "Major Arcana" : `${card.suit?.charAt(0).toUpperCase()}${card.suit?.slice(1)} · Minor Arcana`}
             {reversed && " · Reversed"}
           </div>
         </div>
         <button onClick={onClose} style={{
-          background: "rgba(0, 255, 136, 0.08)",
-          border: "1px solid rgba(0, 255, 136, 0.15)",
+          background: "rgba(168, 85, 247, 0.08)",
+          border: "1px solid rgba(168, 85, 247, 0.15)",
           color: "#475569",
           fontSize: 14,
           width: 28,
@@ -292,10 +292,10 @@ function CardMeaningPanel({ card, reversed, onClose }: { card: TarotCard; revers
           <span key={k} style={{
             padding: "4px 10px",
             borderRadius: 4,
-            background: "rgba(0, 255, 136, 0.06)",
-            border: "1px solid rgba(0, 255, 136, 0.12)",
+            background: "rgba(168, 85, 247, 0.06)",
+            border: "1px solid rgba(168, 85, 247, 0.12)",
             fontSize: 10,
-            color: "rgba(0, 255, 136, 0.7)",
+            color: "rgba(168, 85, 247, 0.7)",
             letterSpacing: "1px",
             textTransform: "uppercase",
           }}>{k}</span>
@@ -304,7 +304,7 @@ function CardMeaningPanel({ card, reversed, onClose }: { card: TarotCard; revers
 
       {/* Meaning */}
       <div style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>
+        <div style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>
           {reversed ? "Reversed Meaning" : "Upright Meaning"}
         </div>
         <p style={{ fontSize: 13, color: "#cce8d8", lineHeight: 1.6, margin: 0 }}>
@@ -314,25 +314,25 @@ function CardMeaningPanel({ card, reversed, onClose }: { card: TarotCard; revers
 
       {/* Symbolism */}
       <div style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>Symbolism</div>
+        <div style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>Symbolism</div>
         <p style={{ fontSize: 13, color: "#90c8a0", lineHeight: 1.6, margin: 0 }}>{card.symbolism}</p>
       </div>
 
       {/* Love */}
       <div style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>☽ Love</div>
+        <div style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>☽ Love</div>
         <p style={{ fontSize: 13, color: "#cce8d8", lineHeight: 1.6, margin: 0 }}>{card.love}</p>
       </div>
 
       {/* Career */}
       <div style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>◈ Career</div>
+        <div style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>◈ Career</div>
         <p style={{ fontSize: 13, color: "#cce8d8", lineHeight: 1.6, margin: 0 }}>{card.career}</p>
       </div>
 
       {/* Personal Growth */}
       <div style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>✦ Personal Growth</div>
+        <div style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>✦ Personal Growth</div>
         <p style={{ fontSize: 13, color: "#cce8d8", lineHeight: 1.6, margin: 0 }}>{card.personalGrowth}</p>
       </div>
 
@@ -340,10 +340,10 @@ function CardMeaningPanel({ card, reversed, onClose }: { card: TarotCard; revers
       <div style={{
         padding: "12px 16px",
         borderRadius: 8,
-        background: "rgba(0, 255, 136, 0.04)",
-        border: "1px solid rgba(0, 255, 136, 0.1)",
+        background: "rgba(168, 85, 247, 0.04)",
+        border: "1px solid rgba(168, 85, 247, 0.1)",
       }}>
-        <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>Reflection</div>
+        <div style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>Reflection</div>
         <p style={{ fontSize: 13, color: "#e0f5e8", lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>
           {card.reflectionQuestion}
         </p>
@@ -516,7 +516,7 @@ export default function TarotPage() {
   const glassStyle = {
     background: "rgba(21, 38, 29, 0.75)",
     backdropFilter: "blur(12px)",
-    border: "1px solid rgba(0, 255, 136, 0.08)",
+    border: "1px solid rgba(168, 85, 247, 0.08)",
     borderRadius: 16,
     padding: 24,
   };
@@ -524,7 +524,7 @@ export default function TarotPage() {
   const sectionTitle = {
     fontSize: 14,
     fontWeight: 600,
-    color: "#00ff88",
+    color: "#a855f7",
     letterSpacing: "3px",
     textTransform: "uppercase" as const,
     marginBottom: 16,
@@ -534,7 +534,7 @@ export default function TarotPage() {
   if (authLoading) {
     return (
       <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ color: "rgba(0, 255, 136, 0.5)", fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", fontFamily: "monospace" }}>
+        <div style={{ color: "rgba(168, 85, 247, 0.5)", fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", fontFamily: "monospace" }}>
           Loading Arcana...
         </div>
       </main>
@@ -569,7 +569,7 @@ export default function TarotPage() {
               fontWeight: 100,
               letterSpacing: "16px",
               textTransform: "uppercase",
-              background: "linear-gradient(135deg, #00ff88, #00cc6a, #00d4aa)",
+              background: "linear-gradient(135deg, #a855f7, #9333ea, #7c3aed)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               margin: "0 0 12px",
@@ -592,9 +592,9 @@ export default function TarotPage() {
               <button onClick={toggleReversed} style={{
                 padding: "8px 16px",
                 borderRadius: 6,
-                border: "1px solid rgba(0, 255, 136, 0.15)",
-                background: allowReversed ? "rgba(0, 255, 136, 0.08)" : "transparent",
-                color: allowReversed ? "#00ff88" : "rgba(0, 255, 136, 0.4)",
+                border: "1px solid rgba(168, 85, 247, 0.15)",
+                background: allowReversed ? "rgba(168, 85, 247, 0.08)" : "transparent",
+                color: allowReversed ? "#a855f7" : "rgba(168, 85, 247, 0.4)",
                 fontSize: 10,
                 cursor: "pointer",
                 fontFamily: "monospace",
@@ -609,14 +609,14 @@ export default function TarotPage() {
             {/* Card of the Week & Month */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 40 }}>
               <div style={{ ...glassStyle, textAlign: "center" }}>
-                <div style={{ fontSize: 9, color: "rgba(0, 255, 136, 0.5)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 12 }}>Card of the Week</div>
+                <div style={{ fontSize: 9, color: "rgba(168, 85, 247, 0.5)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 12 }}>Card of the Week</div>
                 <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
                   <TarotCardVisual card={cardOfWeek.card} reversed={cardOfWeek.reversed} size="sm" onClick={() => { setSelectedCard(cardOfWeek.card); setSelectedCardReversed(cardOfWeek.reversed); setSection("card-detail"); }} />
                 </div>
                 <div style={{ fontSize: 11, color: "#cce8d8" }}>{cardOfWeek.card.name}{cardOfWeek.reversed ? " (Reversed)" : ""}</div>
               </div>
               <div style={{ ...glassStyle, textAlign: "center" }}>
-                <div style={{ fontSize: 9, color: "rgba(0, 255, 136, 0.5)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 12 }}>Card of the Month</div>
+                <div style={{ fontSize: 9, color: "rgba(168, 85, 247, 0.5)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 12 }}>Card of the Month</div>
                 <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
                   <TarotCardVisual card={cardOfMonth.card} reversed={cardOfMonth.reversed} size="sm" onClick={() => { setSelectedCard(cardOfMonth.card); setSelectedCardReversed(cardOfMonth.reversed); setSection("card-detail"); }} />
                 </div>
@@ -650,7 +650,7 @@ export default function TarotPage() {
                     padding: "24px 16px",
                     transition: "all 0.3s",
                   }}
-                  whileHover={{ scale: 1.02, borderColor: "rgba(0, 255, 136, 0.3)" }}
+                  whileHover={{ scale: 1.02, borderColor: "rgba(168, 85, 247, 0.3)" }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <div style={{ fontSize: 24, marginBottom: 8 }}>{opt.icon}</div>
@@ -666,8 +666,8 @@ export default function TarotPage() {
                 marginTop: 48,
                 padding: "12px 16px",
                 borderRadius: 8,
-                background: "rgba(0, 255, 136, 0.02)",
-                border: "1px solid rgba(0, 255, 136, 0.06)",
+                background: "rgba(168, 85, 247, 0.02)",
+                border: "1px solid rgba(168, 85, 247, 0.06)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -677,7 +677,7 @@ export default function TarotPage() {
                   Tarot in Elovayne is designed for reflection, creativity and personal exploration. It should not be treated as guaranteed prediction or as professional medical, legal or financial advice.
                 </p>
                 <button onClick={() => setShowDisclaimer(false)} style={{
-                  background: "none", border: "none", color: "rgba(0, 255, 136, 0.3)",
+                  background: "none", border: "none", color: "rgba(168, 85, 247, 0.3)",
                   cursor: "pointer", fontSize: 12, flexShrink: 0,
                 }}>✕</button>
               </div>
@@ -689,7 +689,7 @@ export default function TarotPage() {
         {section === "card-detail" && selectedCard && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <button onClick={() => setSection("home")} style={{
-              fontSize: 10, color: "rgba(0, 255, 136, 0.5)", background: "none", border: "none",
+              fontSize: 10, color: "rgba(168, 85, 247, 0.5)", background: "none", border: "none",
               cursor: "pointer", marginBottom: 24, fontFamily: "monospace", letterSpacing: "2px", textTransform: "uppercase",
             }}>← Back</button>
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -704,7 +704,7 @@ export default function TarotPage() {
         {section === "ask" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <button onClick={() => { setSection("home"); setShufflePhase("idle"); setDrawnCards([]); setSelectedCards([]); }} style={{
-              fontSize: 10, color: "rgba(0, 255, 136, 0.5)", background: "none", border: "none",
+              fontSize: 10, color: "rgba(168, 85, 247, 0.5)", background: "none", border: "none",
               cursor: "pointer", marginBottom: 24, fontFamily: "monospace", letterSpacing: "2px", textTransform: "uppercase",
             }}>← Back</button>
 
@@ -719,8 +719,8 @@ export default function TarotPage() {
                     placeholder="What would you like to ask?"
                     style={{
                       width: "100%",
-                      background: "rgba(0, 255, 136, 0.04)",
-                      border: "1px solid rgba(0, 255, 136, 0.15)",
+                      background: "rgba(168, 85, 247, 0.04)",
+                      border: "1px solid rgba(168, 85, 247, 0.15)",
                       borderRadius: 8,
                       padding: "12px 16px",
                       color: "#e0f5e8",
@@ -762,7 +762,7 @@ export default function TarotPage() {
                     >
                       ✦
                     </motion.div>
-                    <div style={{ fontSize: 11, color: "rgba(0, 255, 136, 0.5)", fontFamily: "monospace", letterSpacing: "2px" }}>
+                    <div style={{ fontSize: 11, color: "rgba(168, 85, 247, 0.5)", fontFamily: "monospace", letterSpacing: "2px" }}>
                       SHUFFLING...
                     </div>
                   </div>
@@ -771,7 +771,7 @@ export default function TarotPage() {
                 {/* Card selection */}
                 {shufflePhase === "ready" && (
                   <div style={{ textAlign: "center", marginBottom: 24 }}>
-                    <div style={{ fontSize: 11, color: "rgba(0, 255, 136, 0.5)", fontFamily: "monospace", letterSpacing: "2px", marginBottom: 16 }}>
+                    <div style={{ fontSize: 11, color: "rgba(168, 85, 247, 0.5)", fontFamily: "monospace", letterSpacing: "2px", marginBottom: 16 }}>
                       CHOOSE {activeSpread.positions.length} CARD{activeSpread.positions.length > 1 ? "S" : ""}
                     </div>
                     <div style={{
@@ -803,11 +803,11 @@ export default function TarotPage() {
                       {drawnCards.map((dc, i) => (
                         <div key={i} style={{ textAlign: "center" }}>
                           <TarotCardVisual card={dc.card} reversed={dc.reversed} flipping />
-                          <div style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.6)", marginTop: 8, letterSpacing: "1px", textTransform: "uppercase" }}>
+                          <div style={{ fontSize: 10, color: "rgba(168, 85, 247, 0.6)", marginTop: 8, letterSpacing: "1px", textTransform: "uppercase" }}>
                             {dc.position}
                           </div>
                           <button onClick={() => { setSelectedCard(dc.card); setSelectedCardReversed(dc.reversed); setSection("card-detail"); }} style={{
-                            fontSize: 9, color: "rgba(0, 255, 136, 0.4)", background: "none", border: "none",
+                            fontSize: 9, color: "rgba(168, 85, 247, 0.4)", background: "none", border: "none",
                             cursor: "pointer", marginTop: 4, fontFamily: "monospace",
                           }}>
                             {dc.card.name}{dc.reversed ? " (R)" : ""}
@@ -819,16 +819,16 @@ export default function TarotPage() {
                     {/* Interpretation */}
                     {drawnCards.length === activeSpread.positions.length && (
                       <>
-                        <div style={{ borderTop: "1px solid rgba(0, 255, 136, 0.08)", paddingTop: 20 }}>
-                          <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 12 }}>Interpretation</div>
+                        <div style={{ borderTop: "1px solid rgba(168, 85, 247, 0.08)", paddingTop: 20 }}>
+                          <div style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 12 }}>Interpretation</div>
                           <p style={{ fontSize: 13, color: "#cce8d8", lineHeight: 1.7, margin: "0 0 16px" }}>
                             {generateInterpretation(drawnCards, activeSpread)}
                           </p>
 
                           {/* Card combinations */}
                           {drawnCards.length >= 2 && (
-                            <div style={{ marginTop: 16, padding: "12px 16px", borderRadius: 8, background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)" }}>
-                              <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 8 }}>Together</div>
+                            <div style={{ marginTop: 16, padding: "12px 16px", borderRadius: 8, background: "rgba(168, 85, 247, 0.03)", border: "1px solid rgba(168, 85, 247, 0.08)" }}>
+                              <div style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 8 }}>Together</div>
                               <p style={{ fontSize: 12, color: "#90c8a0", lineHeight: 1.6, margin: 0 }}>
                                 {getCombinationInterpretation(drawnCards[0].card, drawnCards[1].card)}
                               </p>
@@ -837,15 +837,15 @@ export default function TarotPage() {
                         </div>
 
                         {/* Save & Notes */}
-                        <div style={{ marginTop: 20, borderTop: "1px solid rgba(0, 255, 136, 0.08)", paddingTop: 20 }}>
+                        <div style={{ marginTop: 20, borderTop: "1px solid rgba(168, 85, 247, 0.08)", paddingTop: 20 }}>
                           <textarea
                             value={readingNotes}
                             onChange={e => setReadingNotes(e.target.value)}
                             placeholder="Add your notes..."
                             style={{
                               width: "100%",
-                              background: "rgba(0, 255, 136, 0.04)",
-                              border: "1px solid rgba(0, 255, 136, 0.15)",
+                              background: "rgba(168, 85, 247, 0.04)",
+                              border: "1px solid rgba(168, 85, 247, 0.15)",
                               borderRadius: 8,
                               padding: "10px 14px",
                               color: "#e0f5e8",
@@ -861,9 +861,9 @@ export default function TarotPage() {
                               <button onClick={saveReading} style={{
                                 padding: "8px 20px",
                                 borderRadius: 6,
-                                border: "1px solid rgba(0, 255, 136, 0.3)",
-                                background: "rgba(0, 255, 136, 0.08)",
-                                color: "#00ff88",
+                                border: "1px solid rgba(168, 85, 247, 0.3)",
+                                background: "rgba(168, 85, 247, 0.08)",
+                                color: "#a855f7",
                                 fontSize: 10,
                                 cursor: "pointer",
                                 fontFamily: "monospace",
@@ -905,7 +905,7 @@ export default function TarotPage() {
         {section === "spreads" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <button onClick={() => setSection("home")} style={{
-              fontSize: 10, color: "rgba(0, 255, 136, 0.5)", background: "none", border: "none",
+              fontSize: 10, color: "rgba(168, 85, 247, 0.5)", background: "none", border: "none",
               cursor: "pointer", marginBottom: 24, fontFamily: "monospace", letterSpacing: "2px", textTransform: "uppercase",
             }}>← Back</button>
             <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18, marginBottom: 32 }}>Tarot Spreads</h2>
@@ -924,10 +924,10 @@ export default function TarotPage() {
                       <span key={i} style={{
                         padding: "3px 8px",
                         borderRadius: 3,
-                        background: "rgba(0, 255, 136, 0.04)",
-                        border: "1px solid rgba(0, 255, 136, 0.08)",
+                        background: "rgba(168, 85, 247, 0.04)",
+                        border: "1px solid rgba(168, 85, 247, 0.08)",
                         fontSize: 9,
-                        color: "rgba(0, 255, 136, 0.5)",
+                        color: "rgba(168, 85, 247, 0.5)",
                         fontFamily: "monospace",
                       }}>{pos}</span>
                     ))}
@@ -942,7 +942,7 @@ export default function TarotPage() {
         {section === "explore" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <button onClick={() => setSection("home")} style={{
-              fontSize: 10, color: "rgba(0, 255, 136, 0.5)", background: "none", border: "none",
+              fontSize: 10, color: "rgba(168, 85, 247, 0.5)", background: "none", border: "none",
               cursor: "pointer", marginBottom: 24, fontFamily: "monospace", letterSpacing: "2px", textTransform: "uppercase",
             }}>← Back</button>
             <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18, marginBottom: 24 }}>Explore the Deck</h2>
@@ -956,8 +956,8 @@ export default function TarotPage() {
                 placeholder="Search cards..."
                 style={{
                   width: "100%",
-                  background: "rgba(0, 255, 136, 0.04)",
-                  border: "1px solid rgba(0, 255, 136, 0.15)",
+                  background: "rgba(168, 85, 247, 0.04)",
+                  border: "1px solid rgba(168, 85, 247, 0.15)",
                   borderRadius: 8,
                   padding: "10px 16px",
                   color: "#e0f5e8",
@@ -980,9 +980,9 @@ export default function TarotPage() {
                   <button key={filter.id} onClick={() => setExploreSuit(filter.id)} style={{
                     padding: "6px 14px",
                     borderRadius: 4,
-                    border: `1px solid ${exploreSuit === filter.id ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.1)"}`,
-                    background: exploreSuit === filter.id ? "rgba(0, 255, 136, 0.08)" : "transparent",
-                    color: exploreSuit === filter.id ? "#00ff88" : "rgba(0, 255, 136, 0.4)",
+                    border: `1px solid ${exploreSuit === filter.id ? "rgba(168, 85, 247, 0.4)" : "rgba(168, 85, 247, 0.1)"}`,
+                    background: exploreSuit === filter.id ? "rgba(168, 85, 247, 0.08)" : "transparent",
+                    color: exploreSuit === filter.id ? "#a855f7" : "rgba(168, 85, 247, 0.4)",
                     fontSize: 10,
                     cursor: "pointer",
                     fontFamily: "monospace",
@@ -1007,7 +1007,7 @@ export default function TarotPage() {
                     style={{
                       background: "none", border: "none", cursor: "pointer",
                       fontSize: 12, marginTop: 4,
-                      color: favourites.has(`card:${card.id}`) ? "#ffd700" : "rgba(0, 255, 136, 0.2)",
+                      color: favourites.has(`card:${card.id}`) ? "#ffd700" : "rgba(168, 85, 247, 0.2)",
                     }}
                   >
                     {favourites.has(`card:${card.id}`) ? "★" : "☆"}
@@ -1022,7 +1022,7 @@ export default function TarotPage() {
         {section === "learn" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <button onClick={() => setSection("home")} style={{
-              fontSize: 10, color: "rgba(0, 255, 136, 0.5)", background: "none", border: "none",
+              fontSize: 10, color: "rgba(168, 85, 247, 0.5)", background: "none", border: "none",
               cursor: "pointer", marginBottom: 24, fontFamily: "monospace", letterSpacing: "2px", textTransform: "uppercase",
             }}>← Back</button>
             <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18, marginBottom: 32 }}>Learn Tarot</h2>
@@ -1047,7 +1047,7 @@ export default function TarotPage() {
 
               {/* Learning Mode - Random Card Quiz */}
               <div style={{ ...glassStyle, marginTop: 24, textAlign: "center" }}>
-                <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 16 }}>Learning Mode</div>
+                <div style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 16 }}>Learning Mode</div>
                 <LearningCard />
               </div>
             </div>
@@ -1058,7 +1058,7 @@ export default function TarotPage() {
         {section === "readings" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <button onClick={() => setSection("home")} style={{
-              fontSize: 10, color: "rgba(0, 255, 136, 0.5)", background: "none", border: "none",
+              fontSize: 10, color: "rgba(168, 85, 247, 0.5)", background: "none", border: "none",
               cursor: "pointer", marginBottom: 24, fontFamily: "monospace", letterSpacing: "2px", textTransform: "uppercase",
             }}>← Back</button>
             <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18, marginBottom: 32 }}>My Readings</h2>
@@ -1081,7 +1081,7 @@ export default function TarotPage() {
                         {reading.question && (
                           <div style={{ fontSize: 11, color: "#90c8a0", fontStyle: "italic" }}>&ldquo;{reading.question}&rdquo;</div>
                         )}
-                        <div style={{ fontSize: 9, color: "rgba(0, 255, 136, 0.3)", marginTop: 4, fontFamily: "monospace" }}>
+                        <div style={{ fontSize: 9, color: "rgba(168, 85, 247, 0.3)", marginTop: 4, fontFamily: "monospace" }}>
                           {new Date(reading.created_at).toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" })}
                         </div>
                       </div>
@@ -1096,13 +1096,13 @@ export default function TarotPage() {
                         return cardData ? (
                           <div key={i} style={{ textAlign: "center" }}>
                             <TarotCardVisual card={cardData} reversed={c.reversed} size="sm" />
-                            <div style={{ fontSize: 8, color: "rgba(0, 255, 136, 0.4)", marginTop: 4 }}>{c.position}</div>
+                            <div style={{ fontSize: 8, color: "rgba(168, 85, 247, 0.4)", marginTop: 4 }}>{c.position}</div>
                           </div>
                         ) : null;
                       })}
                     </div>
                     {reading.notes && (
-                      <div style={{ fontSize: 11, color: "#90c8a0", padding: "8px 12px", borderRadius: 6, background: "rgba(0, 255, 136, 0.02)", border: "1px solid rgba(0, 255, 136, 0.06)" }}>
+                      <div style={{ fontSize: 11, color: "#90c8a0", padding: "8px 12px", borderRadius: 6, background: "rgba(168, 85, 247, 0.02)", border: "1px solid rgba(168, 85, 247, 0.06)" }}>
                         {reading.notes}
                       </div>
                     )}
@@ -1140,9 +1140,9 @@ function LearningCard() {
         <button onClick={() => setShowAnswer(true)} style={{
           padding: "8px 20px",
           borderRadius: 6,
-          border: "1px solid rgba(0, 255, 136, 0.3)",
-          background: "rgba(0, 255, 136, 0.08)",
-          color: "#00ff88",
+          border: "1px solid rgba(168, 85, 247, 0.3)",
+          background: "rgba(168, 85, 247, 0.08)",
+          color: "#a855f7",
           fontSize: 11,
           cursor: "pointer",
           fontFamily: "monospace",
@@ -1158,17 +1158,17 @@ function LearningCard() {
             {currentCard.keywords.map(k => (
               <span key={k} style={{
                 padding: "3px 8px", borderRadius: 3,
-                background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.08)",
-                fontSize: 9, color: "rgba(0, 255, 136, 0.5)", fontFamily: "monospace",
+                background: "rgba(168, 85, 247, 0.04)", border: "1px solid rgba(168, 85, 247, 0.08)",
+                fontSize: 9, color: "rgba(168, 85, 247, 0.5)", fontFamily: "monospace",
               }}>{k}</span>
             ))}
           </div>
           <button onClick={drawRandom} style={{
             padding: "8px 20px",
             borderRadius: 6,
-            border: "1px solid rgba(0, 255, 136, 0.15)",
+            border: "1px solid rgba(168, 85, 247, 0.15)",
             background: "transparent",
-            color: "rgba(0, 255, 136, 0.5)",
+            color: "rgba(168, 85, 247, 0.5)",
             fontSize: 10,
             cursor: "pointer",
             fontFamily: "monospace",
