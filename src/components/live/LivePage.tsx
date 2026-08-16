@@ -506,7 +506,7 @@ export default function LivePage() {
   };
 
   return (
-    <main style={{
+    <main className="supports-[height:100dvh]:min-h-dvh" style={{
       minHeight: "100vh",
       background: "linear-gradient(135deg, #1a0a0a, #2a0a1a, #1a0a2a, #0a1a2a)",
       backgroundSize: "400% 400%",
@@ -558,7 +558,7 @@ export default function LivePage() {
         />
       </div>
 
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "80px 20px 60px", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "calc(80px + env(safe-area-inset-top)) 20px calc(60px + env(safe-area-inset-bottom))", position: "relative", zIndex: 1 }}>
 
         {/* HOME - Browse live streams */}
         {view === "home" && (
@@ -724,7 +724,7 @@ export default function LivePage() {
             {/* Top bar */}
             <div style={{
               position: "absolute", top: 0, left: 0, right: 0,
-              padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center",
+              padding: "calc(16px + env(safe-area-inset-top)) 20px 16px", display: "flex", justifyContent: "space-between", alignItems: "center",
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{
@@ -748,7 +748,7 @@ export default function LivePage() {
             {/* Bottom controls */}
             <div style={{
               position: "absolute", bottom: 0, left: 0, right: 0,
-              padding: "20px",
+              padding: "20px 20px calc(20px + env(safe-area-inset-bottom))",
             }}>
               {/* Chat */}
               <div style={{
@@ -825,7 +825,7 @@ export default function LivePage() {
             {/* Top bar */}
             <div style={{
               position: "absolute", top: 0, left: 0, right: 0,
-              padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center",
+              padding: "calc(16px + env(safe-area-inset-top)) 20px 16px", display: "flex", justifyContent: "space-between", alignItems: "center",
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{
@@ -850,7 +850,7 @@ export default function LivePage() {
 
             {/* Stream info */}
             <div style={{
-              position: "absolute", top: 60, left: 20,
+              position: "absolute", top: "calc(60px + env(safe-area-inset-top))", left: 20,
             }}>
               <div style={{ fontSize: 14, fontWeight: 500, color: "white", marginBottom: 4 }}>
                 {currentStream.title}
@@ -863,7 +863,7 @@ export default function LivePage() {
             {/* Bottom - Chat and reactions */}
             <div style={{
               position: "absolute", bottom: 0, left: 0, right: 0,
-              padding: "20px",
+              padding: "20px 20px calc(20px + env(safe-area-inset-bottom))",
             }}>
               {/* Reactions */}
               <div style={{ display: "flex", gap: 8, marginBottom: 12, justifyContent: "center" }}>
