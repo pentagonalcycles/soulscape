@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import ElyraCodeBlock from "./ElyraCodeBlock";
@@ -26,9 +26,25 @@ interface ElyraSettings {
   customName: string;
 }
 
+interface Conversation {
+  id: string;
+  title: string;
+  messages: Message[];
+  createdAt: number;
+  updatedAt: number;
+}
+
 const STORAGE_KEY = "elyra-chat-messages";
+const CONVERSATIONS_KEY = "elyra-conversations";
 const SETTINGS_KEY = "elyra-settings";
+const MEMORY_KEY = "elyra-memory";
 const MAX_FREE_MESSAGES = 10;
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const ALLOWED_FILE_TYPES = [
+  "text/plain", "text/html", "text/css", "text/javascript", "text/typescript",
+  "application/json", "application/javascript", "application/typescript",
+  "image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml",
+];
 
 const PERSONALITIES = [
   { id: "gentle", name: "Standard", emoji: "◈", prompt: "" },
@@ -55,6 +71,45 @@ function loadSettings(): ElyraSettings {
 function saveSettings(s: ElyraSettings) {
   if (typeof window === "undefined") return;
   try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(s)); } catch {}
+}
+
+function loadConversations(): Conversation[] {
+  if (typeof window === "undefined") return [];
+  try { return JSON.parse(localStorage.getItem(CONVERSATIONS_KEY) || "[]"); } catch { return []; }
+}
+function saveConversations(c: Conversation[]) {
+  if (typeof window === "undefined") return;
+  try { localStorage.setItem(CONVERSATIONS_KEY, JSON.stringify(c)); } catch {}
+}
+
+function loadMemory(): string[] {
+  if (typeof window === "undefined") return [];
+  try { return JSON.parse(localStorage.getItem(MEMORY_KEY) || "[]"); } catch { return []; }
+}
+function saveMemory(m: string[]) {
+  if (typeof window === "undefined") return;
+  try { localStorage.setItem(MEMORY_KEY, JSON.stringify(m)); } catch {}
+}
+
+function generateConversationTitle(messages: Message[]): string {
+  const userMessages = messages.filter(m => m.role === "user");
+  if (userMessages.length === 0) return "New Conversation";
+
+  const firstMsg = userMessages[0].content.toLowerCase();
+
+  if (firstMsg.includes("react") || firstMsg.includes("component")) return "React Project";
+  if (firstMsg.includes("login") || firstMsg.includes("sign in")) return "Login Page";
+  if (firstMsg.includes("css") || firstMsg.includes("style")) return "CSS Styling";
+  if (firstMsg.includes("api") || firstMsg.includes("endpoint")) return "API Development";
+  if (firstMsg.includes("python") || firstMsg.includes("django")) return "Python Project";
+  if (firstMsg.includes("database") || firstMsg.includes("sql")) return "Database Work";
+  if (firstMsg.includes("fix") || firstMsg.includes("error") || firstMsg.includes("debug")) return "Debugging";
+  if (firstMsg.includes("create") || firstMsg.includes("build") || firstMsg.includes("make")) return "Building Project";
+  if (firstMsg.includes("explain") || firstMsg.includes("what is") || firstMsg.includes("how does")) return "Learning";
+  if (firstMsg.includes("help")) return "Getting Help";
+
+  const words = firstMsg.split(" ").slice(0, 4).join(" ");
+  return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 function detectMood(text: string): MoodAnalysis | null {
@@ -116,14 +171,25 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
   const [lastMood, setLastMood] = useState<MoodAnalysis | null>(null);
   const [settings, setSettings] = useState<ElyraSettings>(defaultSettings);
   const [showSettings, setShowSettings] = useState(false);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
+  const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
+  const [memory, setMemory] = useState<string[]>([]);
+  const [showMemory, setShowMemory] = useState(false);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
+  const [lastUserMessage, setLastUserMessage] = useState<string | null>(null);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const initialized = useRef(false);
 
   useEffect(() => {
     if (!initialized.current) {
       setMessages(loadMessages());
       setSettings(loadSettings());
+      setConversations(loadConversations());
+      setMemory(loadMemory());
       initialized.current = true;
     }
   }, []);
@@ -133,18 +199,48 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
 
   async function send() {
     const text = input.trim();
-    if (!text || loading) return;
+    if ((!text && uploadedFiles.length === 0) || loading) return;
     if (!isPlus && messages.length >= MAX_FREE_MESSAGES * 2) {
       setMessages(prev => [...prev, { id: crypto.randomUUID(), role: "assistant", content: "Message limit reached. Upgrade for unlimited.", timestamp: Date.now() }]);
       return;
     }
-    const mood = detectMood(text);
+
+    let messageContent = text;
+
+    // Handle file uploads
+    if (uploadedFiles.length > 0) {
+      const fileContents: string[] = [];
+      for (const file of uploadedFiles) {
+        if (file.type.startsWith("image/")) {
+          // For images, we'll send a description
+          fileContents.push(`[Image: ${file.name}]`);
+        } else {
+          // For text files, read the content
+          try {
+            const content = await file.text();
+            fileContents.push(`File: ${file.name}\n\`\`\`\n${content}\n\`\`\``);
+          } catch {
+            fileContents.push(`[File: ${file.name} - could not read]`);
+          }
+        }
+      }
+      if (fileContents.length > 0) {
+        messageContent = fileContents.join("\n\n") + (text ? "\n\n" + text : "");
+      }
+    }
+
+    const mood = detectMood(messageContent);
     if (mood) setLastMood(mood);
-    const userMsg: Message = { id: crypto.randomUUID(), role: "user", content: text, timestamp: Date.now() };
+    setLastUserMessage(messageContent);
+    const userMsg: Message = { id: crypto.randomUUID(), role: "user", content: messageContent, timestamp: Date.now() };
     const aiMsg: Message = { id: crypto.randomUUID(), role: "assistant", content: "", timestamp: Date.now() };
     setMessages(prev => [...prev, userMsg, aiMsg]);
     setInput("");
+    setUploadedFiles([]);
     setLoading(true);
+
+    const controller = new AbortController();
+    setAbortController(controller);
 
     const personality = PERSONALITIES.find(p => p.id === settings.personality);
     const extra = [
@@ -158,6 +254,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })), personality: extra, isPlus }),
+        signal: controller.signal,
       });
       if (!res.ok) throw new Error("Failed");
       const reader = res.body?.getReader();
@@ -177,17 +274,158 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
           } catch {}
         }
       }
-    } catch {
-      setMessages(prev => prev.map(m => m.id === aiMsg.id ? { ...m, content: "Connection error. Retry transmission." } : m));
-    } finally { setLoading(false); }
+
+      // Auto-save conversation
+      const updatedMessages = [...messages, userMsg, { ...aiMsg, content: full }];
+      const title = generateConversationTitle(updatedMessages);
+      const newConversation: Conversation = {
+        id: currentConversationId || crypto.randomUUID(),
+        title,
+        messages: updatedMessages,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      };
+
+      setConversations(prev => {
+        const existing = prev.findIndex(c => c.id === newConversation.id);
+        const updated = existing >= 0
+          ? prev.map((c, i) => i === existing ? newConversation : c)
+          : [newConversation, ...prev];
+        saveConversations(updated);
+        return updated;
+      });
+      setCurrentConversationId(newConversation.id);
+
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === "AbortError") {
+        setMessages(prev => prev.map(m => m.id === aiMsg.id ? { ...m, content: m.content || "Generation stopped." } : m));
+      } else {
+        setMessages(prev => prev.map(m => m.id === aiMsg.id ? { ...m, content: "I couldn't finish that response. Try again." } : m));
+      }
+    } finally {
+      setLoading(false);
+      setAbortController(null);
+    }
   }
 
   function clearChat() {
     setMessages([]);
     setLastMood(null);
+    setCurrentConversationId(null);
     localStorage.removeItem(STORAGE_KEY);
   }
   function updateSettings(p: Partial<ElyraSettings>) { const n = { ...settings, ...p }; setSettings(n); saveSettings(n); }
+
+  function stopGeneration() {
+    if (abortController) {
+      abortController.abort();
+      setAbortController(null);
+    }
+  }
+
+  function regenerateResponse() {
+    if (lastUserMessage && !loading) {
+      // Remove last assistant message and resend
+      setMessages(prev => {
+        const updated = prev.slice(0, -1);
+        return updated;
+      });
+      setInput(lastUserMessage);
+      setTimeout(() => send(), 100);
+    }
+  }
+
+  function copyMessage(content: string) {
+    navigator.clipboard.writeText(content).catch(() => {
+      const textarea = document.createElement("textarea");
+      textarea.value = content;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    });
+  }
+
+  function editLastMessage() {
+    if (lastUserMessage) {
+      setInput(lastUserMessage);
+      setMessages(prev => prev.slice(0, -2)); // Remove last user and assistant messages
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }
+
+  function loadConversation(conversation: Conversation) {
+    setMessages(conversation.messages);
+    setCurrentConversationId(conversation.id);
+    setShowHistory(false);
+  }
+
+  function deleteConversation(id: string) {
+    setConversations(prev => {
+      const updated = prev.filter(c => c.id !== id);
+      saveConversations(updated);
+      return updated;
+    });
+    if (currentConversationId === id) {
+      clearChat();
+    }
+  }
+
+  function renameConversation(id: string, newTitle: string) {
+    setConversations(prev => {
+      const updated = prev.map(c => c.id === id ? { ...c, title: newTitle } : c);
+      saveConversations(updated);
+      return updated;
+    });
+  }
+
+  function addToMemory(text: string) {
+    setMemory(prev => {
+      const updated = [...prev, text];
+      saveMemory(updated);
+      return updated;
+    });
+  }
+
+  function removeFromMemory(index: number) {
+    setMemory(prev => {
+      const updated = prev.filter((_, i) => i !== index);
+      saveMemory(updated);
+      return updated;
+    });
+  }
+
+  function clearMemory() {
+    setMemory([]);
+    saveMemory([]);
+  }
+
+  function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (!files) return;
+
+    const validFiles: File[] = [];
+    for (const file of Array.from(files)) {
+      if (file.size > MAX_FILE_SIZE) {
+        alert(`File ${file.name} is too large. Maximum size is 10MB.`);
+        continue;
+      }
+      if (!ALLOWED_FILE_TYPES.includes(file.type) && !file.name.match(/\.(js|jsx|ts|tsx|html|css|json|py|sql|md|txt)$/i)) {
+        alert(`File type not supported: ${file.name}`);
+        continue;
+      }
+      validFiles.push(file);
+    }
+
+    setUploadedFiles(prev => [...prev, ...validFiles]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }
+
+  function removeFile(index: number) {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+  }
 
   function handlePaste(e: React.ClipboardEvent<HTMLTextAreaElement>) {
     const text = e.clipboardData.getData("text");
@@ -343,47 +581,64 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               {`{lat:${Math.floor(Math.random() * 15 + 8)}ms}{status:active}`}
             </div>
 
-            {/* Elyra Code option */}
+            {/* Ability options */}
             <div style={{ marginTop: "32px", textAlign: "center" }}>
-              <button
-                onClick={() => {
-                  setInput("Help me with code");
-                  setTimeout(() => inputRef.current?.focus(), 100);
-                }}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: "6px",
-                  border: "1px solid rgba(0, 255, 136, 0.15)",
-                  background: "rgba(0, 255, 136, 0.04)",
-                  color: "rgba(0, 255, 136, 0.6)",
-                  fontSize: "10px",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  fontFamily: "monospace",
-                  letterSpacing: "1px",
-                  textTransform: "uppercase",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
-                  e.currentTarget.style.color = "rgba(0, 255, 136, 0.9)";
-                  e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
-                  e.currentTarget.style.color = "rgba(0, 255, 136, 0.6)";
-                  e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.15)";
-                }}
-              >
-                ✦ Elyra Code
-              </button>
+              <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
+                {[
+                  { label: "Talk", icon: "💬", prompt: "" },
+                  { label: "Code", icon: "✦", prompt: "Help me with code" },
+                  { label: "Create", icon: "✨", prompt: "Help me create something" },
+                  { label: "Explain", icon: "📖", prompt: "Explain something to me" },
+                  { label: "Terminal", icon: "▸", prompt: "Build me a terminal interface" },
+                ].map((ability) => (
+                  <button
+                    key={ability.label}
+                    onClick={() => {
+                      if (ability.prompt) {
+                        setInput(ability.prompt);
+                      }
+                      setTimeout(() => inputRef.current?.focus(), 100);
+                    }}
+                    style={{
+                      padding: "8px 16px",
+                      borderRadius: "6px",
+                      border: "1px solid rgba(0, 255, 136, 0.15)",
+                      background: "rgba(0, 255, 136, 0.04)",
+                      color: "rgba(0, 255, 136, 0.6)",
+                      fontSize: "10px",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      fontFamily: "monospace",
+                      letterSpacing: "1px",
+                      textTransform: "uppercase",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
+                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.9)";
+                      e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.3)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
+                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.6)";
+                      e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.15)";
+                    }}
+                  >
+                    <span style={{ fontSize: "12px" }}>{ability.icon}</span>
+                    {ability.label}
+                  </button>
+                ))}
+              </div>
               <p style={{
                 fontSize: "8px",
                 color: "rgba(0, 255, 136, 0.2)",
-                marginTop: "8px",
+                marginTop: "12px",
                 fontFamily: "monospace",
                 letterSpacing: "1px",
               }}>
-                Build, fix, explain or improve code
+                Or just type anything naturally
               </p>
             </div>
           </div>
@@ -480,9 +735,16 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
                                         </code>
                                       );
                                     }
+                                    // Try to detect filename from the code block
+                                    const codeStr = String(children);
+                                    let filename: string | undefined;
+                                    const filenameMatch = codeStr.match(/^(?:\/\/|#|--|\/\*)\s*(?:File:\s*)?([\w.-]+\.\w+)/m);
+                                    if (filenameMatch) {
+                                      filename = filenameMatch[1];
+                                    }
                                     return (
-                                      <ElyraCodeBlock language={match ? match[1] : undefined}>
-                                        {String(children).replace(/\n$/, "")}
+                                      <ElyraCodeBlock language={match ? match[1] : undefined} filename={filename}>
+                                        {codeStr.replace(/\n$/, "")}
                                       </ElyraCodeBlock>
                                     );
                                   },
@@ -557,7 +819,26 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
                           fontSize: "8px", color: "#1e293b",
                           marginTop: "4px", padding: "0 4px",
                           letterSpacing: "1px", fontFamily: "monospace",
-                        }}>{formatTime(msg.timestamp)}</span>
+                          display: "flex", alignItems: "center", gap: "8px",
+                        }}>
+                          {formatTime(msg.timestamp)}
+                          {!isUser && msg.content && (
+                            <button
+                              onClick={() => copyMessage(msg.content)}
+                              style={{
+                                background: "none", border: "none",
+                                color: "#1e293b", cursor: "pointer",
+                                padding: "2px 4px", fontSize: "9px",
+                                letterSpacing: "1px", textTransform: "uppercase",
+                                transition: "all 0.2s",
+                              }}
+                              onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; }}
+                              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; }}
+                            >
+                              Copy
+                            </button>
+                          )}
+                        </span>
                       </div>
                     </div>
                   );
@@ -623,6 +904,43 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
             <div style={{ position: "absolute", bottom: "-1px", right: "-1px", width: "8px", height: "1px", background: "#00ff88" }} />
             <div style={{ position: "absolute", bottom: "-1px", right: "-1px", width: "1px", height: "8px", background: "#00ff88" }} />
 
+            {/* File upload button */}
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              style={{
+                width: "32px", height: "32px", borderRadius: "4px",
+                background: "rgba(0, 255, 136, 0.04)",
+                border: "1px solid rgba(0, 255, 136, 0.15)",
+                color: "rgba(0, 255, 136, 0.6)",
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "all 0.2s",
+                flexShrink: 0,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
+                e.currentTarget.style.color = "rgba(0, 255, 136, 0.9)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
+                e.currentTarget.style.color = "rgba(0, 255, 136, 0.6)";
+              }}
+              title="Upload file"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17,8 12,3 7,8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept=".js,.jsx,.ts,.tsx,.html,.css,.json,.py,.sql,.md,.txt,.jpg,.jpeg,.png,.gif,.webp,.svg"
+              onChange={handleFileUpload}
+              style={{ display: "none" }}
+            />
+
             <textarea
               ref={inputRef}
               value={input}
@@ -641,7 +959,20 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               }}
             />
           </div>
-          {input.trim() ? (
+          {loading ? (
+            <button onClick={stopGeneration} style={{
+              width: "44px", height: "44px", borderRadius: "4px",
+              background: "rgba(255, 80, 80, 0.15)",
+              border: "1px solid rgba(255, 80, 80, 0.3)",
+              color: "#ff5050",
+              cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "all 0.3s",
+            }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="6" y="6" width="12" height="12" rx="2" />
+              </svg>
+            </button>
+          ) : input.trim() ? (
             <button onClick={send} disabled={loading} style={{
               width: "44px", height: "44px", borderRadius: "4px",
               background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(139, 92, 246, 0.15))",
@@ -666,14 +997,55 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
             </button>
           )}
         </div>
+
+        {/* Uploaded files preview */}
+        {uploadedFiles.length > 0 && (
+          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginTop: "8px" }}>
+            {uploadedFiles.map((file, i) => (
+              <div key={i} style={{
+                display: "flex", alignItems: "center", gap: "6px",
+                padding: "4px 8px", borderRadius: "4px",
+                background: "rgba(0, 255, 136, 0.04)",
+                border: "1px solid rgba(0, 255, 136, 0.15)",
+                fontSize: "10px", color: "rgba(0, 255, 136, 0.6)",
+              }}>
+                <span>{file.name}</span>
+                <button
+                  onClick={() => removeFile(i)}
+                  style={{
+                    background: "none", border: "none",
+                    color: "rgba(255, 80, 80, 0.6)", cursor: "pointer",
+                    padding: "0", fontSize: "12px",
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
         {messages.length > 0 && (
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "12px", gap: "24px" }}>
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "12px", gap: "16px", flexWrap: "wrap" }}>
             <button onClick={clearChat} style={{
               fontSize: "9px", color: "#1e293b",
               letterSpacing: "2px", textTransform: "uppercase",
               background: "none", border: "none", cursor: "pointer",
               transition: "all 0.2s", fontFamily: "monospace",
-            }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ Reset Link</button>
+            }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ New</button>
+            <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
+            <button onClick={() => setShowHistory(!showHistory)} style={{
+              fontSize: "9px", color: "#1e293b",
+              letterSpacing: "2px", textTransform: "uppercase",
+              background: "none", border: "none", cursor: "pointer",
+              transition: "all 0.2s", fontFamily: "monospace",
+            }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ History</button>
+            <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
+            <button onClick={() => setShowMemory(!showMemory)} style={{
+              fontSize: "9px", color: "#1e293b",
+              letterSpacing: "2px", textTransform: "uppercase",
+              background: "none", border: "none", cursor: "pointer",
+              transition: "all 0.2s", fontFamily: "monospace",
+            }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ Memory</button>
             <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
             <button onClick={() => setShowSettings(!showSettings)} style={{
               fontSize: "9px", color: "#1e293b",
@@ -681,6 +1053,17 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               background: "none", border: "none", cursor: "pointer",
               transition: "all 0.2s", fontFamily: "monospace",
             }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ Configure</button>
+            {lastUserMessage && !loading && (
+              <>
+                <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
+                <button onClick={regenerateResponse} style={{
+                  fontSize: "9px", color: "#1e293b",
+                  letterSpacing: "2px", textTransform: "uppercase",
+                  background: "none", border: "none", cursor: "pointer",
+                  transition: "all 0.2s", fontFamily: "monospace",
+                }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>↻ Regenerate</button>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -746,6 +1129,119 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               ))}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Conversation history panel */}
+      {showHistory && (
+        <div style={{
+          position: "absolute", bottom: "80px", left: "16px", right: "16px",
+          background: "rgba(3, 7, 18, 0.95)",
+          backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+          borderRadius: "12px",
+          boxShadow: "0 0 40px rgba(0, 255, 136, 0.1), 0 0 0 1px rgba(0, 255, 136, 0.15)",
+          padding: "20px", zIndex: 20, maxHeight: "60vh", overflowY: "auto",
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+            <span style={{ fontSize: "12px", fontWeight: 600, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase" }}>History</span>
+            <button onClick={() => setShowHistory(false)} style={{
+              background: "rgba(0, 255, 136, 0.08)",
+              border: "1px solid rgba(0, 255, 136, 0.15)",
+              color: "#475569",
+              fontSize: "12px", width: "28px", height: "28px",
+              borderRadius: "6px", cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>✕</button>
+          </div>
+          {conversations.length === 0 ? (
+            <p style={{ fontSize: "11px", color: "#475569", textAlign: "center", padding: "20px 0" }}>No conversations yet</p>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {conversations.slice(0, 20).map(conv => (
+                <div key={conv.id} style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "10px 12px", borderRadius: "8px",
+                  background: currentConversationId === conv.id ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
+                  border: `1px solid ${currentConversationId === conv.id ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.08)"}`,
+                  cursor: "pointer", transition: "all 0.2s",
+                }} onClick={() => loadConversation(conv)}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: "12px", color: "#e2e8f0", marginBottom: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {conv.title}
+                    </div>
+                    <div style={{ fontSize: "9px", color: "#475569" }}>
+                      {new Date(conv.updatedAt).toLocaleDateString()}
+                    </div>
+                  </div>
+                  <button onClick={(e) => { e.stopPropagation(); deleteConversation(conv.id); }} style={{
+                    background: "none", border: "none",
+                    color: "#475569", cursor: "pointer", padding: "4px",
+                    fontSize: "12px", transition: "color 0.2s",
+                  }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#475569"}>
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Memory panel */}
+      {showMemory && (
+        <div style={{
+          position: "absolute", bottom: "80px", left: "16px", right: "16px",
+          background: "rgba(3, 7, 18, 0.95)",
+          backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+          borderRadius: "12px",
+          boxShadow: "0 0 40px rgba(0, 255, 136, 0.1), 0 0 0 1px rgba(0, 255, 136, 0.15)",
+          padding: "20px", zIndex: 20, maxHeight: "60vh", overflowY: "auto",
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+            <span style={{ fontSize: "12px", fontWeight: 600, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase" }}>Memory</span>
+            <div style={{ display: "flex", gap: "8px" }}>
+              {memory.length > 0 && (
+                <button onClick={clearMemory} style={{
+                  fontSize: "9px", color: "#ff5050",
+                  background: "none", border: "none", cursor: "pointer",
+                  letterSpacing: "1px", textTransform: "uppercase",
+                }}>Clear All</button>
+              )}
+              <button onClick={() => setShowMemory(false)} style={{
+                background: "rgba(0, 255, 136, 0.08)",
+                border: "1px solid rgba(0, 255, 136, 0.15)",
+                color: "#475569",
+                fontSize: "12px", width: "28px", height: "28px",
+                borderRadius: "6px", cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>✕</button>
+            </div>
+          </div>
+          {memory.length === 0 ? (
+            <p style={{ fontSize: "11px", color: "#475569", textAlign: "center", padding: "20px 0" }}>No memories saved</p>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {memory.map((item, i) => (
+                <div key={i} style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "10px 12px", borderRadius: "8px",
+                  background: "rgba(0, 255, 136, 0.02)",
+                  border: "1px solid rgba(0, 255, 136, 0.08)",
+                }}>
+                  <div style={{ fontSize: "11px", color: "#e2e8f0", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {item}
+                  </div>
+                  <button onClick={() => removeFromMemory(i)} style={{
+                    background: "none", border: "none",
+                    color: "#475569", cursor: "pointer", padding: "4px",
+                    fontSize: "12px", transition: "color 0.2s",
+                  }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#475569"}>
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 

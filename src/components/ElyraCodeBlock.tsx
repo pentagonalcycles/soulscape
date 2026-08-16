@@ -6,6 +6,7 @@ import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 interface ElyraCodeBlockProps {
   language?: string;
+  filename?: string;
   children: string;
 }
 
@@ -28,7 +29,7 @@ const customTheme = {
   },
 };
 
-export default function ElyraCodeBlock({ language, children }: ElyraCodeBlockProps) {
+export default function ElyraCodeBlock({ language, filename, children }: ElyraCodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -49,6 +50,7 @@ export default function ElyraCodeBlock({ language, children }: ElyraCodeBlockPro
   };
 
   const displayLang = language || "code";
+  const displayHeader = filename ? `${filename} · ${displayLang}` : displayLang;
 
   return (
     <div style={{
@@ -74,7 +76,7 @@ export default function ElyraCodeBlock({ language, children }: ElyraCodeBlockPro
           textTransform: "lowercase",
           letterSpacing: "0.05em",
         }}>
-          {displayLang}
+          {displayHeader}
         </span>
         <button
           onClick={handleCopy}
