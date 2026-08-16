@@ -32,7 +32,7 @@ export default function IdeasPage() {
                 letterSpacing: "0.02em",
               }}
             >
-              Ideas
+              Ideas Board
             </h1>
             <p className="text-sm max-w-md mx-auto" style={{ color: "var(--text-muted, #64748b)", fontWeight: 300 }}>
               Help shape Elovayne. Share your ideas, vote on what matters, and see what gets built.

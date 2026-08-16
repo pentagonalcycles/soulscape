@@ -10,6 +10,7 @@ const navLinks = [
   { href: "/elyra", label: "Elyra AI", icon: "✦" },
   { href: "/soul-echo", label: "Soul Echo", icon: "◎" },
   { href: "/reflection-room", label: "Reflection", icon: "◈" },
+  { href: "/tarot", label: "Arcana", icon: "☽" },
   { href: "/dream-canvas", label: "Canvas", icon: "△" },
   { href: "/camera", label: "Camera", icon: "⊡" },
   { href: "/mural", label: "Mural", icon: "◇" },
@@ -19,8 +20,8 @@ const navLinks = [
   { href: "/soul-map", label: "Soul Map", icon: "◎" },
   { href: "/nebula-orb", label: "Nebula Orb", icon: "●" },
   { href: "/human-signal", label: "Human Signal", icon: "\ud83d\udce1" },
-  { href: "/ideas", label: "Ideas", icon: "💡" },
-  { href: "/share", label: "Share", icon: "☁" },
+  { href: "/ideas", label: "Ideas Board", icon: "💡" },
+  { href: "/share", label: "Community Share", icon: "☁" },
 ];
 
 const bottomLinks = [

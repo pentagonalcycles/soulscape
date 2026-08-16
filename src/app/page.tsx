@@ -5,33 +5,6 @@ import Link from "next/link";
 import ElovayneLogo from "@/components/ElovayneLogo";
 import GlowingPortal from "@/components/GlowingPortal";
 
-const features = [
-  { icon: "◎", label: "Soul Echo", desc: "Connect with a stranger who understands", href: "/soul-echo", color: "#00ff88" },
-  { icon: "✦", label: "Elyra AI", desc: "A kind presence whenever you need one", href: "/elyra", color: "#00cc6a" },
-  { icon: "◈", label: "Reflection", desc: "Daily prompts to explore your inner world", href: "/reflection-room", color: "#39ff14" },
-  { icon: "△", label: "Dream Canvas", desc: "Paint and create with 32 brush types", href: "/dream-canvas", color: "#4ade80" },
-  { icon: "◇", label: "Mural", desc: "Paint together with others in real-time", href: "/mural", color: "#00e676" },
-  { icon: "◆", label: "Campfire", desc: "Anonymous group chat around a fire", href: "/campfire", color: "#22c55e" },
-  { icon: "❋", label: "Poetry", desc: "Daily prompts inspire your words", href: "/poetry", color: "#a3e635" },
-  { icon: "●", label: "Nebula Orb", desc: "A multiplayer cosmic arena", href: "/nebula-orb", color: "#00ff88" },
-  { icon: "◈", label: "Wish Lanterns", desc: "Release your wishes into the sky", href: "/wish-lanterns", color: "#00cc6a" },
-  { icon: "◎", label: "Soul Map", desc: "Build your inner mandala, one answer at a time", href: "/soul-map", color: "#4ade80" },
-  { icon: "📡", label: "Human Signal", desc: "Find someone who feels what you feel", href: "/human-signal", color: "#00e676" },
-];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const } },
-};
-
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden">
@@ -156,55 +129,6 @@ export default function Home() {
               </a>
               {" "} · US: 988 · UK: 116 123
             </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="section-divider data-stream" />
-
-      {/* FEATURES SECTION */}
-      <section className="relative z-10 py-24 px-6">
-        <div className="max-w-3xl mx-auto">
-          <motion.div
-            className="text-center mb-14"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-2xl md:text-3xl mb-4" style={{ color: "var(--text-primary)", fontWeight: 300, letterSpacing: "0.02em" }}>
-              Explore every room
-            </h2>
-            <p className="text-sm max-w-md mx-auto" style={{ color: "var(--text-muted)", fontWeight: 300 }}>
-              Each space is designed for a different kind of moment. Find yours.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-2 sm:grid-cols-3 gap-3"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-          >
-            {features.map((f) => (
-              <motion.div key={f.href} variants={itemVariants}>
-                <Link href={f.href} style={{ textDecoration: "none" }}>
-                  <div className="feature-card corner-accents neon-border" style={{ "--card-accent": `${f.color}30` } as React.CSSProperties}>
-                    <div className="icon-glow" style={{ borderColor: `${f.color}20`, background: `${f.color}08` }}>
-                      <span style={{ color: f.color }}>{f.icon}</span>
-                    </div>
-                    <div className="mt-3 mb-1 text-sm font-medium" style={{ color: "rgba(224, 245, 232, 0.9)" }}>
-                      {f.label}
-                    </div>
-                    <div className="text-[11px] leading-relaxed" style={{ color: "rgba(224, 245, 232, 0.35)" }}>
-                      {f.desc}
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
           </motion.div>
         </div>
       </section>

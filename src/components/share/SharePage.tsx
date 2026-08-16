@@ -111,7 +111,7 @@ export default function SharePage() {
             WebkitTextFillColor: "transparent",
             margin: "0 0 8px",
           }}>
-            Share
+            Community Share
           </h1>
           <p style={{
             fontSize: "13px",
