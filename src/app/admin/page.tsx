@@ -76,7 +76,7 @@ interface ContentRecord {
   is_anonymous?: boolean;
 }
 
-type AdminTab = "dashboard" | "reports" | "users" | "content";
+type AdminTab = "dashboard" | "reports" | "users" | "content" | "visitors";
 
 export default function AdminPage() {
   const { userId } = useAuth();
@@ -110,6 +110,12 @@ export default function AdminPage() {
   const [contentLoading, setContentLoading] = useState(false);
   const [contentTypeFilter, setContentTypeFilter] = useState("all");
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+
+  // Visitors state
+  const [visits, setVisits] = useState<{ id: string; user_id: string | null; page_path: string; page_title: string | null; visitor_ip: string; visited_at: string }[]>([]);
+  const [visitsLoading, setVisitsLoading] = useState(false);
+  const [pageFilter, setPageFilter] = useState("");
+  const [pageStats, setPageStats] = useState<Record<string, number>>({});
 
   const checkAdmin = useCallback(async () => {
     if (!userId) {
@@ -213,6 +219,33 @@ export default function AdminPage() {
     }
   }, [contentTypeFilter]);
 
+  // Fetch visitors
+  const fetchVisits = useCallback(async () => {
+    try {
+      setVisitsLoading(true);
+      const { session } = await import("@/lib/supabase").then(m => {
+        const client = m.supabase();
+        return client.auth.getSession().then(r => r.data);
+      });
+      if (!session?.access_token) return;
+      const params = new URLSearchParams();
+      if (pageFilter) params.set("page", pageFilter);
+      params.set("limit", "200");
+      const res = await fetch(`/api/admin/visitors?${params}`, {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setVisits(Array.isArray(data.visits) ? data.visits : []);
+        setPageStats(data.pageStats || {});
+      }
+    } catch {
+      // page_visits table may not exist
+    } finally {
+      setVisitsLoading(false);
+    }
+  }, [pageFilter]);
+
   // Load data when tab changes
   useEffect(() => {
     if (!isAdmin) return;
@@ -220,7 +253,8 @@ export default function AdminPage() {
     if (tab === "reports") fetchReports();
     if (tab === "users") fetchUsers();
     if (tab === "content") fetchContent();
-  }, [tab, isAdmin, fetchDashboard, fetchReports, fetchUsers, fetchContent]);
+    if (tab === "visitors") fetchVisits();
+  }, [tab, isAdmin, fetchDashboard, fetchReports, fetchUsers, fetchContent, fetchVisits]);
 
   // Report actions
   const updateReportStatus = async (id: string, status: string, sourceType: string) => {
@@ -303,6 +337,7 @@ export default function AdminPage() {
 
   const tabs: { id: AdminTab; label: string; icon: string }[] = [
     { id: "dashboard", label: "Dashboard", icon: "📊" },
+    { id: "visitors", label: "Visitors", icon: "👁" },
     { id: "reports", label: "Reports", icon: "🚩" },
     { id: "users", label: "Users", icon: "👥" },
     { id: "content", label: "Content", icon: "📄" },
@@ -730,6 +765,67 @@ export default function AdminPage() {
                           ) : (
                             <button onClick={() => setDeleteConfirm(item.id)} className="px-3 py-1.5 text-xs rounded-lg text-red-400 shrink-0" style={{ background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.15)" }}>Delete</button>
                           )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ====== VISITORS TAB ====== */}
+              {tab === "visitors" && (
+                <div>
+                  <div className="flex gap-2 mb-6 overflow-x-auto pb-2 flex-wrap">
+                    <button
+                      onClick={() => setPageFilter("")}
+                      className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
+                        pageFilter === ""
+                          ? "bg-elovayne-violet/20 text-elovayne-light border border-elovayne-violet/30"
+                          : "text-elovayne-dim border border-transparent hover:border-elovayne-dim/20"
+                      }`}
+                    >
+                      All Pages
+                    </button>
+                    {Object.keys(pageStats).sort((a, b) => pageStats[b] - pageStats[a]).slice(0, 10).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => setPageFilter(pageFilter === page ? "" : page)}
+                        className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
+                          pageFilter === page
+                            ? "bg-elovayne-violet/20 text-elovayne-light border border-elovayne-violet/30"
+                            : "text-elovayne-dim border border-transparent hover:border-elovayne-dim/20"
+                        }`}
+                      >
+                        {page} ({pageStats[page]})
+                      </button>
+                    ))}
+                  </div>
+
+                  {visitsLoading ? (
+                    <p className="text-elovayne-dim text-sm text-center py-8">Loading visitors...</p>
+                  ) : visits.length === 0 ? (
+                    <p className="text-elovayne-dim text-sm text-center py-8">No visits recorded yet.</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {visits.map((visit) => (
+                        <div key={visit.id} className="sanctuary-glass-card rounded-xl p-4">
+                          <div className="flex items-center justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-xs font-medium text-elovayne-light">
+                                  {visit.page_path}
+                                </span>
+                                {visit.user_id && (
+                                  <span className="px-2 py-0.5 rounded-full text-[10px] bg-elovayne-violet/20 text-elovayne-violet">
+                                    Logged in
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-[10px] text-elovayne-dim">
+                                {visit.visitor_ip} · {new Date(visit.visited_at).toLocaleString()}
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
