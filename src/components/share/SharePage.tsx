@@ -60,7 +60,7 @@ export default function SharePage() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "linear-gradient(180deg, #15261d 0%, #1a2e23 50%, #15261d 100%)",
+      background: "linear-gradient(180deg, #1a0000 0%, #2d0000 50%, #1a0000 100%)",
       position: "relative",
       overflow: "hidden",
     }}>
@@ -72,7 +72,7 @@ export default function SharePage() {
         width: "500px",
         height: "500px",
         borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, transparent 70%)",
+        background: "radial-gradient(circle, rgba(239, 68, 68, 0.06) 0%, transparent 70%)",
         filter: "blur(60px)",
         pointerEvents: "none",
       }} />
@@ -83,7 +83,7 @@ export default function SharePage() {
         width: "400px",
         height: "400px",
         borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(255, 215, 0, 0.04) 0%, transparent 70%)",
+        background: "radial-gradient(circle, rgba(220, 38, 38, 0.05) 0%, transparent 70%)",
         filter: "blur(60px)",
         pointerEvents: "none",
       }} />
