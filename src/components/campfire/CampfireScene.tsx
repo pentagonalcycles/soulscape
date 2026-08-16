@@ -175,6 +175,56 @@ export default function CampfireScene({ isPlaying, theme = "dark" }: CampfireSce
           ctx.arc(sx, sy, 1, 0, Math.PI * 2);
           ctx.fill();
         }
+
+        // Magical aurora effect
+        const auroraTime = time * 0.3;
+        for (let i = 0; i < 3; i++) {
+          const yBase = h * 0.12 + i * h * 0.08;
+          const waveOffset = i * 2.5;
+          ctx.beginPath();
+          ctx.moveTo(0, yBase);
+          for (let x = 0; x <= w; x += 4) {
+            const wave1 = Math.sin(x * 0.003 + auroraTime + waveOffset) * 30;
+            const wave2 = Math.sin(x * 0.007 + auroraTime * 1.3 + waveOffset) * 15;
+            const wave3 = Math.sin(x * 0.002 + auroraTime * 0.7) * 20;
+            ctx.lineTo(x, yBase + wave1 + wave2 + wave3);
+          }
+          ctx.lineTo(w, yBase + 60);
+          ctx.lineTo(0, yBase + 60);
+          ctx.closePath();
+
+          const auroraGrad = ctx.createLinearGradient(0, yBase - 30, 0, yBase + 60);
+          const hueShift = Math.sin(auroraTime + i) * 30;
+          if (i === 0) {
+            auroraGrad.addColorStop(0, `hsla(${160 + hueShift}, 80%, 50%, 0.06)`);
+            auroraGrad.addColorStop(0.5, `hsla(${180 + hueShift}, 70%, 40%, 0.04)`);
+            auroraGrad.addColorStop(1, "transparent");
+          } else if (i === 1) {
+            auroraGrad.addColorStop(0, `hsla(${270 + hueShift}, 70%, 50%, 0.05)`);
+            auroraGrad.addColorStop(0.5, `hsla(${290 + hueShift}, 60%, 40%, 0.03)`);
+            auroraGrad.addColorStop(1, "transparent");
+          } else {
+            auroraGrad.addColorStop(0, `hsla(${200 + hueShift}, 75%, 55%, 0.04)`);
+            auroraGrad.addColorStop(0.5, `hsla(${220 + hueShift}, 65%, 45%, 0.02)`);
+            auroraGrad.addColorStop(1, "transparent");
+          }
+          ctx.fillStyle = auroraGrad;
+          ctx.fill();
+        }
+
+        // Magical floating particles
+        for (let i = 0; i < 20; i++) {
+          const px = ((i * 3571 + 17) % w);
+          const py = ((i * 2909 + 23) % (h * 0.6));
+          const floatX = Math.sin(time * 0.5 + i * 1.3) * 20;
+          const floatY = Math.cos(time * 0.3 + i * 0.9) * 15;
+          const alpha = 0.1 + 0.15 * Math.sin(time + i * 2);
+          const hue = (time * 20 + i * 40) % 360;
+          ctx.fillStyle = `hsla(${hue}, 70%, 60%, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(px + floatX, py + floatY, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
 
       // ---- AMBIENT GROUND GLOW ----
@@ -403,14 +453,15 @@ export default function CampfireScene({ isPlaying, theme = "dark" }: CampfireSce
         ctx.fill();
       }
 
-      // ---- EMBERS ----
+      // ---- EMBERS (magical colors) ----
       const embers = embersRef.current;
-      if (embers.length < 50 && Math.random() > 0.6) {
+      if (embers.length < 60 && Math.random() > 0.5) {
+        const emberHue = (time * 30 + Math.random() * 180) % 360;
         const emberColors = [
-          "rgba(255, 200, 50,",
-          "rgba(245, 158, 11,",
-          "rgba(255, 120, 20,",
-          "rgba(239, 68, 68,",
+          `hsla(${emberHue}, 80%, 60%,`,
+          `hsla(${(emberHue + 30) % 360}, 70%, 55%,`,
+          `hsla(${(emberHue + 60) % 360}, 75%, 50%,`,
+          `hsla(${(emberHue + 90) % 360}, 65%, 65%,`,
         ];
         embers.push({
           x: cx + (Math.random() - 0.5) * 50,
@@ -460,11 +511,12 @@ export default function CampfireScene({ isPlaying, theme = "dark" }: CampfireSce
         ctx.fill();
       }
 
-      // ---- SPARKS (fast flying bits) ----
+      // ---- SPARKS (fast flying bits with magical colors) ----
       const sparks = sparksRef.current;
-      if (sparks.length < 15 && Math.random() > 0.92) {
+      if (sparks.length < 20 && Math.random() > 0.9) {
         const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.2;
         const speed = 2 + Math.random() * 4;
+        const sparkHue = (time * 50 + Math.random() * 120) % 360;
         sparks.push({
           x: cx + (Math.random() - 0.5) * 20,
           y: baseY - 30,
@@ -474,7 +526,7 @@ export default function CampfireScene({ isPlaying, theme = "dark" }: CampfireSce
           alpha: 1,
           life: 0,
           maxLife: 30 + Math.random() * 40,
-          color: "rgba(255, 230, 100,",
+          color: `hsla(${sparkHue}, 80%, 60%,`,
           wobble: 0,
           wobbleSpeed: 0,
         });
