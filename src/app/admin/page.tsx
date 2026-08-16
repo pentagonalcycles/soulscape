@@ -112,14 +112,23 @@ export default function AdminPage() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
   const checkAdmin = useCallback(async () => {
-    if (!userId) return;
-    const { data } = await supabase()
-      .from("admin_users")
-      .select("user_id")
-      .eq("user_id", userId)
-      .maybeSingle();
-    setIsAdmin(!!data);
-    setLoading(false);
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+    try {
+      const { data } = await supabase()
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", userId)
+        .maybeSingle();
+      setIsAdmin(!!data);
+    } catch {
+      // admin_users table may not exist
+      setIsAdmin(false);
+    } finally {
+      setLoading(false);
+    }
   }, [userId]);
 
   useEffect(() => { checkAdmin(); }, [checkAdmin]);
