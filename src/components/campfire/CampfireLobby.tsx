@@ -113,7 +113,7 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
               style={{
                 top: "-10%",
                 left: "-10%",
-                background: "radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%)",
                 filter: "blur(80px)",
                 animation: "lobbyFloat1 20s ease-in-out infinite",
               }}
@@ -123,7 +123,7 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
               style={{
                 bottom: "-10%",
                 right: "-10%",
-                background: "radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%)",
                 filter: "blur(70px)",
                 animation: "lobbyFloat2 25s ease-in-out infinite",
               }}
@@ -133,7 +133,7 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
               style={{
                 top: "40%",
                 left: "50%",
-                background: "radial-gradient(circle, rgba(0, 212, 170, 0.06) 0%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(0, 212, 170, 0.15) 0%, transparent 70%)",
                 filter: "blur(60px)",
                 animation: "lobbyFloat3 18s ease-in-out infinite",
               }}
@@ -143,7 +143,7 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
               style={{
                 top: "20%",
                 right: "20%",
-                background: "radial-gradient(circle, rgba(236, 72, 153, 0.05) 0%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, transparent 70%)",
                 filter: "blur(55px)",
                 animation: "lobbyFloat4 22s ease-in-out infinite",
               }}
@@ -157,9 +157,9 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
               background: `
                 linear-gradient(180deg,
                   transparent 0%,
-                  rgba(168, 85, 247, 0.03) 15%,
-                  rgba(59, 130, 246, 0.04) 25%,
-                  rgba(0, 212, 170, 0.03) 35%,
+                  rgba(168, 85, 247, 0.08) 15%,
+                  rgba(59, 130, 246, 0.1) 25%,
+                  rgba(0, 212, 170, 0.08) 35%,
                   transparent 50%
                 )
               `,
