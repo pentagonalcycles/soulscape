@@ -186,7 +186,11 @@ export default function CameraPage() {
   ].filter(Boolean).join(" ");
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
+    <main className="relative min-h-screen overflow-hidden" style={{
+      background: "linear-gradient(135deg, #1a0a2e, #0a1a2e, #0a2a1e, #1a0a2e)",
+      backgroundSize: "400% 400%",
+      animation: "cameraBgShift 12s ease infinite",
+    }}>
       {/* Magical animated background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
         <div
@@ -194,7 +198,7 @@ export default function CameraPage() {
           style={{
             top: "-15%",
             left: "-10%",
-            background: "radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 70%)",
             filter: "blur(80px)",
             animation: "lobbyFloat1 20s ease-in-out infinite",
           }}
@@ -204,7 +208,7 @@ export default function CameraPage() {
           style={{
             bottom: "-10%",
             right: "-10%",
-            background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, transparent 70%)",
             filter: "blur(70px)",
             animation: "lobbyFloat2 25s ease-in-out infinite",
           }}
@@ -214,7 +218,7 @@ export default function CameraPage() {
           style={{
             top: "50%",
             left: "60%",
-            background: "radial-gradient(circle, rgba(0, 212, 170, 0.12) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(0, 212, 170, 0.2) 0%, transparent 70%)",
             filter: "blur(60px)",
             animation: "lobbyFloat3 18s ease-in-out infinite",
           }}
@@ -224,7 +228,7 @@ export default function CameraPage() {
           style={{
             top: "30%",
             right: "15%",
-            background: "radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%)",
             filter: "blur(55px)",
             animation: "lobbyFloat4 22s ease-in-out infinite",
           }}
@@ -233,7 +237,7 @@ export default function CameraPage() {
 
       <div className="relative z-10 pt-14 h-screen flex flex-col">
         {/* Header */}
-        <div className="px-4 py-2 flex items-center justify-between" style={{ background: "linear-gradient(90deg, rgba(31, 56, 40, 0.95), rgba(40, 60, 50, 0.95), rgba(31, 56, 40, 0.95))", backgroundSize: "200% 100%", animation: "headerColorShift 8s ease infinite", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)" }}>
+        <div className="px-4 py-2 flex items-center justify-between" style={{ background: "rgba(20, 10, 40, 0.9)", borderBottom: "1px solid rgba(168, 85, 247, 0.15)", backdropFilter: "blur(12px)" }}>
           <div className="flex items-center gap-3">
             <h1 className="text-base font-semibold tracking-wide" style={{ color: "#00ff88" }}>Cosmic Camera</h1>
             <span className="text-[9px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(0, 255, 136, 0.08)", color: "rgba(0, 255, 136, 0.6)", border: "1px solid rgba(0, 255, 136, 0.12)" }}>{resolution}</span>
@@ -404,7 +408,7 @@ export default function CameraPage() {
         </div>
 
         {/* Filter selector */}
-        <div className="px-2 py-2" style={{ background: "linear-gradient(90deg, rgba(31, 56, 40, 0.95), rgba(40, 60, 50, 0.95), rgba(31, 56, 40, 0.95))", backgroundSize: "200% 100%", animation: "footerColorShift 10s ease infinite", borderTop: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)", boxShadow: "0 -4px 30px rgba(0, 0, 0, 0.3)" }}>
+        <div className="px-2 py-2" style={{ background: "rgba(20, 10, 40, 0.9)", borderTop: "1px solid rgba(168, 85, 247, 0.15)", backdropFilter: "blur(12px)", boxShadow: "0 -4px 30px rgba(0, 0, 0, 0.3)" }}>
           {/* Category tabs */}
           <div className="flex gap-1 mb-2 px-1">
             {categories.map(cat => (
