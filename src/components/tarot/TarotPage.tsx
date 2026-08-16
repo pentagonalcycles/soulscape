@@ -216,7 +216,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           backfaceVisibility: "hidden",
           transform: "rotateY(180deg)",
           borderRadius: size === "sm" ? 8 : 12,
-          background: "linear-gradient(145deg, #1a0a2e, #2d1050)",
+          background: "linear-gradient(145deg, #2a1050, #3d1870)",
           border: "1px solid rgba(168, 85, 247, 0.2)",
           display: "flex",
           alignItems: "center",
@@ -547,7 +547,7 @@ export default function TarotPage() {
   return (
     <main style={{
       minHeight: "100vh",
-      background: "linear-gradient(180deg, #1a0a2e 0%, #2d1050 50%, #1a0a2e 100%)",
+      background: "linear-gradient(180deg, #2a1050 0%, #3d1870 50%, #2a1050 100%)",
       position: "relative",
       overflow: "hidden",
     }}>
