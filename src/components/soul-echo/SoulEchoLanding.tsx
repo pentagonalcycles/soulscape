@@ -22,7 +22,7 @@ export default function SoulEchoLanding({ onBegin }: SoulEchoLandingProps) {
         transition={{ duration: 3, ease: "easeOut" }}
         className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(0, 255, 136, 0.15) 0%, rgba(0, 204, 106, 0.08) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(96, 165, 250, 0.08) 40%, transparent 70%)",
           filter: "blur(60px)",
         }}
       />
@@ -37,7 +37,7 @@ export default function SoulEchoLanding({ onBegin }: SoulEchoLandingProps) {
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-[20%] left-[15%] w-32 h-32 rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%)",
           filter: "blur(30px)",
         }}
       />

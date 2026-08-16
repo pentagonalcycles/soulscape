@@ -5,7 +5,20 @@ import IdeasFeed from "@/components/ideas/IdeasFeed";
 
 export default function IdeasPage() {
   return (
-    <main className="relative min-h-screen overflow-hidden">
+    <main className="relative min-h-screen overflow-hidden" style={{
+      background: "linear-gradient(180deg, #1a1a00 0%, #2d2d00 50%, #1a1a00 100%)",
+    }}>
+      {/* Ambient yellow orbs */}
+      <div style={{
+        position: "fixed", top: "-20%", left: "-10%", width: 500, height: 500,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(234, 179, 8, 0.06) 0%, transparent 70%)",
+        filter: "blur(60px)", pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "fixed", bottom: "-20%", right: "-10%", width: 400, height: 400,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(253, 224, 71, 0.05) 0%, transparent 70%)",
+        filter: "blur(60px)", pointerEvents: "none",
+      }} />
       <div className="relative z-10 pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
