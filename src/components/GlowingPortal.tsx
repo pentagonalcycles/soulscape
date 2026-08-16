@@ -112,9 +112,7 @@ export default function GlowingPortal() {
               : "radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, rgba(57, 255, 20, 0.03) 45%, transparent 75%)",
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
-            border: isHovered
-              ? "1.5px solid rgba(0, 255, 136, 0.4)"
-              : "1px solid rgba(0, 255, 136, 0.15)",
+            border: "none",
             boxShadow: isHovered
               ? "0 0 80px rgba(0, 255, 136, 0.3), 0 0 160px rgba(0, 204, 106, 0.18), inset 0 0 60px rgba(0, 255, 136, 0.05), 0 0 40px rgba(0, 255, 136, 0.2), 0 0 80px rgba(57, 255, 20, 0.1), inset 0 0 30px rgba(0, 255, 136, 0.06)"
               : "0 0 80px rgba(0, 255, 136, 0.3), 0 0 160px rgba(0, 204, 106, 0.18), inset 0 0 60px rgba(0, 255, 136, 0.05), 0 0 20px rgba(0, 255, 136, 0.08), 0 0 40px rgba(57, 255, 20, 0.03), inset 0 0 15px rgba(0, 255, 136, 0.03)",

@@ -14,27 +14,46 @@ export default function Home() {
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <motion.div
             className="absolute w-64 h-64 rounded-full"
-            style={{ top: "10%", left: "10%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, transparent 70%)", filter: "blur(60px)" }}
+            style={{ top: "10%", left: "10%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.06) 0%, transparent 70%)", filter: "blur(60px)" }}
             animate={{ x: [0, 20, -10, 0], y: [0, -15, 10, 0], scale: [1, 1.1, 0.95, 1] }}
             transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-48 h-48 rounded-full"
-            style={{ top: "60%", right: "15%", background: "radial-gradient(circle, rgba(255, 215, 0, 0.04) 0%, transparent 70%)", filter: "blur(50px)" }}
+            style={{ top: "60%", right: "15%", background: "radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%)", filter: "blur(50px)" }}
             animate={{ x: [0, -15, 10, 0], y: [0, 10, -20, 0], scale: [1, 0.95, 1.05, 1] }}
             transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-32 h-32 rounded-full"
-            style={{ bottom: "20%", left: "30%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.04) 0%, transparent 70%)", filter: "blur(40px)" }}
+            style={{ bottom: "20%", left: "30%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, transparent 70%)", filter: "blur(40px)" }}
             animate={{ x: [0, 10, -5, 0], y: [0, -10, 5, 0] }}
             transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-40 h-40 rounded-full"
-            style={{ top: "30%", right: "30%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.04) 0%, transparent 70%)", filter: "blur(45px)" }}
+            style={{ top: "30%", right: "30%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, transparent 70%)", filter: "blur(45px)" }}
             animate={{ x: [0, -10, 15, 0], y: [0, 15, -10, 0], scale: [1, 1.05, 0.95, 1] }}
             transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          />
+          {/* Blue/teal accent orbs */}
+          <motion.div
+            className="absolute w-56 h-56 rounded-full"
+            style={{ top: "45%", left: "5%", background: "radial-gradient(circle, rgba(59, 130, 246, 0.04) 0%, transparent 70%)", filter: "blur(55px)" }}
+            animate={{ x: [0, 15, -8, 0], y: [0, -12, 8, 0] }}
+            transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute w-44 h-44 rounded-full"
+            style={{ top: "15%", right: "10%", background: "radial-gradient(circle, rgba(34, 211, 238, 0.04) 0%, transparent 70%)", filter: "blur(50px)" }}
+            animate={{ x: [0, -12, 8, 0], y: [0, 10, -15, 0], scale: [1, 1.08, 0.92, 1] }}
+            transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute w-36 h-36 rounded-full"
+            style={{ bottom: "30%", right: "25%", background: "radial-gradient(circle, rgba(0, 180, 200, 0.04) 0%, transparent 70%)", filter: "blur(45px)" }}
+            animate={{ x: [0, 8, -12, 0], y: [0, -8, 12, 0] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
 
