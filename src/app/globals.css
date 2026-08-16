@@ -1270,3 +1270,16 @@ body.compact-mode .gap-4 {
   0%, 100% { opacity: 0.5; transform: translateY(0); }
   50% { opacity: 0.8; transform: translateY(-10px); }
 }
+
+/* Camera page header/footer color shift */
+@keyframes headerColorShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes footerColorShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

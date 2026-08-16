@@ -233,7 +233,7 @@ export default function CameraPage() {
 
       <div className="relative z-10 pt-14 h-screen flex flex-col">
         {/* Header */}
-        <div className="px-4 py-2 flex items-center justify-between" style={{ background: "rgba(31, 56, 40, 0.95)", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)" }}>
+        <div className="px-4 py-2 flex items-center justify-between" style={{ background: "linear-gradient(90deg, rgba(31, 56, 40, 0.95), rgba(40, 60, 50, 0.95), rgba(31, 56, 40, 0.95))", backgroundSize: "200% 100%", animation: "headerColorShift 8s ease infinite", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)" }}>
           <div className="flex items-center gap-3">
             <h1 className="text-base font-semibold tracking-wide" style={{ color: "#00ff88" }}>Cosmic Camera</h1>
             <span className="text-[9px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(0, 255, 136, 0.08)", color: "rgba(0, 255, 136, 0.6)", border: "1px solid rgba(0, 255, 136, 0.12)" }}>{resolution}</span>
@@ -256,7 +256,7 @@ export default function CameraPage() {
         {/* Camera view */}
         <div className="flex-1 relative overflow-hidden" style={{ background: "#000" }}>
           {cameraError ? (
-            <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(0, 255, 136, 0.03)" }}>
+            <div className="absolute inset-0 flex items-center justify-center" style={{ background: "linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(59, 130, 246, 0.05), rgba(0, 212, 170, 0.05))" }}>
               <div className="text-center p-8 max-w-md">
                 <div className="text-5xl mb-4">📸</div>
                 <h2 className="text-lg font-semibold mb-2" style={{ color: "#e0f5e8" }}>Camera Access Required</h2>
@@ -404,7 +404,7 @@ export default function CameraPage() {
         </div>
 
         {/* Filter selector */}
-        <div className="px-2 py-2" style={{ background: "rgba(31, 56, 40, 0.95)", borderTop: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)", boxShadow: "0 -4px 30px rgba(0, 0, 0, 0.3)" }}>
+        <div className="px-2 py-2" style={{ background: "linear-gradient(90deg, rgba(31, 56, 40, 0.95), rgba(40, 60, 50, 0.95), rgba(31, 56, 40, 0.95))", backgroundSize: "200% 100%", animation: "footerColorShift 10s ease infinite", borderTop: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)", boxShadow: "0 -4px 30px rgba(0, 0, 0, 0.3)" }}>
           {/* Category tabs */}
           <div className="flex gap-1 mb-2 px-1">
             {categories.map(cat => (
