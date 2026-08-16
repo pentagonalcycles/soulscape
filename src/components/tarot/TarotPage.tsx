@@ -216,8 +216,8 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           backfaceVisibility: "hidden",
           transform: "rotateY(180deg)",
           borderRadius: size === "sm" ? 8 : 12,
-          background: "linear-gradient(145deg, #2a1050, #3d1870)",
-          border: "1px solid rgba(168, 85, 247, 0.2)",
+          background: "linear-gradient(145deg, #0a2a2a, #0d3d3d)",
+          border: "1px solid rgba(0, 212, 170, 0.2)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -230,16 +230,16 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
             inset: 0,
             opacity: 0.15,
             background: `
-              radial-gradient(circle at 25% 25%, rgba(168, 85, 247, 0.3) 0%, transparent 30%),
-              radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.3) 0%, transparent 30%),
-              radial-gradient(circle at 50% 50%, rgba(192, 132, 252, 0.2) 0%, transparent 40%)
+              radial-gradient(circle at 25% 25%, rgba(0, 212, 170, 0.3) 0%, transparent 30%),
+              radial-gradient(circle at 75% 75%, rgba(0, 180, 150, 0.3) 0%, transparent 30%),
+              radial-gradient(circle at 50% 50%, rgba(0, 232, 176, 0.2) 0%, transparent 40%)
             `,
           }} />
           {/* Inner border */}
           <div style={{
             width: "75%",
             height: "85%",
-            border: "1px solid rgba(168, 85, 247, 0.2)",
+            border: "1px solid rgba(0, 212, 170, 0.2)",
             borderRadius: 6,
             display: "flex",
             alignItems: "center",
@@ -247,21 +247,21 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
             position: "relative",
           }}>
             {/* Corner dots */}
-            <div style={{ position: "absolute", top: 4, left: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(168, 85, 247, 0.4)" }} />
-            <div style={{ position: "absolute", top: 4, right: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(168, 85, 247, 0.4)" }} />
-            <div style={{ position: "absolute", bottom: 4, left: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(168, 85, 247, 0.4)" }} />
-            <div style={{ position: "absolute", bottom: 4, right: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(168, 85, 247, 0.4)" }} />
+            <div style={{ position: "absolute", top: 4, left: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(0, 212, 170, 0.4)" }} />
+            <div style={{ position: "absolute", top: 4, right: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(0, 212, 170, 0.4)" }} />
+            <div style={{ position: "absolute", bottom: 4, left: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(0, 212, 170, 0.4)" }} />
+            <div style={{ position: "absolute", bottom: 4, right: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(0, 212, 170, 0.4)" }} />
             {/* Center symbol */}
             <div style={{
               fontSize: size === "sm" ? "18px" : size === "lg" ? "40px" : "28px",
               opacity: 0.6,
-              textShadow: "0 0 10px rgba(168, 85, 247, 0.4)",
+              textShadow: "0 0 10px rgba(0, 212, 170, 0.4)",
             }}>
               ✦
             </div>
             {/* Cross lines */}
-            <div style={{ position: "absolute", top: "50%", left: "15%", right: "15%", height: "1px", background: "linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.2), transparent)" }} />
-            <div style={{ position: "absolute", left: "50%", top: "15%", bottom: "15%", width: "1px", background: "linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.2), transparent)" }} />
+            <div style={{ position: "absolute", top: "50%", left: "15%", right: "15%", height: "1px", background: "linear-gradient(90deg, transparent, rgba(0, 212, 170, 0.2), transparent)" }} />
+            <div style={{ position: "absolute", left: "50%", top: "15%", bottom: "15%", width: "1px", background: "linear-gradient(180deg, transparent, rgba(0, 212, 170, 0.2), transparent)" }} />
           </div>
         </div>
       </motion.div>
