@@ -55,11 +55,11 @@ function PageVisitors({ pathname }: { pathname: string }) {
   );
 }
 
-const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot"];
-const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot"];
-const NO_ELYRA_BUTTON_ROUTES = ["/elyra", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot"];
-const NO_FOOTER_ROUTES = ["/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot"];
-const DARK_PAGES = ["/wish-lanterns", "/campfire", "/soul-map", "/poetry", "/tarot"];
+const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
+const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
+const NO_ELYRA_BUTTON_ROUTES = ["/elyra", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
+const NO_FOOTER_ROUTES = ["/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
+const DARK_PAGES = ["/wish-lanterns", "/campfire", "/soul-map", "/poetry", "/tarot", "/threads", "/live"];
 
 function BannedScreen() {
   const { banReason, signOut } = useAuth();
@@ -154,6 +154,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
     "/reflection-room": "reflection",
     "/tarot": "arcana",
     "/threads": "threads",
+    "/live": "live",
     "/dream-canvas": "canvas",
     "/camera": "camera",
     "/mural": "mural",
