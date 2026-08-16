@@ -48,28 +48,31 @@ const MAJOR_SYMBOLS: Record<number, string> = {
   16: "⚡", 17: "✦", 18: "◑", 19: "☀", 20: "♬", 21: "◉",
 };
 
-function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipping }: {
+function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipping, faceDown }: {
   card: TarotCard;
   reversed?: boolean;
   size?: "sm" | "md" | "lg";
   onClick?: () => void;
   selected?: boolean;
   flipping?: boolean;
+  faceDown?: boolean;
 }) {
-  const [isRevealed, setIsRevealed] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(faceDown ? false : false);
   const dims = size === "sm" ? { w: 80, h: 120 } : size === "lg" ? { w: 180, h: 270 } : { w: 120, h: 180 };
   const symbol = card.arcana === "major"
     ? MAJOR_SYMBOLS[card.number || 0] || "✦"
     : SUIT_SYMBOLS[card.suit || ""] || "◈";
 
   useEffect(() => {
-    if (flipping) {
+    if (faceDown) {
+      setIsRevealed(false);
+    } else if (flipping) {
       const timer = setTimeout(() => setIsRevealed(true), 300);
       return () => clearTimeout(timer);
     } else {
       setIsRevealed(true);
     }
-  }, [flipping]);
+  }, [flipping, faceDown]);
 
   return (
     <motion.div
@@ -789,6 +792,7 @@ export default function TarotPage() {
                           card={card}
                           size="sm"
                           selected={selectedCards.includes(i)}
+                          faceDown={!selectedCards.includes(i)}
                           onClick={() => selectCard(i)}
                         />
                       ))}
