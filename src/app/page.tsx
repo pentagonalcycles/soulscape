@@ -39,21 +39,27 @@ export default function Home() {
           {/* Blue/teal accent orbs */}
           <motion.div
             className="absolute w-56 h-56 rounded-full"
-            style={{ top: "45%", left: "5%", background: "radial-gradient(circle, rgba(59, 130, 246, 0.04) 0%, transparent 70%)", filter: "blur(55px)" }}
+            style={{ top: "45%", left: "5%", background: "radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%)", filter: "blur(55px)" }}
             animate={{ x: [0, 15, -8, 0], y: [0, -12, 8, 0] }}
             transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-44 h-44 rounded-full"
-            style={{ top: "15%", right: "10%", background: "radial-gradient(circle, rgba(34, 211, 238, 0.04) 0%, transparent 70%)", filter: "blur(50px)" }}
+            style={{ top: "15%", right: "10%", background: "radial-gradient(circle, rgba(34, 211, 238, 0.10) 0%, transparent 70%)", filter: "blur(50px)" }}
             animate={{ x: [0, -12, 8, 0], y: [0, 10, -15, 0], scale: [1, 1.08, 0.92, 1] }}
             transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-36 h-36 rounded-full"
-            style={{ bottom: "30%", right: "25%", background: "radial-gradient(circle, rgba(0, 180, 200, 0.04) 0%, transparent 70%)", filter: "blur(45px)" }}
+            style={{ bottom: "30%", right: "25%", background: "radial-gradient(circle, rgba(0, 180, 200, 0.10) 0%, transparent 70%)", filter: "blur(45px)" }}
             animate={{ x: [0, 8, -12, 0], y: [0, -8, 12, 0] }}
             transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute w-60 h-60 rounded-full"
+            style={{ bottom: "10%", left: "15%", background: "radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%)", filter: "blur(60px)" }}
+            animate={{ x: [0, 10, -15, 0], y: [0, -10, 15, 0] }}
+            transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
 
