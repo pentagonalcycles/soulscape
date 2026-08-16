@@ -80,7 +80,8 @@ export default function SoulEchoLanding({ onBegin }: SoulEchoLandingProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="relative z-10 text-elovayne-dim font-accent text-lg md:text-xl max-w-md leading-relaxed mb-12"
+        className="relative z-10 font-accent text-lg md:text-xl max-w-md leading-relaxed mb-12"
+        style={{ color: "rgba(255, 255, 255, 0.85)" }}
       >
         Sometimes understanding begins with a single honest thought.
       </motion.p>
