@@ -11,6 +11,7 @@ import Nebula from "@/components/Nebula";
 import ArtisticBackground from "@/components/ArtisticBackground";
 import ElyraButton from "@/components/ElyraButton";
 import Navigation from "@/components/Navigation";
+import VisitorTracker from "@/components/VisitorTracker";
 import { supabase } from "@/lib/supabase";
 
 function PageVisitors({ pathname }: { pathname: string }) {
@@ -192,6 +193,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
       </div>
       {!hideElyraButton && <ElyraButton />}
       <Navigation activePage={activePage} />
+      <VisitorTracker />
       {pathname && <PageVisitors pathname={pathname} />}
 
 
