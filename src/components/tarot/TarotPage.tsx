@@ -213,7 +213,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           backfaceVisibility: "hidden",
           transform: "rotateY(180deg)",
           borderRadius: size === "sm" ? 8 : 12,
-          background: "linear-gradient(145deg, #1a2e23, #254030)",
+          background: "linear-gradient(145deg, #1a0a2e, #2d1050)",
           border: "1px solid rgba(168, 85, 247, 0.2)",
           display: "flex",
           alignItems: "center",
@@ -544,19 +544,19 @@ export default function TarotPage() {
   return (
     <main style={{
       minHeight: "100vh",
-      background: "linear-gradient(180deg, #15261d 0%, #1a2e23 50%, #15261d 100%)",
+      background: "linear-gradient(180deg, #1a0a2e 0%, #2d1050 50%, #1a0a2e 100%)",
       position: "relative",
       overflow: "hidden",
     }}>
       {/* Ambient orbs */}
       <div style={{
         position: "fixed", top: "-20%", left: "-10%", width: 500, height: 500,
-        borderRadius: "50%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.04) 0%, transparent 70%)",
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(168, 85, 247, 0.06) 0%, transparent 70%)",
         filter: "blur(60px)", pointerEvents: "none",
       }} />
       <div style={{
         position: "fixed", bottom: "-20%", right: "-10%", width: 400, height: 400,
-        borderRadius: "50%", background: "radial-gradient(circle, rgba(139, 92, 246, 0.03) 0%, transparent 70%)",
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%)",
         filter: "blur(60px)", pointerEvents: "none",
       }} />
 
