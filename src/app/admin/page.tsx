@@ -141,9 +141,10 @@ export default function AdminPage() {
         fetch("/api/admin/products"),
       ]);
       const purchData = await purchRes.json();
-      setPurchases(purchData.purchases || []);
-      setMemberships(purchData.memberships || []);
-      setProducts(await prodRes.json());
+      const prodData = await prodRes.json();
+      setPurchases(Array.isArray(purchData.purchases) ? purchData.purchases : []);
+      setMemberships(Array.isArray(purchData.memberships) ? purchData.memberships : []);
+      setProducts(Array.isArray(prodData) ? prodData : []);
     } catch {
       // Tables may not exist yet
     }
@@ -157,7 +158,8 @@ export default function AdminPage() {
       if (reportStatusFilter !== "all") params.set("status", reportStatusFilter);
       if (reportTypeFilter !== "all") params.set("type", reportTypeFilter);
       const res = await fetch(`/api/admin/reports?${params}`);
-      setReports(await res.json());
+      const data = await res.json();
+      setReports(Array.isArray(data) ? data : []);
     } catch {
       // Reports table may not exist
     } finally {
@@ -172,7 +174,8 @@ export default function AdminPage() {
       const params = new URLSearchParams();
       if (userSearch) params.set("search", userSearch);
       const res = await fetch(`/api/admin/users?${params}`);
-      setUsers(await res.json());
+      const data = await res.json();
+      setUsers(Array.isArray(data) ? data : []);
     } catch {
       // Users table may not exist
     } finally {
@@ -201,7 +204,8 @@ export default function AdminPage() {
       const params = new URLSearchParams();
       if (contentTypeFilter !== "all") params.set("type", contentTypeFilter);
       const res = await fetch(`/api/admin/content?${params}`);
-      setContent(await res.json());
+      const data = await res.json();
+      setContent(Array.isArray(data) ? data : []);
     } catch {
       // Content tables may not exist
     } finally {
