@@ -8,26 +8,26 @@ import { useIsMobile } from "@/lib/useIsMobile";
 
 const navLinks = [
   { href: "/elyra", label: "Elyra AI", icon: "✦" },
+  { href: "/tarot", label: "Arcana", icon: "☽" },
   { href: "/soul-echo", label: "Soul Echo", icon: "◎" },
   { href: "/reflection-room", label: "Reflection", icon: "◈" },
-  { href: "/tarot", label: "Arcana", icon: "☽" },
   { href: "/dream-canvas", label: "Canvas", icon: "△" },
-  { href: "/camera", label: "Camera", icon: "⊡" },
   { href: "/mural", label: "Mural", icon: "◇" },
+  { href: "/poetry", label: "Poetry", icon: "❋" },
   { href: "/wish-lanterns", label: "Wish Lanterns", icon: "◈" },
   { href: "/campfire", label: "Campfire", icon: "◆" },
-  { href: "/poetry", label: "Poetry", icon: "❋" },
-  { href: "/soul-map", label: "Soul Map", icon: "◎" },
   { href: "/nebula-orb", label: "Nebula Orb", icon: "●" },
-  { href: "/human-signal", label: "Human Signal", icon: "\ud83d\udce1" },
-  { href: "/ideas", label: "Ideas Board", icon: "💡" },
-  { href: "/share", label: "Community Share", icon: "☁" },
+  { href: "/human-signal", label: "Human Signal", icon: "📡" },
+  { href: "/soul-map", label: "Soul Map", icon: "◎" },
+  { href: "/camera", label: "Camera", icon: "⊡" },
 ];
 
 const bottomLinks = [
   { href: "/about", label: "About" },
-  { href: "/support", label: "Support" },
   { href: "/faq", label: "FAQ" },
+  { href: "/support", label: "Support" },
+  { href: "/share", label: "Share" },
+  { href: "/ideas", label: "Ideas" },
   { href: "/stats", label: "Stats" },
 ];
 

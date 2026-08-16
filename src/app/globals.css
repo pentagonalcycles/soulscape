@@ -901,6 +901,65 @@ body.compact-mode .gap-4 {
   border-right: 2px solid rgba(0, 255, 136, 0.4);
 }
 
+/* Global corners — fixed viewport corner marks */
+.global-corners {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.global-corners::before,
+.global-corners::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+}
+
+.global-corners::before {
+  top: 8px;
+  left: 8px;
+  border-top: 1px solid rgba(0, 255, 136, 0.25);
+  border-left: 1px solid rgba(0, 255, 136, 0.25);
+}
+
+.global-corners::after {
+  bottom: 8px;
+  right: 8px;
+  border-bottom: 1px solid rgba(0, 255, 136, 0.25);
+  border-right: 1px solid rgba(0, 255, 136, 0.25);
+}
+
+.global-corners-extra {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.global-corners-extra::before,
+.global-corners-extra::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+}
+
+.global-corners-extra::before {
+  top: 8px;
+  right: 8px;
+  border-top: 1px solid rgba(0, 212, 170, 0.2);
+  border-right: 1px solid rgba(0, 212, 170, 0.2);
+}
+
+.global-corners-extra::after {
+  bottom: 8px;
+  left: 8px;
+  border-bottom: 1px solid rgba(0, 212, 170, 0.2);
+  border-left: 1px solid rgba(0, 212, 170, 0.2);
+}
+
 /* Gradient border — animated neon */
 .gradient-border {
   position: relative;
