@@ -61,7 +61,7 @@ const faqSections = [
     color: "#00cc6a",
     items: [
       {
-        q: "What is Elyra AI?",
+        q: "What is Luna AI?",
         a: "An AI companion you can chat with anytime. Not a therapist — just a kind presence when you need someone. Customize her personality and response length. Free, no limits.",
       },
       {

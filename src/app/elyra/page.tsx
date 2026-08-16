@@ -253,7 +253,7 @@ function ElyraIcon({ size = 40 }: { size?: number }) {
 }
 
 export default function ElyraPage() {
-  const { loading } = useAuth();
+  const { loading, userId } = useAuth();
 
   if (loading) {
     return (
@@ -343,7 +343,7 @@ export default function ElyraPage() {
               color: "rgba(0, 255, 136, 0.3)",
               letterSpacing: "2px",
             }}>
-              {`{status:loading}{progress:${Math.floor(Math.random() * 100)}%}`}
+              {`{status:loading}{progress:87%}`}
             </div>
           </div>
         </div>
@@ -422,7 +422,7 @@ export default function ElyraPage() {
             WebkitTextFillColor: "transparent",
             backgroundSize: "200% 100%",
             animation: "gradientShift 3s ease-in-out infinite",
-          }}>ELYRA</div>
+          }}>LUNA</div>
           <div style={{
             fontSize: "8px", color: "#00ff88",
             letterSpacing: "3px", textTransform: "uppercase",
@@ -452,7 +452,7 @@ export default function ElyraPage() {
 
       {/* Chat */}
       <div style={{ flex: 1, minHeight: 0, position: "relative", zIndex: 5 }}>
-        <ElyraChat isPlus={true} />
+        <ElyraChat isPlus={true} userId={userId} />
       </div>
 
       {/* Bottom status bar */}
@@ -478,7 +478,7 @@ export default function ElyraPage() {
           ))}
         </div>
         <span style={{ fontSize: "7px", color: "#1e293b", letterSpacing: "1px", fontFamily: "monospace" }}>
-          {`lat:${Math.floor(Math.random() * 15 + 8)}ms`}
+          {`lat:12ms`}
         </span>
       </div>
 

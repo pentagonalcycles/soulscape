@@ -26,7 +26,7 @@ export default function ElyraButton() {
             exit={{ opacity: 0, y: 5, scale: 0.95 }}
             transition={{ duration: 0.3 }}
           >
-            Speak with Elyra ✦
+            Speak with Luna ✦
           </motion.div>
         )}
       </AnimatePresence>
@@ -34,7 +34,7 @@ export default function ElyraButton() {
       {/* Button */}
       <Link
         href="/elyra"
-        aria-label="Speak with Elyra"
+        aria-label="Speak with Luna"
         onMouseEnter={() => {
           setIsHovered(true);
           setShowTooltip(true);

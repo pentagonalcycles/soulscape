@@ -813,7 +813,7 @@ export default function ThreadsPage() {
                 fontSize: 12, cursor: patternInput ? "pointer" : "default", fontFamily: "monospace",
                 letterSpacing: "1px", textTransform: "uppercase",
               }}>
-                Ask Elyra
+                Ask Luna
               </button>
             </div>
           </motion.div>
@@ -856,7 +856,7 @@ export default function ThreadsPage() {
                 fontSize: 12, cursor: fixDescription ? "pointer" : "default", fontFamily: "monospace",
                 letterSpacing: "1px", textTransform: "uppercase",
               }}>
-                Ask Elyra
+                Ask Luna
               </button>
             </div>
           </motion.div>
@@ -869,7 +869,7 @@ export default function ThreadsPage() {
 
             <div style={{ ...glassStyle, maxWidth: 600, margin: "0 auto" }}>
               <p style={{ fontSize: 12, color: "#90c8a0", marginBottom: 16, lineHeight: 1.6 }}>
-                Describe what you want to make and Elyra will help generate a starting pattern.
+                Describe what you want to make and Luna will help generate a starting pattern.
               </p>
 
               <textarea value={patternInput} onChange={e => setPatternInput(e.target.value)} placeholder="e.g. Create a medium oversized knitted sweater with loose sleeves using worsted yarn..." style={{
@@ -890,7 +890,7 @@ export default function ThreadsPage() {
                 fontSize: 12, cursor: patternInput ? "pointer" : "default", fontFamily: "monospace",
                 letterSpacing: "1px", textTransform: "uppercase",
               }}>
-                Create Pattern with Elyra
+                Create Pattern with Luna
               </button>
             </div>
           </motion.div>

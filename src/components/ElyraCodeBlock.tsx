@@ -75,7 +75,13 @@ export default function ElyraCodeBlock({ language, filename, children }: ElyraCo
           color: "rgba(0, 255, 136, 0.6)",
           textTransform: "lowercase",
           letterSpacing: "0.05em",
-        }}>
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+          minWidth: 0,
+          flex: 1,
+          marginRight: "8px",
+        }} title={displayHeader}>
           {displayHeader}
         </span>
         <button

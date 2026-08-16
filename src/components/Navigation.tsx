@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 
 const navLinks = [
-  { href: "/elyra", label: "Elyra AI", icon: "✦" },
+  { href: "/elyra", label: "Luna AI", icon: "✦" },
   { href: "/tarot", label: "Arcana", icon: "☽" },
   { href: "/threads", label: "Threads", icon: "🧶" },
   { href: "/live", label: "Live", icon: "📡" },

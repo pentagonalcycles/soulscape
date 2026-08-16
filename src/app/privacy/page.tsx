@@ -26,8 +26,8 @@ export default function PrivacyPage() {
               </section>
 
               <section>
-                <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Elyra AI Conversations</h2>
-                <p>Your conversations with Elyra are processed to provide responses. We do not use your conversations to train AI models. Conversation history is stored locally on your device and can be cleared at any time.</p>
+                <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Luna AI Conversations</h2>
+                <p>Your conversations with Luna are processed to provide responses. We do not use your conversations to train AI models. Conversation history is stored locally on your device and can be cleared at any time.</p>
               </section>
 
               <section>

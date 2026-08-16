@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Elyra | AI Inside Elovayne",
-  description: "Talk, create, learn and code with Elyra, the AI inside Elovayne.",
+  title: "Luna | AI Inside Elovayne",
+  description: "Talk, create, learn and code with Luna, the AI inside Elovayne.",
   openGraph: {
-    title: "Elyra | AI Inside Elovayne",
-    description: "Talk, create, learn and code with Elyra, the AI inside Elovayne.",
+    title: "Luna | AI Inside Elovayne",
+    description: "Talk, create, learn and code with Luna, the AI inside Elovayne.",
     url: "https://elovayne.com/elyra",
     siteName: "Elovayne",
     locale: "en_US",
@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Elyra | AI Inside Elovayne",
-    description: "Talk, create, learn and code with Elyra, the AI inside Elovayne.",
+    title: "Luna | AI Inside Elovayne",
+    description: "Talk, create, learn and code with Luna, the AI inside Elovayne.",
   },
   robots: {
     index: true,

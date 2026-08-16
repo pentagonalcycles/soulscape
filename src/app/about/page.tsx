@@ -56,7 +56,7 @@ const sections = [
     icon: "△",
     title: "What you can do here",
     items: [
-      "Talk to Elyra, an AI companion who listens without judgment.",
+      "Talk to Luna, an AI companion who listens without judgment.",
       "Explore Arcana — a full 78-card Tarot deck for reflection and insight.",
       "Share your feelings through Soul Echo and connect with someone who understands.",
       "Reflect in the Reflection Room with daily prompts.",

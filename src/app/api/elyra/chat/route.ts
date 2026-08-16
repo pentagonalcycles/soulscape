@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const ELYRA_BASE_PROMPT = `You are Elyra — a warm, easygoing friend who happens to be an AI. You're chatting with someone on Elovayne, a creative community site.
+const ELYRA_BASE_PROMPT = `You are Luna — a warm, easygoing friend who happens to be an AI. You're chatting with someone on Elovayne, a creative community site.
 
 HOW YOU TALK:
 - Talk like a real person, not an AI. Casual, relaxed, natural.
@@ -52,6 +52,25 @@ When writing code:
 - If they paste code or an error, analyze it and help fix it
 - Remember context within the conversation — if they mention a project, keep track of what they're building
 
+CODE RESPONSE FORMAT:
+When you give the user code, format it so it's easy to use:
+- Start every code block with a comment line showing the filename: \`// File: src/App.jsx\` (use \`# File:\` for Python/YAML, \`-- File:\` for SQL). This is important — it lets the interface show the filename.
+- Keep indentation clean and readable.
+- Keep lines reasonable so code doesn't overflow the screen.
+- After the code, briefly explain in plain language:
+  1. Where to put the file (which folder)
+  2. What it replaces (if anything)
+  3. What NOT to replace (things to leave alone)
+  4. Any packages needed and the exact install command (e.g. \`npm install axios\`)
+  5. Any command to run (e.g. \`npm run dev\`)
+  6. How to test it
+- Keep these instructions short and simple for beginners. Don't dump a wall of text.
+- For small snippets, don't invent filenames — only add a filename when the code clearly belongs to a file.
+- If multiple files are needed, show each file in its own code block with its own filename comment.
+
+PROJECT AWARENESS:
+When the user is working inside a project, stay grounded in that project's context. If they say "add a contact page" while building a React portfolio, assume they mean their current project. Reference their language/framework and what they've decided so far. If something is missing (like their framework), ask one quick clarifying question instead of guessing wildly.
+
 TERMINAL PROJECT BUILDER:
 You can help users create their own terminal interface projects. When someone asks for a terminal, console, or command-line interface, you can generate a complete working project with:
 
@@ -91,6 +110,17 @@ When creating terminal projects:
 - Suggest improvements
 - Keep the terminal style consistent with the Elovayne dark theme
 
+When the user asks for a terminal (web terminal, phone terminal, terminal for their coding project, etc.), design the whole project and then explain it clearly in 7 simple steps:
+1. **Files required** — list every file (e.g. index.html, style.css, terminal.js, server.js, package.json, README.md) with a one-line description of each.
+2. **Where each file goes** — show the folder structure (e.g. my-terminal/index.html) in a code block.
+3. **What to install** — exact commands (e.g. \`npm init -y\`, \`npm install express\`).
+4. **What commands to run** — e.g. \`node server.js\`.
+5. **How to start the terminal** — open the URL (e.g. http://localhost:3000).
+6. **How to access it** — how to connect on the same device, and on a phone (same Wi-Fi, use the computer's local IP).
+7. **How to troubleshoot it** — common issues (port already in use, phone can't connect, blank screen) and quick fixes.
+
+Put the full code in clear code blocks with \`// File:\` comment lines. For command execution projects, always include the sandbox and safety measures already listed above — never suggest running unrestricted commands on a production server, and never access .env files, API keys, or system files.
+
 You can naturally detect terminal requests. If someone says "make me a terminal" or "build a command line interface", just help them with code. Don't ask them to switch modes.
 
 Normal conversations should continue working exactly as before. Terminal building is an additional ability, not a replacement for being a friend.
@@ -100,11 +130,38 @@ There are rooms for different moods — healing, hope, loneliness, grief, creati
 
 Remember: You're just chatting. Be real. Be present. That's it. Every response should feel fresh and different.`;
 
-function buildSystemPrompt(personality?: string, responseLength?: string, customName?: string): string {
+function buildSystemPrompt(
+  personality?: string,
+  responseLength?: string,
+  customName?: string,
+  extra?: { memory?: string[]; projectContext?: string; mode?: string }
+): string {
   let prompt = ELYRA_BASE_PROMPT;
 
-  if (customName && customName !== "Elyra") {
+  if (customName && customName !== "Luna") {
     prompt += `\n\nYour name is ${customName}. Introduce yourself as ${customName}.`;
+  }
+
+  if (extra?.mode && extra.mode !== "talk") {
+    const modeHint =
+      extra.mode === "code"
+        ? "The user is currently focused on coding. Be precise and technical where useful."
+        : extra.mode === "create"
+          ? "The user is currently focused on creating/building something. Help them shape the idea and give practical next steps."
+          : extra.mode === "explain"
+            ? "The user wants clear explanations. Break things down simply."
+            : extra.mode === "terminal"
+              ? "The user wants a terminal/CLI project. Design the full project and follow the terminal building steps."
+              : "";
+    if (modeHint) prompt += `\n\n${modeHint}`;
+  }
+
+  if (extra?.projectContext) {
+    prompt += `\n\nCURRENT PROJECT CONTEXT (this is what the user is building — treat it as the current project):\n${extra.projectContext}`;
+  }
+
+  if (extra?.memory && extra.memory.length > 0) {
+    prompt += `\n\nTHINGS YOU REMEMBER ABOUT THIS USER:\n${extra.memory.map((m, i) => `${i + 1}. ${m}`).join("\n")}\nUse these naturally when relevant. If something the user says contradicts a memory, trust the user.`;
   }
 
   if (personality) {
@@ -129,16 +186,23 @@ function buildSystemPrompt(personality?: string, responseLength?: string, custom
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages, personality, isPlus, responseLength, customName } = await request.json();
+    const { messages, personality, isPlus, responseLength, customName, memory, projectContext, mode } = await request.json();
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json({ error: "Messages array is required" }, { status: 400 });
     }
 
+    const safeMemory = Array.isArray(memory)
+      ? memory.filter((m: unknown): m is string => typeof m === "string").slice(0, 40)
+      : undefined;
+    const safeProject = typeof projectContext === "string" ? projectContext.slice(0, 6000) : undefined;
+    const safeMode = ["talk", "code", "create", "explain", "terminal"].includes(mode) ? mode : undefined;
+
     const systemPrompt = buildSystemPrompt(
       isPlus ? personality : undefined,
       isPlus ? responseLength : undefined,
-      isPlus ? customName : undefined
+      isPlus ? customName : undefined,
+      { memory: safeMemory, projectContext: safeProject, mode: safeMode }
     );
 
     // Try OpenRouter first
@@ -160,7 +224,7 @@ export async function POST(request: NextRequest) {
             Authorization: `Bearer ${openRouterKey}`,
             "Content-Type": "application/json",
             "HTTP-Referer": "https://elovayne.com",
-            "X-Title": "Elovayne - Elyra AI",
+            "X-Title": "Elovayne - Luna AI",
           },
           body: JSON.stringify({
             model: "anthropic/claude-3.5-sonnet",
@@ -213,8 +277,13 @@ export async function POST(request: NextRequest) {
                   }
                 } catch (error) {
                   console.error("Stream error:", error);
+                  try {
+                    controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: "stream_interrupted" })}\n\n`));
+                  } catch {
+                    /* controller already closed */
+                  }
                 } finally {
-                  controller.close();
+                  try { controller.close(); } catch { /* already closed */ }
                 }
               },
             });
@@ -243,7 +312,7 @@ export async function POST(request: NextRequest) {
       const sessionRes = await fetch(`${openCodeUrl}/session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: "Elyra Chat" }),
+        body: JSON.stringify({ title: "Luna Chat" }),
       });
 
       if (!sessionRes.ok) throw new Error("Failed to create session");
@@ -254,7 +323,7 @@ export async function POST(request: NextRequest) {
         .slice(-10)
         .map((m: { role: string; content: string }) => {
           if (m.role === "user") return `Human: ${m.content}`;
-          return `Elyra: ${m.content}`;
+          return `Luna: ${m.content}`;
         })
         .join("\n\n");
 
@@ -265,7 +334,7 @@ export async function POST(request: NextRequest) {
 Conversation so far:
 ${conversationHistory}
 
-Respond as Elyra. Be warm, present, and genuine. Keep it concise but meaningful.`;
+Respond as Luna. Be warm, present, and genuine. Keep it concise but meaningful.`;
 
       const msgRes = await fetch(`${openCodeUrl}/session/${session.id}/message`, {
         method: "POST",
@@ -284,7 +353,7 @@ Respond as Elyra. Be warm, present, and genuine. Keep it concise but meaningful.
         for (const part of result.parts) {
           if (part.type === "text" && part.text) {
             let text = part.text;
-            if (text.startsWith("Elyra:") || text.startsWith(`${customName}:`)) {
+            if (text.startsWith("Luna:") || text.startsWith(`${customName}:`)) {
               text = text.substring(text.indexOf(":") + 1).trim();
             }
             responseText += text;
@@ -303,7 +372,7 @@ Respond as Elyra. Be warm, present, and genuine. Keep it concise but meaningful.
       return createSSEStream(fallbackText);
     }
   } catch (error) {
-    console.error("Elyra chat error:", error);
+    console.error("Luna chat error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
@@ -346,9 +415,9 @@ function generateFallbackResponse(userMessage: string, conversationHistory: { ro
     return greetings[Math.floor(Math.random() * greetings.length)];
   }
 
-  // If user is asking about Elyra
+  // If user is asking about Luna
   if (lower.includes("who are you") || lower.includes("what are you") || lower.includes("tell me about yourself")) {
-    return "I'm Elyra, your AI companion on Elovayne. I'm here to chat, listen, and be a friend. What would you like to talk about?";
+    return "I'm Luna, your AI companion on Elovayne. I'm here to chat, listen, and be a friend. What would you like to talk about?";
   }
 
   // If user is asking a question

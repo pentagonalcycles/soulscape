@@ -925,7 +925,7 @@ export default function TarotPage() {
                               letterSpacing: "1px",
                               textTransform: "uppercase",
                             }}>
-                              Ask Elyra
+                              Ask Luna
                             </button>
                           </div>
                         </div>

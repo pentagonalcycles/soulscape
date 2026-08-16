@@ -1,16 +1,30 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import ElyraCodeBlock from "./ElyraCodeBlock";
+import {
+  loadConversations,
+  upsertConversation,
+  deleteConversation as storageDeleteConversation,
+  loadProjects,
+  upsertProject,
+  deleteProject as storageDeleteProject,
+  loadMemory,
+  replaceMemory,
+  migrateLegacy,
+  newConversationId,
+  newProjectId,
+} from "@/lib/elyra-storage";
+import type {
+  ElyraMessage,
+  ElyraConversation,
+  ElyraProject,
+  ElyraMemoryItem,
+} from "@/lib/elyra-storage";
 
-interface Message {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  timestamp?: number;
-}
+type Message = ElyraMessage;
 
 interface MoodAnalysis {
   mood: string;
@@ -26,18 +40,8 @@ interface ElyraSettings {
   customName: string;
 }
 
-interface Conversation {
-  id: string;
-  title: string;
-  messages: Message[];
-  createdAt: number;
-  updatedAt: number;
-}
-
-const STORAGE_KEY = "elyra-chat-messages";
-const CONVERSATIONS_KEY = "elyra-conversations";
 const SETTINGS_KEY = "elyra-settings";
-const MEMORY_KEY = "elyra-memory";
+const MEMORY_ENABLED_KEY = "elyra-memory-enabled";
 const MAX_FREE_MESSAGES = 10;
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 const ALLOWED_FILE_TYPES = [
@@ -54,16 +58,46 @@ const PERSONALITIES = [
   { id: "healer", name: "Calm", emoji: "○", prompt: "Be extra calm and grounding. Gentle, soothing energy." },
 ];
 
-const defaultSettings: ElyraSettings = { personality: "gentle", responseLength: "medium", customName: "Elyra" };
+const MODES = [
+  { id: "talk" as const, label: "Talk", icon: "💬" },
+  { id: "code" as const, label: "Code", icon: "✦" },
+  { id: "create" as const, label: "Create", icon: "✨" },
+  { id: "explain" as const, label: "Explain", icon: "📖" },
+  { id: "terminal" as const, label: "Terminal", icon: "▸" },
+];
 
-function loadMessages(): Message[] {
-  if (typeof window === "undefined") return [];
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); } catch { return []; }
-}
-function saveMessages(m: Message[]) {
-  if (typeof window === "undefined") return;
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(m)); } catch {}
-}
+const MODE_SUGGESTIONS: Record<string, string[]> = {
+  talk: [
+    "Tell me about yourself",
+    "I just want to talk",
+    "Help me think this through",
+    "What can we explore together?",
+  ],
+  code: [
+    "Build a website",
+    "Fix an error",
+    "Improve my code",
+    "Create an app",
+  ],
+  create: [
+    "Help me design something",
+    "Brainstorm an idea",
+    "Create something new",
+  ],
+  explain: [
+    "Explain some code",
+    "Explain this simply",
+    "Teach me something",
+  ],
+  terminal: [
+    "Build a working terminal",
+    "Create a phone terminal",
+    "Help me fix my terminal",
+  ],
+};
+
+const defaultSettings: ElyraSettings = { personality: "gentle", responseLength: "medium", customName: "Luna" };
+
 function loadSettings(): ElyraSettings {
   if (typeof window === "undefined") return defaultSettings;
   try { return { ...defaultSettings, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}") }; } catch { return defaultSettings; }
@@ -72,23 +106,17 @@ function saveSettings(s: ElyraSettings) {
   if (typeof window === "undefined") return;
   try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(s)); } catch {}
 }
-
-function loadConversations(): Conversation[] {
-  if (typeof window === "undefined") return [];
-  try { return JSON.parse(localStorage.getItem(CONVERSATIONS_KEY) || "[]"); } catch { return []; }
+function loadMemoryEnabled(): boolean {
+  if (typeof window === "undefined") return true;
+  return localStorage.getItem(MEMORY_ENABLED_KEY) !== "0";
 }
-function saveConversations(c: Conversation[]) {
+function saveMemoryEnabled(enabled: boolean) {
   if (typeof window === "undefined") return;
-  try { localStorage.setItem(CONVERSATIONS_KEY, JSON.stringify(c)); } catch {}
+  try { localStorage.setItem(MEMORY_ENABLED_KEY, enabled ? "1" : "0"); } catch {}
 }
 
-function loadMemory(): string[] {
-  if (typeof window === "undefined") return [];
-  try { return JSON.parse(localStorage.getItem(MEMORY_KEY) || "[]"); } catch { return []; }
-}
-function saveMemory(m: string[]) {
-  if (typeof window === "undefined") return;
-  try { localStorage.setItem(MEMORY_KEY, JSON.stringify(m)); } catch {}
+function nowTs(): number {
+  return Date.now();
 }
 
 function generateConversationTitle(messages: Message[]): string {
@@ -96,20 +124,47 @@ function generateConversationTitle(messages: Message[]): string {
   if (userMessages.length === 0) return "New Conversation";
 
   const firstMsg = userMessages[0].content.toLowerCase();
+  const clean = firstMsg.replace(/```[\s\S]*?```/g, "").replace(/[^\w\s'’-]/g, " ").replace(/\s+/g, " ").trim();
 
-  if (firstMsg.includes("react") || firstMsg.includes("component")) return "React Project";
-  if (firstMsg.includes("login") || firstMsg.includes("sign in")) return "Login Page";
-  if (firstMsg.includes("css") || firstMsg.includes("style")) return "CSS Styling";
-  if (firstMsg.includes("api") || firstMsg.includes("endpoint")) return "API Development";
-  if (firstMsg.includes("python") || firstMsg.includes("django")) return "Python Project";
-  if (firstMsg.includes("database") || firstMsg.includes("sql")) return "Database Work";
-  if (firstMsg.includes("fix") || firstMsg.includes("error") || firstMsg.includes("debug")) return "Debugging";
-  if (firstMsg.includes("create") || firstMsg.includes("build") || firstMsg.includes("make")) return "Building Project";
-  if (firstMsg.includes("explain") || firstMsg.includes("what is") || firstMsg.includes("how does")) return "Learning";
-  if (firstMsg.includes("help")) return "Getting Help";
+  if (/portfolio/.test(firstMsg)) return "Build My Portfolio";
+  if (/terminal|command line|cli\b|console/.test(firstMsg)) return "Phone Terminal";
+  if (/creative|brainstorm|design|idea/.test(firstMsg)) return "Creative Ideas";
+  if (/react|next\.?js|component/.test(firstMsg)) return "React Project";
+  if (/fix|error|debug|bug|issue|broken|failed/.test(firstMsg)) {
+    if (/react|javascript|js\b|node/.test(firstMsg)) return "Fix React Error";
+    return "Fix an Error";
+  }
+  if (/login|sign in|auth/.test(firstMsg)) return "Login Page";
+  if (/css|style|styling|animation/.test(firstMsg)) return "CSS Styling";
+  if (/api|endpoint|backend|server/.test(firstMsg)) return "API Development";
+  if (/python|django|flask/.test(firstMsg)) return "Python Project";
+  if (/database|sql|postgres/.test(firstMsg)) return "Database Work";
+  if (/game|play/.test(firstMsg)) return "Make a Game";
+  if (/create|build|make|start.*app|website/.test(firstMsg)) return "Building a Project";
+  if (/explain|what is|how does|teach|learn/.test(firstMsg)) return "Learning";
+  if (/poem|poetry|story|write/.test(firstMsg)) return "Creative Writing";
+  if (/help|stuck|advice/.test(firstMsg)) return "Getting Help";
+  if (/general|chat|talk|hello|hi\b|hey/.test(firstMsg)) return "General Conversation";
 
-  const words = firstMsg.split(" ").slice(0, 4).join(" ");
-  return words.charAt(0).toUpperCase() + words.slice(1);
+  if (clean.length > 0) {
+    const words = clean.split(" ").slice(0, 4).join(" ");
+    return words.charAt(0).toUpperCase() + words.slice(1);
+  }
+  return "General Conversation";
+}
+
+function buildProjectContext(p: ElyraProject): string | undefined {
+  const lines = [
+    `Name: ${p.name}`,
+    p.whatBuilding ? `What you're building: ${p.whatBuilding}` : "",
+    p.language ? `Language: ${p.language}` : "",
+    p.framework ? `Framework: ${p.framework}` : "",
+    p.files ? `Files involved: ${p.files}` : "",
+    p.decisions ? `Decisions so far: ${p.decisions}` : "",
+    p.progress ? `Progress: ${p.progress}` : "",
+    p.instructions ? `Instructions for me: ${p.instructions}` : "",
+  ].filter(Boolean).join("\n");
+  return lines || undefined;
 }
 
 function detectMood(text: string): MoodAnalysis | null {
@@ -164,20 +219,31 @@ function ElyraIcon({ size = 40 }: { size?: number }) {
   );
 }
 
-export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
+export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: boolean; userId?: string | null }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [lastMood, setLastMood] = useState<MoodAnalysis | null>(null);
   const [settings, setSettings] = useState<ElyraSettings>(defaultSettings);
   const [showSettings, setShowSettings] = useState(false);
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [conversations, setConversations] = useState<ElyraConversation[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
-  const [memory, setMemory] = useState<string[]>([]);
+  const [memory, setMemory] = useState<ElyraMemoryItem[]>([]);
   const [showMemory, setShowMemory] = useState(false);
+  const [memoryEnabled, setMemoryEnabled] = useState(true);
+  const [projects, setProjects] = useState<ElyraProject[]>([]);
+  const [showProjects, setShowProjects] = useState(false);
+  const [projectDetailId, setProjectDetailId] = useState<string | null>(null);
+  const [currentProjectId, setCurrentProjectId] = useState<string | null>(null);
+  const [newProjectOpen, setNewProjectOpen] = useState(false);
+  const [newProjectDraft, setNewProjectDraft] = useState({ name: "", whatBuilding: "", language: "", framework: "" });
+  const [activeMode, setActiveMode] = useState<string>("talk");
   const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [lastUserMessage, setLastUserMessage] = useState<string | null>(null);
+  const [errorNotice, setErrorNotice] = useState<string | null>(null);
+  const [editingConvId, setEditingConvId] = useState<string | null>(null);
+  const [convRenameDraft, setConvRenameDraft] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -185,17 +251,32 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
   const initialized = useRef(false);
 
   useEffect(() => {
-    if (!initialized.current) {
-      setMessages(loadMessages());
-      setSettings(loadSettings());
-      setConversations(loadConversations());
-      setMemory(loadMemory());
-      initialized.current = true;
-    }
-  }, []);
+    if (initialized.current) return;
+    initialized.current = true;
+    setSettings(loadSettings());
+    setMemoryEnabled(loadMemoryEnabled());
+    (async () => {
+      const uid = userId;
+      await migrateLegacy(uid);
+      const [convs, projs, mems] = await Promise.all([
+        loadConversations(uid),
+        loadProjects(uid),
+        loadMemory(uid),
+      ]);
+      setConversations(convs);
+      setProjects(projs);
+      setMemory(mems);
+      const mostRecent = convs[0];
+      if (mostRecent && mostRecent.messages.length > 0) {
+        setMessages(mostRecent.messages);
+        setCurrentConversationId(mostRecent.id);
+      }
+    })();
+  }, [userId]);
 
-  useEffect(() => { if (initialized.current) saveMessages(messages); }, [messages]);
   useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [messages, loading]);
+
+  const currentProject = currentProjectId ? projects.find(p => p.id === currentProjectId) || null : null;
 
   async function send() {
     const text = input.trim();
@@ -232,6 +313,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
     const mood = detectMood(messageContent);
     if (mood) setLastMood(mood);
     setLastUserMessage(messageContent);
+    setErrorNotice(null);
     const userMsg: Message = { id: crypto.randomUUID(), role: "user", content: messageContent, timestamp: Date.now() };
     const aiMsg: Message = { id: crypto.randomUUID(), role: "assistant", content: "", timestamp: Date.now() };
     setMessages(prev => [...prev, userMsg, aiMsg]);
@@ -246,21 +328,33 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
     const extra = [
       isPlus && personality?.prompt ? personality.prompt : "",
       isPlus ? `Response length: ${settings.responseLength}.` : "",
-      isPlus && settings.customName !== "Elyra" ? `Your name is ${settings.customName}.` : "",
+      isPlus && settings.customName !== "Luna" ? `Your name is ${settings.customName}.` : "",
     ].filter(Boolean).join(" ");
+
+    const memoryList = memoryEnabled ? memory.map(m => m.text) : [];
+    const projectContext = currentProject ? buildProjectContext(currentProject) : undefined;
+
+    let full = "";
+    let interrupted = false;
 
     try {
       const res = await fetch("/api/elyra/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })), personality: extra, isPlus }),
+        body: JSON.stringify({
+          messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
+          personality: extra,
+          isPlus,
+          memory: memoryList,
+          projectContext,
+          mode: activeMode,
+        }),
         signal: controller.signal,
       });
       if (!res.ok) throw new Error("Failed");
       const reader = res.body?.getReader();
       if (!reader) throw new Error("No reader");
       const decoder = new TextDecoder();
-      let full = "";
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
@@ -270,49 +364,61 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
           if (data === "[DONE]") continue;
           try {
             const p = JSON.parse(data);
+            if (p.error === "stream_interrupted") { interrupted = true; continue; }
             if (p.content) { full += p.content; setMessages(prev => prev.map(m => m.id === aiMsg.id ? { ...m, content: full } : m)); }
           } catch {}
         }
       }
-
-      // Auto-save conversation
-      const updatedMessages = [...messages, userMsg, { ...aiMsg, content: full }];
-      const title = generateConversationTitle(updatedMessages);
-      const newConversation: Conversation = {
-        id: currentConversationId || crypto.randomUUID(),
-        title,
-        messages: updatedMessages,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      };
-
-      setConversations(prev => {
-        const existing = prev.findIndex(c => c.id === newConversation.id);
-        const updated = existing >= 0
-          ? prev.map((c, i) => i === existing ? newConversation : c)
-          : [newConversation, ...prev];
-        saveConversations(updated);
-        return updated;
-      });
-      setCurrentConversationId(newConversation.id);
-
     } catch (error: unknown) {
       if (error instanceof Error && error.name === "AbortError") {
         setMessages(prev => prev.map(m => m.id === aiMsg.id ? { ...m, content: m.content || "Generation stopped." } : m));
       } else {
-        setMessages(prev => prev.map(m => m.id === aiMsg.id ? { ...m, content: "I couldn't finish that response. Try again." } : m));
+        setMessages(prev => prev.map(m => m.id === aiMsg.id ? { ...m, content: m.content || "" } : m));
+        setErrorNotice("I couldn't finish that response. You can retry below.");
+        setLoading(false);
+        setAbortController(null);
+        return;
       }
     } finally {
       setLoading(false);
       setAbortController(null);
     }
+
+    // Auto-save conversation (even partial/stopped responses)
+    const finalContent = full || (interrupted ? "I couldn't finish that response." : "Generation stopped.");
+    const updatedMessages = [...messages, userMsg, { ...aiMsg, content: finalContent }];
+    const convId = currentConversationId || newConversationId();
+    const conv: ElyraConversation = {
+      id: convId,
+      title: generateConversationTitle(updatedMessages),
+      messages: updatedMessages,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+
+    await upsertConversation(userId, conv);
+    setConversations(prev => {
+      const existing = prev.findIndex(c => c.id === convId);
+      return existing >= 0 ? prev.map((c, i) => i === existing ? conv : c) : [conv, ...prev];
+    });
+    setCurrentConversationId(convId);
+
+    if (currentProject && currentProject.conversationId !== convId) {
+      const linked = { ...currentProject, conversationId: convId, updatedAt: Date.now() };
+      setProjects(prev => prev.map(p => p.id === linked.id ? linked : p));
+      await upsertProject(userId, linked);
+    }
+
+    if (interrupted) setErrorNotice("The response was interrupted. You can retry below.");
   }
 
-  function clearChat() {
+  function startNewConversation() {
+    if (loading) return;
     setMessages([]);
     setLastMood(null);
     setCurrentConversationId(null);
-    localStorage.removeItem(STORAGE_KEY);
+    setErrorNotice(null);
+    setShowHistory(false);
   }
   function updateSettings(p: Partial<ElyraSettings>) { const n = { ...settings, ...p }; setSettings(n); saveSettings(n); }
 
@@ -326,10 +432,8 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
   function regenerateResponse() {
     if (lastUserMessage && !loading) {
       // Remove last assistant message and resend
-      setMessages(prev => {
-        const updated = prev.slice(0, -1);
-        return updated;
-      });
+      setMessages(prev => prev.slice(0, -1));
+      setErrorNotice(null);
       setInput(lastUserMessage);
       setTimeout(() => send(), 100);
     }
@@ -354,50 +458,123 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
     }
   }
 
-  function loadConversation(conversation: Conversation) {
+  function loadConversation(conversation: ElyraConversation) {
     setMessages(conversation.messages);
     setCurrentConversationId(conversation.id);
+    setLastMood(null);
+    setErrorNotice(null);
     setShowHistory(false);
+    setShowProjects(false);
   }
 
   function deleteConversation(id: string) {
-    setConversations(prev => {
-      const updated = prev.filter(c => c.id !== id);
-      saveConversations(updated);
-      return updated;
-    });
+    setConversations(prev => prev.filter(c => c.id !== id));
+    storageDeleteConversation(userId, id);
     if (currentConversationId === id) {
-      clearChat();
+      setMessages([]);
+      setCurrentConversationId(null);
+      setErrorNotice(null);
     }
   }
 
   function renameConversation(id: string, newTitle: string) {
-    setConversations(prev => {
-      const updated = prev.map(c => c.id === id ? { ...c, title: newTitle } : c);
-      saveConversations(updated);
-      return updated;
-    });
+    const title = newTitle.trim() || "Untitled Conversation";
+    setConversations(prev => prev.map(c => c.id === id ? { ...c, title, updatedAt: Date.now() } : c));
+    const target = conversations.find(c => c.id === id);
+    if (target) upsertConversation(userId, { ...target, title, updatedAt: nowTs() });
   }
 
   function addToMemory(text: string) {
+    const trimmed = text.trim();
+    if (!trimmed) return;
     setMemory(prev => {
-      const updated = [...prev, text];
-      saveMemory(updated);
+      const updated = [{ id: newConversationId(), text: trimmed, createdAt: Date.now() }, ...prev];
+      replaceMemory(userId, updated);
       return updated;
     });
   }
 
-  function removeFromMemory(index: number) {
+  function removeFromMemory(id: string) {
     setMemory(prev => {
-      const updated = prev.filter((_, i) => i !== index);
-      saveMemory(updated);
+      const updated = prev.filter(m => m.id !== id);
+      replaceMemory(userId, updated);
       return updated;
     });
   }
 
   function clearMemory() {
     setMemory([]);
-    saveMemory([]);
+    replaceMemory(userId, []);
+  }
+
+  function toggleMemoryEnabled() {
+    const next = !memoryEnabled;
+    setMemoryEnabled(next);
+    saveMemoryEnabled(next);
+  }
+
+  function createProject() {
+    const name = newProjectDraft.name.trim() || "New Project";
+    const proj: ElyraProject = {
+      id: newProjectId(),
+      name,
+      whatBuilding: newProjectDraft.whatBuilding.trim(),
+      language: newProjectDraft.language.trim(),
+      framework: newProjectDraft.framework.trim(),
+      files: "",
+      decisions: "",
+      progress: "",
+      instructions: "",
+      conversationId: null,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    setProjects(prev => [proj, ...prev]);
+    upsertProject(userId, proj);
+    setCurrentProjectId(proj.id);
+    setProjectDetailId(proj.id);
+    setNewProjectOpen(false);
+    setNewProjectDraft({ name: "", whatBuilding: "", language: "", framework: "" });
+  }
+
+  function deleteProject(id: string) {
+    setProjects(prev => prev.filter(p => p.id !== id));
+    storageDeleteProject(userId, id);
+    if (currentProjectId === id) setCurrentProjectId(null);
+    if (projectDetailId === id) setProjectDetailId(null);
+  }
+
+  function updateProjectField(
+    id: string,
+    field: keyof Pick<ElyraProject, "name" | "whatBuilding" | "language" | "framework" | "files" | "decisions" | "progress" | "instructions">,
+    value: string
+  ) {
+    setProjects(prev => prev.map(p => p.id === id ? { ...p, [field]: value, updatedAt: Date.now() } : p));
+    const target = projects.find(p => p.id === id);
+    if (target) upsertProject(userId, { ...target, [field]: value, updatedAt: nowTs() });
+  }
+
+  function openProject(proj: ElyraProject) {
+    setCurrentProjectId(proj.id);
+    setShowProjects(false);
+    if (proj.conversationId) {
+      const conv = conversations.find(c => c.id === proj.conversationId);
+      if (conv) {
+        setMessages(conv.messages);
+        setCurrentConversationId(conv.id);
+        return;
+      }
+    }
+    setMessages([]);
+    setCurrentConversationId(null);
+    setLastMood(null);
+    setErrorNotice(null);
+  }
+
+  function startNewProject() {
+    setNewProjectOpen(true);
+    setShowProjects(true);
+    setProjectDetailId(null);
   }
 
   function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -438,7 +615,16 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
 
   const isEmpty = messages.length === 0;
   const messageCount = messages.filter(m => m.role === "user").length;
-  const name = settings.customName || "Elyra";
+  const name = settings.customName || "Luna";
+
+  const detailProject = projectDetailId ? projects.find(p => p.id === projectDetailId) || null : null;
+
+  const controlButtonStyle: React.CSSProperties = {
+    fontSize: "9px", color: "#1e293b",
+    letterSpacing: "2px", textTransform: "uppercase",
+    background: "none", border: "none", cursor: "pointer",
+    transition: "all 0.2s", fontFamily: "monospace",
+  };
 
   const groupedMessages: { day: string; messages: Message[] }[] = [];
   let currentDay = "";
@@ -578,59 +764,87 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
             }}>
               {`{proto:neural}{ver:3.0.1}{enc:aes256}`}
               <br />
-              {`{lat:${Math.floor(Math.random() * 15 + 8)}ms}{status:active}`}
+              {`{lat:12ms}{status:active}`}
             </div>
 
-            {/* Ability options */}
+            {/* Mode selection */}
             <div style={{ marginTop: "32px", textAlign: "center" }}>
               <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
-                {[
-                  { label: "Talk", icon: "💬", prompt: "" },
-                  { label: "Code", icon: "✦", prompt: "Help me with code" },
-                  { label: "Create", icon: "✨", prompt: "Help me create something" },
-                  { label: "Explain", icon: "📖", prompt: "Explain something to me" },
-                  { label: "Terminal", icon: "▸", prompt: "Build me a terminal interface" },
-                ].map((ability) => (
+                {MODES.map((mode) => {
+                  const isActive = activeMode === mode.id;
+                  return (
+                    <button
+                      key={mode.id}
+                      onClick={() => setActiveMode(mode.id)}
+                      style={{
+                        padding: "8px 16px",
+                        borderRadius: "6px",
+                        border: `1px solid ${isActive ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.15)"}`,
+                        background: isActive ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)",
+                        color: isActive ? "#00ff88" : "rgba(0, 255, 136, 0.6)",
+                        fontSize: "10px",
+                        cursor: "pointer",
+                        transition: "all 0.2s",
+                        fontFamily: "monospace",
+                        letterSpacing: "1px",
+                        textTransform: "uppercase",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
+                        e.currentTarget.style.color = "rgba(0, 255, 136, 0.9)";
+                        e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.3)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = isActive ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)";
+                        e.currentTarget.style.color = isActive ? "#00ff88" : "rgba(0, 255, 136, 0.6)";
+                        e.currentTarget.style.borderColor = isActive ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.15)";
+                      }}
+                    >
+                      <span style={{ fontSize: "12px" }}>{mode.icon}</span>
+                      {mode.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Mode-aware starter suggestions */}
+              <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap", marginTop: "16px" }}>
+                {(MODE_SUGGESTIONS[activeMode] || []).map((suggestion) => (
                   <button
-                    key={ability.label}
+                    key={suggestion}
                     onClick={() => {
-                      if (ability.prompt) {
-                        setInput(ability.prompt);
-                      }
+                      setInput(suggestion);
                       setTimeout(() => inputRef.current?.focus(), 100);
                     }}
                     style={{
-                      padding: "8px 16px",
-                      borderRadius: "6px",
-                      border: "1px solid rgba(0, 255, 136, 0.15)",
-                      background: "rgba(0, 255, 136, 0.04)",
-                      color: "rgba(0, 255, 136, 0.6)",
-                      fontSize: "10px",
+                      padding: "6px 12px",
+                      borderRadius: "20px",
+                      border: "1px solid rgba(0, 255, 136, 0.1)",
+                      background: "rgba(0, 255, 136, 0.02)",
+                      color: "rgba(0, 255, 136, 0.4)",
+                      fontSize: "9px",
                       cursor: "pointer",
                       transition: "all 0.2s",
                       fontFamily: "monospace",
-                      letterSpacing: "1px",
-                      textTransform: "uppercase",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
+                      letterSpacing: "0.5px",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
-                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.9)";
-                      e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.3)";
+                      e.currentTarget.style.background = "rgba(0, 255, 136, 0.06)";
+                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.8)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
-                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.6)";
-                      e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.15)";
+                      e.currentTarget.style.background = "rgba(0, 255, 136, 0.02)";
+                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.4)";
                     }}
                   >
-                    <span style={{ fontSize: "12px" }}>{ability.icon}</span>
-                    {ability.label}
+                    {suggestion}
                   </button>
                 ))}
               </div>
+
               <p style={{
                 fontSize: "8px",
                 color: "rgba(0, 255, 136, 0.2)",
@@ -1024,44 +1238,55 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
             ))}
           </div>
         )}
+        {errorNotice && (
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
+            marginTop: "10px", padding: "8px 12px", borderRadius: "6px",
+            background: "rgba(255, 80, 80, 0.06)",
+            border: "1px solid rgba(255, 80, 80, 0.15)",
+          }}>
+            <span style={{ fontSize: "10px", color: "#ff8a8a", flex: 1, textAlign: "center", lineHeight: "1.4" }}>{errorNotice}</span>
+            {lastUserMessage && !loading && (
+              <button onClick={() => { setErrorNotice(null); setInput(lastUserMessage); }} style={{
+                fontSize: "9px", color: "#00ff88", letterSpacing: "1px", textTransform: "uppercase",
+                background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.2)",
+                padding: "4px 10px", borderRadius: "4px", cursor: "pointer", fontFamily: "monospace",
+                whiteSpace: "nowrap",
+              }}>Retry</button>
+            )}
+          </div>
+        )}
         {messages.length > 0 && (
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "12px", gap: "16px", flexWrap: "wrap" }}>
-            <button onClick={clearChat} style={{
-              fontSize: "9px", color: "#1e293b",
-              letterSpacing: "2px", textTransform: "uppercase",
-              background: "none", border: "none", cursor: "pointer",
-              transition: "all 0.2s", fontFamily: "monospace",
-            }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ New</button>
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "12px", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
+            <button onClick={startNewConversation} style={controlButtonStyle}
+              onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
+              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ New</button>
             <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
-            <button onClick={() => setShowHistory(!showHistory)} style={{
-              fontSize: "9px", color: "#1e293b",
-              letterSpacing: "2px", textTransform: "uppercase",
-              background: "none", border: "none", cursor: "pointer",
-              transition: "all 0.2s", fontFamily: "monospace",
-            }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ History</button>
+            <button onClick={() => { setShowProjects(true); setShowHistory(false); setShowMemory(false); setShowSettings(false); }} style={controlButtonStyle}
+              onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
+              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ Projects</button>
             <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
-            <button onClick={() => setShowMemory(!showMemory)} style={{
-              fontSize: "9px", color: "#1e293b",
-              letterSpacing: "2px", textTransform: "uppercase",
-              background: "none", border: "none", cursor: "pointer",
-              transition: "all 0.2s", fontFamily: "monospace",
-            }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ Memory</button>
+            <button onClick={() => { setShowHistory(!showHistory); setShowProjects(false); setShowMemory(false); setShowSettings(false); }} style={controlButtonStyle}
+              onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
+              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ History</button>
             <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
-            <button onClick={() => setShowSettings(!showSettings)} style={{
-              fontSize: "9px", color: "#1e293b",
-              letterSpacing: "2px", textTransform: "uppercase",
-              background: "none", border: "none", cursor: "pointer",
-              transition: "all 0.2s", fontFamily: "monospace",
-            }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ Configure</button>
+            <button onClick={() => { setShowMemory(!showMemory); setShowProjects(false); setShowHistory(false); setShowSettings(false); }} style={controlButtonStyle}
+              onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
+              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ Memory</button>
+            <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
+            <button onClick={() => { setShowSettings(!showSettings); setShowProjects(false); setShowHistory(false); setShowMemory(false); }} style={controlButtonStyle}
+              onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
+              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ Configure</button>
             {lastUserMessage && !loading && (
               <>
                 <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
-                <button onClick={regenerateResponse} style={{
-                  fontSize: "9px", color: "#1e293b",
-                  letterSpacing: "2px", textTransform: "uppercase",
-                  background: "none", border: "none", cursor: "pointer",
-                  transition: "all 0.2s", fontFamily: "monospace",
-                }} onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }} onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>↻ Regenerate</button>
+                <button onClick={editLastMessage} style={controlButtonStyle}
+                  onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
+                  onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>✎ Edit</button>
+                <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
+                <button onClick={regenerateResponse} style={controlButtonStyle}
+                  onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
+                  onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>↻ Regenerate</button>
               </>
             )}
           </div>
@@ -1163,23 +1388,57 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
                   padding: "10px 12px", borderRadius: "8px",
                   background: currentConversationId === conv.id ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
                   border: `1px solid ${currentConversationId === conv.id ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.08)"}`,
-                  cursor: "pointer", transition: "all 0.2s",
-                }} onClick={() => loadConversation(conv)}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: "12px", color: "#e2e8f0", marginBottom: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {conv.title}
+                  transition: "all 0.2s",
+                }}>
+                  {editingConvId === conv.id ? (
+                    <div style={{ flex: 1, minWidth: 0, display: "flex", gap: "6px", alignItems: "center" }}>
+                      <input
+                        autoFocus
+                        value={convRenameDraft}
+                        onChange={e => setConvRenameDraft(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === "Enter") { renameConversation(conv.id, convRenameDraft); setEditingConvId(null); }
+                          if (e.key === "Escape") setEditingConvId(null);
+                        }}
+                        onClick={e => e.stopPropagation()}
+                        style={{
+                          flex: 1, minWidth: 0, boxSizing: "border-box",
+                          background: "rgba(0, 255, 136, 0.04)",
+                          border: "1px solid rgba(0, 255, 136, 0.2)", borderRadius: "4px",
+                          padding: "4px 8px", color: "#e2e8f0", fontSize: "12px", outline: "none",
+                        }}
+                      />
+                      <button onClick={(e) => { e.stopPropagation(); renameConversation(conv.id, convRenameDraft); setEditingConvId(null); }} style={{
+                        background: "none", border: "none", color: "#00ff88", cursor: "pointer",
+                        padding: "4px", fontSize: "12px",
+                      }}>✓</button>
                     </div>
-                    <div style={{ fontSize: "9px", color: "#475569" }}>
-                      {new Date(conv.updatedAt).toLocaleDateString()}
-                    </div>
-                  </div>
-                  <button onClick={(e) => { e.stopPropagation(); deleteConversation(conv.id); }} style={{
-                    background: "none", border: "none",
-                    color: "#475569", cursor: "pointer", padding: "4px",
-                    fontSize: "12px", transition: "color 0.2s",
-                  }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#475569"}>
-                    ✕
-                  </button>
+                  ) : (
+                    <>
+                      <div style={{ flex: 1, minWidth: 0, cursor: "pointer" }} onClick={() => loadConversation(conv)}>
+                        <div style={{ fontSize: "12px", color: "#e2e8f0", marginBottom: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {conv.title}
+                        </div>
+                        <div style={{ fontSize: "9px", color: "#475569" }}>
+                          {new Date(conv.updatedAt).toLocaleDateString()} · {conv.messages.length} msg
+                        </div>
+                      </div>
+                      <button onClick={(e) => { e.stopPropagation(); setEditingConvId(conv.id); setConvRenameDraft(conv.title); }} style={{
+                        background: "none", border: "none",
+                        color: "#475569", cursor: "pointer", padding: "4px",
+                        fontSize: "12px", transition: "color 0.2s",
+                      }} onMouseOver={e => e.currentTarget.style.color = "#00ff88"} onMouseOut={e => e.currentTarget.style.color = "#475569"}>
+                        ✎
+                      </button>
+                      <button onClick={(e) => { e.stopPropagation(); deleteConversation(conv.id); }} style={{
+                        background: "none", border: "none",
+                        color: "#475569", cursor: "pointer", padding: "4px",
+                        fontSize: "12px", transition: "color 0.2s",
+                      }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#475569"}>
+                        ✕
+                      </button>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
@@ -1199,7 +1458,15 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
             <span style={{ fontSize: "12px", fontWeight: 600, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase" }}>Memory</span>
-            <div style={{ display: "flex", gap: "8px" }}>
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <button onClick={toggleMemoryEnabled} style={{
+                fontSize: "9px", color: memoryEnabled ? "#00ff88" : "#475569",
+                background: memoryEnabled ? "rgba(0, 255, 136, 0.08)" : "transparent",
+                border: `1px solid ${memoryEnabled ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.08)"}`,
+                cursor: "pointer", padding: "4px 8px", borderRadius: "4px",
+                letterSpacing: "1px", textTransform: "uppercase",
+                transition: "all 0.2s",
+              }}>{memoryEnabled ? "◉ Enabled" : "○ Disabled"}</button>
               {memory.length > 0 && (
                 <button onClick={clearMemory} style={{
                   fontSize: "9px", color: "#ff5050",
@@ -1221,17 +1488,203 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
             <p style={{ fontSize: "11px", color: "#475569", textAlign: "center", padding: "20px 0" }}>No memories saved</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              {memory.map((item, i) => (
-                <div key={i} style={{
+              {memory.map(item => (
+                <div key={item.id} style={{
                   display: "flex", alignItems: "center", justifyContent: "space-between",
                   padding: "10px 12px", borderRadius: "8px",
                   background: "rgba(0, 255, 136, 0.02)",
                   border: "1px solid rgba(0, 255, 136, 0.08)",
                 }}>
                   <div style={{ fontSize: "11px", color: "#e2e8f0", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {item}
+                    {item.text}
                   </div>
-                  <button onClick={() => removeFromMemory(i)} style={{
+                  <button onClick={() => removeFromMemory(item.id)} style={{
+                    background: "none", border: "none",
+                    color: "#475569", cursor: "pointer", padding: "4px",
+                    fontSize: "12px", transition: "color 0.2s",
+                  }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#475569"}>
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          <div style={{ display: "flex", gap: "6px", marginTop: "14px" }}>
+            <input
+              placeholder="Save something to remember..."
+              id="elyra-memory-input"
+              style={{
+                flex: 1, minWidth: 0,
+                background: "rgba(0, 255, 136, 0.04)",
+                border: "1px solid rgba(0, 255, 136, 0.15)", borderRadius: "6px",
+                padding: "8px 12px", color: "#e2e8f0", fontSize: "12px", outline: "none",
+              }}
+            />
+            <button onClick={() => {
+              const el = document.getElementById("elyra-memory-input") as HTMLInputElement | null;
+              if (el && el.value.trim()) {
+                addToMemory(el.value);
+                el.value = "";
+              }
+            }} style={{
+              padding: "8px 14px", borderRadius: "6px", cursor: "pointer",
+              background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.2)",
+              color: "#00ff88", fontSize: "10px", letterSpacing: "1px", textTransform: "uppercase",
+              whiteSpace: "nowrap",
+            }}>Save</button>
+          </div>
+          <p style={{ fontSize: "9px", color: "#334155", marginTop: "10px", lineHeight: "1.5" }}>
+            {memoryEnabled ? "Luna uses your memories to personalize responses. They're private to you and can be cleared anytime." : "Memory is currently disabled — Luna won't receive these notes."}
+          </p>
+        </div>
+      )}
+
+      {/* Projects panel */}
+      {showProjects && (
+        <div style={{
+          position: "absolute", bottom: "80px", left: "16px", right: "16px",
+          background: "rgba(3, 7, 18, 0.95)",
+          backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+          borderRadius: "12px",
+          boxShadow: "0 0 40px rgba(0, 255, 136, 0.1), 0 0 0 1px rgba(0, 255, 136, 0.15)",
+          padding: "20px", zIndex: 20, maxHeight: "60vh", overflowY: "auto",
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+            <span style={{ fontSize: "12px", fontWeight: 600, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase" }}>Projects</span>
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <button onClick={startNewProject} style={{
+                fontSize: "9px", color: "#00ff88",
+                background: "rgba(0, 255, 136, 0.08)",
+                border: "1px solid rgba(0, 255, 136, 0.2)",
+                cursor: "pointer", padding: "4px 10px", borderRadius: "4px",
+                letterSpacing: "1px", textTransform: "uppercase",
+              }}>＋ New</button>
+              <button onClick={() => setShowProjects(false)} style={{
+                background: "rgba(0, 255, 136, 0.08)",
+                border: "1px solid rgba(0, 255, 136, 0.15)",
+                color: "#475569",
+                fontSize: "12px", width: "28px", height: "28px",
+                borderRadius: "6px", cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>✕</button>
+            </div>
+          </div>
+
+          {/* New project form */}
+          {newProjectOpen && (
+            <div style={{ marginBottom: "16px", padding: "14px", borderRadius: "8px", background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.12)" }}>
+              {([
+                ["name", "Project name"],
+                ["whatBuilding", "What are you building?"],
+                ["language", "Language (e.g. JavaScript)"],
+                ["framework", "Framework (e.g. React)"],
+              ] as const).map(([field, placeholder]) => (
+                <div key={field} style={{ marginBottom: "8px" }}>
+                  <input
+                    placeholder={placeholder}
+                    value={newProjectDraft[field]}
+                    onChange={e => setNewProjectDraft(d => ({ ...d, [field]: e.target.value }))}
+                    onKeyDown={e => { if (e.key === "Enter") createProject(); }}
+                    style={{
+                      width: "100%", boxSizing: "border-box",
+                      background: "rgba(0, 255, 136, 0.04)",
+                      border: "1px solid rgba(0, 255, 136, 0.15)", borderRadius: "6px",
+                      padding: "8px 12px", color: "#e2e8f0", fontSize: "12px", outline: "none",
+                    }}
+                  />
+                </div>
+              ))}
+              <button onClick={createProject} style={{
+                width: "100%", padding: "8px", borderRadius: "6px", cursor: "pointer",
+                background: "rgba(0, 255, 136, 0.1)", border: "1px solid rgba(0, 255, 136, 0.3)",
+                color: "#00ff88", fontSize: "11px", letterSpacing: "1px", textTransform: "uppercase",
+              }}>Create Project</button>
+            </div>
+          )}
+
+          {projectDetailId && detailProject ? (
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px", flexWrap: "wrap" }}>
+                <button onClick={() => setProjectDetailId(null)} style={{
+                  background: "rgba(0, 255, 136, 0.08)",
+                  border: "1px solid rgba(0, 255, 136, 0.15)",
+                  color: "#475569", fontSize: "11px", width: "26px", height: "26px",
+                  borderRadius: "6px", cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>←</button>
+                <span style={{ fontSize: "12px", color: "#00ff88", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{detailProject.name}</span>
+                {currentProjectId === detailProject.id && (
+                  <span style={{ fontSize: "8px", color: "#22d3ee", letterSpacing: "1px", textTransform: "uppercase" }}>● Active</span>
+                )}
+              </div>
+              {([
+                ["name", "Project name"],
+                ["whatBuilding", "What are you building?"],
+                ["language", "Language"],
+                ["framework", "Framework"],
+                ["files", "Files involved (optional)"],
+                ["decisions", "Decisions made (optional)"],
+                ["progress", "Progress (optional)"],
+                ["instructions", "Instructions for Luna (optional)"],
+              ] as [keyof Pick<ElyraProject, "name" | "whatBuilding" | "language" | "framework" | "files" | "decisions" | "progress" | "instructions">, string][]).map(([field, label]) => (
+                <div key={field} style={{ marginBottom: "8px" }}>
+                  <label style={{ fontSize: "9px", color: "#00ff88", letterSpacing: "1px", textTransform: "uppercase", display: "block", marginBottom: "4px" }}>{label}</label>
+                  <textarea
+                    rows={["whatBuilding", "decisions", "progress", "instructions"].includes(field) ? 2 : 1}
+                    value={String(detailProject[field])}
+                    onChange={e => updateProjectField(detailProject.id, field, e.target.value)}
+                    placeholder={label}
+                    style={{
+                      width: "100%", boxSizing: "border-box", resize: "vertical",
+                      background: "rgba(0, 255, 136, 0.04)",
+                      border: "1px solid rgba(0, 255, 136, 0.15)", borderRadius: "6px",
+                      padding: "8px 12px", color: "#e2e8f0", fontSize: "12px", outline: "none",
+                      fontFamily: "inherit",
+                    }}
+                  />
+                </div>
+              ))}
+              <div style={{ display: "flex", gap: "8px", marginTop: "12px" }}>
+                <button onClick={() => openProject(detailProject)} style={{
+                  flex: 1, padding: "9px", borderRadius: "6px", cursor: "pointer",
+                  background: "rgba(0, 255, 136, 0.1)", border: "1px solid rgba(0, 255, 136, 0.3)",
+                  color: "#00ff88", fontSize: "10px", letterSpacing: "1px", textTransform: "uppercase",
+                }}>{detailProject.conversationId ? "Continue Chat" : "Start Chat"}</button>
+                <button onClick={() => deleteProject(detailProject.id)} style={{
+                  padding: "9px 16px", borderRadius: "6px", cursor: "pointer",
+                  background: "rgba(255, 80, 80, 0.08)", border: "1px solid rgba(255, 80, 80, 0.25)",
+                  color: "#ff8a8a", fontSize: "10px", letterSpacing: "1px", textTransform: "uppercase",
+                }}>Delete</button>
+              </div>
+            </div>
+          ) : projects.length === 0 ? (
+            <p style={{ fontSize: "11px", color: "#475569", textAlign: "center", padding: "20px 0", lineHeight: "1.6" }}>
+              {newProjectOpen ? "Fill in the details above to create your first project." : "No projects yet. Start one so Luna stays grounded in what you're building."}
+            </p>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {projects.map(proj => (
+                <div key={proj.id} style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "10px 12px", borderRadius: "8px", cursor: "pointer",
+                  background: currentProjectId === proj.id ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
+                  border: `1px solid ${currentProjectId === proj.id ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.08)"}`,
+                  transition: "all 0.2s",
+                }} onClick={() => setProjectDetailId(proj.id)}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: "12px", color: "#e2e8f0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{proj.name}</div>
+                    <div style={{ fontSize: "9px", color: "#475569", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {[proj.language, proj.framework].filter(Boolean).join(" · ") || proj.whatBuilding || "—"}
+                    </div>
+                  </div>
+                  <button onClick={(e) => { e.stopPropagation(); openProject(proj); }} style={{
+                    background: "rgba(0, 255, 136, 0.08)",
+                    border: "1px solid rgba(0, 255, 136, 0.2)",
+                    color: "#00ff88", cursor: "pointer", padding: "4px 10px",
+                    borderRadius: "4px", fontSize: "9px", letterSpacing: "1px", textTransform: "uppercase",
+                    whiteSpace: "nowrap",
+                  }}>Open</button>
+                  <button onClick={(e) => { e.stopPropagation(); deleteProject(proj.id); }} style={{
                     background: "none", border: "none",
                     color: "#475569", cursor: "pointer", padding: "4px",
                     fontSize: "12px", transition: "color 0.2s",
