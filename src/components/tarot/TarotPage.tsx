@@ -224,16 +224,26 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
           overflow: "hidden",
         }}>
+          {/* Animated color shift background */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(135deg, #0a2a2a, #1a0a3a, #0a2a3a, #2a0a2a, #0a3a2a)",
+            backgroundSize: "400% 400%",
+            animation: "cardColorShift 8s ease infinite",
+            opacity: 0.8,
+          }} />
           {/* Decorative pattern */}
           <div style={{
             position: "absolute",
             inset: 0,
-            opacity: 0.15,
+            opacity: 0.2,
             background: `
-              radial-gradient(circle at 25% 25%, rgba(0, 212, 170, 0.3) 0%, transparent 30%),
-              radial-gradient(circle at 75% 75%, rgba(0, 180, 150, 0.3) 0%, transparent 30%),
-              radial-gradient(circle at 50% 50%, rgba(0, 232, 176, 0.2) 0%, transparent 40%)
+              radial-gradient(circle at 25% 25%, rgba(0, 212, 170, 0.4) 0%, transparent 30%),
+              radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.4) 0%, transparent 30%),
+              radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 40%)
             `,
+            animation: "cardGlowShift 6s ease infinite",
           }} />
           {/* Inner border */}
           <div style={{

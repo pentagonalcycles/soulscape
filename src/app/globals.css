@@ -1221,3 +1221,19 @@ body.compact-mode .gap-4 {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Card back color shift animation */
+@keyframes cardColorShift {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 100%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 0%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes cardGlowShift {
+  0% { opacity: 0.2; }
+  33% { opacity: 0.3; }
+  66% { opacity: 0.15; }
+  100% { opacity: 0.2; }
+}
