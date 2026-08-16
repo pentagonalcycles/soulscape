@@ -1237,3 +1237,36 @@ body.compact-mode .gap-4 {
   66% { opacity: 0.15; }
   100% { opacity: 0.2; }
 }
+
+/* Campfire lobby floating orb animations */
+@keyframes lobbyFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.1); }
+  50% { transform: translate(-20px, 30px) scale(0.95); }
+  75% { transform: translate(15px, 15px) scale(1.05); }
+}
+
+@keyframes lobbyFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-25px, 25px) scale(1.08); }
+  50% { transform: translate(20px, -15px) scale(0.92); }
+  75% { transform: translate(-10px, -20px) scale(1.03); }
+}
+
+@keyframes lobbyFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -30px) scale(1.12); }
+  66% { transform: translate(-25px, 20px) scale(0.88); }
+}
+
+@keyframes lobbyFloat4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-15px, 20px) scale(1.05); }
+  50% { transform: translate(25px, -10px) scale(0.95); }
+  75% { transform: translate(-20px, -15px) scale(1.08); }
+}
+
+@keyframes auroraShift {
+  0%, 100% { opacity: 0.5; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(-10px); }
+}

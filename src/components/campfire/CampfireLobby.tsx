@@ -96,13 +96,79 @@ export default function CampfireLobby({ onJoinRoom, theme, onToggleTheme }: Camp
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center p-6 transition-colors duration-500"
+      className="min-h-screen flex flex-col items-center justify-center p-6 transition-colors duration-500 relative overflow-hidden"
       style={{
         background: isLight
           ? "linear-gradient(180deg, #f5f0e8 0%, #ede5d8 50%, #e8dfd0 100%)"
           : "linear-gradient(180deg, #050510 0%, #0a0a2e 50%, #1a0a2e 100%)",
       }}
     >
+      {/* Magical animated background */}
+      {!isLight && (
+        <>
+          {/* Color shifting orbs */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div
+              className="absolute w-[600px] h-[600px] rounded-full"
+              style={{
+                top: "-10%",
+                left: "-10%",
+                background: "radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%)",
+                filter: "blur(80px)",
+                animation: "lobbyFloat1 20s ease-in-out infinite",
+              }}
+            />
+            <div
+              className="absolute w-[500px] h-[500px] rounded-full"
+              style={{
+                bottom: "-10%",
+                right: "-10%",
+                background: "radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%)",
+                filter: "blur(70px)",
+                animation: "lobbyFloat2 25s ease-in-out infinite",
+              }}
+            />
+            <div
+              className="absolute w-[400px] h-[400px] rounded-full"
+              style={{
+                top: "40%",
+                left: "50%",
+                background: "radial-gradient(circle, rgba(0, 212, 170, 0.06) 0%, transparent 70%)",
+                filter: "blur(60px)",
+                animation: "lobbyFloat3 18s ease-in-out infinite",
+              }}
+            />
+            <div
+              className="absolute w-[350px] h-[350px] rounded-full"
+              style={{
+                top: "20%",
+                right: "20%",
+                background: "radial-gradient(circle, rgba(236, 72, 153, 0.05) 0%, transparent 70%)",
+                filter: "blur(55px)",
+                animation: "lobbyFloat4 22s ease-in-out infinite",
+              }}
+            />
+          </div>
+
+          {/* Aurora effect */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `
+                linear-gradient(180deg,
+                  transparent 0%,
+                  rgba(168, 85, 247, 0.03) 15%,
+                  rgba(59, 130, 246, 0.04) 25%,
+                  rgba(0, 212, 170, 0.03) 35%,
+                  transparent 50%
+                )
+              `,
+              animation: "auroraShift 10s ease-in-out infinite",
+            }}
+          />
+        </>
+      )}
+
       {/* Ambient glow */}
       <div
         className="fixed bottom-0 left-0 right-0 pointer-events-none"
