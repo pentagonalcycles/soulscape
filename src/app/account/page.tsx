@@ -32,13 +32,16 @@ interface Download {
 }
 
 export default function AccountPage() {
-  const { userId } = useAuth();
+  const { userId, userProfile, updateProfile } = useAuth();
   const [membership, setMembership] = useState<Membership | null>(null);
   const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [downloads, setDownloads] = useState<Download[]>([]);
   const [loading, setLoading] = useState(true);
   const [portalLoading, setPortalLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [savingName, setSavingName] = useState(false);
+  const [nameMessage, setNameMessage] = useState("");
 
   const fetchData = useCallback(async () => {
     if (!userId) return;
@@ -73,10 +76,30 @@ export default function AccountPage() {
   useEffect(() => { fetchData(); }, [fetchData]);
 
   useEffect(() => {
+    if (userProfile?.display_name) {
+      setDisplayName(userProfile.display_name);
+    }
+  }, [userProfile]);
+
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("upgraded")) setMessage("Welcome to Elovayne Plus! Your membership is now active.");
     if (params.get("purchased")) setMessage("Purchase complete! Your downloads are available below.");
   }, []);
+
+  const handleSaveName = async () => {
+    if (!displayName.trim()) return;
+    setSavingName(true);
+    setNameMessage("");
+    try {
+      await updateProfile({ display_name: displayName.trim() });
+      setNameMessage("Name saved!");
+      setTimeout(() => setNameMessage(""), 3000);
+    } catch {
+      setNameMessage("Failed to save. Try again.");
+    }
+    setSavingName(false);
+  };
 
   const handleManageMembership = async () => {
     if (!userId) return;
