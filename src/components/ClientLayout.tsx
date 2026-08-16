@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AuthProvider, useAuth } from "@/components/AuthProvider";
@@ -12,49 +12,6 @@ import ArtisticBackground from "@/components/ArtisticBackground";
 import ElyraButton from "@/components/ElyraButton";
 import Navigation from "@/components/Navigation";
 import VisitorTracker from "@/components/VisitorTracker";
-import { supabase } from "@/lib/supabase";
-
-function PageVisitors({ pathname }: { pathname: string }) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const fetchCount = async () => {
-      const client = supabase();
-      const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
-      const { data } = await client
-        .from("site_stats")
-        .select("visitor_id")
-        .eq("page", pathname)
-        .gte("created_at", fiveMinAgo);
-      const unique = new Set(data?.map((v) => v.visitor_id) || []).size;
-      setCount(unique);
-    };
-    fetchCount();
-    const interval = setInterval(fetchCount, 30000);
-    return () => clearInterval(interval);
-  }, [pathname]);
-
-  if (count === 0) return null;
-
-  return (
-    <div
-      className="fixed bottom-4 left-4 z-50 flex items-center gap-2 px-3 py-2 rounded-full"
-      style={{
-        background: "rgba(0, 255, 136, 0.08)",
-        backdropFilter: "blur(12px)",
-        border: "1px solid rgba(0, 255, 136, 0.15)",
-      }}
-    >
-      <div className="relative">
-        <div className="w-2 h-2 rounded-full" style={{ background: "#10b981" }} />
-        <div className="absolute inset-0 w-2 h-2 rounded-full animate-ping" style={{ background: "#10b981", opacity: 0.4 }} />
-      </div>
-      <span className="text-[10px]" style={{ color: "rgba(0, 255, 136, 0.7)" }}>
-        {count} {count === 1 ? "person" : "people"} here
-      </span>
-    </div>
-  );
-}
 
 const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
 const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
@@ -108,18 +65,6 @@ function BannedScreen() {
 function LayoutInner({ children }: { children: ReactNode }) {
   const { isBanned, loading } = useAuth();
   const pathname = usePathname();
-
-  // Track page views
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    let visitorId = localStorage.getItem("elovayne-visitor-id");
-    if (!visitorId) {
-      visitorId = `v-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-      localStorage.setItem("elovayne-visitor-id", visitorId);
-    }
-    const client = supabase();
-    client.from("site_stats").insert({ page: pathname, visitor_id: visitorId }).then(() => {});
-  }, [pathname]);
 
   useEffect(() => {
     // Always use dark bioluminescent theme
@@ -194,8 +139,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
       {!hideElyraButton && <ElyraButton />}
       <Navigation activePage={activePage} />
       <VisitorTracker />
-      {pathname && <PageVisitors pathname={pathname} />}
-
 
     </>
   );

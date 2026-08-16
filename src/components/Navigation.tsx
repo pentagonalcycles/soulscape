@@ -30,7 +30,6 @@ const bottomLinks = [
   { href: "/support", label: "Support" },
   { href: "/share", label: "Share" },
   { href: "/ideas", label: "Ideas" },
-  { href: "/stats", label: "Stats" },
 ];
 
 interface NavigationProps {
