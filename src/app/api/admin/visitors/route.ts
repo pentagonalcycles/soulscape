@@ -62,7 +62,7 @@ export async function GET(req: NextRequest) {
   
   let query = service
     .from("page_visits")
-    .select("*")
+    .select("*, users(display_name, identity_type, avatar_url)")
     .order("visited_at", { ascending: false })
     .limit(limit);
 

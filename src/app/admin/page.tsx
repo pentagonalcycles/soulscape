@@ -5,11 +5,52 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
 
+interface VisitRecord {
+  id: string;
+  user_id: string | null;
+  page_path: string;
+  page_title: string | null;
+  visitor_ip: string;
+  user_agent: string;
+  visited_at: string;
+  users?: { display_name: string | null; identity_type: string; avatar_url: string | null } | null;
+}
+
+function parseDevice(ua: string): { type: string; browser: string; os: string; icon: string } {
+  const lower = ua.toLowerCase();
+  
+  let type = "Desktop";
+  let icon = "💻";
+  if (lower.includes("mobile") || lower.includes("android") || lower.includes("iphone")) {
+    type = "Mobile";
+    icon = "📱";
+  } else if (lower.includes("tablet") || lower.includes("ipad")) {
+    type = "Tablet";
+    icon = "📱";
+  }
+
+  let browser = "Unknown";
+  if (lower.includes("chrome") && !lower.includes("edg")) browser = "Chrome";
+  else if (lower.includes("safari") && !lower.includes("chrome")) browser = "Safari";
+  else if (lower.includes("firefox")) browser = "Firefox";
+  else if (lower.includes("edg")) browser = "Edge";
+  else if (lower.includes("opera") || lower.includes("opr")) browser = "Opera";
+
+  let os = "Unknown";
+  if (lower.includes("windows")) os = "Windows";
+  else if (lower.includes("mac os") || lower.includes("macos")) os = "macOS";
+  else if (lower.includes("linux")) os = "Linux";
+  else if (lower.includes("android")) os = "Android";
+  else if (lower.includes("iphone") || lower.includes("ipad") || lower.includes("ios")) os = "iOS";
+
+  return { type, browser, os, icon };
+}
+
 export default function AdminPage() {
   const { userId } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [visits, setVisits] = useState<{ id: string; user_id: string | null; page_path: string; page_title: string | null; visitor_ip: string; visited_at: string }[]>([]);
+  const [visits, setVisits] = useState<VisitRecord[]>([]);
   const [visitsLoading, setVisitsLoading] = useState(false);
   const [pageFilter, setPageFilter] = useState("");
   const [pageStats, setPageStats] = useState<Record<string, number>>({});
@@ -89,6 +130,10 @@ export default function AdminPage() {
 
   const uniquePages = Object.keys(pageStats).sort((a, b) => pageStats[b] - pageStats[a]);
 
+  const totalVisits = Object.values(pageStats).reduce((a, b) => a + b, 0);
+  const uniqueVisitors = new Set(visits.map(v => v.visitor_ip)).size;
+  const loggedInVisits = visits.filter(v => v.user_id).length;
+
   if (loading) {
     return (
       <main className="relative min-h-screen overflow-hidden">
@@ -137,6 +182,22 @@ export default function AdminPage() {
               <h1 className="text-3xl md:text-4xl font-heading glow-text-strong mb-2">Visitor Tracker</h1>
               <p className="text-elovayne-dim text-sm mb-8">See who visits each page · Auto-refreshes every 30s</p>
 
+              {/* Stats cards */}
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="sanctuary-glass-card rounded-xl p-4 text-center">
+                  <div className="text-2xl font-heading text-elovayne-light mb-1">{totalVisits}</div>
+                  <div className="text-[10px] text-elovayne-dim uppercase tracking-wider">Total Visits</div>
+                </div>
+                <div className="sanctuary-glass-card rounded-xl p-4 text-center">
+                  <div className="text-2xl font-heading text-elovayne-light mb-1">{uniqueVisitors}</div>
+                  <div className="text-[10px] text-elovayne-dim uppercase tracking-wider">Unique IPs</div>
+                </div>
+                <div className="sanctuary-glass-card rounded-xl p-4 text-center">
+                  <div className="text-2xl font-heading text-elovayne-light mb-1">{loggedInVisits}</div>
+                  <div className="text-[10px] text-elovayne-dim uppercase tracking-wider">Logged In</div>
+                </div>
+              </div>
+
               {/* Page filters */}
               <div className="flex gap-2 mb-6 overflow-x-auto pb-2 flex-wrap">
                 <button
@@ -149,7 +210,7 @@ export default function AdminPage() {
                 >
                   All Pages
                 </button>
-                {uniquePages.slice(0, 12).map((page) => (
+                {uniquePages.slice(0, 15).map((page) => (
                   <button
                     key={page}
                     onClick={() => setPageFilter(pageFilter === page ? "" : page)}
@@ -164,50 +225,88 @@ export default function AdminPage() {
                 ))}
               </div>
 
-              {/* Visits list */}
+              {/* Visits table */}
               {visitsLoading ? (
-                <p className="text-elovayne-dim text-sm text-center py-8">Loading visitors...</p>
+                <div className="text-center py-12">
+                  <div className="text-elovayne-dim text-sm">Loading visitors...</div>
+                </div>
               ) : visits.length === 0 ? (
                 <div className="text-center py-12">
                   <span className="text-3xl block mb-3">👁</span>
                   <p className="text-elovayne-dim text-sm">No visits recorded yet.</p>
                 </div>
               ) : (
-                <div className="space-y-2">
-                  {visits.map((visit) => (
-                    <motion.div
-                      key={visit.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="sanctuary-glass-card rounded-xl p-4"
-                    >
-                      <div className="flex items-center justify-between gap-4">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-sm font-medium text-elovayne-light">
-                              {visit.page_path}
+                <div className="sanctuary-glass-card rounded-xl overflow-hidden">
+                  {/* Table header */}
+                  <div className="grid grid-cols-12 gap-3 px-4 py-3 border-b border-elovayne-nebula/10 text-[10px] text-elovayne-dim uppercase tracking-wider">
+                    <div className="col-span-3">Page</div>
+                    <div className="col-span-2">Visitor</div>
+                    <div className="col-span-2">Device</div>
+                    <div className="col-span-2">IP Address</div>
+                    <div className="col-span-3 text-right">Time</div>
+                  </div>
+
+                  {/* Table rows */}
+                  {visits.map((visit, i) => {
+                    const device = parseDevice(visit.user_agent || "");
+                    return (
+                      <motion.div
+                        key={visit.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.02 }}
+                        className="grid grid-cols-12 gap-3 px-4 py-3 border-b border-elovayne-nebula/5 hover:bg-elovayne-nebula/5 transition-colors items-center"
+                      >
+                        {/* Page */}
+                        <div className="col-span-3 min-w-0">
+                          <div className="text-sm text-elovayne-light truncate">{visit.page_path}</div>
+                          {visit.page_title && visit.page_title !== visit.page_path && (
+                            <div className="text-[10px] text-elovayne-dim truncate">{visit.page_title}</div>
+                          )}
+                        </div>
+
+                        {/* Visitor type */}
+                        <div className="col-span-2">
+                          {visit.user_id ? (
+                            <div>
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-elovayne-violet/20 text-elovayne-violet mb-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-elovayne-violet"></span>
+                                {visit.users?.display_name || "User"}
+                              </span>
+                              <div className="text-[9px] text-elovayne-dim capitalize">{visit.users?.identity_type || "user"}</div>
+                            </div>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-elovayne-deep/50 text-elovayne-muted">
+                              <span className="w-1.5 h-1.5 rounded-full bg-elovayne-dim/50"></span>
+                              Anonymous
                             </span>
-                            {visit.user_id ? (
-                              <span className="px-2 py-0.5 rounded-full text-[10px] bg-elovayne-violet/20 text-elovayne-violet">
-                                Logged in
-                              </span>
-                            ) : (
-                              <span className="px-2 py-0.5 rounded-full text-[10px] bg-elovayne-deep/50 text-elovayne-muted">
-                                Anonymous
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-3 text-[10px] text-elovayne-dim">
-                            <span>{visit.visitor_ip}</span>
-                            <span>·</span>
-                            <span>{getTimeAgo(visit.visited_at)}</span>
-                            <span>·</span>
-                            <span>{formatTime(visit.visited_at)}</span>
+                          )}
+                        </div>
+
+                        {/* Device */}
+                        <div className="col-span-2">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-sm">{device.icon}</span>
+                            <div>
+                              <div className="text-[11px] text-elovayne-light">{device.type}</div>
+                              <div className="text-[9px] text-elovayne-dim">{device.browser} · {device.os}</div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
+
+                        {/* IP */}
+                        <div className="col-span-2">
+                          <span className="text-xs text-elovayne-dim font-mono">{visit.visitor_ip}</span>
+                        </div>
+
+                        {/* Time */}
+                        <div className="col-span-3 text-right">
+                          <div className="text-xs text-elovayne-light">{getTimeAgo(visit.visited_at)}</div>
+                          <div className="text-[10px] text-elovayne-dim">{formatTime(visit.visited_at)}</div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               )}
 
