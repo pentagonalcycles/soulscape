@@ -508,15 +508,55 @@ export default function LivePage() {
   return (
     <main style={{
       minHeight: "100vh",
-      background: "linear-gradient(180deg, #15261d 0%, #1a2e23 50%, #15261d 100%)",
+      background: "linear-gradient(135deg, #1a0a0a, #2a0a1a, #1a0a2a, #0a1a2a)",
+      backgroundSize: "400% 400%",
+      animation: "liveBgShift 15s ease infinite",
       position: "relative",
       overflow: "hidden",
     }}>
-      <div style={{
-        position: "fixed", top: "-20%", right: "-10%", width: 400, height: 400,
-        borderRadius: "50%", background: "radial-gradient(circle, rgba(239, 68, 68, 0.04) 0%, transparent 70%)",
-        filter: "blur(60px)", pointerEvents: "none",
-      }} />
+      {/* Magical color orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute w-[600px] h-[600px] rounded-full"
+          style={{
+            top: "-15%",
+            left: "-10%",
+            background: "radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, transparent 70%)",
+            filter: "blur(80px)",
+            animation: "lobbyFloat1 20s ease-in-out infinite",
+          }}
+        />
+        <div
+          className="absolute w-[500px] h-[500px] rounded-full"
+          style={{
+            bottom: "-10%",
+            right: "-10%",
+            background: "radial-gradient(circle, rgba(249, 115, 22, 0.12) 0%, transparent 70%)",
+            filter: "blur(70px)",
+            animation: "lobbyFloat2 25s ease-in-out infinite",
+          }}
+        />
+        <div
+          className="absolute w-[400px] h-[400px] rounded-full"
+          style={{
+            top: "40%",
+            left: "60%",
+            background: "radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%)",
+            filter: "blur(60px)",
+            animation: "lobbyFloat3 18s ease-in-out infinite",
+          }}
+        />
+        <div
+          className="absolute w-[350px] h-[350px] rounded-full"
+          style={{
+            top: "20%",
+            right: "15%",
+            background: "radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)",
+            filter: "blur(55px)",
+            animation: "lobbyFloat4 22s ease-in-out infinite",
+          }}
+        />
+      </div>
 
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "80px 20px 60px", position: "relative", zIndex: 1 }}>
 
