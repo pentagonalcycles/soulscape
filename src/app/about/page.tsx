@@ -57,6 +57,7 @@ const sections = [
     title: "What you can do here",
     items: [
       "Talk to Elyra, an AI companion who listens without judgment.",
+      "Explore Arcana — a full 78-card Tarot deck for reflection and insight.",
       "Share your feelings through Soul Echo and connect with someone who understands.",
       "Reflect in the Reflection Room with daily prompts.",
       "Create art in the Dream Canvas with 32 brush types.",
@@ -66,6 +67,9 @@ const sections = [
       "Write poems inspired by daily prompts in Poetry.",
       "Map your inner world with Soul Map — a private mandala.",
       "Play Nebula Orb, a multiplayer cosmic arena game.",
+      "Use Cosmic Camera with 36 filters and creative effects.",
+      "Share music and art with the Community Share.",
+      "Send a Human Signal to find someone who feels what you feel.",
     ],
     color: "#39ff14",
   },
