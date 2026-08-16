@@ -153,6 +153,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
     "/soul-echo": "soul echo",
     "/reflection-room": "reflection",
     "/tarot": "arcana",
+    "/threads": "threads",
     "/dream-canvas": "canvas",
     "/camera": "camera",
     "/mural": "mural",

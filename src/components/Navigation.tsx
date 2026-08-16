@@ -9,6 +9,7 @@ import { useIsMobile } from "@/lib/useIsMobile";
 const navLinks = [
   { href: "/elyra", label: "Elyra AI", icon: "✦" },
   { href: "/tarot", label: "Arcana", icon: "☽" },
+  { href: "/threads", label: "Threads", icon: "🧶" },
   { href: "/soul-echo", label: "Soul Echo", icon: "◎" },
   { href: "/reflection-room", label: "Reflection", icon: "◈" },
   { href: "/dream-canvas", label: "Canvas", icon: "△" },
