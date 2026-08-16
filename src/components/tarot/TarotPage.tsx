@@ -104,7 +104,7 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           inset: 0,
           backfaceVisibility: "hidden",
           borderRadius: size === "sm" ? 8 : 12,
-          background: "linear-gradient(145deg, rgba(31, 56, 40, 0.95), rgba(42, 77, 58, 0.95))",
+          background: "linear-gradient(145deg, rgba(50, 25, 90, 0.95), rgba(70, 35, 120, 0.95))",
           border: `1px solid ${selected ? "rgba(168, 85, 247, 0.5)" : "rgba(168, 85, 247, 0.15)"}`,
           boxShadow: selected
             ? "0 0 30px rgba(168, 85, 247, 0.2), inset 0 0 20px rgba(168, 85, 247, 0.05)"
