@@ -286,7 +286,7 @@ export default function GameHUD({
 
       {/* Minimap */}
       {gs && (
-        <div className="absolute bottom-4 right-4 pointer-events-auto">
+        <div className={`absolute pointer-events-auto ${isMobile ? "top-32 right-3" : "bottom-4 right-4"}`}>
           <Minimap
             state={gs}
             cameraX={camera.x}

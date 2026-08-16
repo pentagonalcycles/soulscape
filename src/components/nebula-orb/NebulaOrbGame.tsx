@@ -108,7 +108,7 @@ export default function NebulaOrbGame() {
   }, []);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden" style={{ background: siteBg || "#050510", touchAction: "none" }}>
+    <div className="relative w-full h-screen supports-[height:100dvh]:h-dvh overflow-hidden" style={{ background: siteBg || "#050510", touchAction: "none" }}>
       <AnimatePresence>
         {showLobby && (
           <motion.div

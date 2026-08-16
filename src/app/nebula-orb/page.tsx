@@ -12,7 +12,7 @@ export default function NebulaOrbPage() {
   }, []);
 
   return (
-    <main className="relative h-screen overflow-hidden" style={{ background: bgColor }}>
+    <main className="relative h-screen supports-[height:100dvh]:h-dvh overflow-hidden" style={{ background: bgColor }}>
       <NebulaOrbGame />
     </main>
   );
