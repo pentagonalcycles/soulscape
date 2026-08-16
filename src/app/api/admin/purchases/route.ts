@@ -15,29 +15,22 @@ export async function GET(req: NextRequest) {
 
   const client = supabaseService();
 
-  const { data: purchases } = await client
-    .from("purchases")
-    .select("*, users(display_name, identity_type), products(title)")
-    .order("created_at", { ascending: false })
-    .limit(100);
+  try {
+    const { data: purchases } = await client
+      .from("purchases")
+      .select("*, users(display_name, identity_type), products(title)")
+      .order("created_at", { ascending: false })
+      .limit(100);
 
-  const { data: memberships } = await client
-    .from("memberships")
-    .select("*, users(display_name, identity_type)")
-    .order("created_at", { ascending: false })
-    .limit(100);
+    const { data: memberships } = await client
+      .from("memberships")
+      .select("*, users(display_name, identity_type)")
+      .order("created_at", { ascending: false })
+      .limit(100);
 
-  const { data: donations } = await client
-    .from("donations")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(100);
-
-  const { data: bookings } = await client
-    .from("bookings")
-    .select("*, users(display_name, identity_type), experiences(title, experience_date)")
-    .order("created_at", { ascending: false })
-    .limit(100);
-
-  return NextResponse.json({ purchases: purchases || [], memberships: memberships || [], donations: donations || [], bookings: bookings || [] });
+    return NextResponse.json({ purchases: purchases || [], memberships: memberships || [] });
+  } catch {
+    // Tables may not exist
+    return NextResponse.json({ purchases: [], memberships: [] });
+  }
 }

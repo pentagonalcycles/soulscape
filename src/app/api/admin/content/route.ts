@@ -24,41 +24,23 @@ export async function GET(req: NextRequest) {
 
   const results: Record<string, unknown>[] = [];
 
-  const fetchers: PromiseLike<void>[] = [];
-
-  if (type === "all" || type === "posts") {
-    fetchers.push(
-      client.from("posts").select("id, content, content_type, is_anonymous, display_name, user_id, created_at").order("created_at", { ascending: false }).range(offset, offset + limit - 1).then(({ data }) => {
-        if (data) results.push(...data.map(d => ({ ...d, _type: "posts" })));
-      })
-    );
+  async function fetchTable(tableName: string, typeLabel: string) {
+    try {
+      const { data } = await client
+        .from(tableName)
+        .select("*")
+        .order("created_at", { ascending: false })
+        .range(offset, offset + limit - 1);
+      if (data) results.push(...data.map(d => ({ ...d, _type: typeLabel })));
+    } catch {
+      // Table may not exist
+    }
   }
 
-  if (type === "all" || type === "ideas") {
-    fetchers.push(
-      client.from("ideas").select("id, title, description, category, user_id, created_at").order("created_at", { ascending: false }).range(offset, offset + limit - 1).then(({ data }) => {
-        if (data) results.push(...data.map(d => ({ ...d, _type: "ideas" })));
-      })
-    );
-  }
-
-  if (type === "all" || type === "poems") {
-    fetchers.push(
-      client.from("poems").select("id, title, content, user_id, created_at").order("created_at", { ascending: false }).range(offset, offset + limit - 1).then(({ data }) => {
-        if (data) results.push(...data.map(d => ({ ...d, _type: "poems" })));
-      })
-    );
-  }
-
-  if (type === "all" || type === "wish_lanterns") {
-    fetchers.push(
-      client.from("wish_lanterns").select("id, message, user_id, created_at").order("created_at", { ascending: false }).range(offset, offset + limit - 1).then(({ data }) => {
-        if (data) results.push(...data.map(d => ({ ...d, _type: "wish_lanterns" })));
-      })
-    );
-  }
-
-  await Promise.all(fetchers);
+  if (type === "all" || type === "posts") await fetchTable("posts", "posts");
+  if (type === "all" || type === "ideas") await fetchTable("ideas", "ideas");
+  if (type === "all" || type === "poems") await fetchTable("poems", "poems");
+  if (type === "all" || type === "wish_lanterns") await fetchTable("wish_lanterns", "wish_lanterns");
 
   // Sort combined results by created_at
   results.sort((a, b) => new Date(b.created_at as string).getTime() - new Date(a.created_at as string).getTime());

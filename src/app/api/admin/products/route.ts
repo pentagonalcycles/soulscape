@@ -16,8 +16,12 @@ export async function GET(req: NextRequest) {
   const auth = await requireAdmin(req);
   if (!auth) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
   const client = auth.client;
-  const { data } = await client.from("products").select("*").order("sort_order", { ascending: true });
-  return NextResponse.json(data || []);
+  try {
+    const { data } = await client.from("products").select("*").order("sort_order", { ascending: true });
+    return NextResponse.json(data || []);
+  } catch {
+    return NextResponse.json([]);
+  }
 }
 
 export async function POST(req: NextRequest) {

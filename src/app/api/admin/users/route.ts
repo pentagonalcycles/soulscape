@@ -20,46 +20,58 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const search = url.searchParams.get("search");
 
-  let query = client
-    .from("users")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(200);
+  try {
+    let query = client
+      .from("users")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(200);
 
-  if (search) {
-    query = query.ilike("display_name", `%${search}%`);
+    if (search) {
+      query = query.ilike("display_name", `%${search}%`);
+    }
+
+    const { data: users } = await query;
+    if (!users) return NextResponse.json([]);
+
+    // Enrich with content counts
+    const enriched = await Promise.all(
+      users.map(async (u: Record<string, unknown>) => {
+        let postCount = 0, ideaCount = 0, poemCount = 0;
+        try {
+          const { count: pc } = await client.from("posts").select("id", { count: "exact", head: true }).eq("user_id", u.id);
+          postCount = pc || 0;
+        } catch {}
+        try {
+          const { count: ic } = await client.from("ideas").select("id", { count: "exact", head: true }).eq("user_id", u.id);
+          ideaCount = ic || 0;
+        } catch {}
+        try {
+          const { count: poc } = await client.from("poems").select("id", { count: "exact", head: true }).eq("user_id", u.id);
+          poemCount = poc || 0;
+        } catch {}
+
+        return {
+          id: u.id,
+          display_name: u.display_name,
+          identity_type: u.identity_type,
+          avatar_url: u.avatar_url,
+          bio: u.bio,
+          is_banned: u.is_banned || false,
+          ban_reason: u.ban_reason || null,
+          banned_at: u.banned_at || null,
+          created_at: u.created_at,
+          post_count: postCount,
+          idea_count: ideaCount,
+          poem_count: poemCount,
+        };
+      })
+    );
+
+    return NextResponse.json(enriched);
+  } catch {
+    return NextResponse.json([]);
   }
-
-  const { data: users } = await query;
-  if (!users) return NextResponse.json([]);
-
-  // Enrich with content counts
-  const enriched = await Promise.all(
-    users.map(async (u: Record<string, unknown>) => {
-      const [posts, ideas, poems] = await Promise.all([
-        client.from("posts").select("id", { count: "exact", head: true }).eq("user_id", u.id),
-        client.from("ideas").select("id", { count: "exact", head: true }).eq("user_id", u.id),
-        client.from("poems").select("id", { count: "exact", head: true }).eq("user_id", u.id),
-      ]);
-
-      return {
-        id: u.id,
-        display_name: u.display_name,
-        identity_type: u.identity_type,
-        avatar_url: u.avatar_url,
-        bio: u.bio,
-        is_banned: u.is_banned || false,
-        ban_reason: u.ban_reason || null,
-        banned_at: u.banned_at || null,
-        created_at: u.created_at,
-        post_count: posts.count || 0,
-        idea_count: ideas.count || 0,
-        poem_count: poems.count || 0,
-      };
-    })
-  );
-
-  return NextResponse.json(enriched);
 }
 
 export async function PUT(req: NextRequest) {

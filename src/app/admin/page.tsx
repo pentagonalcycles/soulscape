@@ -126,54 +126,78 @@ export default function AdminPage() {
 
   // Fetch dashboard data
   const fetchDashboard = useCallback(async () => {
-    const [purchRes, prodRes] = await Promise.all([
-      fetch("/api/admin/purchases"),
-      fetch("/api/admin/products"),
-    ]);
-    const purchData = await purchRes.json();
-    setPurchases(purchData.purchases || []);
-    setMemberships(purchData.memberships || []);
-    setProducts(await prodRes.json());
+    try {
+      const [purchRes, prodRes] = await Promise.all([
+        fetch("/api/admin/purchases"),
+        fetch("/api/admin/products"),
+      ]);
+      const purchData = await purchRes.json();
+      setPurchases(purchData.purchases || []);
+      setMemberships(purchData.memberships || []);
+      setProducts(await prodRes.json());
+    } catch {
+      // Tables may not exist yet
+    }
   }, []);
 
   // Fetch reports
   const fetchReports = useCallback(async () => {
-    setReportsLoading(true);
-    const params = new URLSearchParams();
-    if (reportStatusFilter !== "all") params.set("status", reportStatusFilter);
-    if (reportTypeFilter !== "all") params.set("type", reportTypeFilter);
-    const res = await fetch(`/api/admin/reports?${params}`);
-    setReports(await res.json());
-    setReportsLoading(false);
+    try {
+      setReportsLoading(true);
+      const params = new URLSearchParams();
+      if (reportStatusFilter !== "all") params.set("status", reportStatusFilter);
+      if (reportTypeFilter !== "all") params.set("type", reportTypeFilter);
+      const res = await fetch(`/api/admin/reports?${params}`);
+      setReports(await res.json());
+    } catch {
+      // Reports table may not exist
+    } finally {
+      setReportsLoading(false);
+    }
   }, [reportStatusFilter, reportTypeFilter]);
 
   // Fetch users
   const fetchUsers = useCallback(async () => {
-    setUsersLoading(true);
-    const params = new URLSearchParams();
-    if (userSearch) params.set("search", userSearch);
-    const res = await fetch(`/api/admin/users?${params}`);
-    setUsers(await res.json());
-    setUsersLoading(false);
+    try {
+      setUsersLoading(true);
+      const params = new URLSearchParams();
+      if (userSearch) params.set("search", userSearch);
+      const res = await fetch(`/api/admin/users?${params}`);
+      setUsers(await res.json());
+    } catch {
+      // Users table may not exist
+    } finally {
+      setUsersLoading(false);
+    }
   }, [userSearch]);
 
   // Fetch user detail
   const fetchUserDetail = useCallback(async (uid: string) => {
-    setUserDetailLoading(true);
-    setSelectedUser(uid);
-    const res = await fetch(`/api/admin/users/${uid}`);
-    setUserDetail(await res.json());
-    setUserDetailLoading(false);
+    try {
+      setUserDetailLoading(true);
+      setSelectedUser(uid);
+      const res = await fetch(`/api/admin/users/${uid}`);
+      setUserDetail(await res.json());
+    } catch {
+      // User detail may fail
+    } finally {
+      setUserDetailLoading(false);
+    }
   }, []);
 
   // Fetch content
   const fetchContent = useCallback(async () => {
-    setContentLoading(true);
-    const params = new URLSearchParams();
-    if (contentTypeFilter !== "all") params.set("type", contentTypeFilter);
-    const res = await fetch(`/api/admin/content?${params}`);
-    setContent(await res.json());
-    setContentLoading(false);
+    try {
+      setContentLoading(true);
+      const params = new URLSearchParams();
+      if (contentTypeFilter !== "all") params.set("type", contentTypeFilter);
+      const res = await fetch(`/api/admin/content?${params}`);
+      setContent(await res.json());
+    } catch {
+      // Content tables may not exist
+    } finally {
+      setContentLoading(false);
+    }
   }, [contentTypeFilter]);
 
   // Load data when tab changes
