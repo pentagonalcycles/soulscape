@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import ElyraCodeBlock from "./ElyraCodeBlock";
 
 interface Message {
   id: string;
@@ -120,7 +122,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
 
   useEffect(() => {
     if (!initialized.current) {
-      setMessages([]);
+      setMessages(loadMessages());
       setSettings(loadSettings());
       initialized.current = true;
     }
@@ -180,8 +182,21 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
     } finally { setLoading(false); }
   }
 
-  function clearChat() { setMessages([]); setLastMood(null); localStorage.removeItem(STORAGE_KEY); }
+  function clearChat() {
+    setMessages([]);
+    setLastMood(null);
+    localStorage.removeItem(STORAGE_KEY);
+  }
   function updateSettings(p: Partial<ElyraSettings>) { const n = { ...settings, ...p }; setSettings(n); saveSettings(n); }
+
+  function handlePaste(e: React.ClipboardEvent<HTMLTextAreaElement>) {
+    const text = e.clipboardData.getData("text");
+    if (text.includes("\n") && (text.includes("{") || text.includes("function") || text.includes("const ") || text.includes("import ") || text.includes("class ") || text.includes("def ") || text.includes("return "))) {
+      e.preventDefault();
+      const formatted = "```\n" + text + "\n```";
+      setInput(prev => prev + formatted);
+    }
+  }
 
   const isEmpty = messages.length === 0;
   const messageCount = messages.filter(m => m.role === "user").length;
@@ -327,6 +342,50 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               <br />
               {`{lat:${Math.floor(Math.random() * 15 + 8)}ms}{status:active}`}
             </div>
+
+            {/* Elyra Code option */}
+            <div style={{ marginTop: "32px", textAlign: "center" }}>
+              <button
+                onClick={() => {
+                  setInput("Help me with code");
+                  setTimeout(() => inputRef.current?.focus(), 100);
+                }}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "6px",
+                  border: "1px solid rgba(0, 255, 136, 0.15)",
+                  background: "rgba(0, 255, 136, 0.04)",
+                  color: "rgba(0, 255, 136, 0.6)",
+                  fontSize: "10px",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  fontFamily: "monospace",
+                  letterSpacing: "1px",
+                  textTransform: "uppercase",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
+                  e.currentTarget.style.color = "rgba(0, 255, 136, 0.9)";
+                  e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.3)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
+                  e.currentTarget.style.color = "rgba(0, 255, 136, 0.6)";
+                  e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.15)";
+                }}
+              >
+                ✦ Elyra Code
+              </button>
+              <p style={{
+                fontSize: "8px",
+                color: "rgba(0, 255, 136, 0.2)",
+                marginTop: "8px",
+                fontFamily: "monospace",
+                letterSpacing: "1px",
+              }}>
+                Build, fix, explain or improve code
+              </p>
+            </div>
           </div>
         ) : (
           <div style={{ padding: "12px 0" }}>
@@ -395,11 +454,104 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
                               pointerEvents: "none",
                             }} />
                           )}
-                          {msg.content || (loading && isLast ? <span style={{ display: "inline-flex", gap: "5px", padding: "4px 0" }}>
-                            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#00ff88", animation: "bounce 1.4s infinite 0s", boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)" }} />
-                            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#00ff88", animation: "bounce 1.4s infinite 0.2s", boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)" }} />
-                            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#00ff88", animation: "bounce 1.4s infinite 0.4s", boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)" }} />
-                          </span> : null)}
+                          {isUser ? (
+                            msg.content
+                          ) : msg.content ? (
+                            <div style={{ fontSize: "13px", lineHeight: "1.6", wordBreak: "break-word" }}>
+                              <ReactMarkdown
+                                components={{
+                                  code({ className, children, ...props }) {
+                                    const match = /language-(\w+)/.exec(className || "");
+                                    const isInline = !match && !String(children).includes("\n");
+                                    if (isInline) {
+                                      return (
+                                        <code
+                                          style={{
+                                            background: "rgba(0, 255, 136, 0.08)",
+                                            padding: "2px 6px",
+                                            borderRadius: "4px",
+                                            fontSize: "12px",
+                                            fontFamily: "monospace",
+                                            color: "#00ff88",
+                                          }}
+                                          {...props}
+                                        >
+                                          {children}
+                                        </code>
+                                      );
+                                    }
+                                    return (
+                                      <ElyraCodeBlock language={match ? match[1] : undefined}>
+                                        {String(children).replace(/\n$/, "")}
+                                      </ElyraCodeBlock>
+                                    );
+                                  },
+                                  p({ children }) {
+                                    return <p style={{ margin: "0 0 10px" }}>{children}</p>;
+                                  },
+                                  ul({ children }) {
+                                    return <ul style={{ margin: "4px 0", paddingLeft: "20px" }}>{children}</ul>;
+                                  },
+                                  ol({ children }) {
+                                    return <ol style={{ margin: "4px 0", paddingLeft: "20px" }}>{children}</ol>;
+                                  },
+                                  li({ children }) {
+                                    return <li style={{ margin: "2px 0" }}>{children}</li>;
+                                  },
+                                  strong({ children }) {
+                                    return <strong style={{ color: "#e2e8f0", fontWeight: 600 }}>{children}</strong>;
+                                  },
+                                  em({ children }) {
+                                    return <em style={{ color: "#94a3b8" }}>{children}</em>;
+                                  },
+                                  a({ href, children }) {
+                                    return (
+                                      <a
+                                        href={href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{ color: "#00ff88", textDecoration: "underline" }}
+                                      >
+                                        {children}
+                                      </a>
+                                    );
+                                  },
+                                  h1({ children }) {
+                                    return <h1 style={{ fontSize: "18px", fontWeight: 600, color: "#e2e8f0", margin: "16px 0 8px" }}>{children}</h1>;
+                                  },
+                                  h2({ children }) {
+                                    return <h2 style={{ fontSize: "16px", fontWeight: 600, color: "#e2e8f0", margin: "14px 0 6px" }}>{children}</h2>;
+                                  },
+                                  h3({ children }) {
+                                    return <h3 style={{ fontSize: "14px", fontWeight: 600, color: "#e2e8f0", margin: "12px 0 4px" }}>{children}</h3>;
+                                  },
+                                  blockquote({ children }) {
+                                    return (
+                                      <blockquote
+                                        style={{
+                                          borderLeft: "3px solid rgba(0, 255, 136, 0.3)",
+                                          paddingLeft: "12px",
+                                          margin: "8px 0",
+                                          color: "#94a3b8",
+                                          fontStyle: "italic",
+                                        }}
+                                      >
+                                        {children}
+                                      </blockquote>
+                                    );
+                                  },
+                                }}
+                              >
+                                {msg.content}
+                              </ReactMarkdown>
+                            </div>
+                          ) : loading && isLast ? (
+                            <span style={{ display: "inline-flex", gap: "5px", padding: "4px 0" }}>
+                              <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#00ff88", animation: "bounce 1.4s infinite 0s", boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)" }} />
+                              <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#00ff88", animation: "bounce 1.4s infinite 0.2s", boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)" }} />
+                              <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#00ff88", animation: "bounce 1.4s infinite 0.4s", boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)" }} />
+                            </span>
+                          ) : null}
                         </div>
                         <span style={{
                           fontSize: "8px", color: "#1e293b",
@@ -476,6 +628,7 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
+              onPaste={handlePaste}
               placeholder={isPlus ? `◈ Transmit to ${name}...` : `◈ Transmit... (${MAX_FREE_MESSAGES - messageCount} remaining)`}
               rows={1}
               disabled={loading}
@@ -619,6 +772,30 @@ export default function ElyraChat({ isPlus = false }: { isPlus?: boolean }) {
           0%, 100% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
         }
+        /* Markdown styles */
+        .elyra-message p { margin: 0 0 10px; }
+        .elyra-message p:last-child { margin-bottom: 0; }
+        .elyra-message ul, .elyra-message ol { margin: 4px 0; padding-left: 20px; }
+        .elyra-message li { margin: 2px 0; }
+        .elyra-message strong { color: #e2e8f0; font-weight: 600; }
+        .elyra-message em { color: #94a3b8; }
+        .elyra-message a { color: #00ff88; text-decoration: underline; }
+        .elyra-message h1, .elyra-message h2, .elyra-message h3 { color: #e2e8f0; font-weight: 600; }
+        .elyra-message h1 { font-size: 18px; margin: 16px 0 8px; }
+        .elyra-message h2 { font-size: 16px; margin: 14px 0 6px; }
+        .elyra-message h3 { font-size: 14px; margin: 12px 0 4px; }
+        .elyra-message blockquote {
+          border-left: 3px solid rgba(0, 255, 136, 0.3);
+          padding-left: 12px;
+          margin: 8px 0;
+          color: #94a3b8;
+          font-style: italic;
+        }
+        /* Code block scrollbar */
+        .elyra-code-block::-webkit-scrollbar { height: 6px; }
+        .elyra-code-block::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 3px; }
+        .elyra-code-block::-webkit-scrollbar-thumb { background: rgba(0, 255, 136, 0.2); border-radius: 3px; }
+        .elyra-code-block::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 136, 0.4); }
       `}</style>
     </div>
   );
