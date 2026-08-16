@@ -124,20 +124,6 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* Free banner */}
-          <motion.div
-            className="text-center mb-8 p-5 rounded-2xl"
-            style={{ background: "rgba(0, 255, 136, 0.02)", border: "1px solid rgba(0, 255, 136, 0.05)" }}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <p className="text-sm" style={{ color: "var(--text-muted)", fontWeight: 300 }}>
-              <strong style={{ color: "#00ff88", fontWeight: 500 }}>Free for everyone</strong>. Always. No ads. No tracking.
-            </p>
-          </motion.div>
-
           {/* Crisis support */}
           <motion.div
             className="text-center p-4 rounded-2xl"
