@@ -184,24 +184,6 @@ export default function GlowingPortal() {
             }}
           />
 
-          {/* HUD corner marks */}
-          <div className="absolute pointer-events-none" style={{ top: "18%", left: "18%" }}>
-              <div style={{ width: "12px", height: "1px", background: "rgba(0, 255, 136, 0.2)" }} />
-              <div style={{ width: "1px", height: "12px", background: "rgba(0, 255, 136, 0.2)" }} />
-            </div>
-            <div className="absolute pointer-events-none" style={{ top: "18%", right: "18%", display: "flex", flexDirection: "row-reverse" }}>
-              <div style={{ width: "12px", height: "1px", background: "rgba(0, 255, 136, 0.2)" }} />
-              <div style={{ width: "1px", height: "12px", background: "rgba(0, 255, 136, 0.2)" }} />
-            </div>
-            <div className="absolute pointer-events-none" style={{ bottom: "18%", left: "18%" }}>
-              <div style={{ width: "1px", height: "12px", background: "rgba(0, 255, 136, 0.2)" }} />
-              <div style={{ width: "12px", height: "1px", background: "rgba(0, 255, 136, 0.2)" }} />
-            </div>
-            <div className="absolute pointer-events-none" style={{ bottom: "18%", right: "18%", display: "flex", flexDirection: "row-reverse" }}>
-              <div style={{ width: "1px", height: "12px", background: "rgba(0, 255, 136, 0.2)" }} />
-              <div style={{ width: "12px", height: "1px", background: "rgba(0, 255, 136, 0.2)" }} />
-          </div>
-
           {/* Text */}
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5">
             {/* Top status */}
