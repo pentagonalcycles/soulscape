@@ -42,12 +42,7 @@ DROP POLICY IF EXISTS "Admins can delete any stargazer message" ON stargazer_mes
 CREATE POLICY "Admins can delete any stargazer message" ON stargazer_messages
   FOR DELETE USING (is_admin(auth.uid()));
 
--- 11. Admin RLS policies — allow admins to delete wish lanterns
-DROP POLICY IF EXISTS "Admins can delete any wish lantern" ON wish_lanterns;
-CREATE POLICY "Admins can delete any wish lantern" ON wish_lanterns
-  FOR DELETE USING (is_admin(auth.uid()));
-
--- 12. Admin RLS policies — allow admins to delete mural rooms
+-- 11. Admin RLS policies — allow admins to delete mural rooms
 DROP POLICY IF EXISTS "Admins can delete any mural room" ON mural_rooms;
 CREATE POLICY "Admins can delete any mural room" ON mural_rooms
   FOR DELETE USING (is_admin(auth.uid()));

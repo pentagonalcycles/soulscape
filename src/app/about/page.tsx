@@ -62,7 +62,6 @@ const sections = [
       "Reflect in the Reflection Room with daily prompts.",
       "Create art in the Dream Canvas with 32 brush types.",
       "Paint together in the Collaborative Mural in real-time.",
-      "Release glowing Wish Lanterns into the night sky.",
       "Sit around a Campfire and chat anonymously.",
       "Write poems inspired by daily prompts in Poetry.",
       "Map your inner world with Soul Map — a private mandala.",

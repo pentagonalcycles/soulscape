@@ -40,7 +40,6 @@ export async function GET(req: NextRequest) {
   if (type === "all" || type === "posts") await fetchTable("posts", "posts");
   if (type === "all" || type === "ideas") await fetchTable("ideas", "ideas");
   if (type === "all" || type === "poems") await fetchTable("poems", "poems");
-  if (type === "all" || type === "wish_lanterns") await fetchTable("wish_lanterns", "wish_lanterns");
 
   // Sort combined results by created_at
   results.sort((a, b) => new Date(b.created_at as string).getTime() - new Date(a.created_at as string).getTime());
@@ -60,7 +59,6 @@ export async function DELETE(req: NextRequest) {
     posts: "posts",
     ideas: "ideas",
     poems: "poems",
-    wish_lanterns: "wish_lanterns",
   };
 
   const table = tableMap[type];

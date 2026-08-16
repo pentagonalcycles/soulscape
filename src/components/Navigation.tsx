@@ -15,7 +15,6 @@ const navLinks = [
   { href: "/dream-canvas", label: "Canvas", icon: "△" },
   { href: "/mural", label: "Mural", icon: "◇" },
   { href: "/poetry", label: "Poetry", icon: "❋" },
-  { href: "/wish-lanterns", label: "Wish Lanterns", icon: "◈" },
   { href: "/campfire", label: "Campfire", icon: "◆" },
   { href: "/nebula-orb", label: "Nebula Orb", icon: "●" },
   { href: "/human-signal", label: "Human Signal", icon: "📡" },

@@ -77,10 +77,6 @@ const faqSections = [
         a: "A shared painting canvas where everyone creates art together in real-time. 32 brushes, live cursors, room chat. Create together.",
       },
       {
-        q: "What are Wish Lanterns?",
-        a: "Write a wish and release a glowing lantern into the night sky. Watch it float with everyone else's hopes. Click lanterns to read their wishes.",
-      },
-      {
         q: "What is the Campfire?",
         a: "Anonymous group chat around a virtual fire. Choose a display name, sit by the fire, and talk with strangers. Cozy, warm, crackling sounds.",
       },
