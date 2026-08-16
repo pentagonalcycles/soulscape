@@ -250,9 +250,9 @@ export default function SoulEchoConnection({ match, userId, onLeave }: SoulEchoC
                 ? "rgba(0, 255, 136, 0.2)"
                 : "rgba(0, 255, 136, 0.05)",
               border: `1px solid ${newMessage.trim()
-                ? "rgba(0, 255, 136, 0.3)"
+                ? "rgba(0, 255, 136, 0.5)"
                 : "rgba(0, 255, 136, 0.1)"}`,
-              color: newMessage.trim() ? "#5eead4" : "rgba(0, 255, 136, 0.3)",
+              color: newMessage.trim() ? "#5eead4" : "rgba(0, 255, 136, 0.5)",
             }}
           >
             {sending ? "..." : "Send"}

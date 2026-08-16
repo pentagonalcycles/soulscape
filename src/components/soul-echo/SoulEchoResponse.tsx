@@ -73,9 +73,9 @@ export default function SoulEchoResponse({ onSelect, isSubmitting }: SoulEchoRes
                 ? "rgba(0, 255, 136, 0.15)"
                 : "rgba(0, 255, 136, 0.04)",
               border: `1px solid ${selectedType === option.type
-                ? "rgba(0, 255, 136, 0.3)"
+                ? "rgba(0, 255, 136, 0.5)"
                 : "rgba(0, 255, 136, 0.1)"}`,
-              color: selectedType === option.type ? "#5eead4" : "rgba(148, 163, 184, 0.7)",
+              color: selectedType === option.type ? "#5eead4" : "rgba(148, 163, 184, 0.85)",
               backdropFilter: "blur(12px)",
             }}
           >
@@ -137,8 +137,8 @@ export default function SoulEchoResponse({ onSelect, isSubmitting }: SoulEchoRes
                 background: content.trim()
                   ? "linear-gradient(135deg, rgba(0, 255, 136, 0.25) 0%, rgba(0, 204, 106, 0.2) 100%)"
                   : "rgba(0, 255, 136, 0.05)",
-                border: `1px solid ${content.trim() ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.1)"}`,
-                color: content.trim() ? "#5eead4" : "rgba(0, 255, 136, 0.3)",
+                border: `1px solid ${content.trim() ? "rgba(0, 255, 136, 0.5)" : "rgba(0, 255, 136, 0.1)"}`,
+                color: content.trim() ? "#5eead4" : "rgba(0, 255, 136, 0.5)",
                 backdropFilter: "blur(12px)",
               }}
             >

@@ -185,7 +185,7 @@ export default function ReflectionRoom() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.8 }}
                 className="text-sm md:text-base max-w-md leading-relaxed mb-12"
-                style={{ color: "rgba(61, 61, 61, 0.6)" }}
+                style={{ color: "rgba(61, 61, 61, 0.75)" }}
               >
                 A quiet space for reflection and writing what matters.
               </motion.p>
@@ -209,7 +209,7 @@ export default function ReflectionRoom() {
                     className="px-10 py-4 rounded-2xl text-sm font-body tracking-wide transition-all duration-500"
                     style={{
                       background: "linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(96, 165, 250, 0.15) 100%)",
-                      border: "1px solid rgba(59, 130, 246, 0.3)",
+                      border: "1px solid rgba(59, 130, 246, 0.5)",
                       color: "#3b82f6",
                       backdropFilter: "blur(16px)",
                       boxShadow: "0 4px 24px rgba(59, 130, 246, 0.08)",
@@ -246,7 +246,7 @@ export default function ReflectionRoom() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="text-center text-xl md:text-2xl font-heading mb-8"
-                  style={{ color: "rgba(61, 61, 61, 0.7)" }}
+                  style={{ color: "rgba(61, 61, 61, 0.8)" }}
                 >
                   {dailyPrompt}
                 </motion.h2>
@@ -263,7 +263,7 @@ export default function ReflectionRoom() {
                     rows={8}
                     className="w-full bg-transparent text-sm font-body resize-none outline-none rounded-2xl p-5 placeholder:opacity-30"
                     style={{
-                      color: "rgba(61, 61, 61, 0.7)",
+                      color: "rgba(61, 61, 61, 0.8)",
                       caretColor: "#3b82f6",
                       background: "rgba(59, 130, 246, 0.04)",
                       border: "1px solid rgba(59, 130, 246, 0.12)",
@@ -281,7 +281,7 @@ export default function ReflectionRoom() {
                   <button
                     onClick={() => setView("landing")}
                     className="text-xs px-4 py-2 rounded-xl transition-all duration-300"
-                    style={{ color: "rgba(61, 61, 61, 0.4)", border: "1px solid rgba(59, 130, 246, 0.1)" }}
+                    style={{ color: "rgba(61, 61, 61, 0.75)", border: "1px solid rgba(59, 130, 246, 0.1)" }}
                   >
                     Back
                   </button>
@@ -304,7 +304,7 @@ export default function ReflectionRoom() {
                       style={{
                         background: journalText.trim() ? "rgba(59, 130, 246, 0.15)" : "rgba(59, 130, 246, 0.05)",
                         border: `1px solid ${journalText.trim() ? "rgba(59, 130, 246, 0.25)" : "rgba(59, 130, 246, 0.08)"}`,
-                        color: journalText.trim() ? "#3b82f6" : "rgba(59, 130, 246, 0.3)",
+                        color: journalText.trim() ? "#3b82f6" : "rgba(59, 130, 246, 0.5)",
                       }}
                     >
                       Save
@@ -328,14 +328,14 @@ export default function ReflectionRoom() {
                 <div className="flex items-center justify-between mb-8">
                   <h2
                     className="text-xl font-heading"
-                    style={{ color: "rgba(61, 61, 61, 0.7)" }}
+                    style={{ color: "rgba(61, 61, 61, 0.8)" }}
                   >
                     Past Reflections
                   </h2>
                   <button
                     onClick={() => setView("landing")}
                     className="text-xs px-4 py-2 rounded-xl transition-all duration-300"
-                    style={{ color: "rgba(61, 61, 61, 0.4)", border: "1px solid rgba(59, 130, 246, 0.1)" }}
+                    style={{ color: "rgba(61, 61, 61, 0.75)", border: "1px solid rgba(59, 130, 246, 0.1)" }}
                   >
                     Back
                   </button>
@@ -343,7 +343,7 @@ export default function ReflectionRoom() {
 
                 {entries.length === 0 ? (
                   <div className="text-center py-16">
-                    <p className="text-sm" style={{ color: "rgba(61, 61, 61, 0.3)" }}>
+                    <p className="text-sm" style={{ color: "rgba(61, 61, 61, 0.55)" }}>
                       No reflections yet.
                     </p>
                     <button
@@ -372,11 +372,11 @@ export default function ReflectionRoom() {
                         <p className="text-xs mb-2 font-accent" style={{ color: "#3b82f6" }}>
                           {entry.prompt}
                         </p>
-                        <p className="text-sm font-body leading-relaxed" style={{ color: "rgba(61, 61, 61, 0.6)" }}>
+                        <p className="text-sm font-body leading-relaxed" style={{ color: "rgba(61, 61, 61, 0.75)" }}>
                           {entry.text}
                         </p>
                         <div className="flex items-center justify-between mt-3">
-                          <p className="text-[10px]" style={{ color: "rgba(61, 61, 61, 0.25)" }}>
+                          <p className="text-[10px]" style={{ color: "rgba(61, 61, 61, 0.5)" }}>
                             {new Date(entry.created_at).toLocaleDateString("en-US", {
                               month: "short",
                               day: "numeric",
@@ -386,7 +386,7 @@ export default function ReflectionRoom() {
                           <button
                             onClick={() => handleDelete(entry.id)}
                             className="text-[10px] opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300"
-                            style={{ color: "rgba(61, 61, 61, 0.3)" }}
+                            style={{ color: "rgba(61, 61, 61, 0.55)" }}
                           >
                             Delete
                           </button>

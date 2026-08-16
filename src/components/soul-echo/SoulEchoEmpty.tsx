@@ -83,7 +83,7 @@ export default function SoulEchoEmpty({ onNewReflection }: SoulEchoEmptyProps) {
         style={{
           background: "linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 204, 106, 0.1) 100%)",
           border: "1px solid rgba(0, 255, 136, 0.2)",
-          color: "rgba(94, 234, 212, 0.7)",
+          color: "rgba(94, 234, 212, 0.85)",
           backdropFilter: "blur(12px)",
         }}
       >

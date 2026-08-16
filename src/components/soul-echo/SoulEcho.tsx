@@ -251,7 +251,7 @@ export default function SoulEcho() {
           style={{
             background: "rgba(0, 255, 136, 0.06)",
             border: "1px solid rgba(0, 255, 136, 0.1)",
-            color: "rgba(148, 163, 184, 0.5)",
+            color: "rgba(148, 163, 184, 0.85)",
             backdropFilter: "blur(12px)",
           }}
         >
