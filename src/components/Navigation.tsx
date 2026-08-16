@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
-import { useAuth } from "@/components/AuthProvider";
 import { useIsMobile } from "@/lib/useIsMobile";
 
 const navLinks = [
@@ -37,7 +36,6 @@ interface NavigationProps {
 }
 
 export default function Navigation({ activePage }: NavigationProps) {
-  const { isAdmin } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
 
@@ -205,31 +203,6 @@ export default function Navigation({ activePage }: NavigationProps) {
 
               {/* Bottom */}
               <div style={{ padding: "16px 16px 20px", borderTop: "1px solid rgba(0, 212, 170, 0.1)" }}>
-                {isAdmin && (
-                  <Link
-                    href="/admin"
-                    onClick={close}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                      padding: "10px 16px",
-                      borderRadius: "10px",
-                      textDecoration: "none",
-                      color: "rgba(0, 212, 170, 0.7)",
-                      background: "rgba(0, 212, 170, 0.04)",
-                      border: "1px solid rgba(0, 212, 170, 0.08)",
-                      transition: "all 0.2s ease",
-                      marginBottom: "8px",
-                      fontSize: "13px",
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0, 212, 170, 0.08)"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(0, 212, 170, 0.04)"; }}
-                  >
-                    <span style={{ fontSize: "14px", width: "20px", textAlign: "center" }}>👁</span>
-                    Visitor Tracker
-                  </Link>
-                )}
                 <div className="flex gap-2 mb-4">
                   {bottomLinks.map((link) => (
                     <Link

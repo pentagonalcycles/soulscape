@@ -11,7 +11,6 @@ import Nebula from "@/components/Nebula";
 import ArtisticBackground from "@/components/ArtisticBackground";
 import ElyraButton from "@/components/ElyraButton";
 import Navigation from "@/components/Navigation";
-import VisitorTracker from "@/components/VisitorTracker";
 
 const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
 const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/wish-lanterns", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
@@ -111,7 +110,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
     "/nebula-orb": "nebula orb",
     "/human-signal": "human signal",
     "/ideas": "ideas board",
-    "/admin": "admin",
     "/moderation": "moderation",
     "/shop": "shop",
     "/about": "about",
@@ -138,7 +136,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
       </div>
       {!hideElyraButton && <ElyraButton />}
       <Navigation activePage={activePage} />
-      <VisitorTracker />
 
     </>
   );

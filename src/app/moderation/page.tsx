@@ -131,7 +131,7 @@ export default function ModerationPage() {
                 Moderation
               </h1>
               <p className="text-elovayne-dim text-sm">
-                Review reports from the community. <a href="/admin" className="underline hover:text-elovayne-light">Open full admin dashboard →</a>
+                Review reports from the community.
               </p>
             </motion.div>
 
