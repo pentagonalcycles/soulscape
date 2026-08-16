@@ -222,23 +222,46 @@ function TarotCardVisual({ card, reversed, size = "md", onClick, selected, flipp
           alignItems: "center",
           justifyContent: "center",
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+          overflow: "hidden",
         }}>
+          {/* Decorative pattern */}
           <div style={{
-            width: "70%",
-            height: "80%",
-            border: "1px solid rgba(168, 85, 247, 0.15)",
+            position: "absolute",
+            inset: 0,
+            opacity: 0.15,
+            background: `
+              radial-gradient(circle at 25% 25%, rgba(168, 85, 247, 0.3) 0%, transparent 30%),
+              radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.3) 0%, transparent 30%),
+              radial-gradient(circle at 50% 50%, rgba(192, 132, 252, 0.2) 0%, transparent 40%)
+            `,
+          }} />
+          {/* Inner border */}
+          <div style={{
+            width: "75%",
+            height: "85%",
+            border: "1px solid rgba(168, 85, 247, 0.2)",
             borderRadius: 6,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "rgba(168, 85, 247, 0.02)",
+            position: "relative",
           }}>
+            {/* Corner dots */}
+            <div style={{ position: "absolute", top: 4, left: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(168, 85, 247, 0.4)" }} />
+            <div style={{ position: "absolute", top: 4, right: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(168, 85, 247, 0.4)" }} />
+            <div style={{ position: "absolute", bottom: 4, left: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(168, 85, 247, 0.4)" }} />
+            <div style={{ position: "absolute", bottom: 4, right: 4, width: 4, height: 4, borderRadius: "50%", background: "rgba(168, 85, 247, 0.4)" }} />
+            {/* Center symbol */}
             <div style={{
-              fontSize: size === "sm" ? "16px" : size === "lg" ? "36px" : "24px",
-              opacity: 0.4,
+              fontSize: size === "sm" ? "18px" : size === "lg" ? "40px" : "28px",
+              opacity: 0.6,
+              textShadow: "0 0 10px rgba(168, 85, 247, 0.4)",
             }}>
               ✦
             </div>
+            {/* Cross lines */}
+            <div style={{ position: "absolute", top: "50%", left: "15%", right: "15%", height: "1px", background: "linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.2), transparent)" }} />
+            <div style={{ position: "absolute", left: "50%", top: "15%", bottom: "15%", width: "1px", background: "linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.2), transparent)" }} />
           </div>
         </div>
       </motion.div>
