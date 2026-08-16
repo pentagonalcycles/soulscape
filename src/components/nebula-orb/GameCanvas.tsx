@@ -85,12 +85,11 @@ const GameCanvas = forwardRef<GameCanvasRef, GameCanvasProps>(({ state, onDeath,
     // --- TOUCH CONTROLS ---
     const JOYSTICK_RADIUS = 60;
     const JOYSTICK_KNOB_RADIUS = 24;
+    const JOYSTICK_DEAD_ZONE = 8;
     const BOOST_BTN_SIZE = 56;
     const SCREEN_W = () => window.innerWidth;
     const SCREEN_H = () => window.innerHeight;
 
-    // Find the joystick base position (bottom-left corner)
-    const joystickBase = () => ({ x: 80, y: SCREEN_H() - 100 });
     // Find the boost button position (bottom-right corner)
     const boostBtnPos = () => ({ x: SCREEN_W() - 70, y: SCREEN_H() - 100 });
 
@@ -111,25 +110,17 @@ const GameCanvas = forwardRef<GameCanvasRef, GameCanvasProps>(({ state, onDeath,
           continue;
         }
 
-        // Otherwise it's a joystick touch (if not already active)
+        // Otherwise it's a joystick touch (if not already active).
+        // Floating joystick: the base appears where the thumb lands, and the
+        // direction is only set once the thumb drags, so stray taps don't
+        // dart the orb.
         if (!joy.active) {
-          const base = joystickBase();
           joy.active = true;
           joy.touchId = touch.identifier;
-          joy.x = base.x;
-          joy.y = base.y;
+          joy.x = touch.clientX;
+          joy.y = touch.clientY;
           joy.dx = 0;
           joy.dy = 0;
-
-          // Calculate initial direction
-          const dx = touch.clientX - base.x;
-          const dy = touch.clientY - base.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist > 5) {
-            joy.dx = dx / dist;
-            joy.dy = dy / dist;
-            mouseAngleRef.current = Math.atan2(dy, dx);
-          }
         }
       }
     };
@@ -152,8 +143,8 @@ const GameCanvas = forwardRef<GameCanvasRef, GameCanvasProps>(({ state, onDeath,
             joy.dx = dx / dist;
             joy.dy = dy / dist;
           } else {
-            joy.dx = dist > 5 ? dx / dist : 0;
-            joy.dy = dist > 5 ? dy / dist : 0;
+            joy.dx = dist > JOYSTICK_DEAD_ZONE ? dx / dist : 0;
+            joy.dy = dist > JOYSTICK_DEAD_ZONE ? dy / dist : 0;
           }
 
           if (joy.dx !== 0 || joy.dy !== 0) {
@@ -279,7 +270,7 @@ const GameCanvas = forwardRef<GameCanvasRef, GameCanvasProps>(({ state, onDeath,
         targetZoom: 1,
         shake: gs.screenShake,
       };
-      render(ctx, { width: window.innerWidth, height: window.innerHeight } as HTMLCanvasElement, gs, camera, siteBg);
+      render(ctx, { width: window.innerWidth, height: window.innerHeight } as HTMLCanvasElement, gs, camera, siteBg, { lowPower: isMobile });
 
       // Draw cursor (desktop only)
       if (!isMobile && renderPlayer && renderPlayer.alive) {
@@ -304,29 +295,30 @@ const GameCanvas = forwardRef<GameCanvasRef, GameCanvasProps>(({ state, onDeath,
       // Draw virtual joystick (mobile only)
       if (isMobile && renderPlayer && renderPlayer.alive) {
         const joy = joystickRef.current;
-        const base = joystickBase();
         const boost = boostBtnPos();
 
-        // Joystick base
-        ctx.save();
-        ctx.globalAlpha = 0.25;
-        ctx.fillStyle = "rgba(0, 255, 136, 0.15)";
-        ctx.strokeStyle = "rgba(0, 255, 136, 0.4)";
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.arc(base.x, base.y, JOYSTICK_RADIUS, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
+        if (joy.active) {
+          // Joystick base (floating, appears where the thumb landed)
+          ctx.save();
+          ctx.globalAlpha = 0.25;
+          ctx.fillStyle = "rgba(0, 255, 136, 0.15)";
+          ctx.strokeStyle = "rgba(0, 255, 136, 0.4)";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(joy.x, joy.y, JOYSTICK_RADIUS, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
 
-        // Joystick knob
-        const knobX = base.x + joy.dx * JOYSTICK_RADIUS;
-        const knobY = base.y + joy.dy * JOYSTICK_RADIUS;
-        ctx.globalAlpha = joy.active ? 0.5 : 0.35;
-        ctx.fillStyle = "#00ff88";
-        ctx.beginPath();
-        ctx.arc(knobX, knobY, JOYSTICK_KNOB_RADIUS, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
+          // Joystick knob
+          const knobX = joy.x + joy.dx * JOYSTICK_RADIUS;
+          const knobY = joy.y + joy.dy * JOYSTICK_RADIUS;
+          ctx.globalAlpha = 0.5;
+          ctx.fillStyle = "#00ff88";
+          ctx.beginPath();
+          ctx.arc(knobX, knobY, JOYSTICK_KNOB_RADIUS, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
 
         // Boost button
         ctx.save();

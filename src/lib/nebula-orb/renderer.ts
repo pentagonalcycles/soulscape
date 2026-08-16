@@ -26,8 +26,10 @@ export function render(
   canvas: HTMLCanvasElement,
   state: GameState,
   camera: GameCamera,
-  siteBg?: string | null
+  siteBg?: string | null,
+  options?: { lowPower?: boolean }
 ) {
+  const lowPower = options?.lowPower ?? false;
   const w = window.innerWidth;
   const h = window.innerHeight;
 
@@ -43,12 +45,12 @@ export function render(
   ctx.scale(camera.zoom, camera.zoom);
   ctx.translate(-camera.x, -camera.y);
 
-  initStarCaches(state.mapWidth, state.mapHeight);
+  initStarCaches(state.mapWidth, state.mapHeight, lowPower);
 
-  drawBackground(ctx, state, siteBg);
+  drawBackground(ctx, state, siteBg, lowPower);
   drawCosmicDustClouds(ctx, state);
   drawCosmicAurora(ctx, state);
-  drawShootingStars(ctx, state);
+  drawShootingStars(ctx, state, lowPower);
   drawPulsarBeams(ctx, state);
   drawScanLines(ctx, state);
 
@@ -57,7 +59,7 @@ export function render(
   for (const rift of state.cosmicRifts) drawCosmicRift(ctx, rift);
   for (const storm of state.storms) drawStorm(ctx, storm);
   drawSingularity(ctx, state.singularity);
-  for (const food of state.food) drawFood(ctx, food);
+  for (const food of state.food) drawFood(ctx, food, lowPower);
   for (const pu of state.powerUps) drawPowerUp(ctx, pu);
 
   const sortedOrbs = Array.from(state.orbs.values())
@@ -83,7 +85,7 @@ export function render(
   ctx.restore();
 }
 
-function drawBackground(ctx: CanvasRenderingContext2D, state: GameState, siteBg?: string | null) {
+function drawBackground(ctx: CanvasRenderingContext2D, state: GameState, siteBg?: string | null, lowPower = false) {
   const t = state.gameTime * 0.0001;
 
   // If siteBg is set, use it as the background
@@ -126,13 +128,15 @@ function drawBackground(ctx: CanvasRenderingContext2D, state: GameState, siteBg?
     const twinkle = 0.6 + 0.4 * Math.sin(t * 3 + star.x * 0.01 + star.y * 0.008);
     ctx.globalAlpha = star.brightness * twinkle * 0.7;
 
-    const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 5);
-    glow.addColorStop(0, `${star.color}44`);
-    glow.addColorStop(1, "rgba(0,0,0,0)");
-    ctx.fillStyle = glow;
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, star.size * 5, 0, Math.PI * 2);
-    ctx.fill();
+    if (!lowPower) {
+      const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 5);
+      glow.addColorStop(0, `${star.color}44`);
+      glow.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.size * 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     ctx.fillStyle = star.color;
     ctx.globalAlpha = star.brightness * twinkle * 0.8;
@@ -158,11 +162,16 @@ function drawBackground(ctx: CanvasRenderingContext2D, state: GameState, siteBg?
 const starCacheFar: { x: number; y: number; size: number; brightness: number }[] = [];
 const starCacheMid: { x: number; y: number; size: number; brightness: number; color: string }[] = [];
 const starCacheNear: { x: number; y: number; size: number; brightness: number; color: string }[] = [];
-let starsInitialized = false;
+let starCacheMode: "full" | "low" | null = null;
 
-function initStarCaches(mapWidth: number, mapHeight: number) {
-  if (starsInitialized) return;
-  starsInitialized = true;
+function initStarCaches(mapWidth: number, mapHeight: number, lowPower: boolean) {
+  const mode: "full" | "low" = lowPower ? "low" : "full";
+  if (starCacheMode === mode) return;
+  starCacheMode = mode;
+
+  starCacheFar.length = 0;
+  starCacheMid.length = 0;
+  starCacheNear.length = 0;
 
   const starColors = [
     "#ffffff", "#aaccff", "#ffddaa", "#ccddff", "#ffccaa",
@@ -171,8 +180,12 @@ function initStarCaches(mapWidth: number, mapHeight: number) {
     "#66aaff", "#ff88aa", "#88aaff", "#aaffaa", "#ffccff",
   ];
 
+  const farCount = lowPower ? 300 : 600;
+  const midCount = lowPower ? 150 : 300;
+  const nearCount = lowPower ? 60 : 120;
+
   // Far stars - tiny, dim, numerous
-  for (let i = 0; i < 600; i++) {
+  for (let i = 0; i < farCount; i++) {
     starCacheFar.push({
       x: Math.random() * mapWidth,
       y: Math.random() * mapHeight,
@@ -182,7 +195,7 @@ function initStarCaches(mapWidth: number, mapHeight: number) {
   }
 
   // Mid stars - medium brightness with colors
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < midCount; i++) {
     starCacheMid.push({
       x: Math.random() * mapWidth,
       y: Math.random() * mapHeight,
@@ -193,7 +206,7 @@ function initStarCaches(mapWidth: number, mapHeight: number) {
   }
 
   // Near stars - bright with glow
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < nearCount; i++) {
     starCacheNear.push({
       x: Math.random() * mapWidth,
       y: Math.random() * mapHeight,
@@ -456,11 +469,12 @@ function drawCosmicAurora(ctx: CanvasRenderingContext2D, state: GameState) {
 const shootingStarCache: { x: number; y: number; vx: number; vy: number; life: number; maxLife: number; length: number; color: string }[] = [];
 let lastShootingStarTime = -10000;
 
-function drawShootingStars(ctx: CanvasRenderingContext2D, state: GameState) {
+function drawShootingStars(ctx: CanvasRenderingContext2D, state: GameState, lowPower = false) {
   const t = state.gameTime;
 
   // Spawn new shooting stars occasionally
-  if (t - lastShootingStarTime > 4000 + Math.random() * 6000) {
+  const spawnInterval = (lowPower ? 14000 : 4000) + Math.random() * (lowPower ? 18000 : 6000);
+  if (t - lastShootingStarTime > spawnInterval) {
     lastShootingStarTime = t;
     const startX = Math.random() * state.mapWidth;
     const startY = Math.random() * state.mapHeight * 0.3;
@@ -1220,7 +1234,7 @@ function drawSingularity(ctx: CanvasRenderingContext2D, sig: Singularity) {
   }
 }
 
-function drawFood(ctx: CanvasRenderingContext2D, food: FoodParticle) {
+function drawFood(ctx: CanvasRenderingContext2D, food: FoodParticle, lowPower = false) {
   const t = Date.now() * 0.001;
   const pulse = 1 + 0.12 * Math.sin(food.pulsePhase + t * 3);
   const float = Math.sin(food.pulsePhase + t * 2) * 2;
@@ -1228,15 +1242,17 @@ function drawFood(ctx: CanvasRenderingContext2D, food: FoodParticle) {
   const x = food.x;
   const y = food.y + float;
 
-  // Outer glow
-  const grad = ctx.createRadialGradient(x, y, 0, x, y, r * 3.5);
-  grad.addColorStop(0, food.glowColor);
-  grad.addColorStop(0.5, `${food.color}22`);
-  grad.addColorStop(1, "rgba(0, 0, 0, 0)");
-  ctx.fillStyle = grad;
-  ctx.beginPath();
-  ctx.arc(x, y, r * 3.5, 0, Math.PI * 2);
-  ctx.fill();
+  if (!lowPower) {
+    // Outer glow
+    const grad = ctx.createRadialGradient(x, y, 0, x, y, r * 3.5);
+    grad.addColorStop(0, food.glowColor);
+    grad.addColorStop(0.5, `${food.color}22`);
+    grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(x, y, r * 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
 
   if (food.type === "plasma") {
     // Diamond shape for plasma

@@ -181,7 +181,7 @@ export default function GameLobby({ onStart, isMobile = false, siteBg }: GameLob
   return (
     <div
       className="absolute inset-0 flex items-start justify-center overflow-y-auto"
-      style={{ background: pageBg, WebkitOverflowScrolling: "touch", transition: "background 0.5s ease" }}
+      style={{ background: pageBg, WebkitOverflowScrolling: "touch", touchAction: "manipulation", transition: "background 0.5s ease" }}
     >
       {/* Ambient orbs */}
       <div className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] rounded-full" style={{ background: `radial-gradient(circle, ${orbGlow1} 0%, transparent 70%)`, filter: "blur(80px)", transition: "background 0.5s ease" }} />
@@ -459,10 +459,9 @@ export default function GameLobby({ onStart, isMobile = false, siteBg }: GameLob
         <div className="mt-3 grid grid-cols-2 gap-2 text-[9px]" style={{ color: hintColor }}>
           {isMobile ? (
             <>
-              <div>👆 Drag — Move</div>
-              <div>👆👆 Double-tap — Boost</div>
-              <div>🤏 Pinch — Zoom</div>
+              <div>👆 Hold & drag — Move</div>
               <div>⚡ Button — Boost</div>
+              <div>🤏 Pinch — Zoom</div>
             </>
           ) : (
             <>

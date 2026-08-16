@@ -257,7 +257,7 @@ export default function GameHUD({
       )}
 
       {/* Notifications */}
-      <div className={isMobile ? "absolute bottom-28 left-1/2 -translate-x-1/2 space-y-2 w-[90%]" : "absolute bottom-20 left-1/2 -translate-x-1/2 space-y-2"}>
+      <div className={isMobile ? "absolute bottom-40 left-1/2 -translate-x-1/2 space-y-2 w-[90%]" : "absolute bottom-20 left-1/2 -translate-x-1/2 space-y-2"}>
         <AnimatePresence>
           {notifications.slice(-3).map((notif) => (
             <motion.div
