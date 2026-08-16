@@ -72,7 +72,7 @@ export default function Navigation({ activePage }: NavigationProps) {
           aria-label={isOpen ? "Close navigation" : "Open navigation"}
           className={`btn-icon fixed top-5 left-5 z-[1000] ${isMobile ? "w-12 h-12" : ""}`}
           style={{
-            background: "rgba(21, 38, 29, 0.9)",
+            background: "rgba(30, 58, 42, 0.9)",
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
             boxShadow: "0 0 20px rgba(0, 255, 136, 0.12), inset 0 0 20px rgba(0, 255, 136, 0.04)",
@@ -116,7 +116,7 @@ export default function Navigation({ activePage }: NavigationProps) {
                 left: 0,
                 bottom: 0,
                 width: isMobile ? "min(300px, 90vw)" : "min(260px, 85vw)",
-                background: "rgba(26, 46, 35, 0.98)",
+                background: "rgba(30, 58, 42, 0.98)",
                 backdropFilter: "blur(24px) saturate(1.3)",
                 WebkitBackdropFilter: "blur(24px) saturate(1.3)",
                 borderRight: "1px solid rgba(0, 255, 136, 0.2)",

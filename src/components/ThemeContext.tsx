@@ -125,15 +125,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--font-size-xs", fs.xs);
 
     // Color scheme — always dark (bioluminescent, brightened)
-    root.style.setProperty("--elovayne-bg", "#15261d");
-    root.style.setProperty("--elovayne-surface", "#1a2e23");
+    root.style.setProperty("--elovayne-bg", "#1a3024");
+    root.style.setProperty("--elovayne-surface", "#1f3a2a");
     root.style.setProperty("--elovayne-surface-alt", "#1f3729");
     root.style.setProperty("--elovayne-text-primary", "#edfcf3");
     root.style.setProperty("--elovayne-text-secondary", "#cce8d8");
     root.style.setProperty("--elovayne-border", "rgba(0, 255, 136, 0.18)");
     root.style.setProperty("--elovayne-gold", "#ffd700");
     root.style.setProperty("--elovayne-teal", "#00d4aa");
-    root.style.setProperty("--bg-color", "#15261d");
+    root.style.setProperty("--bg-color", "#1a3024");
     root.style.setProperty("--text-primary", "#edfcf3");
     root.style.setProperty("--text-secondary", "#cce8d8");
     root.style.setProperty("--text-muted", "#90c8a0");
@@ -147,7 +147,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--constellation-opacity", "0.45");
     root.style.setProperty("--glow-opacity", "0.18");
     root.style.setProperty("--orb-opacity", "0.28");
-    document.body.style.background = "#15261d";
+    document.body.style.background = "#1a3024";
     root.setAttribute("data-theme", "dark");
   }, [userPreferences]);
 

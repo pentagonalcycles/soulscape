@@ -1,31 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  /* Core palette — bioluminescent dark theme (brightened) */
-  --elovayne-void: #15261d;
-  --elovayne-gradient: #1a2e23;
-  --elovayne-deep: #1f3729;
-  --elovayne-midnight: #254030;
+  /* Core palette — bioluminescent dark theme (lighter + more saturated) */
+  --elovayne-void: #1a3024;
+  --elovayne-gradient: #1f3a2a;
+  --elovayne-deep: #254535;
+  --elovayne-midnight: #2d5040;
   --elovayne-nebula: #00ff88;
-  --elovayne-violet: #00cc6a;
+  --elovayne-violet: #00e676;
   --elovayne-cosmic-pink: #39ff14;
   --elovayne-gold: #ffd700;
-  --elovayne-teal: #00d4aa;
-  --elovayne-light: #e0f5e8;
-  --elovayne-muted: #1a5c2e;
-  --elovayne-dim: #4ade80;
+  --elovayne-teal: #00e8b0;
+  --elovayne-light: #e8fff0;
+  --elovayne-muted: #1a6b32;
+  --elovayne-dim: #50e080;
 
   /* Glow — bioluminescent green (boosted saturation) */
-  --glow-soft: 0 0 20px rgba(0, 255, 136, 0.2);
-  --glow-medium: 0 0 40px rgba(0, 255, 136, 0.3);
-  --glow-strong: 0 0 60px rgba(0, 255, 136, 0.35), 0 0 120px rgba(57, 255, 20, 0.18);
-  --glow-portal: 0 0 80px rgba(0, 255, 136, 0.4), 0 0 160px rgba(0, 204, 106, 0.25), 0 0 240px rgba(57, 255, 20, 0.12);
+  --glow-soft: 0 0 20px rgba(0, 255, 136, 0.25);
+  --glow-medium: 0 0 40px rgba(0, 255, 136, 0.35);
+  --glow-strong: 0 0 60px rgba(0, 255, 136, 0.4), 0 0 120px rgba(57, 255, 20, 0.22);
+  --glow-portal: 0 0 80px rgba(0, 255, 136, 0.45), 0 0 160px rgba(0, 204, 106, 0.3), 0 0 240px rgba(57, 255, 20, 0.15);
 
   /* Yellow accent glow */
-  --glow-gold: 0 0 20px rgba(255, 215, 0, 0.25), 0 0 40px rgba(255, 200, 0, 0.15);
+  --glow-gold: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 200, 0, 0.18);
 
   /* Teal accent glow */
-  --glow-teal: 0 0 20px rgba(0, 212, 170, 0.25), 0 0 40px rgba(0, 180, 150, 0.15);
+  --glow-teal: 0 0 20px rgba(0, 232, 176, 0.3), 0 0 40px rgba(0, 180, 150, 0.18);
 
   /* Typography */
   --font-heading: var(--font-space-grotesk), system-ui, sans-serif;
@@ -46,24 +46,24 @@
   --font-size-xs: 11px;
 
   /* Custom background (set by settings) */
-  --bg-color: #15261d;
+  --bg-color: #1a3024;
 
   /* Adaptive text colors */
-  --text-primary: #edfcf3;
-  --text-secondary: #cce8d8;
-  --text-muted: #90c8a0;
-  --text-dim: #5a8d6e;
-  --text-faint: rgba(236, 252, 243, 0.4);
-  --border-subtle: rgba(0, 255, 136, 0.18);
-  --card-bg: rgba(0, 255, 136, 0.08);
-  --input-bg: rgba(0, 255, 136, 0.1);
+  --text-primary: #f0fff5;
+  --text-secondary: #d4f0de;
+  --text-muted: #98d4a8;
+  --text-dim: #60a078;
+  --text-faint: rgba(240, 255, 245, 0.45);
+  --border-subtle: rgba(0, 255, 136, 0.22);
+  --card-bg: rgba(0, 255, 136, 0.1);
+  --input-bg: rgba(0, 255, 136, 0.12);
 
   /* Background animation visibility */
-  --nebula-opacity: 0.2;
-  --particle-opacity: 0.8;
-  --constellation-opacity: 0.3;
-  --glow-opacity: 0.08;
-  --orb-opacity: 0.15;
+  --nebula-opacity: 0.25;
+  --particle-opacity: 0.9;
+  --constellation-opacity: 0.35;
+  --glow-opacity: 0.1;
+  --orb-opacity: 0.18;
 }
 
 @theme inline {
