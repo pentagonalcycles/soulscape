@@ -186,7 +186,51 @@ export default function CameraPage() {
   ].filter(Boolean).join(" ");
 
   return (
-    <main className="relative min-h-screen">
+    <main className="relative min-h-screen overflow-hidden">
+      {/* Magical animated background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
+        <div
+          className="absolute w-[600px] h-[600px] rounded-full"
+          style={{
+            top: "-15%",
+            left: "-10%",
+            background: "radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%)",
+            filter: "blur(80px)",
+            animation: "lobbyFloat1 20s ease-in-out infinite",
+          }}
+        />
+        <div
+          className="absolute w-[500px] h-[500px] rounded-full"
+          style={{
+            bottom: "-10%",
+            right: "-10%",
+            background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)",
+            filter: "blur(70px)",
+            animation: "lobbyFloat2 25s ease-in-out infinite",
+          }}
+        />
+        <div
+          className="absolute w-[400px] h-[400px] rounded-full"
+          style={{
+            top: "50%",
+            left: "60%",
+            background: "radial-gradient(circle, rgba(0, 212, 170, 0.12) 0%, transparent 70%)",
+            filter: "blur(60px)",
+            animation: "lobbyFloat3 18s ease-in-out infinite",
+          }}
+        />
+        <div
+          className="absolute w-[350px] h-[350px] rounded-full"
+          style={{
+            top: "30%",
+            right: "15%",
+            background: "radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%)",
+            filter: "blur(55px)",
+            animation: "lobbyFloat4 22s ease-in-out infinite",
+          }}
+        />
+      </div>
+
       <div className="relative z-10 pt-14 h-screen flex flex-col">
         {/* Header */}
         <div className="px-4 py-2 flex items-center justify-between" style={{ background: "rgba(31, 56, 40, 0.95)", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", backdropFilter: "blur(12px)" }}>
