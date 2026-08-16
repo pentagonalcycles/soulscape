@@ -89,11 +89,11 @@ export default function ReflectionRoom() {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Warm ambient background */}
+      {/* Light blue ambient background */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at 25% 15%, rgba(156, 175, 136, 0.04) 0%, transparent 50%), radial-gradient(ellipse at 75% 85%, rgba(196, 168, 130, 0.03) 0%, transparent 50%)",
+          background: "radial-gradient(ellipse at 25% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 75% 85%, rgba(96, 165, 250, 0.06) 0%, transparent 50%)",
           zIndex: 1,
         }}
       />
@@ -103,7 +103,7 @@ export default function ReflectionRoom() {
         <div
           className="absolute w-[700px] h-[700px] rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(156, 175, 136, 0.025) 0%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 60%)",
             filter: "blur(90px)",
             top: "-15%",
             left: "-10%",
@@ -113,11 +113,21 @@ export default function ReflectionRoom() {
         <div
           className="absolute w-[600px] h-[600px] rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(196, 168, 130, 0.02) 0%, transparent 60%)",
+            background: "radial-gradient(circle, rgba(96, 165, 250, 0.05) 0%, transparent 60%)",
             filter: "blur(80px)",
             bottom: "-10%",
             right: "-5%",
             animation: "float-reflection 30s ease-in-out infinite reverse",
+          }}
+        />
+        <div
+          className="absolute w-[500px] h-[500px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(34, 211, 238, 0.04) 0%, transparent 60%)",
+            filter: "blur(70px)",
+            top: "40%",
+            right: "20%",
+            animation: "float-reflection 22s ease-in-out infinite",
           }}
         />
       </div>
@@ -144,12 +154,12 @@ export default function ReflectionRoom() {
                 <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center"
                   style={{
-                    background: "linear-gradient(135deg, rgba(156, 175, 136, 0.15) 0%, rgba(196, 168, 130, 0.1) 100%)",
-                    border: "1px solid rgba(156, 175, 136, 0.2)",
+                    background: "linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(96, 165, 250, 0.1) 100%)",
+                    border: "1px solid rgba(59, 130, 246, 0.2)",
                     backdropFilter: "blur(12px)",
                   }}
                 >
-                  <span className="text-2xl" style={{ color: "#9caf88" }}>◈</span>
+                  <span className="text-2xl" style={{ color: "#3b82f6" }}>◈</span>
                 </div>
               </motion.div>
 
@@ -160,10 +170,10 @@ export default function ReflectionRoom() {
                 transition={{ duration: 1.2, delay: 0.4 }}
                 className="text-4xl md:text-6xl font-heading mb-6"
                 style={{
-                  background: "linear-gradient(135deg, #9caf88 0%, #c4a882 50%, #a8b5a0 100%)",
+                  background: "linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #93c5fd 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  filter: "drop-shadow(0 0 30px rgba(156, 175, 136, 0.2))",
+                  filter: "drop-shadow(0 0 30px rgba(59, 130, 246, 0.2))",
                 }}
               >
                 The Reflection Room
@@ -193,16 +203,16 @@ export default function ReflectionRoom() {
                 ].map((btn) => (
                   <motion.button
                     key={btn.label}
-                    whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(156, 175, 136, 0.15)" }}
+                    whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(59, 130, 246, 0.15)" }}
                     whileTap={{ scale: 0.98 }}
                     onClick={btn.action}
                     className="px-10 py-4 rounded-2xl text-sm font-body tracking-wide transition-all duration-500"
                     style={{
-                      background: "linear-gradient(135deg, rgba(156, 175, 136, 0.2) 0%, rgba(196, 168, 130, 0.15) 100%)",
-                      border: "1px solid rgba(156, 175, 136, 0.3)",
-                      color: "#9caf88",
+                      background: "linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(96, 165, 250, 0.15) 100%)",
+                      border: "1px solid rgba(59, 130, 246, 0.3)",
+                      color: "#3b82f6",
                       backdropFilter: "blur(16px)",
-                      boxShadow: "0 4px 24px rgba(156, 175, 136, 0.08)",
+                      boxShadow: "0 4px 24px rgba(59, 130, 246, 0.08)",
                     }}
                   >
                     {btn.label}
@@ -227,7 +237,7 @@ export default function ReflectionRoom() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className="text-center text-sm mb-2 font-accent"
-                  style={{ color: "#9caf88" }}
+                  style={{ color: "#3b82f6" }}
                 >
                   Today&apos;s reflection
                 </motion.p>
@@ -254,9 +264,9 @@ export default function ReflectionRoom() {
                     className="w-full bg-transparent text-sm font-body resize-none outline-none rounded-2xl p-5 placeholder:opacity-30"
                     style={{
                       color: "rgba(61, 61, 61, 0.7)",
-                      caretColor: "#9caf88",
-                      background: "rgba(156, 175, 136, 0.04)",
-                      border: "1px solid rgba(156, 175, 136, 0.12)",
+                      caretColor: "#3b82f6",
+                      background: "rgba(59, 130, 246, 0.04)",
+                      border: "1px solid rgba(59, 130, 246, 0.12)",
                       backdropFilter: "blur(12px)",
                     }}
                   />
@@ -271,7 +281,7 @@ export default function ReflectionRoom() {
                   <button
                     onClick={() => setView("landing")}
                     className="text-xs px-4 py-2 rounded-xl transition-all duration-300"
-                    style={{ color: "rgba(61, 61, 61, 0.4)", border: "1px solid rgba(156, 175, 136, 0.1)" }}
+                    style={{ color: "rgba(61, 61, 61, 0.4)", border: "1px solid rgba(59, 130, 246, 0.1)" }}
                   >
                     Back
                   </button>
@@ -282,7 +292,7 @@ export default function ReflectionRoom() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className="text-xs"
-                        style={{ color: "#9caf88" }}
+                        style={{ color: "#3b82f6" }}
                       >
                         Saved
                       </motion.span>
@@ -292,9 +302,9 @@ export default function ReflectionRoom() {
                       disabled={!journalText.trim()}
                       className="px-6 py-2 rounded-xl text-xs font-body transition-all duration-300 disabled:opacity-30"
                       style={{
-                        background: journalText.trim() ? "rgba(156, 175, 136, 0.15)" : "rgba(156, 175, 136, 0.05)",
-                        border: `1px solid ${journalText.trim() ? "rgba(156, 175, 136, 0.25)" : "rgba(156, 175, 136, 0.08)"}`,
-                        color: journalText.trim() ? "#9caf88" : "rgba(156, 175, 136, 0.3)",
+                        background: journalText.trim() ? "rgba(59, 130, 246, 0.15)" : "rgba(59, 130, 246, 0.05)",
+                        border: `1px solid ${journalText.trim() ? "rgba(59, 130, 246, 0.25)" : "rgba(59, 130, 246, 0.08)"}`,
+                        color: journalText.trim() ? "#3b82f6" : "rgba(59, 130, 246, 0.3)",
                       }}
                     >
                       Save
@@ -325,7 +335,7 @@ export default function ReflectionRoom() {
                   <button
                     onClick={() => setView("landing")}
                     className="text-xs px-4 py-2 rounded-xl transition-all duration-300"
-                    style={{ color: "rgba(61, 61, 61, 0.4)", border: "1px solid rgba(156, 175, 136, 0.1)" }}
+                    style={{ color: "rgba(61, 61, 61, 0.4)", border: "1px solid rgba(59, 130, 246, 0.1)" }}
                   >
                     Back
                   </button>
@@ -339,7 +349,7 @@ export default function ReflectionRoom() {
                     <button
                       onClick={() => setView("write")}
                       className="mt-4 text-xs px-5 py-2 rounded-xl transition-all duration-300"
-                      style={{ color: "#9caf88", border: "1px solid rgba(156, 175, 136, 0.2)" }}
+                      style={{ color: "#3b82f6", border: "1px solid rgba(59, 130, 246, 0.2)" }}
                     >
                       Write your first
                     </button>
@@ -354,12 +364,12 @@ export default function ReflectionRoom() {
                         transition={{ duration: 0.5, delay: i * 0.05 }}
                         className="rounded-2xl p-5 relative group"
                         style={{
-                          background: "rgba(156, 175, 136, 0.04)",
-                          border: "1px solid rgba(156, 175, 136, 0.1)",
+                          background: "rgba(59, 130, 246, 0.04)",
+                          border: "1px solid rgba(59, 130, 246, 0.1)",
                           backdropFilter: "blur(12px)",
                         }}
                       >
-                        <p className="text-xs mb-2 font-accent" style={{ color: "#9caf88" }}>
+                        <p className="text-xs mb-2 font-accent" style={{ color: "#3b82f6" }}>
                           {entry.prompt}
                         </p>
                         <p className="text-sm font-body leading-relaxed" style={{ color: "rgba(61, 61, 61, 0.6)" }}>
