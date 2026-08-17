@@ -197,28 +197,6 @@ function formatDay(ts?: number) {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-function ElyraIcon({ size = 40 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-      <path d="M24 6 L30 18 L42 18 L32 26 L36 38 L24 30 L12 38 L16 26 L6 18 L18 18 Z" stroke="#00ff88" strokeWidth="1.5" fill="none" opacity="0.6" />
-      <circle cx="24" cy="6" r="2.5" fill="#00ff88" />
-      <circle cx="42" cy="18" r="2.5" fill="#22d3ee" />
-      <circle cx="36" cy="38" r="2.5" fill="#22d3ee" />
-      <circle cx="12" cy="38" r="2.5" fill="#22d3ee" />
-      <circle cx="6" cy="18" r="2.5" fill="#00ff88" />
-      <circle cx="24" cy="24" r="3" fill="#67e8f9">
-        <animate attributeName="r" values="3;4;3" dur="3s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="1;0.6;1" dur="3s" repeatCount="indefinite" />
-      </circle>
-      <line x1="24" y1="8.5" x2="24" y2="21" stroke="#00ff88" strokeWidth="1.5" />
-      <line x1="40" y1="18" x2="27" y2="24" stroke="#22d3ee" strokeWidth="1.5" opacity="0.7" />
-      <line x1="34" y1="36" x2="26" y2="26" stroke="#22d3ee" strokeWidth="1.5" opacity="0.7" />
-      <line x1="14" y1="36" x2="22" y2="26" stroke="#22d3ee" strokeWidth="1.5" opacity="0.7" />
-      <line x1="8" y1="18" x2="21" y2="24" stroke="#00ff88" strokeWidth="1.5" opacity="0.7" />
-    </svg>
-  );
-}
-
 export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: boolean; userId?: string | null }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -620,7 +598,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   const detailProject = projectDetailId ? projects.find(p => p.id === projectDetailId) || null : null;
 
   const controlButtonStyle: React.CSSProperties = {
-    fontSize: "9px", color: "#1e293b",
+    fontSize: "9px", color: "#d9f5e3",
     letterSpacing: "2px", textTransform: "uppercase",
     background: "none", border: "none", cursor: "pointer",
     transition: "all 0.2s", fontFamily: "monospace",
@@ -643,61 +621,6 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             display: "flex", flexDirection: "column", alignItems: "center",
             justifyContent: "center", minHeight: "100%", padding: "40px 24px",
           }}>
-            <div style={{
-              marginBottom: "40px",
-              position: "relative",
-            }}>
-              {/* Outer ring - cyan */}
-              <div style={{
-                position: "absolute", inset: "-32px",
-                border: "1px solid rgba(0, 255, 136, 0.06)",
-                borderRadius: "50%",
-                animation: "orbit 15s linear infinite",
-              }}>
-                <div style={{
-                  position: "absolute", top: "0", left: "50%",
-                  width: "4px", height: "4px", borderRadius: "50%",
-                  background: "#00ff88",
-                  boxShadow: "0 0 15px rgba(0, 255, 136, 1), 0 0 30px rgba(0, 255, 136, 0.5)",
-                  transform: "translate(-50%, -50%)",
-                }} />
-              </div>
-              {/* Middle ring - purple */}
-              <div style={{
-                position: "absolute", inset: "-22px",
-                border: "1px solid rgba(139, 92, 246, 0.08)",
-                borderRadius: "50%",
-                animation: "orbit 10s linear infinite reverse",
-              }}>
-                <div style={{
-                  position: "absolute", bottom: "0", right: "0",
-                  width: "3px", height: "3px", borderRadius: "50%",
-                  background: "#8b5cf6",
-                  boxShadow: "0 0 12px rgba(139, 92, 246, 0.8)",
-                  transform: "translate(50%, 50%)",
-                }} />
-              </div>
-              {/* Inner ring - cyan */}
-              <div style={{
-                position: "absolute", inset: "-12px",
-                border: "1px solid rgba(0, 255, 136, 0.12)",
-                borderRadius: "50%",
-                animation: "orbit 6s linear infinite",
-              }}>
-                <div style={{
-                  position: "absolute", top: "50%", left: "0",
-                  width: "3px", height: "3px", borderRadius: "50%",
-                  background: "#22d3ee",
-                  boxShadow: "0 0 10px rgba(34, 211, 238, 0.8)",
-                  transform: "translate(-50%, -50%)",
-                }} />
-              </div>
-              {/* Icon with breathing glow */}
-              <div style={{ animation: "breathe 4s ease-in-out infinite", position: "relative" }}>
-                <ElyraIcon size={80} />
-              </div>
-            </div>
-
             {/* Name with gradient */}
             <div style={{ position: "relative", marginBottom: "16px" }}>
               <h2 style={{
@@ -712,63 +635,13 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               {/* Glowing underline */}
               <div style={{
                 width: "100%", height: "1px", marginTop: "8px",
-                background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.6), rgba(139, 92, 246, 0.4), transparent)",
+                background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.85), rgba(139, 92, 246, 0.4), transparent)",
                 boxShadow: "0 0 10px rgba(0, 255, 136, 0.3)",
               }} />
             </div>
 
-            <p style={{
-              fontSize: "9px", color: "#00ff88",
-              letterSpacing: "5px", textTransform: "uppercase",
-              opacity: 0.5, fontFamily: "monospace",
-            }}>◈ Neural Link Established ◈</p>
-
-            {/* Status indicators */}
-            <div style={{
-              marginTop: "48px",
-              display: "flex", gap: "20px", alignItems: "center",
-            }}>
-              {[
-                { label: "SYS", color: "#22c55e" },
-                { label: "NET", color: "#00ff88" },
-                { label: "ENC", color: "#8b5cf6" },
-                { label: "AI", color: "#22d3ee" },
-              ].map((s, i) => (
-                <div key={i} style={{
-                  display: "flex", alignItems: "center", gap: "6px",
-                }}>
-                  <div style={{
-                    width: "4px", height: "4px", borderRadius: "50%",
-                    background: s.color,
-                    boxShadow: `0 0 8px ${s.color}80`,
-                    animation: `pulse 2s ease-in-out ${i * 0.3}s infinite`,
-                  }} />
-                  <span style={{
-                    fontSize: "8px", color: "#1e293b",
-                    letterSpacing: "2px", textTransform: "uppercase",
-                    fontFamily: "monospace",
-                  }}>{s.label}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Decorative data */}
-            <div style={{
-              marginTop: "32px",
-              fontFamily: "monospace",
-              fontSize: "7px",
-              color: "rgba(0, 255, 136, 0.12)",
-              letterSpacing: "2px",
-              textAlign: "center",
-              lineHeight: "1.8",
-            }}>
-              {`{proto:neural}{ver:3.0.1}{enc:aes256}`}
-              <br />
-              {`{lat:12ms}{status:active}`}
-            </div>
-
             {/* Mode selection */}
-            <div style={{ marginTop: "32px", textAlign: "center" }}>
+            <div style={{ marginTop: "40px", textAlign: "center" }}>
               <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
                 {MODES.map((mode) => {
                   const isActive = activeMode === mode.id;
@@ -779,9 +652,9 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                       style={{
                         padding: "8px 16px",
                         borderRadius: "6px",
-                        border: `1px solid ${isActive ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.15)"}`,
+                        border: `1px solid ${isActive ? "rgba(0, 255, 136, 0.65)" : "rgba(0, 255, 136, 0.3)"}`,
                         background: isActive ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)",
-                        color: isActive ? "#00ff88" : "rgba(0, 255, 136, 0.6)",
+                        color: isActive ? "#00ff88" : "rgba(0, 255, 136, 0.85)",
                         fontSize: "10px",
                         cursor: "pointer",
                         transition: "all 0.2s",
@@ -799,8 +672,8 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = isActive ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)";
-                        e.currentTarget.style.color = isActive ? "#00ff88" : "rgba(0, 255, 136, 0.6)";
-                        e.currentTarget.style.borderColor = isActive ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.15)";
+                        e.currentTarget.style.color = isActive ? "#00ff88" : "rgba(0, 255, 136, 0.85)";
+                        e.currentTarget.style.borderColor = isActive ? "rgba(0, 255, 136, 0.65)" : "rgba(0, 255, 136, 0.3)";
                       }}
                     >
                       <span style={{ fontSize: "12px" }}>{mode.icon}</span>
@@ -824,7 +697,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                       borderRadius: "20px",
                       border: "1px solid rgba(0, 255, 136, 0.1)",
                       background: "rgba(0, 255, 136, 0.02)",
-                      color: "rgba(0, 255, 136, 0.4)",
+                      color: "rgba(0, 255, 136, 0.65)",
                       fontSize: "9px",
                       cursor: "pointer",
                       transition: "all 0.2s",
@@ -837,7 +710,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = "rgba(0, 255, 136, 0.02)";
-                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.4)";
+                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.65)";
                     }}
                   >
                     {suggestion}
@@ -847,7 +720,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
 
               <p style={{
                 fontSize: "8px",
-                color: "rgba(0, 255, 136, 0.2)",
+                color: "rgba(0, 255, 136, 0.5)",
                 marginTop: "12px",
                 fontFamily: "monospace",
                 letterSpacing: "1px",
@@ -879,17 +752,8 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                     }}>
                       {!isUser && (
                         <div style={{
-                          marginRight: "10px", marginTop: "2px", flexShrink: 0,
-                          position: "relative",
-                        }}>
-                          <ElyraIcon size={20} />
-                          <div style={{
-                            position: "absolute", inset: "-4px",
-                            border: "1px solid rgba(0, 255, 136, 0.1)",
-                            borderRadius: "50%",
-                            animation: "orbit 6s linear infinite",
-                          }} />
-                        </div>
+                          width: "20px", flexShrink: 0,
+                        }} />
                       )}
                       <div style={{
                         maxWidth: "70%", display: "flex", flexDirection: "column",
@@ -904,7 +768,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                           border: isUser
                             ? "1px solid rgba(0, 255, 136, 0.25)"
                             : "1px solid rgba(0, 255, 136, 0.08)",
-                          color: isUser ? "#e2e8f0" : "#94a3b8",
+                          color: isUser ? "#e2e8f0" : "#d8f5e2",
                           fontSize: "13px", lineHeight: "1.6",
                           wordBreak: "break-word",
                           boxShadow: isUser
@@ -914,12 +778,9 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                           overflow: "hidden",
                           letterSpacing: "0.2px",
                         }}>
-                          {/* Holographic shimmer on user messages */}
                           {isUser && (
                             <div style={{
                               position: "absolute", inset: 0,
-                              background: "linear-gradient(105deg, transparent 40%, rgba(0, 255, 136, 0.05) 45%, rgba(139, 92, 246, 0.05) 50%, transparent 55%)",
-                              animation: "shimmer 3s ease-in-out infinite",
                               pointerEvents: "none",
                             }} />
                           )}
@@ -978,7 +839,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                                     return <strong style={{ color: "#e2e8f0", fontWeight: 600 }}>{children}</strong>;
                                   },
                                   em({ children }) {
-                                    return <em style={{ color: "#94a3b8" }}>{children}</em>;
+                                    return <em style={{ color: "#d8f5e2" }}>{children}</em>;
                                   },
                                   a({ href, children }) {
                                     return (
@@ -1008,7 +869,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                                           borderLeft: "3px solid rgba(0, 255, 136, 0.3)",
                                           paddingLeft: "12px",
                                           margin: "8px 0",
-                                          color: "#94a3b8",
+                                          color: "#d8f5e2",
                                           fontStyle: "italic",
                                         }}
                                       >
@@ -1030,7 +891,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                           ) : null}
                         </div>
                         <span style={{
-                          fontSize: "8px", color: "#1e293b",
+                          fontSize: "8px", color: "#d9f5e3",
                           marginTop: "4px", padding: "0 4px",
                           letterSpacing: "1px", fontFamily: "monospace",
                           display: "flex", alignItems: "center", gap: "8px",
@@ -1041,13 +902,13 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                               onClick={() => copyMessage(msg.content)}
                               style={{
                                 background: "none", border: "none",
-                                color: "#1e293b", cursor: "pointer",
+                                color: "#d9f5e3", cursor: "pointer",
                                 padding: "2px 4px", fontSize: "9px",
                                 letterSpacing: "1px", textTransform: "uppercase",
                                 transition: "all 0.2s",
                               }}
                               onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; }}
-                              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; }}
+                              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; }}
                             >
                               Copy
                             </button>
@@ -1069,7 +930,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                   display: "flex", alignItems: "center", gap: "10px",
                 }}>
                   <span style={{ fontSize: "16px" }}>{lastMood.emoji}</span>
-                  <span style={{ fontSize: "12px", color: "#94a3b8", flex: 1, lineHeight: "1.4" }}>{lastMood.suggestion}</span>
+                  <span style={{ fontSize: "12px", color: "#d8f5e2", flex: 1, lineHeight: "1.4" }}>{lastMood.suggestion}</span>
                   <Link href={`/${lastMood.roomSlug}`} style={{
                     fontSize: "10px", color: "#00ff88", textDecoration: "none",
                     padding: "6px 12px", borderRadius: "4px",
@@ -1114,9 +975,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
           }}>
             {/* Input corner accents */}
             <div style={{ position: "absolute", top: "-1px", left: "-1px", width: "8px", height: "1px", background: "#00ff88" }} />
-            <div style={{ position: "absolute", top: "-1px", left: "-1px", width: "1px", height: "8px", background: "#00ff88" }} />
             <div style={{ position: "absolute", bottom: "-1px", right: "-1px", width: "8px", height: "1px", background: "#00ff88" }} />
-            <div style={{ position: "absolute", bottom: "-1px", right: "-1px", width: "1px", height: "8px", background: "#00ff88" }} />
 
             {/* File upload button */}
             <button
@@ -1125,7 +984,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                 width: "32px", height: "32px", borderRadius: "4px",
                 background: "rgba(0, 255, 136, 0.04)",
                 border: "1px solid rgba(0, 255, 136, 0.15)",
-                color: "rgba(0, 255, 136, 0.6)",
+                color: "rgba(0, 255, 136, 0.85)",
                 cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
                 transition: "all 0.2s",
                 flexShrink: 0,
@@ -1136,7 +995,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
-                e.currentTarget.style.color = "rgba(0, 255, 136, 0.6)";
+                e.currentTarget.style.color = "rgba(0, 255, 136, 0.85)";
               }}
               title="Upload file"
             >
@@ -1204,7 +1063,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               width: "44px", height: "44px", borderRadius: "4px",
               background: "rgba(0, 255, 136, 0.02)",
               border: "1px solid rgba(0, 255, 136, 0.06)",
-              color: "#0f172a",
+              color: "rgba(240, 255, 245, 0.5)",
               cursor: "default", display: "flex", alignItems: "center", justifyContent: "center",
             }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg>
@@ -1221,7 +1080,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                 padding: "4px 8px", borderRadius: "4px",
                 background: "rgba(0, 255, 136, 0.04)",
                 border: "1px solid rgba(0, 255, 136, 0.15)",
-                fontSize: "10px", color: "rgba(0, 255, 136, 0.6)",
+                fontSize: "10px", color: "rgba(0, 255, 136, 0.85)",
               }}>
                 <span>{file.name}</span>
                 <button
@@ -1260,33 +1119,33 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
           <div style={{ display: "flex", justifyContent: "center", marginTop: "12px", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
             <button onClick={startNewConversation} style={controlButtonStyle}
               onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ New</button>
+              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◇ New</button>
             <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
             <button onClick={() => { setShowProjects(true); setShowHistory(false); setShowMemory(false); setShowSettings(false); }} style={controlButtonStyle}
               onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ Projects</button>
+              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◈ Projects</button>
             <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
             <button onClick={() => { setShowHistory(!showHistory); setShowProjects(false); setShowMemory(false); setShowSettings(false); }} style={controlButtonStyle}
               onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ History</button>
+              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◈ History</button>
             <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
             <button onClick={() => { setShowMemory(!showMemory); setShowProjects(false); setShowHistory(false); setShowSettings(false); }} style={controlButtonStyle}
               onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◇ Memory</button>
+              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◇ Memory</button>
             <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
             <button onClick={() => { setShowSettings(!showSettings); setShowProjects(false); setShowHistory(false); setShowMemory(false); }} style={controlButtonStyle}
               onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>◈ Configure</button>
+              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◈ Configure</button>
             {lastUserMessage && !loading && (
               <>
                 <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
                 <button onClick={editLastMessage} style={controlButtonStyle}
                   onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
-                  onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>✎ Edit</button>
+                  onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>✎ Edit</button>
                 <div style={{ width: "1px", background: "rgba(0, 255, 136, 0.1)" }} />
                 <button onClick={regenerateResponse} style={controlButtonStyle}
                   onMouseOver={e => { e.currentTarget.style.color = "#00ff88"; e.currentTarget.style.textShadow = "0 0 8px rgba(0, 255, 136, 0.5)"; }}
-                  onMouseOut={e => { e.currentTarget.style.color = "#1e293b"; e.currentTarget.style.textShadow = "none"; }}>↻ Regenerate</button>
+                  onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>↻ Regenerate</button>
               </>
             )}
           </div>
@@ -1308,7 +1167,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             <button onClick={() => setShowSettings(false)} style={{
               background: "rgba(0, 255, 136, 0.08)",
               border: "1px solid rgba(0, 255, 136, 0.15)",
-              color: "#475569",
+              color: "#a8e4b8",
               fontSize: "12px", width: "28px", height: "28px",
               borderRadius: "6px", cursor: "pointer",
               display: "flex", alignItems: "center", justifyContent: "center",
@@ -1320,9 +1179,9 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               {PERSONALITIES.map(p => (
                 <button key={p.id} onClick={() => updateSettings({ personality: p.id })} style={{
                   padding: "8px 14px", borderRadius: "6px",
-                  border: `1px solid ${settings.personality === p.id ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.1)"}`,
+                  border: `1px solid ${settings.personality === p.id ? "rgba(0, 255, 136, 0.65)" : "rgba(0, 255, 136, 0.1)"}`,
                   background: settings.personality === p.id ? "rgba(0, 255, 136, 0.1)" : "transparent",
-                  color: settings.personality === p.id ? "#00ff88" : "#475569",
+                  color: settings.personality === p.id ? "#00ff88" : "#a8e4b8",
                   fontSize: "11px", cursor: "pointer", transition: "all 0.2s",
                   letterSpacing: "0.5px",
                 }}>{p.emoji} {p.name}</button>
@@ -1345,9 +1204,9 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               {(["short", "medium", "long"] as const).map(l => (
                 <button key={l} onClick={() => updateSettings({ responseLength: l })} style={{
                   flex: 1, padding: "8px", borderRadius: "6px",
-                  border: `1px solid ${settings.responseLength === l ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.1)"}`,
+                  border: `1px solid ${settings.responseLength === l ? "rgba(0, 255, 136, 0.65)" : "rgba(0, 255, 136, 0.1)"}`,
                   background: settings.responseLength === l ? "rgba(0, 255, 136, 0.1)" : "transparent",
-                  color: settings.responseLength === l ? "#00ff88" : "#475569",
+                  color: settings.responseLength === l ? "#00ff88" : "#a8e4b8",
                   fontSize: "11px", cursor: "pointer", textTransform: "capitalize",
                   transition: "all 0.2s", letterSpacing: "0.5px",
                 }}>{l}</button>
@@ -1372,14 +1231,14 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             <button onClick={() => setShowHistory(false)} style={{
               background: "rgba(0, 255, 136, 0.08)",
               border: "1px solid rgba(0, 255, 136, 0.15)",
-              color: "#475569",
+              color: "#a8e4b8",
               fontSize: "12px", width: "28px", height: "28px",
               borderRadius: "6px", cursor: "pointer",
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>✕</button>
           </div>
           {conversations.length === 0 ? (
-            <p style={{ fontSize: "11px", color: "#475569", textAlign: "center", padding: "20px 0" }}>No conversations yet</p>
+            <p style={{ fontSize: "11px", color: "#a8e4b8", textAlign: "center", padding: "20px 0" }}>No conversations yet</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {conversations.slice(0, 20).map(conv => (
@@ -1419,22 +1278,22 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                         <div style={{ fontSize: "12px", color: "#e2e8f0", marginBottom: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                           {conv.title}
                         </div>
-                        <div style={{ fontSize: "9px", color: "#475569" }}>
+                        <div style={{ fontSize: "9px", color: "#a8e4b8" }}>
                           {new Date(conv.updatedAt).toLocaleDateString()} · {conv.messages.length} msg
                         </div>
                       </div>
                       <button onClick={(e) => { e.stopPropagation(); setEditingConvId(conv.id); setConvRenameDraft(conv.title); }} style={{
                         background: "none", border: "none",
-                        color: "#475569", cursor: "pointer", padding: "4px",
+                        color: "#a8e4b8", cursor: "pointer", padding: "4px",
                         fontSize: "12px", transition: "color 0.2s",
-                      }} onMouseOver={e => e.currentTarget.style.color = "#00ff88"} onMouseOut={e => e.currentTarget.style.color = "#475569"}>
+                      }} onMouseOver={e => e.currentTarget.style.color = "#00ff88"} onMouseOut={e => e.currentTarget.style.color = "#a8e4b8"}>
                         ✎
                       </button>
                       <button onClick={(e) => { e.stopPropagation(); deleteConversation(conv.id); }} style={{
                         background: "none", border: "none",
-                        color: "#475569", cursor: "pointer", padding: "4px",
+                        color: "#a8e4b8", cursor: "pointer", padding: "4px",
                         fontSize: "12px", transition: "color 0.2s",
-                      }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#475569"}>
+                      }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#a8e4b8"}>
                         ✕
                       </button>
                     </>
@@ -1460,7 +1319,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             <span style={{ fontSize: "12px", fontWeight: 600, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase" }}>Memory</span>
             <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
               <button onClick={toggleMemoryEnabled} style={{
-                fontSize: "9px", color: memoryEnabled ? "#00ff88" : "#475569",
+                fontSize: "9px", color: memoryEnabled ? "#00ff88" : "#a8e4b8",
                 background: memoryEnabled ? "rgba(0, 255, 136, 0.08)" : "transparent",
                 border: `1px solid ${memoryEnabled ? "rgba(0, 255, 136, 0.2)" : "rgba(0, 255, 136, 0.08)"}`,
                 cursor: "pointer", padding: "4px 8px", borderRadius: "4px",
@@ -1477,7 +1336,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               <button onClick={() => setShowMemory(false)} style={{
                 background: "rgba(0, 255, 136, 0.08)",
                 border: "1px solid rgba(0, 255, 136, 0.15)",
-                color: "#475569",
+                color: "#a8e4b8",
                 fontSize: "12px", width: "28px", height: "28px",
                 borderRadius: "6px", cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
@@ -1485,7 +1344,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             </div>
           </div>
           {memory.length === 0 ? (
-            <p style={{ fontSize: "11px", color: "#475569", textAlign: "center", padding: "20px 0" }}>No memories saved</p>
+            <p style={{ fontSize: "11px", color: "#a8e4b8", textAlign: "center", padding: "20px 0" }}>No memories saved</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {memory.map(item => (
@@ -1500,9 +1359,9 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                   </div>
                   <button onClick={() => removeFromMemory(item.id)} style={{
                     background: "none", border: "none",
-                    color: "#475569", cursor: "pointer", padding: "4px",
+                    color: "#a8e4b8", cursor: "pointer", padding: "4px",
                     fontSize: "12px", transition: "color 0.2s",
-                  }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#475569"}>
+                  }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#a8e4b8"}>
                     ✕
                   </button>
                 </div>
@@ -1533,7 +1392,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               whiteSpace: "nowrap",
             }}>Save</button>
           </div>
-          <p style={{ fontSize: "9px", color: "#334155", marginTop: "10px", lineHeight: "1.5" }}>
+          <p style={{ fontSize: "9px", color: "#a8e4b8", marginTop: "10px", lineHeight: "1.5" }}>
             {memoryEnabled ? "Luna uses your memories to personalize responses. They're private to you and can be cleared anytime." : "Memory is currently disabled — Luna won't receive these notes."}
           </p>
         </div>
@@ -1562,7 +1421,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               <button onClick={() => setShowProjects(false)} style={{
                 background: "rgba(0, 255, 136, 0.08)",
                 border: "1px solid rgba(0, 255, 136, 0.15)",
-                color: "#475569",
+                color: "#a8e4b8",
                 fontSize: "12px", width: "28px", height: "28px",
                 borderRadius: "6px", cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
@@ -1608,7 +1467,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                 <button onClick={() => setProjectDetailId(null)} style={{
                   background: "rgba(0, 255, 136, 0.08)",
                   border: "1px solid rgba(0, 255, 136, 0.15)",
-                  color: "#475569", fontSize: "11px", width: "26px", height: "26px",
+                  color: "#a8e4b8", fontSize: "11px", width: "26px", height: "26px",
                   borderRadius: "6px", cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}>←</button>
@@ -1658,7 +1517,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               </div>
             </div>
           ) : projects.length === 0 ? (
-            <p style={{ fontSize: "11px", color: "#475569", textAlign: "center", padding: "20px 0", lineHeight: "1.6" }}>
+            <p style={{ fontSize: "11px", color: "#a8e4b8", textAlign: "center", padding: "20px 0", lineHeight: "1.6" }}>
               {newProjectOpen ? "Fill in the details above to create your first project." : "No projects yet. Start one so Luna stays grounded in what you're building."}
             </p>
           ) : (
@@ -1673,7 +1532,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                 }} onClick={() => setProjectDetailId(proj.id)}>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: "12px", color: "#e2e8f0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{proj.name}</div>
-                    <div style={{ fontSize: "9px", color: "#475569", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <div style={{ fontSize: "9px", color: "#a8e4b8", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {[proj.language, proj.framework].filter(Boolean).join(" · ") || proj.whatBuilding || "—"}
                     </div>
                   </div>
@@ -1686,9 +1545,9 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                   }}>Open</button>
                   <button onClick={(e) => { e.stopPropagation(); deleteProject(proj.id); }} style={{
                     background: "none", border: "none",
-                    color: "#475569", cursor: "pointer", padding: "4px",
+                    color: "#a8e4b8", cursor: "pointer", padding: "4px",
                     fontSize: "12px", transition: "color 0.2s",
-                  }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#475569"}>
+                  }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#a8e4b8"}>
                     ✕
                   </button>
                 </div>
@@ -1699,7 +1558,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
       )}
 
       <style>{`
-        textarea::placeholder { color: #1e293b; letter-spacing: 1px; font-size: 11px; }
+        textarea::placeholder { color: #d9f5e3; letter-spacing: 1px; font-size: 11px; }
         @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
         @keyframes breathe {
           0%, 100% { opacity: 0.8; transform: scale(1); filter: drop-shadow(0 0 25px rgba(0, 255, 136, 0.5)); }
@@ -1727,7 +1586,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
         .elyra-message ul, .elyra-message ol { margin: 4px 0; padding-left: 20px; }
         .elyra-message li { margin: 2px 0; }
         .elyra-message strong { color: #e2e8f0; font-weight: 600; }
-        .elyra-message em { color: #94a3b8; }
+        .elyra-message em { color: #d8f5e2; }
         .elyra-message a { color: #00ff88; text-decoration: underline; }
         .elyra-message h1, .elyra-message h2, .elyra-message h3 { color: #e2e8f0; font-weight: 600; }
         .elyra-message h1 { font-size: 18px; margin: 16px 0 8px; }
@@ -1737,14 +1596,14 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
           border-left: 3px solid rgba(0, 255, 136, 0.3);
           padding-left: 12px;
           margin: 8px 0;
-          color: #94a3b8;
+          color: #d8f5e2;
           font-style: italic;
         }
         /* Code block scrollbar */
         .elyra-code-block::-webkit-scrollbar { height: 6px; }
         .elyra-code-block::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 3px; }
         .elyra-code-block::-webkit-scrollbar-thumb { background: rgba(0, 255, 136, 0.2); border-radius: 3px; }
-        .elyra-code-block::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 136, 0.4); }
+        .elyra-code-block::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 136, 0.65); }
       `}</style>
     </div>
   );
