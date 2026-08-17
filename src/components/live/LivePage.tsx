@@ -1081,20 +1081,20 @@ export default function LivePage() {
 
               {previewActive ? (
                 <div style={{ marginBottom: 20 }}>
-                  <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", background: "#000", aspectRatio: "9 / 16", maxHeight: 320 }}>
+                  <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", background: "var(--bg-color)", aspectRatio: "9 / 16", maxHeight: 360, boxShadow: "var(--shadow-xl)" }}>
                     <video ref={localVideoRef} autoPlay playsInline muted style={{
                       position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover",
                       transform: cameraFacing === "user" ? "scaleX(-1)" : "none",
                     }} />
-                    <div style={{ position: "absolute", top: 10, left: 10, padding: "4px 10px", borderRadius: 6, background: "rgba(239, 68, 68, 0.8)", color: "white", fontSize: 10, fontWeight: 600, letterSpacing: "2px" }}>
+                    <div style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", borderRadius: 9999, background: "rgba(16, 155, 136, 0.85)", color: "white", fontSize: 9, fontWeight: 600, letterSpacing: "1px" }}>
                       PREVIEW
                     </div>
                   </div>
                   <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-                    <button onClick={flipCamera} style={{ flex: 1, padding: "10px", borderRadius: 10, background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)", color: "#e0f5e8", fontSize: 12, cursor: "pointer" }}>
+                    <button onClick={flipCamera} style={{ flex: 1, padding: "10px 14px", borderRadius: 10, background: "rgba(16, 155, 136, 0.06)", border: "1px solid rgba(16, 155, 136, 0.18)", color: "#10b988", fontSize: 11, fontWeight: 500, letterSpacing: "0.5px", cursor: "pointer" }}>
                       🔄 Flip
                     </button>
-                    <button onClick={() => { pipelineRef.current?.stop(); pipelineRef.current = null; setPreviewActive(false); }} style={{ flex: 1, padding: "10px", borderRadius: 10, background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)", color: "#e0f5e8", fontSize: 12, cursor: "pointer" }}>
+                    <button onClick={() => { pipelineRef.current?.stop(); pipelineRef.current = null; setPreviewActive(false); }} style={{ flex: 1, padding: "10px 14px", borderRadius: 10, background: "rgba(16, 155, 136, 0.06)", border: "1px solid rgba(16, 155, 136, 0.18)", color: "#10b988", fontSize: 11, fontWeight: 500, letterSpacing: "0.5px", cursor: "pointer" }}>
                       Stop preview
                     </button>
                   </div>
@@ -1122,11 +1122,13 @@ export default function LivePage() {
               )}
 
               <button onClick={startBroadcast} disabled={!streamTitle.trim()} style={{
-                width: "100%", padding: "14px", borderRadius: 10,
-                background: streamTitle.trim() ? "linear-gradient(135deg, #ef4444, #dc2626)" : "rgba(239, 68, 68, 0.2)",
-                border: "none", color: streamTitle.trim() ? "white" : "rgba(255,255,255,0.3)",
-                fontSize: 14, fontWeight: 500, cursor: streamTitle.trim() ? "pointer" : "default",
+                width: "100%", padding: "14px 20px", borderRadius: 10,
+                background: streamTitle.trim() ? "linear-gradient(135deg, #10b981, #059669)" : "rgba(16, 155, 136, 0.12)",
+                border: streamTitle.trim() ? "none" : "1px solid rgba(16, 155, 136, 0.2)",
+                color: streamTitle.trim() ? "white" : "rgba(16, 155, 136, 0.8)",
+                fontSize: 13, fontWeight: 500, cursor: streamTitle.trim() ? "pointer" : "default",
                 letterSpacing: "1px", textTransform: "uppercase",
+                transition: "background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease",
               }}>
                 Go Live{filterId !== "natural" ? ` · ${getFilter(filterId).label}` : ""}
               </button>

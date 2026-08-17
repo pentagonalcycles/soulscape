@@ -8,55 +8,82 @@ interface FilterPickerProps {
 }
 
 const DOT: Record<string, string> = {
-  natural: "#ffffff",
-  golden: "#ffcf4d",
-  arctic: "#7ec8ff",
-  noir: "#444444",
-  midnight: "#1a2245",
-  emerald: "#34d399",
-  violet: "#8b5cf6",
-  rose: "#ff6aa9",
-  sunset: "#ff5e62",
-  cool: "#a4d8ff",
+  natural: "#1e293b",
+  golden: "#f59e0b",
+  arctic: "#22d3ee",
+  noir: "#1e293b",
+  midnight: "#0f172a",
+  emerald: "#10b981",
+  violet: "#a78bfa",
+  rose: "#ec4899",
+  sunset: "#f97316",
+  cool: "#3b82f6",
+};
+
+const FILTER_STYLE = {
+  padding: "8px 14px",
+  borderRadius: "9999px",
+  fontSize: 11,
+  fontWeight: 500,
+  letterSpacing: "0.5px",
+  textTransform: "uppercase",
+  transition: "all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+  whiteSpace: "nowrap",
+  flexShrink: 0,
 };
 
 export default function FilterPicker({ currentId, onSelect }: FilterPickerProps) {
   return (
     <div style={{ userSelect: "none" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-        <span style={{ fontSize: 10, letterSpacing: "2px", textTransform: "uppercase", color: "#00ff88", fontWeight: 600 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+        <span style={{ fontSize: 9, letterSpacing: "1px", textTransform: "uppercase", color: "#10b988", fontWeight: 600 }}>
           Filters
         </span>
-        <span style={{ fontSize: 10, color: "rgba(224, 245, 232, 0.4)" }}>
+        <span style={{ fontSize: 8, color: "rgba(30, 41, 59, 0.4)" }}>
           applied to the live video
         </span>
       </div>
-      <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4, WebkitOverflowScrolling: "touch" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: 6,
+          overflowX: "auto",
+          paddingBottom: 2,
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
         {LIVE_FILTERS.map((f) => {
           const active = f.id === currentId;
+          const isButton = active || typeof onSelect === "function";
           return (
             <button
               key={f.id}
               onClick={() => onSelect(f.id)}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                padding: "8px 12px",
-                borderRadius: 999,
-                border: active ? "1px solid rgba(0, 255, 136, 0.7)" : "1px solid rgba(0, 255, 136, 0.15)",
-                background: active ? "rgba(0, 255, 136, 0.12)" : "rgba(21, 38, 29, 0.6)",
-                color: active ? "#00ff88" : "rgba(224, 245, 232, 0.7)",
-                fontSize: 11,
-                fontWeight: active ? 600 : 400,
-                cursor: "pointer",
-                whiteSpace: "nowrap",
-                flexShrink: 0,
-                transition: "all 0.15s",
+                ...FILTER_STYLE,
+                borderRadius: "9999px",
+                border: active
+                  ? "1px solid rgba(16, 155, 136, 0.5)"
+                  : "1px solid rgba(30, 41, 59, 0.15)",
+                background: active
+                  ? "rgba(16, 155, 136, 0.08)"
+                  : "rgba(30, 41, 59, 0.4)",
+                color: active ? "#10b988" : "rgba(100, 115, 131, 0.8)",
+                cursor: isButton ? "pointer" : "default",
               }}
+              disabled={!isButton}
             >
-              <span style={{ width: 8, height: 8, borderRadius: "50%", background: DOT[f.id] || "#fff", boxShadow: "0 0 6px rgba(255,255,255,0.3)" }} />
-              {f.label}
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: DOT[f.id] || "#1e293b",
+                  boxShadow: "0 0 6px rgba(16, 155, 136, 0.2)",
+                  marginRight: 6,
+                }}
+              />
+              <span style={{ flex: 1, fontSize: 9 }}>{f.label}</span>
             </button>
           );
         })}
