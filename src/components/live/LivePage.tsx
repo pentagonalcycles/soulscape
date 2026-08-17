@@ -98,6 +98,13 @@ export default function LivePage() {
     };
   }, []);
 
+  // Hide the global nav toggle while in fullscreen broadcast/watch mode
+  useEffect(() => {
+    const isFullscreen = view === "broadcasting" || view === "watching";
+    document.body.classList.toggle("live-fullscreen", isFullscreen);
+    return () => document.body.classList.remove("live-fullscreen");
+  }, [view]);
+
   // Start broadcasting
   const startBroadcast = async () => {
     if (!userId || !streamTitle.trim()) return;

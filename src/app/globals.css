@@ -1299,3 +1299,7 @@ body.compact-mode .gap-4 {
   75% { background-position: 50% 0%; }
   100% { background-position: 0% 50%; }
 }
+
+body.live-fullscreen [data-nav-toggle] {
+  display: none !important;
+}

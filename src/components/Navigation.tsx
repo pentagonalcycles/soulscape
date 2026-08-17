@@ -68,6 +68,7 @@ export default function Navigation({ activePage }: NavigationProps) {
           transition={{ duration: 0.6, delay: 0.5 }}
           aria-label={isOpen ? "Close navigation" : "Open navigation"}
           className={`btn-icon fixed top-5 left-5 z-[1000] ${isMobile ? "w-12 h-12" : ""}`}
+          data-nav-toggle
           style={{
             background: "rgba(30, 58, 42, 0.9)",
             backdropFilter: "blur(16px)",
