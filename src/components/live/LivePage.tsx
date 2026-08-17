@@ -455,8 +455,9 @@ export default function LivePage() {
       setSlowMode(!!data.slow_mode);
       setChatLog([]);
       setView("broadcasting");
-      setConnectionStatus("live");
+setConnectionStatus("live");
 
+      const channelDisposed = false;
       const channel = client.channel(`live:${data.id}`);
       channelRef.current = channel;
       channel.on("broadcast", { event: "viewer-offer" }, async ({ payload }) => {
@@ -478,9 +479,23 @@ export default function LivePage() {
       channel.on("presence", { event: "join" }, ({ newPresences }) => {
         newPresences.forEach((p) => addJoinNotice((p as { name?: string }).name));
       });
+      channel.on("subscribe", () => {
+        // Channel successfully subscribed - reset any previous disconnect state
+        setConnectionStatus("live");
+      });
+      channel.on("disconnect", () => {
+        // Channel disconnected - show reconnecting status, but don't immediately end the stream
+        if (!channelDisposed) {
+          setConnectionStatus("reconnecting");
+        }
+      });
+      channel.on("subscribe-error", () => {
+        setConnectionStatus("failed");
+      });
       await channel.subscribe(async (status) => {
-        if (status === "SUBSCRIBED") {
+        if (status === "SUBSCRIBED" && !channelDisposed) {
           await channel.track({ user_id: userId, role: "broadcaster", name: presenceName() });
+          setConnectionStatus("live");
         }
       });
 
