@@ -196,16 +196,16 @@ export default function LivePage() {
   const fetchLiveStreams = useCallback(async () => {
     const client = supabase();
 
-    // Clean up stale streams (heartbeat older than 30s) before fetching
-    await client.rpc("cleanup_stale_live_streams");
-
     const { data, error } = await client
       .from("live_streams")
       .select("*")
       .eq("status", "live")
       .order("started_at", { ascending: false });
 
-    if (error || !data) return;
+    if (error || !data) {
+      setLoading(false);
+      return;
+    }
 
     const streams = await Promise.all(
       data.map(async (stream: LiveStream) => {
@@ -471,6 +471,7 @@ export default function LivePage() {
           title: streamTitle.trim(),
           status: "live",
           filter: filterId,
+          heartbeat_at: new Date().toISOString(),
         })
         .select()
         .single();
