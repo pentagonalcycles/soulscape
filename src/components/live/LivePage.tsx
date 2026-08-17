@@ -226,6 +226,7 @@ export default function LivePage() {
 
     setCurrentStream((prev) => {
       if (prev && viewRef.current === "watching" && !streams.some((s) => s.id === prev.id)) {
+        console.log("[LIVE] POLL: stream not found in DB results, setting ended. Stream ID:", prev.id, "Found streams:", streams.map(s => s.id));
         // Only set "ended" from polling if we're not already in a grace/reconnect window
         if (connectionStatusRef.current !== "reconnecting" && !presenceGraceTimer.current) {
           setConnectionStatus("ended");
@@ -489,6 +490,7 @@ setConnectionStatus("live");
       channelRef.current = channel;
       channel.on("broadcast", { event: "viewer-offer" }, async ({ payload }) => {
         const { offer, viewerId } = payload as { offer: RTCSessionDescriptionInit; viewerId: string };
+        console.log("[LIVE-BROADCASTER] received viewer-offer from", viewerId);
         await handleViewerOffer(offer, viewerId);
       });
       channel.on("broadcast", { event: "viewer-candidate" }, async ({ payload }) => {
@@ -588,6 +590,7 @@ setConnectionStatus("live");
       setConnectionStatus("connecting");
       connectionStatusRef.current = "connecting";
       setChatHidden(false);
+      console.log("[LIVE] joinStream called for", stream.id, stream.title);
 
       const client = supabase();
 
@@ -614,6 +617,7 @@ setConnectionStatus("live");
         viewerCountRef.current = count;
         setViewerCount(count);
         const broadcasterPresent = Object.values(state).some((p) => (p as { role?: string }).role === "broadcaster");
+        console.log("[LIVE] presence sync — broadcasterPresent:", broadcasterPresent, "connectionStatus:", connectionStatusRef.current, "hasReceivedTrack:", hasReceivedTrackRef.current, "presenceState:", JSON.stringify(state));
 
         if (broadcasterPresent) {
           // Broadcaster is back — cancel any grace timer
@@ -692,13 +696,16 @@ setConnectionStatus("live");
         newPresences.forEach((p) => addJoinNotice((p as { name?: string }).name));
       });
       await channel.subscribe(async (status) => {
+        console.log("[LIVE] channel subscribe status:", status);
         if (status === "SUBSCRIBED") {
           await channel.track({ user_id: userId, role: "viewer", name: presenceName() });
+          console.log("[LIVE] tracked as viewer, creating peer connection");
 
           const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
           broadcasterPcRef.current = pc;
           pc.ontrack = (event) => {
             hasReceivedTrackRef.current = true;
+            console.log("[LIVE] ontrack fired — received video stream");
             if (remoteVideoRef.current) remoteVideoRef.current.srcObject = event.streams[0];
           };
           pc.onicecandidate = (event) => {
@@ -712,6 +719,7 @@ setConnectionStatus("live");
           };
           pc.onconnectionstatechange = () => {
             const s = pc.connectionState;
+            console.log("[LIVE] pc.onconnectionstatechange:", s);
             if (s === "connected") setConnectionStatus("live");
             else if (s === "disconnected") setConnectionStatus("reconnecting");
             else if (s === "failed") setConnectionStatus("weak");
