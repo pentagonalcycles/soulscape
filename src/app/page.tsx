@@ -12,54 +12,85 @@ export default function Home() {
       <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 tech-grid">
         {/* Background floating orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Dreamy aurora wash — soft pools of violet, rose, gold, and teal */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 80% 60% at 18% 18%, rgba(167, 139, 250, 0.12) 0%, transparent 65%)," +
+                "radial-gradient(ellipse 70% 55% at 82% 28%, rgba(244, 114, 182, 0.10) 0%, transparent 65%)," +
+                "radial-gradient(ellipse 65% 60% at 72% 82%, rgba(251, 191, 36, 0.09) 0%, transparent 65%)," +
+                "radial-gradient(ellipse 75% 60% at 25% 88%, rgba(6, 182, 212, 0.10) 0%, transparent 65%)",
+              filter: "blur(30px)",
+            }}
+          />
           <motion.div
             className="absolute w-64 h-64 rounded-full"
-            style={{ top: "10%", left: "10%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.06) 0%, transparent 70%)", filter: "blur(60px)" }}
+            style={{ top: "10%", left: "10%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.08) 0%, transparent 70%)", filter: "blur(60px)" }}
             animate={{ x: [0, 20, -10, 0], y: [0, -15, 10, 0], scale: [1, 1.1, 0.95, 1] }}
             transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-48 h-48 rounded-full"
-            style={{ top: "60%", right: "15%", background: "radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%)", filter: "blur(50px)" }}
+            style={{ top: "60%", right: "15%", background: "radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 70%)", filter: "blur(50px)" }}
             animate={{ x: [0, -15, 10, 0], y: [0, 10, -20, 0], scale: [1, 0.95, 1.05, 1] }}
             transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-32 h-32 rounded-full"
-            style={{ bottom: "20%", left: "30%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, transparent 70%)", filter: "blur(40px)" }}
+            style={{ bottom: "20%", left: "30%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.07) 0%, transparent 70%)", filter: "blur(40px)" }}
             animate={{ x: [0, 10, -5, 0], y: [0, -10, 5, 0] }}
             transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-40 h-40 rounded-full"
-            style={{ top: "30%", right: "30%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.05) 0%, transparent 70%)", filter: "blur(45px)" }}
+            style={{ top: "30%", right: "30%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.07) 0%, transparent 70%)", filter: "blur(45px)" }}
             animate={{ x: [0, -10, 15, 0], y: [0, 15, -10, 0], scale: [1, 1.05, 0.95, 1] }}
             transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
           />
           {/* Blue/teal accent orbs */}
           <motion.div
             className="absolute w-56 h-56 rounded-full"
-            style={{ top: "45%", left: "5%", background: "radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%)", filter: "blur(55px)" }}
+            style={{ top: "45%", left: "5%", background: "radial-gradient(circle, rgba(59, 130, 246, 0.14) 0%, transparent 70%)", filter: "blur(55px)" }}
             animate={{ x: [0, 15, -8, 0], y: [0, -12, 8, 0] }}
             transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-44 h-44 rounded-full"
-            style={{ top: "15%", right: "10%", background: "radial-gradient(circle, rgba(34, 211, 238, 0.10) 0%, transparent 70%)", filter: "blur(50px)" }}
+            style={{ top: "15%", right: "10%", background: "radial-gradient(circle, rgba(34, 211, 238, 0.12) 0%, transparent 70%)", filter: "blur(50px)" }}
             animate={{ x: [0, -12, 8, 0], y: [0, 10, -15, 0], scale: [1, 1.08, 0.92, 1] }}
             transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-36 h-36 rounded-full"
-            style={{ bottom: "30%", right: "25%", background: "radial-gradient(circle, rgba(0, 180, 200, 0.10) 0%, transparent 70%)", filter: "blur(45px)" }}
+            style={{ bottom: "30%", right: "25%", background: "radial-gradient(circle, rgba(0, 180, 200, 0.12) 0%, transparent 70%)", filter: "blur(45px)" }}
             animate={{ x: [0, 8, -12, 0], y: [0, -8, 12, 0] }}
             transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-60 h-60 rounded-full"
-            style={{ bottom: "10%", left: "15%", background: "radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%)", filter: "blur(60px)" }}
+            style={{ bottom: "10%", left: "15%", background: "radial-gradient(circle, rgba(6, 182, 212, 0.10) 0%, transparent 70%)", filter: "blur(60px)" }}
             animate={{ x: [0, 10, -15, 0], y: [0, -10, 15, 0] }}
             transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
+          />
+          {/* Warm accent orbs — violet, gold, and rose */}
+          <motion.div
+            className="absolute w-72 h-72 rounded-full"
+            style={{ top: "8%", right: "26%", background: "radial-gradient(circle, rgba(167, 139, 250, 0.15) 0%, transparent 70%)", filter: "blur(60px)" }}
+            animate={{ x: [0, -14, 8, 0], y: [0, 12, -10, 0], scale: [1, 1.08, 0.96, 1] }}
+            transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute w-60 h-60 rounded-full"
+            style={{ bottom: "24%", left: "6%", background: "radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%)", filter: "blur(55px)" }}
+            animate={{ x: [0, 12, -8, 0], y: [0, -12, 8, 0] }}
+            transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute w-52 h-52 rounded-full"
+            style={{ bottom: "10%", right: "10%", background: "radial-gradient(circle, rgba(244, 114, 182, 0.12) 0%, transparent 70%)", filter: "blur(50px)" }}
+            animate={{ x: [0, -10, 12, 0], y: [0, 10, -14, 0], scale: [1, 0.94, 1.06, 1] }}
+            transition={{ duration: 27, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
 
@@ -72,7 +103,18 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
           >
-            <p className="text-base md:text-lg leading-relaxed" style={{ color: "var(--text-muted)", fontWeight: 300 }}>
+            <p
+              className="text-base md:text-lg leading-relaxed"
+              style={{
+                fontWeight: 300,
+                background: "linear-gradient(120deg, #8ee6c0 0%, #b9a6ff 30%, #f4b8d4 55%, #f8d795 80%, #8ee6c0 100%)",
+                backgroundSize: "200% 100%",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                animation: "homeTaglineShift 18s ease-in-out infinite",
+              }}
+            >
               A dreamlike escape where you can breathe, create, and connect — without judgment or noise.
             </p>
           </motion.div>
@@ -89,13 +131,13 @@ export default function Home() {
         >
           <motion.div
             className="w-5 h-8 rounded-full border flex items-start justify-center pt-1.5"
-            style={{ borderColor: "rgba(0, 255, 136, 0.15)" }}
+            style={{ borderColor: "rgba(167, 139, 250, 0.35)" }}
             animate={{ opacity: [0.3, 0.6, 0.3] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             <motion.div
               className="w-1 h-1.5 rounded-full"
-              style={{ background: "rgba(0, 255, 136, 0.4)" }}
+              style={{ background: "linear-gradient(180deg, #a78bfa, #f472b6)" }}
               animate={{ y: [0, 8, 0], opacity: [1, 0.3, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
@@ -105,7 +147,14 @@ export default function Home() {
 
       {/* ABOUT SECTION */}
       <section className="relative z-10 py-24 px-6">
-        <div className="max-w-2xl mx-auto">
+        {/* Aurora wash behind the about copy */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 55% at 50% 45%, rgba(167, 139, 250, 0.08) 0%, transparent 70%)", filter: "blur(40px)" }} />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 60% 45% at 18% 60%, rgba(251, 191, 36, 0.06) 0%, transparent 70%)", filter: "blur(40px)" }} />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 45% at 85% 35%, rgba(244, 114, 182, 0.06) 0%, transparent 70%)", filter: "blur(40px)" }} />
+        </div>
+
+        <div className="max-w-2xl mx-auto relative">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
@@ -145,6 +194,16 @@ export default function Home() {
       </section>
 
       {/* Divider */}
+      <div className="relative z-10">
+        <div
+          style={{
+            height: 1,
+            width: "min(520px, 70%)",
+            margin: "0 auto 28px",
+            background: "linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.45), rgba(244, 114, 182, 0.45), rgba(251, 191, 36, 0.45), rgba(6, 182, 212, 0.45), transparent)",
+          }}
+        />
+      </div>
       <div className="section-divider data-stream" />
 
       {/* BOTTOM LINKS */}
