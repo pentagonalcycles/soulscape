@@ -1300,6 +1300,21 @@ body.compact-mode .gap-4 {
   100% { background-position: 0% 50%; }
 }
 
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes liveSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes liveMsgIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 body.live-fullscreen [data-nav-toggle] {
   display: none !important;
 }
