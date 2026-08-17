@@ -208,7 +208,7 @@ export async function POST(request: NextRequest) {
     // Try OpenRouter first
     const openRouterKey = process.env.OPENROUTER_API_KEY;
 
-    if (openRouterKey) {
+    if (openRouterKey && openRouterKey !== "REPLACE_ME_WITH_YOUR_KEY") {
       const formattedMessages = [
         { role: "system", content: systemPrompt },
         ...messages.slice(-20).map((m: { role: string; content: string }) => ({
@@ -300,6 +300,93 @@ export async function POST(request: NextRequest) {
       } catch (err) {
         console.error("OpenRouter error:", err);
       }
+    }
+
+    // Fallback: Try Ollama (local)
+    const ollamaUrl = process.env.OLLAMA_URL || "http://localhost:11434";
+    const ollamaModel = process.env.OLLAMA_MODEL || "llama3:latest";
+
+    try {
+      const ollamaMessages = [
+        { role: "system", content: systemPrompt },
+        ...messages.slice(-20).map((m: { role: string; content: string }) => ({
+          role: m.role,
+          content: m.content,
+        })),
+      ];
+
+      const ollamaRes = await fetch(`${ollamaUrl}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: ollamaModel,
+          messages: ollamaMessages,
+          stream: true,
+          options: {
+            temperature: 0.7,
+            num_predict: isPlus ? 2048 : 1024,
+            top_p: 0.9,
+          },
+        }),
+      });
+
+      if (ollamaRes.ok) {
+        const reader = ollamaRes.body?.getReader();
+        if (reader) {
+          const encoder = new TextEncoder();
+          const decoder = new TextDecoder();
+
+          const stream = new ReadableStream({
+            async start(controller) {
+              let buffer = "";
+              try {
+                while (true) {
+                  const { done, value } = await reader.read();
+                  if (done) break;
+
+                  buffer += decoder.decode(value, { stream: true });
+                  const lines = buffer.split("\n");
+                  buffer = lines.pop() || "";
+
+                  for (const line of lines) {
+                    const trimmed = line.trim();
+                    if (!trimmed) continue;
+
+                    try {
+                      const parsed = JSON.parse(trimmed);
+                      if (parsed.message?.content) {
+                        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: parsed.message.content })}\n\n`));
+                      }
+                      if (parsed.done) {
+                        controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+                      }
+                    } catch {}
+                  }
+                }
+              } catch (error) {
+                console.error("Ollama stream error:", error);
+                try {
+                  controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: "stream_interrupted" })}\n\n`));
+                } catch {
+                  /* controller already closed */
+                }
+              } finally {
+                try { controller.close(); } catch { /* already closed */ }
+              }
+            },
+          });
+
+          return new Response(stream, {
+            headers: {
+              "Content-Type": "text/event-stream",
+              "Cache-Control": "no-cache",
+              Connection: "keep-alive",
+            },
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Ollama error:", err);
     }
 
     // Fallback: Use OpenCode server
