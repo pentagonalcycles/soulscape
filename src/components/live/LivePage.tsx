@@ -127,6 +127,17 @@ export default function LivePage() {
     });
   }, []);
 
+  const presenceName = () => {
+    if (userProfile?.display_name) return userProfile.display_name;
+    if (typeof window === "undefined") return null;
+    try {
+      const stored = localStorage.getItem("elovayne-visitor-name");
+      return stored && stored.trim() ? stored.trim().slice(0, 40) : null;
+    } catch {
+      return null;
+    }
+  };
+
   const removeMessageLocal = useCallback((id: string) => {
     setChatLog((prev) => prev.filter((r) => r.kind !== "msg" || r.msg.id !== id));
     setPinnedMessage((prev) => (prev?.id === id ? null : prev));
@@ -469,7 +480,7 @@ export default function LivePage() {
       });
       await channel.subscribe(async (status) => {
         if (status === "SUBSCRIBED") {
-          await channel.track({ user_id: userId, role: "broadcaster", name: userProfile?.display_name });
+          await channel.track({ user_id: userId, role: "broadcaster", name: presenceName() });
         }
       });
 
@@ -567,7 +578,7 @@ export default function LivePage() {
       });
       await channel.subscribe(async (status) => {
         if (status === "SUBSCRIBED") {
-          await channel.track({ user_id: userId, role: "viewer", name: userProfile?.display_name });
+          await channel.track({ user_id: userId, role: "viewer", name: presenceName() });
 
           const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
           broadcasterPcRef.current = pc;
@@ -696,7 +707,7 @@ export default function LivePage() {
       user_id: userId,
       message: text,
       created_at: new Date().toISOString(),
-      display_name: userProfile?.display_name || "Anonymous",
+      display_name: userProfile?.display_name || presenceName() || "Anonymous",
       avatar_url: userProfile?.avatar_url || null,
       reply_to_id: replyTarget?.id || null,
       reply_to_user_id: replyTarget?.user_id || null,
@@ -905,6 +916,41 @@ export default function LivePage() {
         <div className="absolute w-[500px] h-[500px] rounded-full" style={{ bottom: "-10%", right: "-10%", background: "radial-gradient(circle, rgba(249, 115, 22, 0.12) 0%, transparent 70%)", filter: "blur(70px)", animation: "lobbyFloat2 25s ease-in-out infinite" }} />
         <div className="absolute w-[400px] h-[400px] rounded-full" style={{ top: "40%", left: "60%", background: "radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%)", filter: "blur(60px)", animation: "lobbyFloat3 18s ease-in-out infinite" }} />
         <div className="absolute w-[350px] h-[350px] rounded-full" style={{ top: "20%", right: "15%", background: "radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)", filter: "blur(55px)", animation: "lobbyFloat4 22s ease-in-out infinite" }} />
+
+        {/* Twinkling starfield */}
+        <div style={{ position: "absolute", inset: 0 }}>
+          {[...Array(36)].map((_, i) => (
+            <span
+              key={i}
+              style={{
+                position: "absolute",
+                left: `${(i * 37 + 13) % 100}%`,
+                top: `${(i * 53 + 7) % 100}%`,
+                width: i % 5 === 0 ? 3 : 2,
+                height: i % 5 === 0 ? 3 : 2,
+                borderRadius: "50%",
+                background: i % 3 === 0 ? "#ffd9a0" : "#ffffff",
+                boxShadow: "0 0 6px rgba(255, 255, 255, 0.8)",
+                opacity: 0.5,
+                animation: `liveTwinkle ${3 + (i % 5)}s ease-in-out ${(i % 7) * 0.4}s infinite`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Aurora sweep */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-30%",
+            left: 0,
+            right: 0,
+            height: "70%",
+            background: "linear-gradient(180deg, rgba(239, 68, 68, 0.12), rgba(168, 85, 247, 0.12), rgba(59, 130, 246, 0.1), transparent)",
+            filter: "blur(50px)",
+            animation: "liveAuroraSweep 14s ease-in-out infinite",
+          }}
+        />
       </div>
 
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "calc(80px + env(safe-area-inset-top)) 20px calc(60px + env(safe-area-inset-bottom))", position: "relative", zIndex: 1 }}>
@@ -914,9 +960,12 @@ export default function LivePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <h1 style={{
               fontSize: 36, fontWeight: 100, letterSpacing: "16px", textTransform: "uppercase",
-              background: "linear-gradient(135deg, #ef4444, #f97316, #ef4444)",
+              background: "linear-gradient(135deg, #ef4444, #f97316, #a855f7, #3b82f6, #ef4444)",
+              backgroundSize: "300% 300%",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
               margin: "0 0 12px", textAlign: "center",
+              animation: "liveShimmer 8s ease-in-out infinite",
+              filter: "drop-shadow(0 0 18px rgba(249, 115, 22, 0.25))",
             }}>
               LIVE
             </h1>
@@ -928,11 +977,17 @@ export default function LivePage() {
               <div style={{ textAlign: "center", marginBottom: 40 }}>
                 <button onClick={() => setView("start")} style={{
                   padding: "14px 32px", borderRadius: 12,
-                  background: "linear-gradient(135deg, #ef4444, #dc2626)",
+                  background: "linear-gradient(135deg, #ef4444, #f97316, #a855f7)",
+                  backgroundSize: "200% 200%",
                   border: "none", color: "white", fontSize: 14, fontWeight: 500,
-                  cursor: "pointer", boxShadow: "0 0 30px rgba(239, 68, 68, 0.3)",
+                  cursor: "pointer", boxShadow: "0 0 30px rgba(239, 68, 68, 0.3), 0 0 60px rgba(168, 85, 247, 0.2)",
                   letterSpacing: "1px", textTransform: "uppercase",
-                }}>
+                  animation: "liveShimmer 6s ease-in-out infinite",
+                  transition: "transform 0.2s",
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.05)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)"; }}
+                >
                   Start Live
                 </button>
               </div>
@@ -942,7 +997,7 @@ export default function LivePage() {
               <p style={{ textAlign: "center", color: "rgba(224, 245, 232, 0.3)", fontSize: 13 }}>Finding live streams...</p>
             ) : liveStreams.length === 0 ? (
               <div style={{ textAlign: "center", padding: "60px 20px" }}>
-                <div style={{ fontSize: 48, marginBottom: 16, opacity: 0.3 }}>📡</div>
+                <div style={{ fontSize: 48, marginBottom: 16, opacity: 0.3, animation: "liveHaloPulse 3s ease-in-out infinite" }}>📡</div>
                 <p style={{ fontSize: 14, color: "rgba(224, 245, 232, 0.4)", marginBottom: 8 }}>
                   It&apos;s quiet here right now.
                 </p>

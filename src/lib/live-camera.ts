@@ -1,4 +1,4 @@
-import { LiveFilter } from "@/lib/live-filters";
+import { FilterGrade, LiveFilter } from "@/lib/live-filters";
 
 export interface CameraOptions {
   facingMode: "user" | "environment";
@@ -10,8 +10,10 @@ export interface CameraOptions {
  * selected filter applied via canvas captureStream(). "natural" passes the
  * raw camera track through with zero processing cost.
  *
- * Canvas resolution and frame rate are scaled down on low-end / mobile devices
- * so filters degrade gracefully instead of stalling the stream.
+ * Each filter application uses a brand-new canvas so the captureStream always
+ * has a live frame source (reusing one canvas for multiple captureStreams can
+ * leave tracks black). The hidden source video is awaited before drawing so
+ * the first frame is never blank.
  */
 export class LiveCameraPipeline {
   rawStream: MediaStream | null = null;
@@ -20,8 +22,7 @@ export class LiveCameraPipeline {
 
   private canvas: HTMLCanvasElement | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
-  private bgCanvas: HTMLCanvasElement | null = null;
-  private sharpCanvas: HTMLCanvasElement | null = null;
+  private hiddenVideo: HTMLVideoElement | null = null;
   private rafId: number | null = null;
   private lastDraw = 0;
   private fps = 30;
@@ -47,16 +48,6 @@ export class LiveCameraPipeline {
     return this.rawStream;
   }
 
-  /** A hidden <video> bound to the raw camera stream. */
-  getSourceVideo(): HTMLVideoElement {
-    const video = document.createElement("video");
-    video.setAttribute("playsinline", "");
-    video.setAttribute("autoplay", "");
-    video.setAttribute("muted", "");
-    if (this.rawStream) video.srcObject = this.rawStream;
-    return video;
-  }
-
   /**
    * Applies a filter and returns the stream that should be used for the
    * preview and for peer connections. "natural" returns the raw stream.
@@ -65,16 +56,52 @@ export class LiveCameraPipeline {
     if (!this.rawStream) throw new Error("no-camera");
     this.currentFilterId = filter.id;
 
-    if (filter.id === "natural" || (!filter.css && !filter.backgroundBlur)) {
+    if (filter.id === "natural") {
       this.teardownCanvas();
       this.outputStream = this.rawStream;
       return this.rawStream;
     }
 
-    const video = this.getSourceVideo();
+    // Stop the previous filtered pipeline cleanly.
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+    this.active = false;
+    if (this.outputStream && this.outputStream !== this.rawStream) {
+      this.outputStream.getTracks().forEach((t) => t.stop());
+    }
+    this.outputStream = null;
+
+    // Hidden source video bound to the raw camera stream. It is attached to
+    // the DOM (off-screen) so playback is guaranteed on all browsers, and it
+    // is played fire-and-forget — never awaited, so this method always returns.
+    const video = document.createElement("video");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("autoplay", "");
+    video.setAttribute("muted", "");
+    video.style.position = "fixed";
+    video.style.top = "-9999px";
+    video.style.left = "-9999px";
+    video.style.width = "1px";
+    video.style.height = "1px";
+    video.style.opacity = "0";
+    video.style.pointerEvents = "none";
+    document.body.appendChild(video);
+    video.srcObject = this.rawStream;
+    video.play().catch(() => {});
+    this.hiddenVideo = video;
+
     this.computeSize(video);
-    const canvas = this.ensureCanvas();
-    this.ensureCompositeCanvases();
+
+    // Fresh canvas per filter so the captureStream has a dedicated frame source.
+    const canvas = document.createElement("canvas");
+    canvas.width = this.width;
+    canvas.height = this.height;
+    const ctx = canvas.getContext("2d")!;
+    this.canvas = canvas;
+    this.ctx = ctx;
+
     const stream = canvas.captureStream(this.fps);
     this.outputStream = stream;
     this.active = true;
@@ -93,8 +120,19 @@ export class LiveCameraPipeline {
   }
 
   private computeSize(video: HTMLVideoElement) {
-    let w = video.videoWidth || 1280;
-    let h = video.videoHeight || 720;
+    // Use the actual camera track dimensions (correct even before the video
+    // element has loaded, and keeps portrait cameras from being squashed).
+    let w = 1280;
+    let h = 720;
+    const track = this.rawStream?.getVideoTracks()[0];
+    const settings = track?.getSettings();
+    if (settings && settings.width && settings.height) {
+      w = settings.width;
+      h = settings.height;
+    } else if (video.videoWidth > 0) {
+      w = video.videoWidth;
+      h = video.videoHeight;
+    }
     const maxW = this.isMobileDevice ? 480 : 720;
     if (w > maxW) {
       const scale = maxW / w;
@@ -109,74 +147,88 @@ export class LiveCameraPipeline {
     }
   }
 
-  private ensureCanvas(): HTMLCanvasElement {
-    if (!this.canvas) {
-      this.canvas = document.createElement("canvas");
-      this.ctx = this.canvas.getContext("2d")!;
-    }
-    this.canvas.width = this.width;
-    this.canvas.height = this.height;
-    return this.canvas;
-  }
-
-  private ensureCompositeCanvases() {
-    let bgCanvas = this.bgCanvas;
-    let sharpCanvas = this.sharpCanvas;
-    if (!bgCanvas || !sharpCanvas) {
-      bgCanvas = document.createElement("canvas");
-      sharpCanvas = document.createElement("canvas");
-      this.bgCanvas = bgCanvas;
-      this.sharpCanvas = sharpCanvas;
-    }
-    bgCanvas.width = this.width;
-    bgCanvas.height = this.height;
-    sharpCanvas.width = this.width;
-    sharpCanvas.height = this.height;
-  }
-
   private drawFrame(video: HTMLVideoElement, filter: LiveFilter) {
     if (!this.ctx || !this.canvas) return;
     if (video.readyState < 2 || video.videoWidth === 0) return;
     const { width: w, height: h } = this;
 
-    if (filter.backgroundBlur) {
-      this.drawBackgroundBlur(video, w, h);
-      return;
-    }
+    this.ctx.clearRect(0, 0, w, h);
+    this.drawCover(video, w, h, this.ctx);
+    this.applyGrade(this.ctx, w, h, filter.grade);
 
-    this.ctx.filter = filter.css || "none";
-    this.ctx.drawImage(video, 0, 0, w, h);
-    this.ctx.filter = "none";
+    if (filter.vignette) {
+      const radius = Math.hypot(w, h) / 2;
+      const grad = this.ctx.createRadialGradient(w / 2, h / 2, radius * 0.45, w / 2, h / 2, radius);
+      grad.addColorStop(0, "rgba(0,0,0,0)");
+      grad.addColorStop(1, "rgba(0,0,0,0.4)");
+      this.ctx.fillStyle = grad;
+      this.ctx.fillRect(0, 0, w, h);
+    }
   }
 
-  private drawBackgroundBlur(video: HTMLVideoElement, w: number, h: number) {
-    if (!this.ctx || !this.canvas || !this.bgCanvas || !this.sharpCanvas) return;
+  /** Per-pixel color grade. Works on every browser (unlike ctx.filter, which
+   *  Safari ignores), and produces strong, clearly distinct looks. */
+  private applyGrade(ctx: CanvasRenderingContext2D, w: number, h: number, grade: FilterGrade) {
+    const imageData = ctx.getImageData(0, 0, w, h);
+    const data = imageData.data;
+    const { exposure, contrast, saturation, temperature, tint, tintAmount } = grade;
 
-    const bg = this.bgCanvas.getContext("2d")!;
-    const sharp = this.sharpCanvas.getContext("2d")!;
+    // Per-channel linear factors for exposure + contrast + temperature + tint,
+    // baked into 256-entry lookup tables for speed.
+    const tempAmt = 40 * temperature;
+    const makeLut = (tintCh: number) => {
+      const lut = new Uint8ClampedArray(256);
+      for (let c = 0; c < 256; c++) {
+        let v = c * exposure;
+        v = (v - 128) * contrast + 128;
+        v = v * (1 - tintAmount) + tintCh * tintAmount;
+        lut[c] = v;
+      }
+      return lut;
+    };
+    const lutR = makeLut(tint ? tint[0] : 128);
+    const lutG = makeLut(tint ? tint[1] : 128);
+    const lutB = makeLut(tint ? tint[2] : 128);
+    const rTemp = tempAmt;
+    const bTemp = -tempAmt;
 
-    // Blurred full frame as background
-    bg.filter = "blur(22px) saturate(1.15) brightness(0.9)";
-    bg.drawImage(video, 0, 0, w, h);
-    bg.filter = "none";
+    if (saturation === 1) {
+      for (let i = 0; i < data.length; i += 4) {
+        const r = lutR[data[i]] + rTemp;
+        const g = lutG[data[i + 1]];
+        const b = lutB[data[i + 2]] + bTemp;
+        data[i] = r > 255 ? 255 : r < 0 ? 0 : r;
+        data[i + 1] = g > 255 ? 255 : g < 0 ? 0 : g;
+        data[i + 2] = b > 255 ? 255 : b < 0 ? 0 : b;
+      }
+    } else {
+      for (let i = 0; i < data.length; i += 4) {
+        let r = lutR[data[i]] + rTemp;
+        let g = lutG[data[i + 1]];
+        let b = lutB[data[i + 2]] + bTemp;
+        const gray = r * 0.299 + g * 0.587 + b * 0.114;
+        r = gray + (r - gray) * saturation;
+        g = gray + (g - gray) * saturation;
+        b = gray + (b - gray) * saturation;
+        data[i] = r > 255 ? 255 : r < 0 ? 0 : r;
+        data[i + 1] = g > 255 ? 255 : g < 0 ? 0 : g;
+        data[i + 2] = b > 255 ? 255 : b < 0 ? 0 : b;
+      }
+    }
 
-    // Sharp frame with a soft radial mask in the center
-    sharp.clearRect(0, 0, w, h);
-    sharp.drawImage(video, 0, 0, w, h);
-    const cx = w / 2;
-    const cy = h * 0.45;
-    const r = Math.min(w, h) * 0.46;
-    const grad = sharp.createRadialGradient(cx, cy, r * 0.6, cx, cy, r);
-    grad.addColorStop(0, "rgba(0,0,0,1)");
-    grad.addColorStop(1, "rgba(0,0,0,0)");
-    sharp.globalCompositeOperation = "destination-in";
-    sharp.fillStyle = grad;
-    sharp.fillRect(0, 0, w, h);
-    sharp.globalCompositeOperation = "source-over";
+    ctx.putImageData(imageData, 0, 0);
+  }
 
-    this.ctx.clearRect(0, 0, w, h);
-    this.ctx.drawImage(this.bgCanvas, 0, 0);
-    this.ctx.drawImage(this.sharpCanvas, 0, 0);
+  /** Draw the video filling a canvas while preserving aspect ratio (crops, never squashes). */
+  private drawCover(video: HTMLVideoElement, w: number, h: number, ctx: CanvasRenderingContext2D) {
+    const vw = video.videoWidth || w;
+    const vh = video.videoHeight || h;
+    const scale = Math.max(w / vw, h / vh);
+    const dw = vw * scale;
+    const dh = vh * scale;
+    const dx = (w - dw) / 2;
+    const dy = (h - dh) / 2;
+    ctx.drawImage(video, dx, dy, dw, dh);
   }
 
   getVideoTrack(): MediaStreamTrack | null {
@@ -189,6 +241,12 @@ export class LiveCameraPipeline {
       this.rafId = null;
     }
     this.active = false;
+    if (this.hiddenVideo) {
+      this.hiddenVideo.pause();
+      this.hiddenVideo.srcObject = null;
+      this.hiddenVideo.remove();
+      this.hiddenVideo = null;
+    }
     if (this.canvas) {
       this.canvas.getContext("2d")?.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -203,15 +261,4 @@ export class LiveCameraPipeline {
     this.rawStream = null;
     this.outputStream = null;
   }
-}
-
-/** Shared helper to turn a MediaStream into a live <video> element. */
-export function streamToVideo(stream: MediaStream, className?: string): HTMLVideoElement {
-  const video = document.createElement("video");
-  video.setAttribute("playsinline", "");
-  video.setAttribute("autoplay", "");
-  video.setAttribute("muted", "");
-  video.srcObject = stream;
-  if (className) video.className = className;
-  return video;
 }

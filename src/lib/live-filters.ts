@@ -1,25 +1,85 @@
+export interface FilterGrade {
+  /** 0..2 brightness multiplier around mid-gray (1 = unchanged). */
+  exposure: number;
+  /** 0..2 contrast multiplier around 128 (1 = unchanged). */
+  contrast: number;
+  /** 0..2 saturation multiplier (1 = unchanged). */
+  saturation: number;
+  /** -1..1 warm (positive = orange, negative = blue) temperature shift. */
+  temperature: number;
+  /** Blend this RGB color over the frame, 0..1. */
+  tint: [number, number, number] | null;
+  tintAmount: number;
+}
+
 export interface LiveFilter {
   id: string;
   label: string;
-  /** Canvas ctx.filter value ("" for natural). Applied to the actual outgoing frame. */
-  css: string;
-  /** Special composite: blurred background + sharp center. */
-  backgroundBlur?: boolean;
+  /** Pixel-grade parameters — applied on every browser, guaranteed distinct. */
+  grade: FilterGrade;
+  /** Darken the corners for a cinematic look. */
+  vignette?: boolean;
 }
 
 export const LIVE_FILTERS: LiveFilter[] = [
-  { id: "natural", label: "Natural", css: "" },
-  { id: "soft", label: "Soft", css: "brightness(1.06) saturate(0.85) contrast(0.9)" },
-  { id: "warm", label: "Warm", css: "sepia(0.28) saturate(1.2) brightness(1.04) hue-rotate(-8deg)" },
-  { id: "cool", label: "Cool", css: "saturate(1.1) hue-rotate(12deg) brightness(1.02)" },
-  { id: "film", label: "Film", css: "contrast(1.1) saturate(0.78) sepia(0.18) brightness(0.95)" },
-  { id: "bw", label: "B&W", css: "grayscale(1) contrast(1.08)" },
-  { id: "dream", label: "Dream", css: "brightness(1.1) saturate(1.3) contrast(0.88) blur(1.5px)" },
-  { id: "high-contrast", label: "High Contrast", css: "contrast(1.45) saturate(1.2)" },
-  { id: "low-light", label: "Low Light", css: "brightness(1.28) contrast(1.1)" },
-  { id: "vintage", label: "Vintage", css: "sepia(0.5) contrast(0.9) brightness(0.96) saturate(0.8)" },
-  { id: "soft-glow", label: "Soft Glow", css: "brightness(1.12) saturate(1.15) contrast(0.92) blur(1px)" },
-  { id: "background-blur", label: "Background Blur", css: "", backgroundBlur: true },
+  {
+    id: "natural",
+    label: "Natural",
+    grade: { exposure: 1, contrast: 1, saturation: 1, temperature: 0, tint: null, tintAmount: 0 },
+  },
+  {
+    id: "golden",
+    label: "Golden Hour",
+    grade: { exposure: 1.15, contrast: 1.12, saturation: 1.45, temperature: 0.5, tint: [255, 165, 70], tintAmount: 0.16 },
+    vignette: true,
+  },
+  {
+    id: "arctic",
+    label: "Arctic",
+    grade: { exposure: 1.12, contrast: 1.2, saturation: 0.8, temperature: -0.6, tint: [120, 200, 255], tintAmount: 0.2 },
+    vignette: true,
+  },
+  {
+    id: "noir",
+    label: "Noir",
+    grade: { exposure: 1.15, contrast: 1.6, saturation: 0, temperature: 0, tint: null, tintAmount: 0 },
+    vignette: true,
+  },
+  {
+    id: "emerald",
+    label: "Emerald",
+    grade: { exposure: 1.1, contrast: 1.12, saturation: 1.5, temperature: 0.2, tint: [30, 190, 130], tintAmount: 0.14 },
+    vignette: true,
+  },
+  {
+    id: "violet",
+    label: "Violet Dream",
+    grade: { exposure: 1.1, contrast: 1.15, saturation: 1.45, temperature: 0.3, tint: [160, 120, 255], tintAmount: 0.16 },
+    vignette: true,
+  },
+  {
+    id: "rose",
+    label: "Rose",
+    grade: { exposure: 1.12, contrast: 1.08, saturation: 1.55, temperature: 0.25, tint: [255, 120, 180], tintAmount: 0.16 },
+    vignette: true,
+  },
+  {
+    id: "midnight",
+    label: "Midnight",
+    grade: { exposure: 0.8, contrast: 1.35, saturation: 0.7, temperature: -0.5, tint: [25, 40, 110], tintAmount: 0.24 },
+    vignette: true,
+  },
+  {
+    id: "sunset",
+    label: "Sunset",
+    grade: { exposure: 1.14, contrast: 1.18, saturation: 1.6, temperature: 0.55, tint: [255, 95, 60], tintAmount: 0.18 },
+    vignette: true,
+  },
+  {
+    id: "cool",
+    label: "Cool",
+    grade: { exposure: 1.08, contrast: 1.1, saturation: 1.3, temperature: -0.4, tint: [80, 175, 255], tintAmount: 0.12 },
+  },
 ];
 
 export function getFilter(id: string): LiveFilter {

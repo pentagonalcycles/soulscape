@@ -9,17 +9,15 @@ interface FilterPickerProps {
 
 const DOT: Record<string, string> = {
   natural: "#ffffff",
-  soft: "#ffe0d6",
-  warm: "#ffb066",
-  cool: "#7ec8ff",
-  film: "#c9a86a",
-  bw: "#888888",
-  dream: "#ffb8e0",
-  "high-contrast": "#000000",
-  "low-light": "#202840",
-  vintage: "#b98a5a",
-  "soft-glow": "#ffecb8",
-  "background-blur": "#8fa8ff",
+  golden: "#ffcf4d",
+  arctic: "#7ec8ff",
+  noir: "#444444",
+  midnight: "#1a2245",
+  emerald: "#34d399",
+  violet: "#8b5cf6",
+  rose: "#ff6aa9",
+  sunset: "#ff5e62",
+  cool: "#a4d8ff",
 };
 
 export default function FilterPicker({ currentId, onSelect }: FilterPickerProps) {
