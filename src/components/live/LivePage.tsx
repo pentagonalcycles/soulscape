@@ -19,10 +19,16 @@ import {
   ActionSheetAction,
 } from "@/components/live/types";
 
-const ICE_SERVERS = [
+const ICE_SERVERS: RTCIceServer[] = [
   { urls: "stun:stun.l.google.com:19302" },
   { urls: "stun:stun1.l.google.com:19302" },
+  { urls: "stun:stun2.l.google.com:19302" },
+  { urls: "turn:open.relay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" },
+  { urls: "turn:open.relay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
+  { urls: "turns:open.relay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
 ];
+
+const PRESENCE_GRACE_MS = 12_000;
 
 const REACTION_EMOJIS = ["♡", "✨", "🫶", "🔥"];
 const REPORT_REASONS = ["Spam", "Harassment", "Inappropriate", "Hate speech", "Other"];
@@ -91,6 +97,9 @@ export default function LivePage() {
   const viewRef = useRef<LiveView>("home");
   const stopBroadcastRef = useRef<() => void>(() => {});
   const leaveStreamRef = useRef<() => void>(() => {});
+  const presenceGraceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const reconnectAttemptRef = useRef(0);
+  const connectionStatusRef = useRef<LiveConnection>("connecting");
 
   // -------------------------------------------------------------------------
   // Small helpers (defined first, used everywhere)
@@ -181,9 +190,14 @@ export default function LivePage() {
   // Data effects
   // -------------------------------------------------------------------------
   useEffect(() => { viewRef.current = view; }, [view]);
+  useEffect(() => { connectionStatusRef.current = connectionStatus; }, [connectionStatus]);
 
   const fetchLiveStreams = useCallback(async () => {
     const client = supabase();
+
+    // Clean up stale streams (heartbeat older than 30s) before fetching
+    await client.rpc("cleanup_stale_live_streams");
+
     const { data, error } = await client
       .from("live_streams")
       .select("*")
@@ -211,7 +225,10 @@ export default function LivePage() {
 
     setCurrentStream((prev) => {
       if (prev && viewRef.current === "watching" && !streams.some((s) => s.id === prev.id)) {
-        setConnectionStatus("ended");
+        // Only set "ended" from polling if we're not already in a grace/reconnect window
+        if (connectionStatusRef.current !== "reconnecting" && !presenceGraceTimer.current) {
+          setConnectionStatus("ended");
+        }
       }
       return prev;
     });
@@ -378,6 +395,11 @@ export default function LivePage() {
       clearInterval(heartbeatTimerRef.current);
       heartbeatTimerRef.current = null;
     }
+    if (presenceGraceTimer.current) {
+      clearTimeout(presenceGraceTimer.current);
+      presenceGraceTimer.current = null;
+    }
+    reconnectAttemptRef.current = 0;
     setChatLog([]);
     setPinnedMessage(null);
     setViewerCount(0);
@@ -586,7 +608,78 @@ setConnectionStatus("live");
         viewerCountRef.current = count;
         setViewerCount(count);
         const broadcasterPresent = Object.values(state).some((p) => (p as { role?: string }).role === "broadcaster");
-        if (!broadcasterPresent) setConnectionStatus("ended");
+
+        if (broadcasterPresent) {
+          // Broadcaster is back — cancel any grace timer
+          if (presenceGraceTimer.current) {
+            clearTimeout(presenceGraceTimer.current);
+            presenceGraceTimer.current = null;
+          }
+          // If we were in "ended" state, attempt auto-recovery
+          if (connectionStatus === "ended" || viewRef.current === "watching") {
+            setConnectionStatus("connecting");
+            reconnectAttemptRef.current++;
+            // Re-create WebRTC peer connection
+            const attempt = reconnectAttemptRef.current;
+            (async () => {
+              try {
+                if (broadcasterPcRef.current) {
+                  broadcasterPcRef.current.close();
+                  broadcasterPcRef.current = null;
+                }
+                const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
+                broadcasterPcRef.current = pc;
+                pc.ontrack = (event) => {
+                  if (remoteVideoRef.current) remoteVideoRef.current.srcObject = event.streams[0];
+                };
+                pc.onicecandidate = (event) => {
+                  if (event.candidate && channelRef.current) {
+                    channelRef.current.send({
+                      type: "broadcast",
+                      event: "viewer-candidate",
+                      payload: { candidate: event.candidate, viewerId: userId },
+                    });
+                  }
+                };
+                pc.onconnectionstatechange = () => {
+                  const s = pc.connectionState;
+                  if (s === "connected") setConnectionStatus("live");
+                  else if (s === "disconnected") setConnectionStatus("reconnecting");
+                  else if (s === "failed") setConnectionStatus("weak");
+                  else if (s === "connecting") setConnectionStatus("connecting");
+                };
+                const offer = await pc.createOffer();
+                await pc.setLocalDescription(offer);
+                // Only send if this is still the latest attempt
+                if (reconnectAttemptRef.current === attempt && channelRef.current) {
+                  channelRef.current.send({
+                    type: "broadcast",
+                    event: "viewer-offer",
+                    payload: { offer, viewerId: userId },
+                  });
+                }
+              } catch {
+                // Reconnection failed — will retry on next presence sync
+              }
+            })();
+          }
+        } else {
+          // Broadcaster not present — start grace timer before showing "ended"
+          if (!presenceGraceTimer.current && connectionStatus !== "ended") {
+            setConnectionStatus("reconnecting");
+            presenceGraceTimer.current = setTimeout(() => {
+              presenceGraceTimer.current = null;
+              // Double-check: only end if still no broadcaster
+              const currentState = channelRef.current?.presenceState();
+              const stillNoBroadcaster = !Object.values(currentState || {}).some(
+                (p) => (p as { role?: string }).role === "broadcaster"
+              );
+              if (stillNoBroadcaster) {
+                setConnectionStatus("ended");
+              }
+            }, PRESENCE_GRACE_MS);
+          }
+        }
       });
       channel.on("presence", { event: "join" }, ({ newPresences }) => {
         newPresences.forEach((p) => addJoinNotice((p as { name?: string }).name));
