@@ -100,6 +100,7 @@ export default function LivePage() {
   const presenceGraceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const reconnectAttemptRef = useRef(0);
   const connectionStatusRef = useRef<LiveConnection>("connecting");
+  const hasReceivedTrackRef = useRef(false);
 
   // -------------------------------------------------------------------------
   // Small helpers (defined first, used everywhere)
@@ -400,6 +401,7 @@ export default function LivePage() {
       presenceGraceTimer.current = null;
     }
     reconnectAttemptRef.current = 0;
+    hasReceivedTrackRef.current = false;
     setChatLog([]);
     setPinnedMessage(null);
     setViewerCount(0);
@@ -615,8 +617,8 @@ setConnectionStatus("live");
             clearTimeout(presenceGraceTimer.current);
             presenceGraceTimer.current = null;
           }
-          // If we were in "ended" state, attempt auto-recovery
-          if (connectionStatus === "ended" || viewRef.current === "watching") {
+          // If we were in "ended" state or had a working connection, attempt auto-recovery
+          if (hasReceivedTrackRef.current && (connectionStatus === "ended" || connectionStatus === "reconnecting" || connectionStatus === "weak")) {
             setConnectionStatus("connecting");
             reconnectAttemptRef.current++;
             // Re-create WebRTC peer connection
@@ -630,6 +632,7 @@ setConnectionStatus("live");
                 const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
                 broadcasterPcRef.current = pc;
                 pc.ontrack = (event) => {
+                  hasReceivedTrackRef.current = true;
                   if (remoteVideoRef.current) remoteVideoRef.current.srcObject = event.streams[0];
                 };
                 pc.onicecandidate = (event) => {
@@ -691,6 +694,7 @@ setConnectionStatus("live");
           const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
           broadcasterPcRef.current = pc;
           pc.ontrack = (event) => {
+            hasReceivedTrackRef.current = true;
             if (remoteVideoRef.current) remoteVideoRef.current.srcObject = event.streams[0];
           };
           pc.onicecandidate = (event) => {
