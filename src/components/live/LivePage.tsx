@@ -1089,6 +1089,9 @@ export default function LivePage() {
                     <div style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", borderRadius: 9999, background: "rgba(16, 155, 136, 0.85)", color: "white", fontSize: 9, fontWeight: 600, letterSpacing: "1px" }}>
                       PREVIEW
                     </div>
+                    <div style={{ position: "absolute", bottom: 12, left: 12, padding: "4px 8px", borderRadius: 6, background: "rgba(0,0,0,0.6)", color: "#a0d2bd", fontSize: 8, fontWeight: 500 }}>
+                      {`${this.width}p · ${this.fps}fps`}
+                    </div>
                   </div>
                   <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
                     <button onClick={flipCamera} style={{ flex: 1, padding: "10px 14px", borderRadius: 10, background: "rgba(16, 155, 136, 0.06)", border: "1px solid rgba(16, 155, 136, 0.18)", color: "#10b988", fontSize: 11, fontWeight: 500, letterSpacing: "0.5px", cursor: "pointer" }}>

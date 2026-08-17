@@ -40,8 +40,9 @@ export class LiveCameraPipeline {
     this.rawStream = await navigator.mediaDevices.getUserMedia({
       video: {
         facingMode: options.facingMode,
-        width: { ideal: 1280 },
-        height: { ideal: 720 },
+        width: { ideal: 1280, min: 640 },
+        height: { ideal: 720, min: 360 },
+        frameRate: { ideal: 30, max: 30 },
       },
       audio: options.audio ?? true,
     });
@@ -142,9 +143,10 @@ export class LiveCameraPipeline {
     this.width = w % 2 === 0 ? w : w - 1;
     this.height = h % 2 === 0 ? h : h - 1;
     this.fps = this.isMobileDevice ? 24 : 30;
-    if (this.isMobileDevice) {
-      this.onQualityNote?.(`Filters render at ${this.width}p · ${this.fps}fps for your device`);
-    }
+    const qualityNote = this.isMobileDevice
+      ? `Filters render at ${this.width}p · ${this.fps}fps (mobile optimized)`
+      : `Filters render at ${this.width}p · ${this.fps}fps`;
+    if (this.onQualityNote) this.onQualityNote(qualityNote);
   }
 
   private drawFrame(video: HTMLVideoElement, filter: LiveFilter) {
