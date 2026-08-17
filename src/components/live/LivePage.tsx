@@ -402,6 +402,8 @@ export default function LivePage() {
     }
     reconnectAttemptRef.current = 0;
     hasReceivedTrackRef.current = false;
+    setConnectionStatus("off");
+    connectionStatusRef.current = "off";
     setChatLog([]);
     setPinnedMessage(null);
     setViewerCount(0);
@@ -583,6 +585,7 @@ setConnectionStatus("live");
       setSlowMode(!!stream.slow_mode);
       setView("watching");
       setConnectionStatus("connecting");
+      connectionStatusRef.current = "connecting";
       setChatHidden(false);
 
       const client = supabase();
@@ -618,7 +621,7 @@ setConnectionStatus("live");
             presenceGraceTimer.current = null;
           }
           // If we were in "ended" state or had a working connection, attempt auto-recovery
-          if (hasReceivedTrackRef.current && (connectionStatus === "ended" || connectionStatus === "reconnecting" || connectionStatus === "weak")) {
+          if (hasReceivedTrackRef.current && (connectionStatusRef.current === "ended" || connectionStatusRef.current === "reconnecting" || connectionStatusRef.current === "weak")) {
             setConnectionStatus("connecting");
             reconnectAttemptRef.current++;
             // Re-create WebRTC peer connection
@@ -668,7 +671,7 @@ setConnectionStatus("live");
           }
         } else {
           // Broadcaster not present — start grace timer before showing "ended"
-          if (!presenceGraceTimer.current && connectionStatus !== "ended") {
+          if (!presenceGraceTimer.current && connectionStatusRef.current !== "ended") {
             setConnectionStatus("reconnecting");
             presenceGraceTimer.current = setTimeout(() => {
               presenceGraceTimer.current = null;
