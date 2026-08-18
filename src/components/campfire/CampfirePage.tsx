@@ -42,6 +42,12 @@ export default function CampfirePage() {
 
     const userId = `campfire-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     await multi.join(room.id, userId, displayName);
+
+    // Load recent messages from DB
+    const recent = await multi.loadRecent();
+    if (recent.length > 0) {
+      setMessages(recent);
+    }
   }, []);
 
   const handleLeave = useCallback(() => {

@@ -7,16 +7,17 @@ export type OnPresenceUpdate = (presences: CampfirePresence[]) => void;
 
 export class CampfireMultiplayer {
   private channel: RealtimeChannel | null = null;
+  private roomId: string = "";
   private userId: string = "";
   private userName: string = "";
   private userColor: string = "";
   private typingTimeout: ReturnType<typeof setTimeout> | null = null;
-  private presences: Map<string, CampfirePresence> = new Map();
 
   onMessage: OnMessage | null = null;
   onPresenceUpdate: OnPresenceUpdate | null = null;
 
   async join(roomId: string, userId: string, userName: string): Promise<void> {
+    this.roomId = roomId;
     this.userId = userId;
     this.userName = userName;
     this.userColor = WARM_COLORS[Math.abs(this.hashCode(userId + userName)) % WARM_COLORS.length];
@@ -49,35 +50,56 @@ export class CampfireMultiplayer {
           type: "typing",
         });
       })
-      .on("broadcast", { event: "user_join" }, ({ payload }) => {
-        const data = payload as { name: string; color: string };
-        this.presences.set(data.name, { name: data.name, color: data.color });
-        this.onPresenceUpdate?.(Array.from(this.presences.values()));
-        this.onMessage?.({
-          name: "fire",
-          color: "#f59e0b",
-          text: `Welcome, ${data.name}. Pull up a seat.`,
-          timestamp: Date.now(),
-          type: "system",
-        });
+      .on("presence", { event: "sync" }, () => {
+        if (!this.channel) return;
+        const state = this.channel.presenceState<CampfirePresence>();
+        const all: CampfirePresence[] = [];
+        for (const key in state) {
+          const entries = state[key];
+          if (Array.isArray(entries)) {
+            for (const entry of entries) {
+              all.push({ name: entry.name, color: entry.color });
+            }
+          }
+        }
+        this.onPresenceUpdate?.(all);
       })
-      .on("broadcast", { event: "user_leave" }, ({ payload }) => {
-        const data = payload as { name: string };
-        this.presences.delete(data.name);
-        this.onPresenceUpdate?.(Array.from(this.presences.values()));
+      .on("presence", { event: "join" }, ({ newPresences }) => {
+        for (const p of newPresences) {
+          const data = p as unknown as CampfirePresence;
+          if (data.name !== this.userName) {
+            this.onMessage?.({
+              name: "fire",
+              color: "#f59e0b",
+              text: `Welcome, ${data.name}. Pull up a seat.`,
+              timestamp: Date.now(),
+              type: "system",
+            });
+          }
+        }
       })
-      .subscribe();
-
-    // Add self to presence
-    this.presences.set(userName, { name: userName, color: this.userColor });
-    this.onPresenceUpdate?.(Array.from(this.presences.values()));
-
-    // Announce join
-    this.channel.send({
-      type: "broadcast",
-      event: "user_join",
-      payload: { name: userName, color: this.userColor },
-    });
+      .on("presence", { event: "leave" }, ({ leftPresences }) => {
+        for (const p of leftPresences) {
+          const data = p as unknown as CampfirePresence;
+          if (data.name !== this.userName) {
+            this.onMessage?.({
+              name: "fire",
+              color: "#f59e0b",
+              text: `${data.name} left the campfire.`,
+              timestamp: Date.now(),
+              type: "system",
+            });
+          }
+        }
+      })
+      .subscribe(async (status) => {
+        if (status === "SUBSCRIBED") {
+          await this.channel?.track({
+            name: this.userName,
+            color: this.userColor,
+          });
+        }
+      });
   }
 
   sendMessage(text: string): void {
@@ -94,8 +116,31 @@ export class CampfireMultiplayer {
       event: "chat_message",
       payload: msg,
     });
-    // Fire locally for sender
     this.onMessage?.(msg);
+    // Persist to database
+    supabase().from("campfire_messages").insert({
+      room_id: this.roomId,
+      user_name: this.userName,
+      user_color: this.userColor,
+      message: text.trim(),
+    });
+  }
+
+  async loadRecent(): Promise<CampfireMessage[]> {
+    const { data } = await supabase()
+      .from("campfire_messages")
+      .select("user_name, user_color, message, created_at")
+      .eq("room_id", this.roomId)
+      .order("created_at", { ascending: false })
+      .limit(30);
+    if (!data) return [];
+    return data.reverse().map((row) => ({
+      name: row.user_name,
+      color: row.user_color,
+      text: row.message,
+      timestamp: new Date(row.created_at).getTime(),
+      type: "message" as const,
+    }));
   }
 
   startTyping(): void {
@@ -131,11 +176,7 @@ export class CampfireMultiplayer {
 
   leave(): void {
     if (this.channel) {
-      this.channel.send({
-        type: "broadcast",
-        event: "user_leave",
-        payload: { name: this.userName },
-      });
+      this.channel.untrack();
       supabase().removeChannel(this.channel);
       this.channel = null;
     }
@@ -143,7 +184,6 @@ export class CampfireMultiplayer {
       clearTimeout(this.typingTimeout);
       this.typingTimeout = null;
     }
-    this.presences.clear();
   }
 
   private hashCode(str: string): number {
