@@ -7,7 +7,7 @@ export default function PagePresence() {
   const pathname = usePathname();
   const count = usePagePresence(pathname);
 
-  if (count <= 1) return null;
+  const label = count === 1 ? "1 person here" : `${count} people here`;
 
   return (
     <div
@@ -19,7 +19,7 @@ export default function PagePresence() {
         display: "flex",
         alignItems: "center",
         gap: 6,
-        padding: "5px 10px",
+        padding: "6px 12px",
         borderRadius: 8,
         background: "rgba(0, 255, 136, 0.06)",
         border: "1px solid rgba(0, 255, 136, 0.12)",
@@ -31,9 +31,9 @@ export default function PagePresence() {
           width: 6,
           height: 6,
           borderRadius: "50%",
-          background: "#00ff88",
-          boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)",
-          animation: "pulse 2s ease-in-out infinite",
+          background: count > 0 ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
+          boxShadow: count > 0 ? "0 0 6px rgba(0, 255, 136, 0.5)" : "none",
+          animation: count > 1 ? "pulse 2s ease-in-out infinite" : "none",
         }}
       />
       <span
@@ -44,7 +44,7 @@ export default function PagePresence() {
           letterSpacing: "0.5px",
         }}
       >
-        {count} here
+        {label}
       </span>
     </div>
   );
