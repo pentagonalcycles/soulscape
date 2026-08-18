@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useAllPresence } from "@/hooks/usePagePresence";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useAllPresence, usePagePresence } from "@/hooks/usePagePresence";
 
 const PAGE_LABELS: Record<string, string> = {
   "/": "Home",
@@ -53,6 +54,12 @@ const PAGE_ICONS: Record<string, string> = {
 
 export default function PresenceMap() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  
+  // Track current page presence
+  const currentCount = usePagePresence(pathname);
+  
+  // Get all presence data
   const counts = useAllPresence();
 
   const totalPages = Object.keys(counts).length;
@@ -62,12 +69,9 @@ export default function PresenceMap() {
     .sort(([, a], [, b]) => b - a);
 
   const navigateTo = (path: string) => {
-    console.log("[PresenceMap] Navigating to:", path);
+    console.log("[PresenceMap] Navigating to:", JSON.stringify(path), "Current:", window.location.pathname);
     setOpen(false);
-    // Use setTimeout to ensure state updates before navigation
-    setTimeout(() => {
-      window.location.href = path;
-    }, 100);
+    window.location.href = path;
   };
 
   return (
@@ -171,7 +175,13 @@ export default function PresenceMap() {
               sorted.map(([path, count]) => (
                 <button
                   key={path}
-                  onClick={(e) => { e.stopPropagation(); navigateTo(path); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    console.log("[PresenceMap] Button clicked for:", path);
+                    navigateTo(path);
+                  }}
+                  onMouseDown={(e) => e.stopPropagation()}
                   style={{
                     display: "flex",
                     alignItems: "center",
