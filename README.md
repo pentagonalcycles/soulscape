@@ -21,8 +21,7 @@ The website feels emotional, dreamlike, welcoming, mysterious, and visually arti
 
 ### Core Experience
 - **Immersive Homepage** — Animated gradient background, cosmic gradient blobs, glowing portal with breathing animation, starfield particles, and descriptive subtitle
-- **Community Sanctuary** — A safe space for sharing stories, emotions, and creative expressions. Posts are saved to Supabase and persist across sessions. Daily emotional prompts and community stats.
-- **Emotional Rooms** — 15 themed spaces including Sanctuary, Healing, Hope, Loneliness, Grief, Creativity, Love, Anxiety, New Beginnings, Self-Discovery, Small Wins, Dreams, Gratitude, Art & Poetry, and A Place to Breathe — each with unique color atmospheres and ambient sound
+- **Emotional Rooms** — 15 themed spaces including Healing, Hope, Loneliness, Grief, Creativity, Love, Anxiety, New Beginnings, Self-Discovery, Small Wins, Dreams, Gratitude, Art & Poetry, and A Place to Breathe — each with unique color atmospheres and ambient sound
 
 ### Meaningful Connections
 - **5 Meaningful Reactions** — "I understand", "This gave me hope", "I'm here with you", "Less alone", "This comforted me" — saved to database, toggleable
@@ -67,7 +66,6 @@ The website feels emotional, dreamlike, welcoming, mysterious, and visually arti
 - **Soul Map** — Self-discovery tool with daily questions that build a personal mandala over time
 - **Reflection Room** — Private journaling space with daily prompts and streak tracking
 - **Human Signal** — Send anonymous emotional signals and be reached by another person
-- **Soul Echo** — Anonymous matching that connects two strangers based on shared emotional reflections
 - **Nebula Orb** — Multiplayer cosmic arena game; consume orbs, compete on leaderboards
 - **Ideas** — Community feature-request board with voting
 
@@ -197,7 +195,6 @@ soulscape/
 │   │   ├── shop/                     # E-commerce storefront
 │   │   │   ├── page.tsx              # Shop catalog
 │   │   │   └── [id]/page.tsx         # Product detail
-│   │   ├── soul-echo/page.tsx        # Anonymous matching
 │   │   ├── soul-map/page.tsx         # Self-discovery mandala
 │   │   ├── stargazing/page.tsx       # Night sky messages
 │   │   ├── support/page.tsx          # Crisis resources & help
@@ -206,7 +203,6 @@ soulscape/
 │   │   └── api/                      # API routes
 │   │       ├── admin/                # Admin endpoints
 │   │       ├── elyra/chat/route.ts   # AI chat streaming
-│   │       ├── soul-echo/            # Soul Echo matching
 │   │       ├── stripe/               # Stripe checkout & webhooks
 │   │       └── download/             # File downloads
 │   ├── components/
@@ -219,9 +215,6 @@ soulscape/
 │   │   ├── WelcomeModal.tsx          # First-time visitor onboarding
 │   │   ├── PostCreator.tsx           # Post creation with identity + room selector
 │   │   ├── PostCard.tsx              # Post display with reactions + save + delete
-│   │   ├── SanctuaryComposer.tsx     # Expandable whisper composer
-│   │   ├── SanctuaryFeed.tsx         # Feed component (Supabase-powered, with stats)
-│   │   ├── WhisperCard.tsx           # Sanctuary post card with reactions
 │   │   ├── SaveButton.tsx            # Bookmark/save toggle on posts
 │   │   ├── LoadingSkeleton.tsx       # Animated loading placeholders
 │   │   ├── AuthProvider.tsx           # Auth (anonymous + email) + profile + preferences
@@ -247,7 +240,6 @@ soulscape/
 │   │   ├── nebula-orb/               # Arena game
 │   │   ├── poetry/                   # Poetry composition
 │   │   ├── reflection-room/          # Journaling
-│   │   ├── soul-echo/                # Anonymous matching
 │   │   ├── soul-map/                 # Mandala builder
 │   │   └── unseen/                   # Anonymous connection
 │   ├── hooks/
@@ -280,8 +272,6 @@ soulscape/
 │   ├── migration_ideas.sql
 │   ├── migration_mural.sql
 │   ├── migration_poems.sql
-│   ├── migration_sanctuary_enhancements.sql
-│   ├── migration_soul_echo.sql
 │   ├── migration_stargazing.sql
 │   ├── migration_unseen.sql
 │   └── migration_wish_lanterns.sql
@@ -355,7 +345,6 @@ See `supabase/schema.sql` for the full schema.
 
 ### Phase 2 ✅ — Community Heart
 - [x] Post creation flow with identity selector (anonymous/alias/real)
-- [x] Community sanctuary feed (Supabase-powered)
 - [x] 5 meaningful reactions system (database-backed)
 - [x] Post types (text, poetry, stories)
 - [x] Basic report functionality
@@ -387,7 +376,6 @@ See `supabase/schema.sql` for the full schema.
 - [x] Welcome modal for first-time visitors
 - [x] Privacy nudge in post creator
 - [x] 5 new positive rooms (Small Wins, Dreams, Gratitude, Art & Poetry, Breathe)
-- [x] Daily emotional prompts in sanctuary
 - [x] Community stats (total stories + reactions)
 - [x] Room selector in post creator
 - [x] Site-wide footer with links
@@ -404,7 +392,6 @@ See `supabase/schema.sql` for the full schema.
 - [x] Soul Map (mandala self-discovery)
 - [x] Reflection Room (private journaling)
 - [x] Human Signal (anonymous connection)
-- [x] Soul Echo (anonymous matching)
 - [x] Nebula Orb (multiplayer arena game)
 - [x] Ideas (community feature voting)
 - [x] Elyra AI companion (streaming chat)

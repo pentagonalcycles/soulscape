@@ -8,7 +8,7 @@ The website should include:
 
 1. A beautiful immersive homepage that introduces the community and invites people to enter the world.
 2. A section where new creative ideas can be added and turned into interactive experiences that make visitors feel something.
-3. A community sanctuary where people can anonymously or publicly share stories, emotions, memories, fears, dreams, poems, artwork, music, photographs, or voice recordings.
+3. A community space where people can anonymously or publicly share stories, emotions, memories, fears, dreams, poems, artwork, music, photographs, or voice recordings.
 4. Emotional rooms for themes such as healing, loneliness, hope, creativity, love, grief, anxiety, new beginnings, and self-discovery.
 5. Meaningful reactions instead of ordinary likes, such as:
     “I understand.”

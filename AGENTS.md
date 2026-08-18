@@ -56,7 +56,7 @@ Elovayne is an immersive artistic community website. It's a dreamlike escape fro
 
 ### Naming
 - Components: PascalCase (`PostCard.tsx`)
-- Pages: lowercase (`sanctuary/page.tsx`)
+- Pages: lowercase (`about/page.tsx`)
 - Utilities: camelCase (`supabase.ts`)
 - CSS classes: Tailwind utilities + custom classes from `globals.css`
 
@@ -73,7 +73,6 @@ Each room has its own atmosphere:
 
 | Room | Colors | Particle Style |
 |------|--------|----------------|
-| Sanctuary | Purple/Violet | Cosmic, ethereal |
 | Healing | Teal/Green | Slow, wave motion |
 | Hope | Amber/Gold | Rising particles |
 | Loneliness | Blue/Silver | Sparse, stillness |
@@ -99,9 +98,6 @@ Each room has its own atmosphere:
 - `Navigation.tsx` — Shared navigation header (sidebar with 17+ feature links)
 - `PostCreator.tsx` — Post creation with identity selector (text/poem/story/art) + room selector
 - `PostCard.tsx` — Post display with 5 meaningful reactions, save, delete, report
-- `SanctuaryFeed.tsx` — Feed component (Supabase-powered, includes community stats)
-- `SanctuaryComposer.tsx` — Expandable whisper composer with mood selector, anonymous/named toggle, content warnings
-- `WhisperCard.tsx` — Sanctuary post card with reactions, reply threads, content-warning blur
 - `SaveButton.tsx` — Bookmark/save toggle on posts
 - `LoadingSkeleton.tsx` — Animated loading placeholders for feeds
 - `ElovayneLogo.tsx` — Logo image with glow animation (CSS mask + mix-blend-mode)
@@ -129,7 +125,6 @@ Each room has its own atmosphere:
 - `nebula-orb/` — Multiplayer cosmic arena game
 - `poetry/` — Daily poetry composition with rotating prompts
 - `reflection-room/` — Private journaling with daily prompts and streak tracking
-- `soul-echo/` — Anonymous matching connecting two strangers
 - `soul-map/` — Self-discovery mandala builder with daily questions
 - `unseen/` — Anonymous human-connection with profile creation and reveal mechanics
 
@@ -229,4 +224,4 @@ vercel --prod    # Deploy to production
 - **Phase 3:** ✅ Complete — Personal Space (profiles, saves, UI personalization)
 - **Phase 4:** ✅ Complete — Polish & Launch (email auth, journals, sound, moderation, 404)
 - **Phase 5:** ✅ Complete — Trust, Clarity & Engagement (about page, welcome modal, new rooms, footer, prompts, logo)
-- **Phase 6:** ✅ Complete — Immersive Experiences (Dream Canvas, Dream World, Campfire, Cosmic Camera, Human Signal, Nebula Orb, Soul Echo, Soul Map, Wish Lanterns, Elyra AI, Shop, Poetry, Mural, Ideas, Admin, FAQ, Support)
+- **Phase 6:** ✅ Complete — Immersive Experiences (Dream Canvas, Dream World, Campfire, Cosmic Camera, Human Signal, Nebula Orb, Soul Map, Wish Lanterns, Elyra AI, Shop, Poetry, Mural, Ideas, Admin, FAQ, Support)

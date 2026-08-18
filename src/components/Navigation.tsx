@@ -117,7 +117,7 @@ export default function Navigation({ activePage, hideToggle }: NavigationProps) 
                 left: 0,
                 bottom: 0,
                 width: isMobile ? "min(300px, 90vw)" : "min(260px, 85vw)",
-                background: "rgba(30, 58, 42, 0.98)",
+                background: "rgba(8, 16, 12, 0.98)",
                 backdropFilter: "blur(24px) saturate(1.3)",
                 WebkitBackdropFilter: "blur(24px) saturate(1.3)",
                 borderRight: "1px solid rgba(0, 255, 136, 0.2)",
