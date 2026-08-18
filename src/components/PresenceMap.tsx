@@ -62,8 +62,12 @@ export default function PresenceMap() {
     .sort(([, a], [, b]) => b - a);
 
   const navigateTo = (path: string) => {
+    console.log("[PresenceMap] Navigating to:", path);
     setOpen(false);
-    window.location.href = path;
+    // Use setTimeout to ensure state updates before navigation
+    setTimeout(() => {
+      window.location.href = path;
+    }, 100);
   };
 
   return (
@@ -167,7 +171,7 @@ export default function PresenceMap() {
               sorted.map(([path, count]) => (
                 <button
                   key={path}
-                  onClick={() => navigateTo(path)}
+                  onClick={(e) => { e.stopPropagation(); navigateTo(path); }}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -180,6 +184,7 @@ export default function PresenceMap() {
                     width: "100%",
                     textAlign: "left",
                     transition: "all 0.15s",
+                    pointerEvents: "auto",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
