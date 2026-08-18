@@ -75,7 +75,7 @@ export default function PresenceMap() {
         onClick={() => setOpen(!open)}
         style={{
           position: "fixed",
-          bottom: 16,
+          bottom: 60,
           left: 16,
           zIndex: 60,
           display: "flex",
@@ -111,7 +111,7 @@ export default function PresenceMap() {
         <div
           style={{
             position: "fixed",
-            bottom: 52,
+            bottom: 96,
             left: 16,
             zIndex: 60,
             width: 240,
