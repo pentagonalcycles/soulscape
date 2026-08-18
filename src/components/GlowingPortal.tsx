@@ -11,7 +11,7 @@ export default function GlowingPortal() {
 
   const handleEnter = () => {
     setIsExiting(true);
-    setTimeout(() => router.push("/sanctuary"), 1500);
+    setTimeout(() => router.push("/elyra"), 1500);
   };
 
   return (
