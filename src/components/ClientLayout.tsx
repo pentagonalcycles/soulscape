@@ -14,6 +14,7 @@ import Navigation from "@/components/Navigation";
 import VisitorTracker from "@/components/VisitorTracker";
 import LiveStreamAlert from "@/components/live/LiveStreamAlert";
 import PagePresence from "@/components/PagePresence";
+import PresenceMap from "@/components/PresenceMap";
 
 const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
 const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
@@ -142,6 +143,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
       <VisitorTracker />
       <LiveStreamAlert />
       <PagePresence />
+      <PresenceMap />
 
     </>
   );

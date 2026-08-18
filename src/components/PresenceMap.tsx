@@ -1,0 +1,208 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useAllPresence } from "@/hooks/usePagePresence";
+
+const PAGE_LABELS: Record<string, string> = {
+  "/": "Home",
+  "/sanctuary": "Sanctuary",
+  "/live": "Live",
+  "/campfire": "Campfire",
+  "/mural": "Mural",
+  "/soul-echo": "Soul Echo",
+  "/human-signal": "Human Signal",
+  "/poetry": "Poetry",
+  "/dream-canvas": "Dream Canvas",
+  "/nebula-orb": "Nebula Orb",
+  "/camera": "Camera",
+  "/soul-map": "Soul Map",
+  "/tarot": "Tarot",
+  "/threads": "Threads",
+  "/reflection-room": "Reflection Room",
+  "/ideas": "Ideas",
+  "/share": "Share",
+  "/elyra": "Luna AI",
+  "/shop": "Shop",
+  "/about": "About",
+  "/faq": "FAQ",
+  "/support": "Support",
+  "/stats": "Stats",
+};
+
+const PAGE_ICONS: Record<string, string> = {
+  "/": "◈",
+  "/sanctuary": "✦",
+  "/live": "🔴",
+  "/campfire": "🔥",
+  "/mural": "🎨",
+  "/soul-echo": "💫",
+  "/human-signal": "📡",
+  "/poetry": "📝",
+  "/dream-canvas": "🖌️",
+  "/nebula-orb": "🌐",
+  "/camera": "📷",
+  "/soul-map": "🗺️",
+  "/tarot": "🃏",
+  "/threads": "🧵",
+  "/reflection-room": "🪞",
+  "/ideas": "💡",
+  "/share": "📁",
+  "/elyra": "✦",
+  "/shop": "🛍️",
+};
+
+export default function PresenceMap() {
+  const [open, setOpen] = useState(false);
+  const counts = useAllPresence();
+
+  const totalPages = Object.keys(counts).length;
+  const totalVisitors = Object.values(counts).reduce((a, b) => a + b, 0);
+
+  const sorted = Object.entries(counts)
+    .sort(([, a], [, b]) => b - a)
+    .filter(([path]) => PAGE_LABELS[path]);
+
+  if (totalVisitors === 0) return null;
+
+  return (
+    <>
+      {/* Toggle button */}
+      <button
+        onClick={() => setOpen(!open)}
+        style={{
+          position: "fixed",
+          bottom: 16,
+          right: 16,
+          zIndex: 60,
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          padding: "7px 12px",
+          borderRadius: 8,
+          background: open ? "rgba(0, 255, 136, 0.12)" : "rgba(0, 255, 136, 0.06)",
+          border: `1px solid ${open ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.12)"}`,
+          backdropFilter: "blur(8px)",
+          cursor: "pointer",
+          transition: "all 0.2s",
+          color: "rgba(0, 255, 136, 0.8)",
+          fontSize: 11,
+          fontFamily: "monospace",
+          letterSpacing: "0.5px",
+        }}
+      >
+        <span style={{
+          width: 7,
+          height: 7,
+          borderRadius: "50%",
+          background: "#00ff88",
+          boxShadow: "0 0 8px rgba(0, 255, 136, 0.6)",
+          animation: "pulse 2s ease-in-out infinite",
+        }} />
+        {totalVisitors} online
+        <span style={{ fontSize: 9, opacity: 0.6 }}>{open ? "▼" : "▲"}</span>
+      </button>
+
+      {/* Panel */}
+      {open && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: 52,
+            right: 16,
+            zIndex: 60,
+            width: 240,
+            maxHeight: 360,
+            overflowY: "auto",
+            background: "rgba(10, 20, 15, 0.95)",
+            border: "1px solid rgba(0, 255, 136, 0.15)",
+            borderRadius: 12,
+            backdropFilter: "blur(16px)",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <div style={{
+            padding: "10px 14px 8px",
+            borderBottom: "1px solid rgba(0, 255, 136, 0.08)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}>
+            <span style={{
+              fontSize: 10,
+              color: "#00ff88",
+              letterSpacing: "2px",
+              textTransform: "uppercase",
+              fontFamily: "monospace",
+              fontWeight: 600,
+            }}>
+              Where is everyone?
+            </span>
+            <span style={{
+              fontSize: 9,
+              color: "rgba(0, 255, 136, 0.4)",
+              fontFamily: "monospace",
+            }}>
+              {totalPages} pages
+            </span>
+          </div>
+
+          <div style={{ padding: "6px 8px" }}>
+            {sorted.map(([path, count]) => (
+              <Link
+                key={path}
+                href={path}
+                onClick={() => setOpen(false)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "7px 8px",
+                  borderRadius: 6,
+                  textDecoration: "none",
+                  transition: "background 0.15s",
+                  cursor: "pointer",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 255, 136, 0.06)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                }}
+              >
+                <span style={{ fontSize: 13, width: 20, textAlign: "center" }}>
+                  {PAGE_ICONS[path] || "•"}
+                </span>
+                <span style={{
+                  flex: 1,
+                  fontSize: 12,
+                  color: "rgba(240, 255, 245, 0.75)",
+                  fontFamily: "monospace",
+                }}>
+                  {PAGE_LABELS[path] || path}
+                </span>
+                <span style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.5)",
+                  fontFamily: "monospace",
+                  minWidth: 20,
+                  textAlign: "right",
+                }}>
+                  {count}
+                </span>
+                <span style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
+                  boxShadow: count > 1 ? "0 0 6px rgba(0, 255, 136, 0.5)" : "none",
+                }} />
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
