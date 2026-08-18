@@ -4,56 +4,67 @@ import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { RealtimeChannel } from "@supabase/supabase-js";
 
-interface PresenceEntry {
-  path: string;
-}
-
 export function usePagePresence(path: string) {
   const [count, setCount] = useState(0);
   const channelRef = useRef<RealtimeChannel | null>(null);
-  const visitorIdRef = useRef<string>("");
+  const tabIdRef = useRef<string>("");
+  const pathRef = useRef<string>(path);
 
+  // Keep pathRef in sync
+  useEffect(() => { pathRef.current = path; }, [path]);
+
+  // Subscribe once on mount
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Get or create persistent visitor ID
-    let vid = localStorage.getItem("elovayne-visitor-id");
-    if (!vid) {
-      vid = `v-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-      localStorage.setItem("elovayne-visitor-id", vid);
-    }
-    visitorIdRef.current = vid;
+    const tabId = `tab-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    tabIdRef.current = tabId;
 
-    const channel = supabase().channel("site-presence", {
-      config: { broadcast: { self: false } },
-    });
+    const client = supabase();
+    const channel = client.channel("site-presence");
     channelRef.current = channel;
 
-    channel
-      .on("presence", { event: "sync" }, () => {
-        const state = channel.presenceState<PresenceEntry>();
-        const here: string[] = [];
-        for (const key in state) {
-          const entries = state[key];
-          if (Array.isArray(entries)) {
-            for (const entry of entries) {
-              if (entry.path === path) here.push(key);
-            }
+    const countForPath = () => {
+      const state = channel.presenceState<{ path: string }>();
+      let here = 0;
+      const currentPath = pathRef.current;
+      for (const key in state) {
+        const entries = state[key];
+        if (Array.isArray(entries)) {
+          for (const entry of entries) {
+            if (entry.path === currentPath) here++;
           }
         }
-        setCount(here.length);
-      })
+      }
+      setCount(here);
+    };
+
+    channel
+      .on("presence", { event: "sync" }, countForPath)
+      .on("presence", { event: "join" }, countForPath)
+      .on("presence", { event: "leave" }, countForPath)
       .subscribe(async (status) => {
         if (status === "SUBSCRIBED") {
-          await channel.track({ path });
+          await channel.track({ path: pathRef.current, tab_id: tabId });
+          countForPath();
         }
       });
 
     return () => {
       channel.untrack();
-      supabase().removeChannel(channel);
+      client.removeChannel(channel);
       channelRef.current = null;
     };
+  }, []);
+
+  // Update tracked path when navigating
+  useEffect(() => {
+    const channel = channelRef.current;
+    if (!channel) return;
+    // Untrack then re-track with new path
+    channel.untrack().then(() => {
+      channel.track({ path, tab_id: tabIdRef.current });
+    });
   }, [path]);
 
   return count;
