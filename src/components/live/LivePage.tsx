@@ -988,9 +988,8 @@ setConnectionStatus("live");
               Real people. Right now.
             </p>
 
-            {userId && (
-              <div style={{ textAlign: "center", marginBottom: 40 }}>
-                <button onClick={() => setView("start")} style={{
+            <div style={{ textAlign: "center", marginBottom: 40 }}>
+              <button onClick={() => setView("start")} style={{
                   padding: "14px 32px", borderRadius: 12,
                   background: "linear-gradient(135deg, #ef4444, #f97316, #a855f7)",
                   backgroundSize: "200% 200%",
@@ -1006,7 +1005,6 @@ setConnectionStatus("live");
                   Start Live
                 </button>
               </div>
-            )}
 
             {loading ? (
               <p style={{ textAlign: "center", color: "rgba(224, 245, 232, 0.3)", fontSize: 13 }}>Finding live streams...</p>

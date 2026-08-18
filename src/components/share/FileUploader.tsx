@@ -137,7 +137,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
         color: "rgba(240, 255, 245, 0.65)",
         fontSize: "13px",
       }}>
-        Sign in to upload files
+        Loading...
       </div>
     );
   }
