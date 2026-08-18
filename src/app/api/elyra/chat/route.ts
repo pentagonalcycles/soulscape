@@ -304,7 +304,7 @@ export async function POST(request: NextRequest) {
 
     // Fallback: Try Ollama (local)
     const ollamaUrl = process.env.OLLAMA_URL || "http://localhost:11434";
-    const ollamaModel = process.env.OLLAMA_MODEL || "llama3:latest";
+    const ollamaModel = process.env.OLLAMA_MODEL || "llama3.2:1b";
 
     try {
       const ollamaMessages = [

@@ -256,8 +256,8 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
 
   const currentProject = currentProjectId ? projects.find(p => p.id === currentProjectId) || null : null;
 
-  async function send() {
-    const text = input.trim();
+  async function send(overrideText?: string) {
+    const text = overrideText ?? input.trim();
     if ((!text && uploadedFiles.length === 0) || loading) return;
     if (!isPlus && messages.length >= MAX_FREE_MESSAGES * 2) {
       setMessages(prev => [...prev, { id: crypto.randomUUID(), role: "assistant", content: "Message limit reached. Upgrade for unlimited.", timestamp: Date.now() }]);
@@ -614,6 +614,28 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", background: "transparent", boxShadow: "0 8px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(20px)", borderRadius: "16px" }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span style={{ fontSize: "11px", color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace" }}>{name}</span>
+          <span style={{ fontSize: "9px", color: "rgba(0, 255, 136, 0.4)", fontFamily: "monospace" }}>AI</span>
+        </div>
+        <button
+          onClick={startNewConversation}
+          disabled={loading}
+          style={{
+            padding: "5px 12px", borderRadius: "4px",
+            background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.15)",
+            color: "rgba(0, 255, 136, 0.7)", fontSize: "9px", cursor: loading ? "default" : "pointer",
+            fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
+            transition: "all 0.2s", opacity: loading ? 0.4 : 1,
+          }}
+          onMouseEnter={e => { if (!loading) { e.currentTarget.style.background = "rgba(0, 255, 136, 0.12"; e.currentTarget.style.color = "#00ff88"; }}}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(0, 255, 136, 0.06)"; e.currentTarget.style.color = "rgba(0, 255, 136, 0.7)"; }}
+        >
+          + New Chat
+        </button>
+      </div>
       {/* Messages */}
       <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", overflowX: "hidden", background: "transparent" }}>
         {isEmpty ? (
@@ -688,10 +710,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                 {(MODE_SUGGESTIONS[activeMode] || []).map((suggestion) => (
                   <button
                     key={suggestion}
-                    onClick={() => {
-                      setInput(suggestion);
-                      setTimeout(() => inputRef.current?.focus(), 100);
-                    }}
+                    onClick={() => send(suggestion)}
                     style={{
                       padding: "6px 12px",
                       borderRadius: "20px",
