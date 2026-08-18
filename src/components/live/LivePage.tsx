@@ -1103,7 +1103,7 @@ setConnectionStatus("live");
                       PREVIEW
                     </div>
                     <div style={{ position: "absolute", bottom: 12, left: 12, padding: "4px 8px", borderRadius: 6, background: "rgba(0,0,0,0.6)", color: "#a0d2bd", fontSize: 8, fontWeight: 500 }}>
-                      {`${this.width}p · ${this.fps}fps`}
+                      Preview
                     </div>
                   </div>
                   <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
