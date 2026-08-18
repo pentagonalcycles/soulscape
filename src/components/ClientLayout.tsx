@@ -13,7 +13,6 @@ import ElyraButton from "@/components/ElyraButton";
 import Navigation from "@/components/Navigation";
 import VisitorTracker from "@/components/VisitorTracker";
 import LiveStreamAlert from "@/components/live/LiveStreamAlert";
-import PagePresence from "@/components/PagePresence";
 import PresenceMap from "@/components/PresenceMap";
 
 const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads", "/live"];
@@ -142,7 +141,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
       <Navigation activePage={activePage} />
       <VisitorTracker />
       <LiveStreamAlert />
-      <PagePresence />
       <PresenceMap />
 
     </>

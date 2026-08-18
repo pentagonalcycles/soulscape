@@ -6,66 +6,85 @@ import { RealtimeChannel } from "@supabase/supabase-js";
 
 export interface PagePresenceEntry {
   path: string;
-  tabId: string;
+  tab_id: string;
+}
+
+// Shared channel and state across all hooks
+let sharedChannel: RealtimeChannel | null = null;
+let sharedTabId = "";
+const listeners = new Set<(path: string) => void>();
+let currentPath = "";
+
+function getOrCreateChannel(): RealtimeChannel {
+  if (sharedChannel) return sharedChannel;
+
+  const client = supabase();
+  sharedTabId = `tab-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  sharedChannel = client.channel("site-presence");
+
+  sharedChannel
+    .on("presence", { event: "sync" }, () => notifyListeners())
+    .on("presence", { event: "join" }, () => notifyListeners())
+    .on("presence", { event: "leave" }, () => notifyListeners())
+    .subscribe(async (status) => {
+      if (status === "SUBSCRIBED") {
+        await sharedChannel?.track({ path: currentPath, tab_id: sharedTabId });
+        notifyListeners();
+      }
+    });
+
+  return sharedChannel;
+}
+
+function notifyListeners() {
+  if (!sharedChannel) return;
+  for (const listener of listeners) {
+    listener(currentPath);
+  }
+}
+
+function getPresenceState(): { entries: PagePresenceEntry[]; byPath: Record<string, number> } {
+  if (!sharedChannel) return { entries: [], byPath: {} };
+  const state = sharedChannel.presenceState<PagePresenceEntry>();
+  const entries: PagePresenceEntry[] = [];
+  const byPath: Record<string, number> = {};
+  for (const key in state) {
+    const items = state[key];
+    if (Array.isArray(items)) {
+      for (const item of items) {
+        entries.push(item);
+        byPath[item.path] = (byPath[item.path] || 0) + 1;
+      }
+    }
+  }
+  return { entries, byPath };
 }
 
 export function usePagePresence(path: string) {
   const [count, setCount] = useState(0);
-  const channelRef = useRef<RealtimeChannel | null>(null);
-  const tabIdRef = useRef<string>("");
-  const pathRef = useRef<string>(path);
-
-  useEffect(() => { pathRef.current = path; }, [path]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    currentPath = path;
+    const channel = getOrCreateChannel();
 
-    const tabId = `tab-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    tabIdRef.current = tabId;
-
-    const client = supabase();
-    const channel = client.channel("site-presence");
-    channelRef.current = channel;
-
-    const countForPath = () => {
-      const state = channel.presenceState<PagePresenceEntry>();
-      let here = 0;
-      const currentPath = pathRef.current;
-      for (const key in state) {
-        const entries = state[key];
-        if (Array.isArray(entries)) {
-          for (const entry of entries) {
-            if (entry.path === currentPath) here++;
-          }
-        }
-      }
-      setCount(here);
+    const update = (currentPath: string) => {
+      const { byPath } = getPresenceState();
+      setCount(byPath[path] || 0);
     };
 
-    channel
-      .on("presence", { event: "sync" }, countForPath)
-      .on("presence", { event: "join" }, countForPath)
-      .on("presence", { event: "leave" }, countForPath)
-      .subscribe(async (status) => {
-        if (status === "SUBSCRIBED") {
-          await channel.track({ path: pathRef.current, tab_id: tabId });
-          countForPath();
-        }
+    listeners.add(update);
+    update(path);
+
+    // Re-track when path changes
+    if (sharedChannel) {
+      sharedChannel.untrack().then(() => {
+        sharedChannel?.track({ path, tab_id: sharedTabId });
       });
+    }
 
     return () => {
-      channel.untrack();
-      client.removeChannel(channel);
-      channelRef.current = null;
+      listeners.delete(update);
     };
-  }, []);
-
-  useEffect(() => {
-    const channel = channelRef.current;
-    if (!channel) return;
-    channel.untrack().then(() => {
-      channel.track({ path, tab_id: tabIdRef.current });
-    });
   }, [path]);
 
   return count;
@@ -73,48 +92,20 @@ export function usePagePresence(path: string) {
 
 export function useAllPresence(): Record<string, number> {
   const [counts, setCounts] = useState<Record<string, number>>({});
-  const channelRef = useRef<RealtimeChannel | null>(null);
-  const tabIdRef = useRef<string>("");
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    const channel = getOrCreateChannel();
 
-    const tabId = `tab-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    tabIdRef.current = tabId;
-
-    const client = supabase();
-    const channel = client.channel("site-presence");
-    channelRef.current = channel;
-
-    const updateCounts = () => {
-      const state = channel.presenceState<PagePresenceEntry>();
-      const map: Record<string, number> = {};
-      for (const key in state) {
-        const entries = state[key];
-        if (Array.isArray(entries)) {
-          for (const entry of entries) {
-            map[entry.path] = (map[entry.path] || 0) + 1;
-          }
-        }
-      }
-      setCounts(map);
+    const update = () => {
+      const { byPath } = getPresenceState();
+      setCounts({ ...byPath });
     };
 
-    channel
-      .on("presence", { event: "sync" }, updateCounts)
-      .on("presence", { event: "join" }, updateCounts)
-      .on("presence", { event: "leave" }, updateCounts)
-      .subscribe(async (status) => {
-        if (status === "SUBSCRIBED") {
-          await channel.track({ path: window.location.pathname, tab_id: tabId });
-          updateCounts();
-        }
-      });
+    listeners.add(update);
+    update();
 
     return () => {
-      channel.untrack();
-      client.removeChannel(channel);
-      channelRef.current = null;
+      listeners.delete(update);
     };
   }, []);
 

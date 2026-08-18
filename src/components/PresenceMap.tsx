@@ -60,10 +60,7 @@ export default function PresenceMap() {
   const totalVisitors = Object.values(counts).reduce((a, b) => a + b, 0);
 
   const sorted = Object.entries(counts)
-    .sort(([, a], [, b]) => b - a)
-    .filter(([path]) => PAGE_LABELS[path]);
-
-  if (totalVisitors === 0) return null;
+    .sort(([, a], [, b]) => b - a);
 
   return (
     <>
