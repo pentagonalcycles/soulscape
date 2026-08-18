@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useAllPresence } from "@/hooks/usePagePresence";
 
 const PAGE_LABELS: Record<string, string> = {
@@ -55,7 +54,6 @@ const PAGE_ICONS: Record<string, string> = {
 export default function PresenceMap() {
   const [open, setOpen] = useState(false);
   const counts = useAllPresence();
-  const router = useRouter();
 
   const totalPages = Object.keys(counts).length;
   const totalVisitors = Object.values(counts).reduce((a, b) => a + b, 0);
@@ -65,7 +63,7 @@ export default function PresenceMap() {
 
   const navigateTo = (path: string) => {
     setOpen(false);
-    router.push(path);
+    window.location.href = path;
   };
 
   return (
