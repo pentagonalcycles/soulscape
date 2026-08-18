@@ -11,7 +11,7 @@ export default function GlowingPortal() {
 
   const handleEnter = () => {
     setIsExiting(true);
-    setTimeout(() => router.push("/soul-echo"), 1500);
+    setTimeout(() => router.push("/sanctuary"), 1500);
   };
 
   return (

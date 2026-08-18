@@ -99,7 +99,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
 
   const pathToActivePage: Record<string, string> = {
     "/elyra": "elyra ai",
-    "/soul-echo": "soul echo",
     "/reflection-room": "reflection",
     "/tarot": "arcana",
     "/threads": "threads",

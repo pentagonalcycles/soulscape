@@ -16,7 +16,7 @@ const faqSections = [
       },
       {
         q: "How much does it cost?",
-        a: "Many features are free to use, including Sanctuary, Share, Ideas, Soul Echo, Human Signal, Campfire, Poetry, and more. Some premium features like Luna AI and Dream Canvas have a small one-time unlock fee.",
+        a: "Many features are free to use, including Sanctuary, Share, Ideas, Human Signal, Campfire, Poetry, and more. Some premium features like Luna AI and Dream Canvas have a small one-time unlock fee.",
       },
       {
         q: "Do I need to create an account?",
@@ -24,7 +24,7 @@ const faqSections = [
       },
       {
         q: "How do I start sharing?",
-        a: "Use Soul Echo to connect with someone, write poems in Poetry, paint on the Mural, or chat at the Campfire.",
+        a: "Write poems in Poetry, paint on the Mural, chat at the Campfire, or send a Human Signal to find someone who feels what you feel.",
       },
     ],
   },
@@ -63,10 +63,6 @@ const faqSections = [
       {
         q: "What is Luna AI?",
         a: "An AI companion you can chat with anytime. Not a therapist — just a kind presence when you need someone. Customize her personality and response length. Small one-time unlock fee.",
-      },
-      {
-        q: "What is Soul Echo?",
-        a: "Connects you with another person based on shared emotional reflections. Write what you're feeling, and the system finds someone who understands. Anonymous conversations.",
       },
       {
         q: "What is the Dream Canvas?",

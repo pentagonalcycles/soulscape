@@ -169,13 +169,13 @@ function buildProjectContext(p: ElyraProject): string | undefined {
 
 function detectMood(text: string): MoodAnalysis | null {
   const l = text.toLowerCase();
-  if (l.includes("lonely") || l.includes("alone")) return { mood: "loneliness", emoji: "", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "You're not alone — someone out there understands." };
+  if (l.includes("lonely") || l.includes("alone")) return { mood: "loneliness", emoji: "", room: "Campfire", roomSlug: "campfire", suggestion: "You're not alone — join the Campfire and connect with others." };
   if (l.includes("sad") || l.includes("grief")) return { mood: "grief", emoji: "", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "The Reflection Room is a gentle place to breathe and write." };
   if (l.includes("anxious") || l.includes("worried")) return { mood: "anxiety", emoji: "", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "Find calm in the Reflection Room with a moment to breathe." };
-  if (l.includes("happy") || l.includes("grateful")) return { mood: "joy", emoji: "", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "Share your joy through Soul Echo!" };
+  if (l.includes("happy") || l.includes("grateful")) return { mood: "joy", emoji: "", room: "Campfire", roomSlug: "campfire", suggestion: "Share your joy at the Campfire!" };
   if (l.includes("creative") || l.includes("art")) return { mood: "creativity", emoji: "", room: "Dream Canvas", roomSlug: "dream-canvas", suggestion: "Express yourself on the Dream Canvas." };
   if (l.includes("love") || l.includes("heart")) return { mood: "love", emoji: "", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "Reflect on love in the Reflection Room." };
-  if (l.includes("hope") || l.includes("better")) return { mood: "hope", emoji: "", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "Find light through Soul Echo." };
+  if (l.includes("hope") || l.includes("better")) return { mood: "hope", emoji: "", room: "Campfire", roomSlug: "campfire", suggestion: "Find light and warmth at the Campfire." };
   if (l.includes("heal") || l.includes("recover")) return { mood: "healing", emoji: "", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "The Reflection Room helps you heal." };
   return null;
 }

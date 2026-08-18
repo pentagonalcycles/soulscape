@@ -370,7 +370,7 @@ export default function Home() {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 {[
-                  "Share", "Ideas Board", "Soul Echo", "Human Signal",
+                  "Share", "Ideas Board", "Human Signal",
                   "Campfire", "Poetry", "Soul Map", "Reflection Room",
                   "Threads", "Live (watching)", "Luna AI", "Cosmic Camera",
                   "Tarot", "Dream Canvas", "Mural", "Nebula Orb", "Stats",

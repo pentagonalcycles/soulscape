@@ -58,7 +58,6 @@ const sections = [
     items: [
       "Talk to Luna, an AI companion who listens without judgment.",
       "Explore Arcana — a full 78-card Tarot deck for reflection and insight.",
-      "Share your feelings through Soul Echo and connect with someone who understands.",
       "Reflect in the Reflection Room with daily prompts.",
       "Create art in the Dream Canvas with 32 brush types.",
       "Paint together in the Collaborative Mural in real-time.",
