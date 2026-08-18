@@ -1065,7 +1065,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               </svg>
             </button>
           ) : input.trim() ? (
-            <button onClick={send} disabled={loading} style={{
+            <button onClick={() => send()} disabled={loading} style={{
               width: "44px", height: "44px", borderRadius: "4px",
               background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(139, 92, 246, 0.15))",
               border: "1px solid rgba(0, 255, 136, 0.3)",

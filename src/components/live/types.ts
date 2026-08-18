@@ -49,6 +49,7 @@ export type LiveConnection =
   | "reconnecting"
   | "weak"
   | "disconnected"
+  | "failed"
   | "ended"
   | "off";
 

@@ -489,23 +489,14 @@ setConnectionStatus("live");
       channel.on("presence", { event: "join" }, ({ newPresences }) => {
         newPresences.forEach((p) => addJoinNotice((p as { name?: string }).name));
       });
-      channel.on("subscribe", () => {
-        // Channel successfully subscribed - reset any previous disconnect state
-        setConnectionStatus("live");
-      });
-      channel.on("disconnect", () => {
-        // Channel disconnected - show reconnecting status, but don't immediately end the stream
-        if (!channelDisposed) {
-          setConnectionStatus("reconnecting");
-        }
-      });
-      channel.on("subscribe-error", () => {
-        setConnectionStatus("failed");
-      });
       await channel.subscribe(async (status) => {
         if (status === "SUBSCRIBED" && !channelDisposed) {
           await channel.track({ user_id: userId, role: "broadcaster", name: presenceName() });
           setConnectionStatus("live");
+        } else if (status === "CLOSED" || status === "TIMED_OUT") {
+          if (!channelDisposed) setConnectionStatus("reconnecting");
+        } else if (status === "CHANNEL_ERROR") {
+          if (!channelDisposed) setConnectionStatus("failed");
         }
       });
 
@@ -911,6 +902,7 @@ setConnectionStatus("live");
     reconnecting: "Reconnecting…",
     weak: "Connection is weak — reconnecting…",
     disconnected: "Broadcaster disconnected",
+    failed: "Connection failed",
     ended: "Stream ended",
     off: "",
   };
