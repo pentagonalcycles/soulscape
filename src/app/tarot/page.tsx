@@ -1,7 +1,12 @@
 "use client";
 
+import FeatureGate from "@/components/FeatureGate";
 import TarotPage from "@/components/tarot/TarotPage";
 
 export default function TarotRoute() {
-  return <TarotPage />;
+  return (
+    <FeatureGate featureId="tarot">
+      <TarotPage />
+    </FeatureGate>
+  );
 }

@@ -2,6 +2,7 @@
 
 import { useAuth } from "@/components/AuthProvider";
 import ElyraChat from "@/components/ElyraChat";
+import FeatureGate from "@/components/FeatureGate";
 import Link from "next/link";
 
 export default function ElyraPage() {
@@ -26,6 +27,7 @@ export default function ElyraPage() {
   }
 
   return (
+    <FeatureGate featureId="luna-ai">
     <div style={{
       position: "fixed", inset: 0,
       display: "flex", flexDirection: "column",
@@ -83,5 +85,6 @@ export default function ElyraPage() {
         }
       `}</style>
     </div>
+    </FeatureGate>
   );
 }

@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/lib/useIsMobile";
+import FeatureGate from "@/components/FeatureGate";
 
 type BrushType = "pen" | "pencil" | "airbrush" | "calligraphy" | "marker" | "eraser" | "neon" | "rainbow" | "watercolor" | "fire" | "sparkle" | "galaxy" | "chalk" | "oil" | "confetti" | "snow" | "vines" | "electric" | "smoke" | "bubbles" | "stars" | "mosaic" | "dna" | "aurora" | "ink" | "charcoal" | "halftone" | "pixel" | "spray" | "glitch" | "ribbon" | "fur";
 type ToolType = "brush" | "eyedropper" | "fill" | "blur" | "text";
@@ -1188,6 +1189,7 @@ export default function DreamCanvasPage() {
   }, [canvasSize]);
 
   return (
+    <FeatureGate featureId="dream-canvas">
     <main className="relative min-h-screen overflow-hidden" style={{ background: "#1f3828" }}>
       <div className="pt-14 h-screen flex flex-col">
         {/* Toolbar - hidden on mobile */}
@@ -2137,6 +2139,7 @@ export default function DreamCanvasPage() {
         </div>
       )}
     </main>
+    </FeatureGate>
   );
 }
 
