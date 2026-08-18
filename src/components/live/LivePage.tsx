@@ -437,29 +437,31 @@ export default function LivePage() {
   const startBroadcast = async () => {
     if (!userId || !streamTitle.trim()) return;
 
-    // Check if user has unlocked live broadcasting
-    const { hasUnlocked } = await import("@/lib/feature-gate");
-    const unlocked = await hasUnlocked(userId, "live-broadcast");
-    if (!unlocked) {
-      // Redirect to checkout
-      try {
-        const origin = window.location.origin;
-        const res = await fetch("/api/stripe/checkout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            featureId: "live-broadcast",
-            userId,
-            successUrl: `${origin}/live?unlocked=true`,
-            cancelUrl: `${origin}/live`,
-          }),
-        });
-        const data = await res.json();
-        if (data.url) window.location.href = data.url;
-      } catch (err) {
-        console.error("Checkout error:", err);
+    // Check if user has unlocked live broadcasting (admins bypass)
+    if (!isAdmin) {
+      const { hasUnlocked } = await import("@/lib/feature-gate");
+      const unlocked = await hasUnlocked(userId, "live-broadcast");
+      if (!unlocked) {
+        // Redirect to checkout
+        try {
+          const origin = window.location.origin;
+          const res = await fetch("/api/stripe/checkout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              featureId: "live-broadcast",
+              userId,
+              successUrl: `${origin}/live?unlocked=true`,
+              cancelUrl: `${origin}/live`,
+            }),
+          });
+          const data = await res.json();
+          if (data.url) window.location.href = data.url;
+        } catch (err) {
+          console.error("Checkout error:", err);
+        }
+        return;
       }
-      return;
     }
 
     try {

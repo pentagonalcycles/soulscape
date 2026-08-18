@@ -10,13 +10,18 @@ interface FeatureGateProps {
 }
 
 export default function FeatureGate({ featureId, children }: FeatureGateProps) {
-  const { userId } = useAuth();
+  const { userId, isAdmin } = useAuth();
   const [unlocked, setUnlocked] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
 
   const feature = FEATURES[featureId];
 
   useEffect(() => {
+    // Admins bypass all gates
+    if (isAdmin) {
+      setUnlocked(true);
+      return;
+    }
     if (!userId || !feature) {
       setUnlocked(false);
       return;
@@ -24,7 +29,7 @@ export default function FeatureGate({ featureId, children }: FeatureGateProps) {
     hasUnlocked(userId, featureId).then((result) => {
       setUnlocked(result);
     });
-  }, [userId, featureId, feature]);
+  }, [userId, featureId, feature, isAdmin]);
 
   if (!feature) return <>{children}</>;
   if (unlocked === null) {
