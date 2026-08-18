@@ -76,6 +76,14 @@ const sections = [
 export default function AboutPage() {
   return (
     <main className="relative min-h-screen overflow-hidden">
+      {/* Full-page colour-shifting background */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
+          animation: "bg-hue-cycle 30s linear infinite",
+        }}
+      />
       <div className="relative z-10 pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {/* Header */}

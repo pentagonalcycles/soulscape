@@ -135,6 +135,14 @@ export default function FAQPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
+      {/* Full-page colour-shifting background */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
+          animation: "bg-hue-cycle 30s linear infinite",
+        }}
+      />
       <div className="relative z-10 pt-20 sm:pt-28 pb-16 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
