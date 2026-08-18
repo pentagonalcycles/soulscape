@@ -51,19 +51,19 @@ const ALLOWED_FILE_TYPES = [
 ];
 
 const PERSONALITIES = [
-  { id: "gentle", name: "Standard", emoji: "◈", prompt: "" },
-  { id: "poet", name: "Creative", emoji: "✦", prompt: "Be a bit more creative and expressive in your responses. Use imagery sometimes." },
-  { id: "sage", name: "Minimal", emoji: "◇", prompt: "Keep it super relaxed and brief. Short, easy responses." },
-  { id: "friend", name: "Expressive", emoji: "⬡", prompt: "Be extra upbeat and friendly. Use more emojis and be enthusiastic." },
-  { id: "healer", name: "Calm", emoji: "○", prompt: "Be extra calm and grounding. Gentle, soothing energy." },
+  { id: "gentle", name: "Standard", emoji: "", prompt: "" },
+  { id: "poet", name: "Creative", emoji: "", prompt: "Be a bit more creative and expressive in your responses. Use imagery sometimes." },
+  { id: "sage", name: "Minimal", emoji: "", prompt: "Keep it super relaxed and brief. Short, easy responses." },
+  { id: "friend", name: "Expressive", emoji: "", prompt: "Be extra upbeat and friendly. Use more emojis and be enthusiastic." },
+  { id: "healer", name: "Calm", emoji: "", prompt: "Be extra calm and grounding. Gentle, soothing energy." },
 ];
 
 const MODES = [
-  { id: "talk" as const, label: "Talk", icon: "💬" },
-  { id: "code" as const, label: "Code", icon: "✦" },
-  { id: "create" as const, label: "Create", icon: "✨" },
-  { id: "explain" as const, label: "Explain", icon: "📖" },
-  { id: "terminal" as const, label: "Terminal", icon: "▸" },
+  { id: "talk" as const, label: "Talk", icon: ">" },
+  { id: "code" as const, label: "Code", icon: "</>" },
+  { id: "create" as const, label: "Create", icon: "+" },
+  { id: "explain" as const, label: "Explain", icon: "?" },
+  { id: "terminal" as const, label: "Terminal", icon: "$" },
 ];
 
 const MODE_SUGGESTIONS: Record<string, string[]> = {
@@ -169,14 +169,14 @@ function buildProjectContext(p: ElyraProject): string | undefined {
 
 function detectMood(text: string): MoodAnalysis | null {
   const l = text.toLowerCase();
-  if (l.includes("lonely") || l.includes("alone")) return { mood: "loneliness", emoji: "🌙", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "You're not alone — someone out there understands." };
-  if (l.includes("sad") || l.includes("grief")) return { mood: "grief", emoji: "💜", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "The Reflection Room is a gentle place to breathe and write." };
-  if (l.includes("anxious") || l.includes("worried")) return { mood: "anxiety", emoji: "🌊", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "Find calm in the Reflection Room with a moment to breathe." };
-  if (l.includes("happy") || l.includes("grateful")) return { mood: "joy", emoji: "✨", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "Share your joy through Soul Echo!" };
-  if (l.includes("creative") || l.includes("art")) return { mood: "creativity", emoji: "🎨", room: "Dream Canvas", roomSlug: "dream-canvas", suggestion: "Express yourself on the Dream Canvas." };
-  if (l.includes("love") || l.includes("heart")) return { mood: "love", emoji: "💕", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "Reflect on love in the Reflection Room." };
-  if (l.includes("hope") || l.includes("better")) return { mood: "hope", emoji: "🌅", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "Find light through Soul Echo." };
-  if (l.includes("heal") || l.includes("recover")) return { mood: "healing", emoji: "🌿", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "The Reflection Room helps you heal." };
+  if (l.includes("lonely") || l.includes("alone")) return { mood: "loneliness", emoji: "", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "You're not alone — someone out there understands." };
+  if (l.includes("sad") || l.includes("grief")) return { mood: "grief", emoji: "", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "The Reflection Room is a gentle place to breathe and write." };
+  if (l.includes("anxious") || l.includes("worried")) return { mood: "anxiety", emoji: "", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "Find calm in the Reflection Room with a moment to breathe." };
+  if (l.includes("happy") || l.includes("grateful")) return { mood: "joy", emoji: "", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "Share your joy through Soul Echo!" };
+  if (l.includes("creative") || l.includes("art")) return { mood: "creativity", emoji: "", room: "Dream Canvas", roomSlug: "dream-canvas", suggestion: "Express yourself on the Dream Canvas." };
+  if (l.includes("love") || l.includes("heart")) return { mood: "love", emoji: "", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "Reflect on love in the Reflection Room." };
+  if (l.includes("hope") || l.includes("better")) return { mood: "hope", emoji: "", room: "Soul Echo", roomSlug: "soul-echo", suggestion: "Find light through Soul Echo." };
+  if (l.includes("heal") || l.includes("recover")) return { mood: "healing", emoji: "", room: "Reflection Room", roomSlug: "reflection-room", suggestion: "The Reflection Room helps you heal." };
   return null;
 }
 
@@ -613,25 +613,24 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   }
 
   return (
-    <div style={{ height: "100%", display: "flex", flexDirection: "column", background: "transparent", boxShadow: "0 8px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(20px)", borderRadius: "16px" }}>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", background: "transparent" }}>
       {/* Header */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: "1px solid rgba(0, 255, 136, 0.08)", flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={{ fontSize: "11px", color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace" }}>{name}</span>
-          <span style={{ fontSize: "9px", color: "rgba(0, 255, 136, 0.4)", fontFamily: "monospace" }}>AI</span>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", borderBottom: "1px solid rgba(0, 255, 136, 0.06)", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <span style={{ fontSize: "12px", color: "rgba(0, 255, 136, 0.7)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", fontWeight: 500 }}>{name}</span>
         </div>
         <button
           onClick={startNewConversation}
           disabled={loading}
           style={{
-            padding: "5px 12px", borderRadius: "4px",
-            background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.15)",
-            color: "rgba(0, 255, 136, 0.7)", fontSize: "9px", cursor: loading ? "default" : "pointer",
+            padding: "6px 14px", borderRadius: "6px",
+            background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.1)",
+            color: "rgba(0, 255, 136, 0.5)", fontSize: "9px", cursor: loading ? "default" : "pointer",
             fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
             transition: "all 0.2s", opacity: loading ? 0.4 : 1,
           }}
-          onMouseEnter={e => { if (!loading) { e.currentTarget.style.background = "rgba(0, 255, 136, 0.12"; e.currentTarget.style.color = "#00ff88"; }}}
-          onMouseLeave={e => { e.currentTarget.style.background = "rgba(0, 255, 136, 0.06)"; e.currentTarget.style.color = "rgba(0, 255, 136, 0.7)"; }}
+          onMouseEnter={e => { if (!loading) { e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)"; e.currentTarget.style.color = "rgba(0, 255, 136, 0.8)"; }}}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)"; e.currentTarget.style.color = "rgba(0, 255, 136, 0.5)"; }}
         >
           + New Chat
         </button>
@@ -643,28 +642,30 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             display: "flex", flexDirection: "column", alignItems: "center",
             justifyContent: "center", minHeight: "100%", padding: "40px 24px",
           }}>
-            {/* Name with gradient */}
-            <div style={{ position: "relative", marginBottom: "16px" }}>
-              <h2 style={{
-                fontSize: "32px", fontWeight: 100, color: "#e2e8f0",
-                letterSpacing: "12px", textTransform: "uppercase",
-                background: "linear-gradient(135deg, #00ff88, #8b5cf6, #00ff88)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundSize: "200% 100%",
-                animation: "gradientShift 4s ease-in-out infinite",
-              }}>{name}</h2>
-              {/* Glowing underline */}
+            {/* Logo + name */}
+            <div style={{ position: "relative", marginBottom: "12px" }}>
               <div style={{
-                width: "100%", height: "1px", marginTop: "8px",
-                background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.85), rgba(139, 92, 246, 0.4), transparent)",
-                boxShadow: "0 0 10px rgba(0, 255, 136, 0.3)",
-              }} />
+                width: 56, height: 56, borderRadius: 16,
+                background: "linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(139, 92, 246, 0.06))",
+                border: "1px solid rgba(0, 255, 136, 0.1)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 24, marginBottom: 16, color: "rgba(0, 255, 136, 0.6)",
+              }}>/</div>
             </div>
+            <h2 style={{
+              fontSize: "28px", fontWeight: 200, color: "#e2e8f0",
+              letterSpacing: "10px", textTransform: "uppercase",
+              margin: "0 0 6px",
+            }}>{name}</h2>
+            <p style={{
+              fontSize: "11px", color: "rgba(0, 255, 136, 0.35)",
+              letterSpacing: "2px", textTransform: "uppercase",
+              margin: "0 0 40px",
+            }}>Your AI companion</p>
 
             {/* Mode selection */}
-            <div style={{ marginTop: "40px", textAlign: "center" }}>
-              <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
+            <div style={{ marginTop: "32px", textAlign: "center", width: "100%", maxWidth: 480 }}>
+              <div style={{ display: "flex", gap: "6px", justifyContent: "center", flexWrap: "wrap" }}>
                 {MODES.map((mode) => {
                   const isActive = activeMode === mode.id;
                   return (
@@ -672,33 +673,36 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                       key={mode.id}
                       onClick={() => setActiveMode(mode.id)}
                       style={{
-                        padding: "8px 16px",
-                        borderRadius: "6px",
-                        border: `1px solid ${isActive ? "rgba(0, 255, 136, 0.65)" : "rgba(0, 255, 136, 0.3)"}`,
-                        background: isActive ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)",
-                        color: isActive ? "#00ff88" : "rgba(0, 255, 136, 0.85)",
+                        padding: "7px 14px",
+                        borderRadius: "8px",
+                        border: `1px solid ${isActive ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
+                        background: isActive ? "rgba(0, 255, 136, 0.06)" : "transparent",
+                        color: isActive ? "rgba(0, 255, 136, 0.9)" : "rgba(0, 255, 136, 0.45)",
                         fontSize: "10px",
                         cursor: "pointer",
                         transition: "all 0.2s",
                         fontFamily: "monospace",
-                        letterSpacing: "1px",
-                        textTransform: "uppercase",
+                        letterSpacing: "0.5px",
                         display: "flex",
                         alignItems: "center",
-                        gap: "6px",
+                        gap: "5px",
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
-                        e.currentTarget.style.color = "rgba(0, 255, 136, 0.9)";
-                        e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.3)";
+                        if (!isActive) {
+                          e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
+                          e.currentTarget.style.color = "rgba(0, 255, 136, 0.7)";
+                          e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.15)";
+                        }
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = isActive ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)";
-                        e.currentTarget.style.color = isActive ? "#00ff88" : "rgba(0, 255, 136, 0.85)";
-                        e.currentTarget.style.borderColor = isActive ? "rgba(0, 255, 136, 0.65)" : "rgba(0, 255, 136, 0.3)";
+                        if (!isActive) {
+                          e.currentTarget.style.background = "transparent";
+                          e.currentTarget.style.color = "rgba(0, 255, 136, 0.45)";
+                          e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.08)";
+                        }
                       }}
                     >
-                      <span style={{ fontSize: "12px" }}>{mode.icon}</span>
+                      <span style={{ fontSize: "11px" }}>{mode.icon}</span>
                       {mode.label}
                     </button>
                   );
@@ -706,30 +710,32 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               </div>
 
               {/* Mode-aware starter suggestions */}
-              <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap", marginTop: "16px" }}>
+              <div style={{ display: "flex", gap: "6px", justifyContent: "center", flexWrap: "wrap", marginTop: "16px" }}>
                 {(MODE_SUGGESTIONS[activeMode] || []).map((suggestion) => (
                   <button
                     key={suggestion}
                     onClick={() => send(suggestion)}
                     style={{
                       padding: "6px 12px",
-                      borderRadius: "20px",
-                      border: "1px solid rgba(0, 255, 136, 0.1)",
-                      background: "rgba(0, 255, 136, 0.02)",
-                      color: "rgba(0, 255, 136, 0.65)",
-                      fontSize: "9px",
+                      borderRadius: "8px",
+                      border: "1px solid rgba(0, 255, 136, 0.06)",
+                      background: "transparent",
+                      color: "rgba(0, 255, 136, 0.4)",
+                      fontSize: "10px",
                       cursor: "pointer",
                       transition: "all 0.2s",
                       fontFamily: "monospace",
-                      letterSpacing: "0.5px",
+                      letterSpacing: "0.3px",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(0, 255, 136, 0.06)";
-                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.8)";
+                      e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
+                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.7)";
+                      e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.12)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "rgba(0, 255, 136, 0.02)";
-                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.65)";
+                      e.currentTarget.style.background = "transparent";
+                      e.currentTarget.style.color = "rgba(0, 255, 136, 0.4)";
+                      e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.06)";
                     }}
                   >
                     {suggestion}
@@ -738,13 +744,13 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               </div>
 
               <p style={{
-                fontSize: "8px",
-                color: "rgba(0, 255, 136, 0.5)",
-                marginTop: "12px",
+                fontSize: "9px",
+                color: "rgba(0, 255, 136, 0.2)",
+                marginTop: "16px",
                 fontFamily: "monospace",
                 letterSpacing: "1px",
               }}>
-                Or just type anything naturally
+                Type anything naturally
               </p>
             </div>
           </div>
@@ -981,15 +987,15 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
           background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent)",
         }} />
 
-        <div style={{ display: "flex", alignItems: "flex-end", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: "8px" }}>
           <div style={{
             flex: 1,
             background: "rgba(0, 255, 136, 0.02)",
-            border: "1px solid rgba(0, 255, 136, 0.12)",
-            borderRadius: "4px",
-            padding: "4px 4px 4px 14px",
+            border: "1px solid rgba(0, 255, 136, 0.08)",
+            borderRadius: "10px",
+            padding: "4px 4px 4px 12px",
             display: "flex", alignItems: "flex-end", gap: "4px",
-            transition: "all 0.3s",
+            transition: "border-color 0.2s",
             position: "relative",
           }}>
             {/* Input corner accents */}
@@ -1000,21 +1006,23 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             <button
               onClick={() => fileInputRef.current?.click()}
               style={{
-                width: "32px", height: "32px", borderRadius: "4px",
-                background: "rgba(0, 255, 136, 0.04)",
-                border: "1px solid rgba(0, 255, 136, 0.15)",
-                color: "rgba(0, 255, 136, 0.85)",
+                width: "40px", height: "40px", borderRadius: "8px",
+                background: "transparent",
+                border: "1px solid rgba(0, 255, 136, 0.06)",
+                color: "rgba(0, 255, 136, 0.4)",
                 cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
                 transition: "all 0.2s",
                 flexShrink: 0,
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
-                e.currentTarget.style.color = "rgba(0, 255, 136, 0.9)";
+                e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
+                e.currentTarget.style.color = "rgba(0, 255, 136, 0.7)";
+                e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.12)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
-                e.currentTarget.style.color = "rgba(0, 255, 136, 0.85)";
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = "rgba(0, 255, 136, 0.4)";
+                e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.06)";
               }}
               title="Upload file"
             >
@@ -1039,38 +1047,40 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
               onPaste={handlePaste}
-              placeholder={isPlus ? `◈ Transmit to ${name}...` : `◈ Transmit... (${MAX_FREE_MESSAGES - messageCount} remaining)`}
+              placeholder={isPlus ? `Message ${name}...` : `Message ${name}... (${MAX_FREE_MESSAGES - messageCount} left)`}
               rows={1}
               disabled={loading}
               style={{
-                flex: 1, border: "1px solid rgba(0, 255, 136, 0.15)", background: "rgba(0, 255, 136, 0.04)",
+                flex: 1, border: "1px solid rgba(0, 255, 136, 0.08)", background: "rgba(0, 255, 136, 0.03)",
                 fontSize: "13px", color: "#e2e8f0", outline: "none", resize: "none",
-                lineHeight: "1.4", minHeight: "20px", maxHeight: "80px",
-                padding: "8px 8px", fontFamily: "inherit",
-                letterSpacing: "0.5px", borderRadius: "4px",
+                lineHeight: "1.5", minHeight: "22px", maxHeight: "80px",
+                padding: "10px 12px", fontFamily: "inherit",
+                letterSpacing: "0.3px", borderRadius: "8px",
+                transition: "border-color 0.2s",
               }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.2)"; }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.08)"; }}
             />
           </div>
           {loading ? (
             <button onClick={stopGeneration} style={{
-              width: "44px", height: "44px", borderRadius: "4px",
-              background: "rgba(255, 80, 80, 0.15)",
-              border: "1px solid rgba(255, 80, 80, 0.3)",
-              color: "#ff5050",
+              width: "40px", height: "40px", borderRadius: "8px",
+              background: "rgba(255, 80, 80, 0.1)",
+              border: "1px solid rgba(255, 80, 80, 0.2)",
+              color: "rgba(255, 80, 80, 0.8)",
               cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-              transition: "all 0.3s",
+              transition: "all 0.2s",
             }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <rect x="6" y="6" width="12" height="12" rx="2" />
               </svg>
             </button>
           ) : input.trim() ? (
             <button onClick={() => send()} disabled={loading} style={{
-              width: "44px", height: "44px", borderRadius: "4px",
-              background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(139, 92, 246, 0.15))",
-              border: "1px solid rgba(0, 255, 136, 0.3)",
-              color: "#00ff88",
-              boxShadow: "0 2px 16px rgba(0, 255, 136, 0.2)",
+              width: "40px", height: "40px", borderRadius: "8px",
+              background: "rgba(0, 255, 136, 0.08)",
+              border: "1px solid rgba(0, 255, 136, 0.15)",
+              color: "rgba(0, 255, 136, 0.8)",
               cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
               transition: "all 0.3s",
               position: "relative",
@@ -1079,13 +1089,13 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             </button>
           ) : (
             <button disabled style={{
-              width: "44px", height: "44px", borderRadius: "4px",
-              background: "rgba(0, 255, 136, 0.02)",
-              border: "1px solid rgba(0, 255, 136, 0.06)",
-              color: "rgba(240, 255, 245, 0.5)",
+              width: "40px", height: "40px", borderRadius: "8px",
+              background: "transparent",
+              border: "1px solid rgba(0, 255, 136, 0.04)",
+              color: "rgba(0, 255, 136, 0.15)",
               cursor: "default", display: "flex", alignItems: "center", justifyContent: "center",
             }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg>
             </button>
           )}
         </div>
