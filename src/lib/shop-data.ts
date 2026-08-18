@@ -48,7 +48,7 @@ export const FEATURED_PRODUCTS: ShopProduct[] = [
     name: "Celestial Profile Theme",
     description: "A glowing cosmic profile theme with animated stars and aura effects.",
     longDescription:
-      "Transform your Elovayne profile into a glowing cosmic sanctuary. This premium theme includes animated floating stars, a soft violet aura effect, custom gradient backgrounds, and animated borders that breathe gently.",
+      "Transform your Elovayne profile into a glowing cosmic space. This premium theme includes animated floating stars, a soft violet aura effect, custom gradient backgrounds, and animated borders that breathe gently.",
     price: 3.99,
     category: "profiles",
     categoryLabel: "Profile Theme",
@@ -63,8 +63,8 @@ export const FEATURED_PRODUCTS: ShopProduct[] = [
     ],
   },
   {
-    id: "midnight-sanctuary-soundscape",
-    name: "Midnight Sanctuary Soundscape",
+    id: "midnight-soundscape",
+    name: "Midnight Soundscape",
     description: "A calming collection of atmospheric sounds for sleep, focus and emotional release.",
     longDescription:
       "Six original ambient soundscapes created to accompany journaling, meditation, or quiet moments. Each track is 10-15 minutes of carefully layered atmospheric sounds — rain, forest whispers, ocean waves, and celestial tones.",
@@ -81,7 +81,7 @@ export const FEATURED_PRODUCTS: ShopProduct[] = [
       "The Quiet Forest",
       "Celestial Sleep",
       "Ocean After Dark",
-      "Deep Focus Sanctuary",
+      "Deep Focus",
       "Gentle Drift",
     ],
   },
@@ -246,7 +246,7 @@ export const WALLPAPERS: ShopProduct[] = [
     name: "Elovayne Symbol Collection",
     description: "A collection of Elovayne symbols and icons for personal use.",
     longDescription:
-      "A curated set of 20 Elovayne symbols — the sanctuary star, the breath circle, the hope constellation, and more. Each symbol is provided in multiple formats for use as profile pictures, social media icons, or personal tokens.",
+      "A curated set of 20 Elovayne symbols — the star, the breath circle, the hope constellation, and more. Each symbol is provided in multiple formats for use as profile pictures, social media icons, or personal tokens.",
     price: 1.99,
     category: "wallpapers",
     categoryLabel: "Digital Art",
@@ -258,8 +258,8 @@ export const WALLPAPERS: ShopProduct[] = [
     ],
   },
   {
-    id: "animated-sanctuary-backgrounds",
-    name: "Animated Sanctuary Backgrounds",
+    id: "animated-backgrounds",
+    name: "Animated Backgrounds",
     description: "Gentle animated backgrounds for your devices.",
     longDescription:
       "5 looping animated backgrounds featuring soft particle effects, drifting nebulae, and breathing light orbs. Available as MP4 and GIF files for use as live wallpapers or video backgrounds.",
@@ -345,8 +345,8 @@ export const SOUNDSCAPES: ShopProduct[] = [
     ],
   },
   {
-    id: "deep-focus-sanctuary",
-    name: "Deep Focus Sanctuary",
+    id: "deep-focus",
+    name: "Deep Focus",
     description: "Ambient tones designed to help you concentrate, create, and flow.",
     longDescription:
       "A 15-minute focus soundscape with warm ambient pads, gentle rhythmic pulses, and subtle harmonic layers. Designed to support deep concentration without distraction.",
@@ -369,7 +369,7 @@ export const PROFILE_THEMES: ShopProduct[] = [
     name: "Celestial Theme",
     description: "A glowing cosmic profile with animated stars and violet aura.",
     longDescription:
-      "Transform your profile into a cosmic sanctuary with animated floating stars, violet aura effects, and gradient backgrounds that shift gently between deep purple and midnight blue.",
+      "Transform your profile into a cosmic space with animated floating stars, violet aura effects, and gradient backgrounds that shift gently between deep purple and midnight blue.",
     price: 3.99,
     category: "profiles",
     categoryLabel: "Profile Theme",
@@ -424,7 +424,7 @@ export const PROFILE_THEMES: ShopProduct[] = [
     name: "Exclusive Elovayne Symbols",
     description: "Premium symbols and icons for your profile and messages.",
     longDescription:
-      "A collection of 30 premium Elovayne symbols — exclusive to Plus members. Use them in your profile, messages, and posts to express yourself with the unique visual language of the sanctuary.",
+      "A collection of 30 premium Elovayne symbols — exclusive to Plus members. Use them in your profile, messages, and posts to express yourself with the unique visual language of Elovayne.",
     price: 2.99,
     category: "profiles",
     categoryLabel: "Digital Collection",
@@ -457,9 +457,9 @@ export const PROFILE_THEMES: ShopProduct[] = [
 export const MEMBERSHIP_PRODUCT: ShopProduct = {
   id: "elovayne-plus",
   name: "Elovayne Plus",
-  description: "Unlock a deeper, more personal sanctuary experience.",
+  description: "Unlock a deeper, more personal Elovayne experience.",
   longDescription:
-    "Elovayne Plus unlocks a more personal and immersive experience while helping support the future of the community. Enjoy exclusive content, premium features, and the knowledge that you are helping keep this sanctuary alive.",
+    "Elovayne Plus unlocks a more personal and immersive experience while helping support the future of the community. Enjoy exclusive content, premium features, and the knowledge that you are helping keep Elovayne alive.",
   price: 4.99,
   category: "membership",
   categoryLabel: "Membership",
@@ -478,7 +478,7 @@ export const GIFT_OPTIONS: ShopProduct[] = [
   {
     id: "gift-one-month-plus",
     name: "Gift One Month of Elovayne Plus",
-    description: "Give someone a month of premium sanctuary access.",
+    description: "Give someone a month of premium Elovayne access.",
     longDescription:
       "Gift a full month of Elovayne Plus to someone who needs it. They will receive access to all premium features, exclusive content, and a supporter badge for the duration of the gift.",
     price: 4.99,
@@ -500,7 +500,7 @@ export const GIFT_OPTIONS: ShopProduct[] = [
   {
     id: "gift-profile-theme",
     name: "Gift a Profile Theme",
-    description: "Help someone beautify their sanctuary space.",
+    description: "Help someone beautify their Elovayne space.",
     longDescription:
       "Gift a premium profile theme to someone who would love to personalise their Elovayne experience. Choose from any of our available themes.",
     price: 3.99,

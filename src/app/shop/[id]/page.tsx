@@ -98,7 +98,7 @@ export default function ShopProductPage() {
         {/* Basket button */}
         {basketCount > 0 && (
           <motion.button
-            className="fixed top-6 right-6 z-40 w-12 h-12 rounded-full sanctuary-glass-card flex items-center justify-center hover:border-elovayne-violet/30 transition-all duration-300"
+            className="fixed top-6 right-6 z-40 w-12 h-12 rounded-full glass-elevated flex items-center justify-center hover:border-elovayne-violet/30 transition-all duration-300"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             onClick={() => router.push("/shop")}
@@ -247,7 +247,7 @@ export default function ShopProductPage() {
                     <Link
                       key={p.id}
                       href={`/shop/${p.id}`}
-                      className="sanctuary-glass-card rounded-2xl overflow-hidden group transition-all duration-300 hover:border-elovayne-violet/25"
+                      className="glass-elevated rounded-2xl overflow-hidden group transition-all duration-300 hover:border-elovayne-violet/25"
                     >
                       <div className="relative">
                         <ShopProductImage category={p.category} name={p.name} size="sm" />

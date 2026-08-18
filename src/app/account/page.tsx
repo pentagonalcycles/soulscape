@@ -173,7 +173,7 @@ export default function AccountPage() {
               )}
 
               {/* Membership */}
-              <div className="sanctuary-glass-card rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
+              <div className="glass-elevated rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
                 <h2 className="font-heading text-lg text-elovayne-light mb-4">Membership</h2>
                 {membership ? (
                   <div>
@@ -218,7 +218,7 @@ export default function AccountPage() {
               </div>
 
               {/* Purchases */}
-              <div className="sanctuary-glass-card rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
+              <div className="glass-elevated rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
                 <h2 className="font-heading text-lg text-elovayne-light mb-4">Purchase History</h2>
                 {purchases.length === 0 ? (
                   <p className="text-elovayne-dim text-sm">No purchases yet.</p>
@@ -243,7 +243,7 @@ export default function AccountPage() {
               </div>
 
               {/* Downloads */}
-              <div className="sanctuary-glass-card rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
+              <div className="glass-elevated rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
                 <h2 className="font-heading text-lg text-elovayne-light mb-4">Downloads</h2>
                 {downloads.length === 0 ? (
                   <p className="text-elovayne-dim text-sm">No downloads available.</p>

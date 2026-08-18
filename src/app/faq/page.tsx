@@ -16,7 +16,7 @@ const faqSections = [
       },
       {
         q: "How much does it cost?",
-        a: "Many features are free to use, including Sanctuary, Share, Ideas, Human Signal, Campfire, Poetry, and more. Some premium features like Luna AI and Dream Canvas have a small one-time unlock fee.",
+        a: "Many features are free to use, including Share, Ideas, Human Signal, Campfire, Poetry, and more. Some premium features like Luna AI and Dream Canvas have a small one-time unlock fee.",
       },
       {
         q: "Do I need to create an account?",

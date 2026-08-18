@@ -6,7 +6,6 @@ import { useAllPresence, usePagePresence } from "@/hooks/usePagePresence";
 
 const PAGE_LABELS: Record<string, string> = {
   "/": "Home",
-  "/sanctuary": "Sanctuary",
   "/live": "Live",
   "/campfire": "Campfire",
   "/mural": "Mural",
@@ -31,7 +30,6 @@ const PAGE_LABELS: Record<string, string> = {
 
 const PAGE_ICONS: Record<string, string> = {
   "/": "◈",
-  "/sanctuary": "✦",
   "/live": "●",
   "/campfire": "◆",
   "/mural": "◇",

@@ -145,7 +145,7 @@ function ProductCard({
 }) {
   return (
     <motion.div
-      className="shop-product-card sanctuary-glass-card rounded-2xl overflow-hidden group"
+      className="shop-product-card glass-elevated rounded-2xl overflow-hidden group"
       custom={index}
       initial="hidden"
       whileInView="visible"
@@ -204,7 +204,7 @@ function FeaturedCard({
 }) {
   return (
     <motion.div
-      className="shop-featured-card sanctuary-glass-card rounded-2xl overflow-hidden group"
+      className="shop-featured-card glass-elevated rounded-2xl overflow-hidden group"
       custom={index}
       initial="hidden"
       whileInView="visible"
@@ -261,7 +261,7 @@ function SoundscapeCard({
 
   return (
     <motion.div
-      className="shop-product-card sanctuary-glass-card rounded-2xl overflow-hidden group"
+      className="shop-product-card glass-elevated rounded-2xl overflow-hidden group"
       custom={index}
       initial="hidden"
       whileInView="visible"
@@ -320,7 +320,7 @@ function GiftCard({
 }) {
   return (
     <motion.div
-      className="shop-product-card sanctuary-glass-card rounded-2xl overflow-hidden group"
+      className="shop-product-card glass-elevated rounded-2xl overflow-hidden group"
       custom={index}
       initial="hidden"
       whileInView="visible"
@@ -510,7 +510,7 @@ function PreviewModal({
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <motion.div
-        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto sanctuary-glass-card rounded-2xl"
+        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto glass-elevated rounded-2xl"
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -615,7 +615,7 @@ function GiftForm() {
 
   return (
     <motion.div
-      className="sanctuary-glass-card rounded-2xl p-6 md:p-8 max-w-lg mx-auto"
+      className="glass-elevated rounded-2xl p-6 md:p-8 max-w-lg mx-auto"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
@@ -783,7 +783,7 @@ export default function ShopPage() {
         {/* ── Basket button ── */}
         {basketCount > 0 && (
           <motion.button
-            className="fixed top-6 right-6 z-40 w-12 h-12 rounded-full sanctuary-glass-card flex items-center justify-center group hover:border-elovayne-violet/30 transition-all duration-300"
+            className="fixed top-6 right-6 z-40 w-12 h-12 rounded-full glass-elevated flex items-center justify-center group hover:border-elovayne-violet/30 transition-all duration-300"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             onClick={() => setShowBasket(true)}
@@ -826,7 +826,7 @@ export default function ShopPage() {
               </h1>
 
               <p className="text-xl md:text-2xl font-heading text-elovayne-muted mb-4 italic">
-                Take a piece of the sanctuary with you.
+                Take a piece of Elovayne with you.
               </p>
 
               <p className="text-elovayne-dim text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-8">
@@ -868,7 +868,7 @@ export default function ShopPage() {
           {showFeatured && (
             <section id="collection" className="px-4 sm:px-6 py-12 sm:py-16">
               <div className="max-w-5xl mx-auto">
-                <SectionHeader title="Featured in the Sanctuary" />
+                <SectionHeader title="Featured in the Shop" />
                 <div className="grid md:grid-cols-3 gap-6">
                   {FEATURED_PRODUCTS.map((product, i) => (
                     <FeaturedCard
@@ -981,7 +981,7 @@ export default function ShopPage() {
             <section className="px-4 sm:px-6 py-16 sm:py-20">
               <div className="max-w-4xl mx-auto">
                 <motion.div
-                  className="sanctuary-glass-card rounded-3xl overflow-hidden"
+                  className="glass-elevated rounded-3xl overflow-hidden"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
@@ -998,7 +998,7 @@ export default function ShopPage() {
                         <span className="text-[10px] font-body uppercase tracking-[0.2em] text-elovayne-gold">Premium Membership</span>
                       </div>
                       <h2 className="text-3xl md:text-4xl font-heading glow-text-strong mb-4">
-                        Enter Deeper Into the Sanctuary
+                        Enter Deeper Into Elovayne
                       </h2>
                       <p className="text-elovayne-muted text-sm md:text-base max-w-xl mx-auto leading-relaxed">
                         Elovayne Plus unlocks a more personal and immersive experience while helping
@@ -1064,7 +1064,7 @@ export default function ShopPage() {
             <section className="px-4 sm:px-6 py-12 sm:py-16">
               <div className="max-w-5xl mx-auto">
                 <SectionHeader
-                  title="Gift Sanctuary"
+                  title="Gift Elovayne"
                   subtitle="Share Elovayne with someone who needs it"
                 />
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
@@ -1094,7 +1094,7 @@ export default function ShopPage() {
                   variants={sectionFade}
                 >
                   <h2 className="text-2xl md:text-3xl font-heading glow-text-strong mb-3">
-                    Help Keep the Sanctuary Alive
+                    Help Keep Elovayne Alive
                   </h2>
                   <p className="text-elovayne-muted text-sm max-w-lg mx-auto leading-relaxed">
                     Your support helps Elovayne grow, remain safe and continue creating meaningful
@@ -1108,7 +1108,7 @@ export default function ShopPage() {
                 </motion.div>
 
                 <motion.div
-                  className="sanctuary-glass-card rounded-2xl p-8"
+                  className="glass-elevated rounded-2xl p-8"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
@@ -1210,7 +1210,7 @@ export default function ShopPage() {
             >
               <div className="w-px h-12 bg-gradient-to-b from-transparent via-elovayne-violet/30 to-transparent mx-auto mb-8" />
               <p className="text-elovayne-muted text-sm md:text-base leading-relaxed italic font-heading">
-                &ldquo;Thank you for helping keep this sanctuary alive. Every purchase supports the creation
+                &ldquo;Thank you for helping keep Elovayne alive. Every purchase supports the creation
                 of a place where someone may feel understood for the first time.&rdquo;
               </p>
               <div className="w-px h-12 bg-gradient-to-b from-transparent via-elovayne-violet/30 to-transparent mx-auto mt-8" />

@@ -219,7 +219,7 @@ export default function StatsPage() {
                   animation: "stats-gradient 6s ease-in-out infinite",
                 }}
               >
-                Sanctuary Statistics
+                Elovayne Statistics
               </h1>
               <p className="text-sm md:text-base" style={{ color: "rgba(240, 255, 245, 0.75)" }}>
                 Who comes, and how many — a window into the community.

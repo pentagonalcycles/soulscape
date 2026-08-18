@@ -191,7 +191,7 @@ export default function ModerationPage() {
               >
                 <span className="text-4xl block mb-4">✨</span>
                 <p className="text-elovayne-dim text-sm">
-                  No {filter === "all" ? "" : filter} reports. The sanctuary is peaceful.
+                  No {filter === "all" ? "" : filter} reports. Everything is peaceful.
                 </p>
               </motion.div>
             ) : (
