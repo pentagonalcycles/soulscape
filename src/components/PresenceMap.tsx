@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAllPresence } from "@/hooks/usePagePresence";
 
 const PAGE_LABELS: Record<string, string> = {
@@ -55,12 +55,18 @@ const PAGE_ICONS: Record<string, string> = {
 export default function PresenceMap() {
   const [open, setOpen] = useState(false);
   const counts = useAllPresence();
+  const router = useRouter();
 
   const totalPages = Object.keys(counts).length;
   const totalVisitors = Object.values(counts).reduce((a, b) => a + b, 0);
 
   const sorted = Object.entries(counts)
     .sort(([, a], [, b]) => b - a);
+
+  const navigateTo = (path: string) => {
+    setOpen(false);
+    router.push(path);
+  };
 
   return (
     <>
@@ -70,7 +76,7 @@ export default function PresenceMap() {
         style={{
           position: "fixed",
           bottom: 16,
-          right: 16,
+          left: 16,
           zIndex: 60,
           display: "flex",
           alignItems: "center",
@@ -106,7 +112,7 @@ export default function PresenceMap() {
           style={{
             position: "fixed",
             bottom: 52,
-            right: 16,
+            left: 16,
             zIndex: 60,
             width: 240,
             maxHeight: 360,
@@ -161,29 +167,27 @@ export default function PresenceMap() {
               </div>
             ) : (
               sorted.map(([path, count]) => (
-                <Link
+                <button
                   key={path}
-                  href={path}
-                  onClick={() => setOpen(false)}
+                  onClick={() => navigateTo(path)}
                   style={{
                     display: "flex",
                     alignItems: "center",
                     gap: 8,
                     padding: "7px 8px",
                     borderRadius: 6,
-                    textDecoration: "none",
-                    transition: "all 0.15s",
                     cursor: "pointer",
+                    border: "none",
+                    background: "transparent",
+                    width: "100%",
+                    textAlign: "left",
+                    transition: "all 0.15s",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
-                    e.currentTarget.style.textDecoration = "underline";
-                    e.currentTarget.style.textDecorationColor = "rgba(0, 255, 136, 0.3)";
-                    e.currentTarget.style.textUnderlineOffset = "3px";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.textDecoration = "none";
                   }}
                 >
                   <span style={{ fontSize: 13, width: 20, textAlign: "center", color: "rgba(0, 255, 136, 0.5)" }}>
@@ -214,7 +218,7 @@ export default function PresenceMap() {
                     background: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
                     boxShadow: count > 1 ? "0 0 6px rgba(0, 255, 136, 0.5)" : "none",
                   }} />
-                </Link>
+                </button>
               ))
             )}
           </div>
