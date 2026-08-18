@@ -15,55 +15,29 @@ export default function ElyraPage() {
         position: "fixed", inset: 0,
         display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center",
-        background: "#050807",
+        background: "#08080c",
       }}>
-        {/* Ambient glow */}
-        <div style={{
-          position: "absolute",
-          width: 400, height: 400,
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%)",
-          filter: "blur(80px)",
-          animation: "lunaLoadPulse 3s ease-in-out infinite",
-        }} />
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           style={{ textAlign: "center", position: "relative", zIndex: 2 }}
         >
-          <div style={{
-            fontSize: 28, fontWeight: 100, color: "#e2e8f0",
-            letterSpacing: "12px", textTransform: "uppercase",
-            marginBottom: 16,
-            background: "linear-gradient(135deg, #00ff88, #8b5cf6, #00ff88)",
-            backgroundSize: "200% 100%",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            animation: "lunaShimmer 4s ease-in-out infinite",
-          }}>LUNA</div>
-          <div style={{
-            width: 40, height: 1,
-            background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.6), transparent)",
-            margin: "0 auto 20px",
-          }} />
+          {/* Futuristic moon symbol */}
+          <div style={{ marginBottom: 24 }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="17" cy="6" r="0.5" fill="rgba(255, 255, 255, 0.1)" />
+              <circle cx="19" cy="10" r="0.3" fill="rgba(255, 255, 255, 0.06)" />
+              <circle cx="14" cy="4" r="0.3" fill="rgba(255, 255, 255, 0.06)" />
+            </svg>
+          </div>
           <p style={{
-            color: "rgba(0, 255, 136, 0.4)", fontSize: "10px",
-            letterSpacing: "4px", textTransform: "uppercase",
+            color: "rgba(255,255,255,0.25)", fontSize: "10px",
+            letterSpacing: "6px", textTransform: "uppercase",
             fontFamily: "monospace",
-          }}>Initializing</p>
+          }}>Loading</p>
         </motion.div>
-
-        <style>{`
-          @keyframes lunaLoadPulse {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
-          }
-          @keyframes lunaShimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-          }
-        `}</style>
       </div>
     );
   }
@@ -73,32 +47,15 @@ export default function ElyraPage() {
       <div style={{
         position: "fixed", inset: 0,
         display: "flex", flexDirection: "column",
-        background: "#050807",
+        background: "#08080c",
       }}>
-        {/* Ambient background */}
+        {/* Subtle ambient */}
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
-          {/* Main glow */}
           <div style={{
-            position: "absolute", top: "-20%", left: "30%", right: "30%",
-            height: "60%",
-            background: "radial-gradient(ellipse at 50% 50%, rgba(0, 255, 136, 0.04) 0%, transparent 60%)",
-            filter: "blur(60px)",
-          }} />
-          {/* Secondary glow */}
-          <div style={{
-            position: "absolute", bottom: "0", left: "0", right: "0",
-            height: "30%",
-            background: "linear-gradient(0deg, rgba(0, 255, 136, 0.02), transparent)",
-          }} />
-          {/* Subtle grid */}
-          <div style={{
-            position: "absolute", inset: 0,
-            backgroundImage: `
-              linear-gradient(rgba(0, 255, 136, 0.015) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 255, 136, 0.015) 1px, transparent 1px)
-            `,
-            backgroundSize: "60px 60px",
-            opacity: 0.5,
+            position: "absolute", top: "-30%", left: "20%", right: "20%",
+            height: "50%",
+            background: "radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.015) 0%, transparent 60%)",
+            filter: "blur(80px)",
           }} />
         </div>
 
@@ -106,66 +63,69 @@ export default function ElyraPage() {
         <div style={{
           flexShrink: 0,
           padding: "14px 20px",
-          background: "rgba(5, 8, 7, 0.85)",
+          background: "rgba(8, 8, 12, 0.9)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(0, 255, 136, 0.06)",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.04)",
           display: "flex", alignItems: "center", gap: "14px",
           position: "relative", zIndex: 10,
         }}>
           {/* Back button */}
           <Link href="/" style={{
             padding: "8px",
-            color: "rgba(0, 255, 136, 0.6)",
+            color: "rgba(255, 255, 255, 0.3)",
             textDecoration: "none",
             display: "flex", alignItems: "center",
             borderRadius: "8px",
-            border: "1px solid rgba(0, 255, 136, 0.08)",
-            background: "rgba(0, 255, 136, 0.02)",
+            border: "1px solid rgba(255, 255, 255, 0.06)",
+            background: "rgba(255, 255, 255, 0.02)",
             transition: "all 0.2s",
           }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
           </Link>
 
           {/* Logo + name */}
-          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "12px" }}>
             <div style={{
-              width: 32, height: 32, borderRadius: 10,
-              background: "linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(139, 92, 246, 0.08))",
-              border: "1px solid rgba(0, 255, 136, 0.1)",
+              width: 32, height: 32, borderRadius: 8,
+              background: "rgba(255, 255, 255, 0.03)",
+              border: "1px solid rgba(255, 255, 255, 0.06)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 14, color: "rgba(0, 255, 136, 0.6)",
+              position: "relative",
             }}>
-              /
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="rgba(255, 255, 255, 0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="17" cy="6" r="0.5" fill="rgba(255, 255, 255, 0.3)" />
+                <circle cx="19" cy="10" r="0.3" fill="rgba(255, 255, 255, 0.2)" />
+              </svg>
             </div>
             <div>
               <div style={{
-                fontSize: "14px", fontWeight: 600, color: "#e2e8f0",
-                letterSpacing: "6px", textTransform: "uppercase",
+                fontSize: "13px", fontWeight: 500, color: "rgba(255, 255, 255, 0.85)",
+                letterSpacing: "4px", textTransform: "uppercase",
                 lineHeight: 1,
               }}>LUNA</div>
               <div style={{
-                fontSize: "9px", color: "rgba(0, 255, 136, 0.4)",
-                letterSpacing: "2px", textTransform: "uppercase",
+                fontSize: "9px", color: "rgba(255, 255, 255, 0.2)",
+                letterSpacing: "1.5px", textTransform: "uppercase",
                 fontWeight: 400, marginTop: 2,
-              }}>AI Companion</div>
+              }}>AI Assistant</div>
             </div>
           </div>
 
-          {/* Status indicator */}
+          {/* Status */}
           <div style={{
             display: "flex", alignItems: "center", gap: "6px",
             padding: "5px 10px", borderRadius: 6,
-            background: "rgba(0, 255, 136, 0.04)",
-            border: "1px solid rgba(0, 255, 136, 0.06)",
+            background: "rgba(255, 255, 255, 0.02)",
+            border: "1px solid rgba(255, 255, 255, 0.04)",
           }}>
             <div style={{
               width: 5, height: 5, borderRadius: "50%",
-              background: "#00ff88",
-              boxShadow: "0 0 6px rgba(0, 255, 136, 0.5)",
+              background: "rgba(255, 255, 255, 0.4)",
             }} />
             <span style={{
-              fontSize: 9, color: "rgba(0, 255, 136, 0.5)",
+              fontSize: 9, color: "rgba(255, 255, 255, 0.25)",
               fontFamily: "monospace", letterSpacing: "1px",
               textTransform: "uppercase",
             }}>Online</span>
