@@ -6,8 +6,8 @@ import { useState } from "react";
 
 const faqItems = [
   {
-    q: "Is Elovayne really free?",
-    a: "Yes. Every room, every post, every tool — completely free. No hidden fees, no premium walls. Everyone deserves a quiet place to be heard.",
+    q: "How much does Elovayne cost?",
+    a: "Many features are free to use, including community spaces, sharing, and social tools. Some premium features like Luna AI and Dream Canvas have a small one-time unlock fee.",
   },
   {
     q: "Do I need to create an account?",

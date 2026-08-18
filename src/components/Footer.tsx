@@ -64,7 +64,7 @@ export default function Footer() {
 
         {/* Brand */}
         <p className="text-[10px]" style={{ color: "rgba(0, 255, 136, 0.2)", letterSpacing: "0.08em" }}>
-          Elovayne · Always free
+          Elovayne · A safe place for your soul
         </p>
       </div>
     </footer>

@@ -33,23 +33,23 @@ const PAGE_LABELS: Record<string, string> = {
 const PAGE_ICONS: Record<string, string> = {
   "/": "◈",
   "/sanctuary": "✦",
-  "/live": "🔴",
-  "/campfire": "🔥",
-  "/mural": "🎨",
-  "/soul-echo": "💫",
-  "/human-signal": "📡",
-  "/poetry": "📝",
-  "/dream-canvas": "🖌️",
-  "/nebula-orb": "🌐",
-  "/camera": "📷",
-  "/soul-map": "🗺️",
-  "/tarot": "🃏",
-  "/threads": "🧵",
-  "/reflection-room": "🪞",
-  "/ideas": "💡",
-  "/share": "📁",
-  "/elyra": "✦",
-  "/shop": "🛍️",
+  "/live": "●",
+  "/campfire": "◆",
+  "/mural": "◇",
+  "/soul-echo": "◎",
+  "/human-signal": "◎",
+  "/poetry": "❋",
+  "/dream-canvas": "△",
+  "/nebula-orb": "●",
+  "/camera": "⊡",
+  "/soul-map": "◎",
+  "/tarot": "☽",
+  "/threads": "◈",
+  "/reflection-room": "◈",
+  "/ideas": "◇",
+  "/share": "◈",
+  "/elyra": "☽",
+  "/shop": "◇",
 };
 
 export default function PresenceMap() {
@@ -145,58 +145,78 @@ export default function PresenceMap() {
           </div>
 
           <div style={{ padding: "6px 8px" }}>
-            {sorted.map(([path, count]) => (
-              <Link
-                key={path}
-                href={path}
-                onClick={() => setOpen(false)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "7px 8px",
-                  borderRadius: 6,
-                  textDecoration: "none",
-                  transition: "background 0.15s",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(0, 255, 136, 0.06)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                }}
-              >
-                <span style={{ fontSize: 13, width: 20, textAlign: "center" }}>
-                  {PAGE_ICONS[path] || "•"}
-                </span>
-                <span style={{
-                  flex: 1,
-                  fontSize: 12,
-                  color: "rgba(240, 255, 245, 0.75)",
-                  fontFamily: "monospace",
-                }}>
-                  {PAGE_LABELS[path] || path}
-                </span>
-                <span style={{
+            {sorted.length === 0 ? (
+              <div style={{
+                padding: "20px 12px",
+                textAlign: "center",
+              }}>
+                <p style={{
                   fontSize: 11,
-                  fontWeight: 600,
-                  color: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.5)",
+                  color: "rgba(0, 255, 136, 0.3)",
                   fontFamily: "monospace",
-                  minWidth: 20,
-                  textAlign: "right",
+                  margin: 0,
                 }}>
-                  {count}
-                </span>
-                <span style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  background: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
-                  boxShadow: count > 1 ? "0 0 6px rgba(0, 255, 136, 0.5)" : "none",
-                }} />
-              </Link>
-            ))}
+                  No one else is online right now
+                </p>
+              </div>
+            ) : (
+              sorted.map(([path, count]) => (
+                <Link
+                  key={path}
+                  href={path}
+                  onClick={() => setOpen(false)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    padding: "7px 8px",
+                    borderRadius: 6,
+                    textDecoration: "none",
+                    transition: "all 0.15s",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
+                    e.currentTarget.style.textDecoration = "underline";
+                    e.currentTarget.style.textDecorationColor = "rgba(0, 255, 136, 0.3)";
+                    e.currentTarget.style.textUnderlineOffset = "3px";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.textDecoration = "none";
+                  }}
+                >
+                  <span style={{ fontSize: 13, width: 20, textAlign: "center", color: "rgba(0, 255, 136, 0.5)" }}>
+                    {PAGE_ICONS[path] || "•"}
+                  </span>
+                  <span style={{
+                    flex: 1,
+                    fontSize: 12,
+                    color: "rgba(240, 255, 245, 0.75)",
+                    fontFamily: "monospace",
+                  }}>
+                    {PAGE_LABELS[path] || path}
+                  </span>
+                  <span style={{
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.5)",
+                    fontFamily: "monospace",
+                    minWidth: 20,
+                    textAlign: "right",
+                  }}>
+                    {count}
+                  </span>
+                  <span style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: "50%",
+                    background: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
+                    boxShadow: count > 1 ? "0 0 6px rgba(0, 255, 136, 0.5)" : "none",
+                  }} />
+                </Link>
+              ))
+            )}
           </div>
         </div>
       )}

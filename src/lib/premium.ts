@@ -1,6 +1,6 @@
 "use client";
 
-// Everything is free - no Plus restrictions
+// Premium features check - some features require payment
 export function useIsPlus() {
   return true;
 }

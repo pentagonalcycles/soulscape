@@ -201,7 +201,7 @@ export default function AccountPage() {
                   </div>
                 ) : (
                   <div>
-                    <p className="text-elovayne-dim text-sm mb-4">You are on the free plan.</p>
+                    <p className="text-elovayne-dim text-sm mb-4">You have access to community features. Unlock premium tools from the shop.</p>
                     <Link
                       href="/shop"
                       className="inline-block px-4 py-2 rounded-lg text-xs font-body text-elovayne-light"

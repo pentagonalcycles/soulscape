@@ -15,8 +15,8 @@ const faqSections = [
         a: "Elovayne is a quiet place where people share feelings, stories, and creative work. A place to be heard without judgment, to connect through empathy, and to find comfort in knowing you are not alone.",
       },
       {
-        q: "Is it really free?",
-        a: "Yes. Every room, every post, every tool — completely free. No hidden fees, no premium walls.",
+        q: "How much does it cost?",
+        a: "Many features are free to use, including Sanctuary, Share, Ideas, Soul Echo, Human Signal, Campfire, Poetry, and more. Some premium features like Luna AI and Dream Canvas have a small one-time unlock fee.",
       },
       {
         q: "Do I need to create an account?",
@@ -62,7 +62,7 @@ const faqSections = [
     items: [
       {
         q: "What is Luna AI?",
-        a: "An AI companion you can chat with anytime. Not a therapist — just a kind presence when you need someone. Customize her personality and response length. Free, no limits.",
+        a: "An AI companion you can chat with anytime. Not a therapist — just a kind presence when you need someone. Customize her personality and response length. Small one-time unlock fee.",
       },
       {
         q: "What is Soul Echo?",
