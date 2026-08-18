@@ -16,13 +16,17 @@ interface SignalAlert {
 export default function SignalNotification() {
   const { userId } = useAuth();
   const [alert, setAlert] = useState<SignalAlert | null>(null);
+  const [claimedAlert, setClaimedAlert] = useState<SignalAlert | null>(null);
+  const [claimedSignal, setClaimedSignal] = useState<HumanSignal | null>(null);
   const [showChat, setShowChat] = useState(false);
   const [chatSignal, setChatSignal] = useState<HumanSignal | null>(null);
 
   useEffect(() => {
     const client = supabase();
+    const uid = userId || localStorage.getItem("elovayne-visitor-id");
 
-    const channel = client
+    // Listen for new signals (for receivers)
+    const signalChannel = client
       .channel("signal-notifications")
       .on(
         "postgres_changes",
@@ -35,7 +39,6 @@ export default function SignalNotification() {
           const signal = payload.new as HumanSignal;
 
           // Don't notify for own signals
-          const uid = userId || localStorage.getItem("elovayne-visitor-id");
           if (signal.sender_id === uid) return;
 
           // Only notify for waiting signals
@@ -58,8 +61,43 @@ export default function SignalNotification() {
       )
       .subscribe();
 
+    // Listen for signal status changes (for senders — when their signal is claimed)
+    const claimChannel = client
+      .channel("signal-claim-notifications")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "human_signals",
+        },
+        async (payload) => {
+          const updated = payload.new as HumanSignal;
+
+          // Only notify if this is the sender's signal and it was just claimed
+          if (updated.sender_id !== uid) return;
+          if (updated.status !== "claimed") return;
+
+          const signalType = getSignalType(updated.signal_type);
+
+          setClaimedSignal(updated);
+          setClaimedAlert({
+            signal: updated,
+            message: "Someone heard your signal and wants to chat.",
+            signalLabel: signalType.label,
+          });
+
+          // Auto-hide after 20 seconds
+          setTimeout(() => {
+            setClaimedAlert((prev) => (prev?.signal.id === updated.id ? null : prev));
+          }, 20000);
+        }
+      )
+      .subscribe();
+
     return () => {
-      client.removeChannel(channel);
+      client.removeChannel(signalChannel);
+      client.removeChannel(claimChannel);
     };
   }, [userId]);
 
@@ -88,6 +126,18 @@ export default function SignalNotification() {
 
   const handleDismiss = useCallback(() => {
     setAlert(null);
+  }, []);
+
+  const handleOpenClaimedChat = useCallback(() => {
+    if (claimedSignal) {
+      setChatSignal(claimedSignal);
+      setShowChat(true);
+      setClaimedAlert(null);
+    }
+  }, [claimedSignal]);
+
+  const handleDismissClaimed = useCallback(() => {
+    setClaimedAlert(null);
   }, []);
 
   const handleCloseChat = useCallback(() => {
@@ -217,6 +267,122 @@ export default function SignalNotification() {
       <AnimatePresence>
         {showChat && chatSignal && (
           <SignalChat signal={chatSignal} onClose={handleCloseChat} />
+        )}
+      </AnimatePresence>
+
+      {/* Sender notification — someone claimed your signal */}
+      <AnimatePresence>
+        {claimedAlert && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            style={{
+              position: "fixed",
+              bottom: 100,
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 9999,
+              maxWidth: 380,
+              width: "calc(100% - 32px)",
+            }}
+          >
+            <div
+              style={{
+                background: "rgba(15, 10, 25, 0.95)",
+                border: "1px solid rgba(0, 255, 136, 0.25)",
+                borderRadius: 16,
+                padding: "16px 20px",
+                backdropFilter: "blur(20px)",
+                boxShadow: "0 8px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 255, 136, 0.1)",
+              }}
+            >
+              {/* Header */}
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 10,
+              }}>
+                <span style={{
+                  width: 8, height: 8, borderRadius: "50%",
+                  background: "#00ff88",
+                  boxShadow: "0 0 8px rgba(0, 255, 136, 0.6)",
+                  animation: "pulse 1.5s ease-in-out infinite",
+                }} />
+                <span style={{
+                  fontSize: 9,
+                  color: "rgba(0, 255, 136, 0.7)",
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                  fontFamily: "monospace",
+                  fontWeight: 600,
+                }}>Someone Heard You</span>
+              </div>
+
+              {/* Message */}
+              <p style={{
+                fontSize: 13,
+                color: "rgba(224, 231, 255, 0.8)",
+                fontWeight: 300,
+                lineHeight: 1.5,
+                margin: "0 0 14px",
+              }}>
+                {claimedAlert.message}
+              </p>
+
+              {/* Buttons */}
+              <div style={{ display: "flex", gap: 8 }}>
+                <button
+                  onClick={handleOpenClaimedChat}
+                  style={{
+                    flex: 1,
+                    padding: "10px 16px",
+                    borderRadius: 10,
+                    background: "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 204, 106, 0.1))",
+                    border: "1px solid rgba(0, 255, 136, 0.3)",
+                    color: "rgba(224, 231, 255, 0.9)",
+                    fontSize: 12,
+                    fontWeight: 500,
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    fontFamily: "inherit",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 204, 106, 0.15))";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 204, 106, 0.1))";
+                  }}
+                >
+                  Open Chat
+                </button>
+                <button
+                  onClick={handleDismissClaimed}
+                  style={{
+                    padding: "10px 16px",
+                    borderRadius: 10,
+                    background: "rgba(255, 255, 255, 0.04)",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    color: "rgba(224, 231, 255, 0.5)",
+                    fontSize: 12,
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    fontFamily: "inherit",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.04)";
+                  }}
+                >
+                  Dismiss
+                </button>
+              </div>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

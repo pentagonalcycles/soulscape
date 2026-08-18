@@ -14,9 +14,11 @@ import SignalSender from "./SignalSender";
 import SignalWaiting from "./SignalWaiting";
 import SignalReached from "./SignalReached";
 import SignalReceiver from "./SignalReceiver";
+import SignalChat from "./SignalChat";
+import { AnimatePresence } from "framer-motion";
 
-type View = "landing" | "sender" | "waiting" | "reached" | "receiver";
-type BgMood = "default" | "sending" | "waiting" | "heard" | "receiving";
+type View = "landing" | "sender" | "waiting" | "reached";
+type BgMood = "default" | "sending" | "waiting" | "heard";
 
 export default function HumanSignal() {
   const { userId } = useAuth();
@@ -26,6 +28,8 @@ export default function HumanSignal() {
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
   const [dailyRemaining, setDailyRemaining] = useState(DAILY_SIGNAL_LIMIT);
   const cooldownRef = useRef<NodeJS.Timeout | null>(null);
+  const [showChat, setShowChat] = useState(false);
+  const [chatSignal, setChatSignal] = useState<HumanSignalType | null>(null);
 
   // Check rate limits on mount
   useEffect(() => {
@@ -52,6 +56,12 @@ export default function HumanSignal() {
           if (updated.status === "heard") {
             setCurrentSignal(updated);
             setView("reached");
+            setBgMood("heard");
+          } else if (updated.status === "claimed") {
+            // Someone claimed the signal — open chat for sender
+            setCurrentSignal(updated);
+            setChatSignal(updated);
+            setShowChat(true);
             setBgMood("heard");
           }
         }
@@ -191,7 +201,6 @@ export default function HumanSignal() {
         {view === "landing" && (
           <SignalLanding
             onSend={() => { setView("sender"); setBgMood("sending"); }}
-            onReceive={() => { setView("receiver"); setBgMood("receiving"); }}
           />
         )}
 
@@ -214,13 +223,14 @@ export default function HumanSignal() {
         {view === "reached" && (
           <SignalReached onReturn={handleReturn} />
         )}
-
-        {view === "receiver" && (
-          <SignalReceiver
-            onBack={() => { setView("landing"); setBgMood("default"); }}
-          />
-        )}
       </div>
+
+      {/* Signal chat modal */}
+      <AnimatePresence>
+        {showChat && chatSignal && (
+          <SignalChat signal={chatSignal} onClose={() => { setShowChat(false); setChatSignal(null); }} />
+        )}
+      </AnimatePresence>
     </>
   );
 }

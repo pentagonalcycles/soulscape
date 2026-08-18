@@ -7,10 +7,9 @@ import SignalPulse from "./SignalPulse";
 
 interface SignalLandingProps {
   onSend: () => void;
-  onReceive: () => void;
 }
 
-export default function SignalLanding({ onSend, onReceive }: SignalLandingProps) {
+export default function SignalLanding({ onSend }: SignalLandingProps) {
   const [heardToday, setHeardToday] = useState(0);
   const [travellingNow, setTravellingNow] = useState(0);
 
@@ -82,14 +81,14 @@ export default function SignalLanding({ onSend, onReceive }: SignalLandingProps)
 
       {/* Actions */}
       <motion.div
-        className="flex flex-col sm:flex-row gap-4 mb-16 w-full max-w-sm"
+        className="w-full max-w-sm mb-16"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7 }}
       >
         <button
           onClick={onSend}
-          className="flex-1 py-4 px-6 rounded-2xl text-sm tracking-wide transition-all"
+          className="w-full py-4 px-6 rounded-2xl text-sm tracking-wide transition-all"
           style={{
             background: "linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 204, 106, 0.1))",
             border: "1px solid rgba(0, 255, 136, 0.2)",
@@ -107,28 +106,6 @@ export default function SignalLanding({ onSend, onReceive }: SignalLandingProps)
         >
           <span className="text-lg mr-2">📡</span>
           Send a Signal
-        </button>
-
-        <button
-          onClick={onReceive}
-          className="flex-1 py-4 px-6 rounded-2xl text-sm tracking-wide transition-all"
-          style={{
-            background: "linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.08))",
-            border: "1px solid rgba(99, 102, 241, 0.2)",
-            color: "rgba(224, 231, 255, 0.9)",
-            backdropFilter: "blur(12px)",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.12))";
-            e.currentTarget.style.boxShadow = "0 4px 30px rgba(99, 102, 241, 0.15)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.08))";
-            e.currentTarget.style.boxShadow = "none";
-          }}
-        >
-          <span className="text-lg mr-2">🫀</span>
-          Receive a Signal
         </button>
       </motion.div>
 
