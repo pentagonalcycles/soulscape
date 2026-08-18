@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useAllPresence } from "@/hooks/usePagePresence";
 
 interface StatsData {
   totals: {
@@ -85,6 +86,8 @@ export default function StatsPage() {
   const [data, setData] = useState<StatsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const presenceCounts = useAllPresence();
+  const realtimeOnline = Object.values(presenceCounts).reduce((a, b) => a + b, 0);
   const [nameInput, setNameInput] = useState(() => {
     if (typeof window === "undefined") return "";
     try {
@@ -266,7 +269,7 @@ export default function StatsPage() {
 
                 {/* Live + engagement */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-10">
-                  <StatCard label="Active now" value={fmt(data.totals.activeNow)} theme={cardThemes[5]} />
+                  <StatCard label="Online now" value={fmt(realtimeOnline)} theme={cardThemes[5]} />
                   <StatCard label="Returning visitors" value={fmt(data.totals.returningVisitors)} theme={cardThemes[3]} />
                   <StatCard label="New visitors" value={fmt(data.totals.newVisitors)} theme={cardThemes[1]} />
                   <StatCard label="Repeat rate" value={`${data.totals.repeatRate}%`} theme={cardThemes[0]} />
