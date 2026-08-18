@@ -175,22 +175,13 @@ export default function StatsPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Animated shifting colour background */}
+      {/* Full-page colour-shifting background */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: `
-            linear-gradient(120deg,
-              rgba(31, 56, 40, 0.9), rgba(56, 47, 82, 0.85),
-              rgba(42, 77, 98, 0.88), rgba(79, 53, 82, 0.85),
-              rgba(31, 56, 40, 0.9)),
-            radial-gradient(ellipse at 15% 20%, rgba(167, 139, 250, 0.18) 0%, transparent 45%),
-            radial-gradient(ellipse at 85% 30%, rgba(34, 211, 238, 0.16) 0%, transparent 45%),
-            radial-gradient(ellipse at 60% 85%, rgba(244, 114, 182, 0.14) 0%, transparent 45%)
-          `,
-          backgroundSize: "300% 300%, 100% 100%, 100% 100%, 100% 100%",
-          animation: "stats-bg 22s ease-in-out infinite",
-          zIndex: 1,
+          background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
+          animation: "bg-hue-cycle 30s linear infinite",
+          zIndex: 0,
         }}
       />
       {/* Colourful ambient glows */}
@@ -556,10 +547,6 @@ export default function StatsPage() {
         @keyframes stats-gradient {
           0%, 100% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
-        }
-        @keyframes stats-bg {
-          0%, 100% { background-position: 0% 50%, 0% 0%, 0% 0%, 0% 0%; filter: hue-rotate(0deg); }
-          50% { background-position: 100% 50%, 0% 0%, 0% 0%, 0% 0%; filter: hue-rotate(35deg); }
         }
       `}</style>
     </main>

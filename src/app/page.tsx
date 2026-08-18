@@ -8,22 +8,100 @@ import GlowingPortal from "@/components/GlowingPortal";
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden">
+      {/* Full-page colour-shifting background */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
+          animation: "bg-hue-cycle 30s linear infinite",
+        }}
+      />
+
       {/* HERO SECTION */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 tech-grid">
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
         {/* Background floating orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {/* Dreamy aurora wash — soft pools of violet, rose, gold, and teal */}
-          <div
+          {/* Colour-shifting base layer */}
+          <motion.div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse 80% 60% at 18% 18%, rgba(167, 139, 250, 0.12) 0%, transparent 65%)," +
-                "radial-gradient(ellipse 70% 55% at 82% 28%, rgba(244, 114, 182, 0.10) 0%, transparent 65%)," +
-                "radial-gradient(ellipse 65% 60% at 72% 82%, rgba(251, 191, 36, 0.09) 0%, transparent 65%)," +
-                "radial-gradient(ellipse 75% 60% at 25% 88%, rgba(6, 182, 212, 0.10) 0%, transparent 65%)",
-              filter: "blur(30px)",
+                "radial-gradient(ellipse 80% 60% at 20% 20%, rgba(0, 255, 136, 0.15) 0%, transparent 60%)," +
+                "radial-gradient(ellipse 70% 55% at 80% 30%, rgba(57, 255, 20, 0.12) 0%, transparent 60%)," +
+                "radial-gradient(ellipse 65% 60% at 70% 80%, rgba(0, 204, 106, 0.10) 0%, transparent 60%)," +
+                "radial-gradient(ellipse 75% 60% at 25% 85%, rgba(74, 222, 128, 0.08) 0%, transparent 60%)",
+              filter: "blur(40px)",
             }}
+            animate={{
+              background: [
+                "radial-gradient(ellipse 80% 60% at 20% 20%, rgba(0, 255, 136, 0.15) 0%, transparent 60%), radial-gradient(ellipse 70% 55% at 80% 30%, rgba(57, 255, 20, 0.12) 0%, transparent 60%), radial-gradient(ellipse 65% 60% at 70% 80%, rgba(0, 204, 106, 0.10) 0%, transparent 60%), radial-gradient(ellipse 75% 60% at 25% 85%, rgba(74, 222, 128, 0.08) 0%, transparent 60%)",
+                "radial-gradient(ellipse 80% 60% at 70% 70%, rgba(167, 139, 250, 0.15) 0%, transparent 60%), radial-gradient(ellipse 70% 55% at 20% 80%, rgba(244, 114, 182, 0.12) 0%, transparent 60%), radial-gradient(ellipse 65% 60% at 80% 20%, rgba(251, 191, 36, 0.10) 0%, transparent 60%), radial-gradient(ellipse 75% 60% at 30% 30%, rgba(6, 182, 212, 0.08) 0%, transparent 60%)",
+                "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 60%), radial-gradient(ellipse 70% 55% at 30% 70%, rgba(0, 255, 136, 0.12) 0%, transparent 60%), radial-gradient(ellipse 65% 60% at 70% 30%, rgba(167, 139, 250, 0.10) 0%, transparent 60%), radial-gradient(ellipse 75% 60% at 80% 60%, rgba(244, 114, 182, 0.08) 0%, transparent 60%)",
+                "radial-gradient(ellipse 80% 60% at 20% 20%, rgba(0, 255, 136, 0.15) 0%, transparent 60%), radial-gradient(ellipse 70% 55% at 80% 30%, rgba(57, 255, 20, 0.12) 0%, transparent 60%), radial-gradient(ellipse 65% 60% at 70% 80%, rgba(0, 204, 106, 0.10) 0%, transparent 60%), radial-gradient(ellipse 75% 60% at 25% 85%, rgba(74, 222, 128, 0.08) 0%, transparent 60%)",
+              ],
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
           />
+
+          {/* Secondary colour shift — violet/gold/rose cycle */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 60% 50% at 60% 40%, rgba(167, 139, 250, 0.10) 0%, transparent 60%)," +
+                "radial-gradient(ellipse 55% 45% at 30% 60%, rgba(251, 191, 36, 0.08) 0%, transparent 60%)",
+              filter: "blur(50px)",
+              opacity: 0.7,
+            }}
+            animate={{
+              background: [
+                "radial-gradient(ellipse 60% 50% at 60% 40%, rgba(167, 139, 250, 0.10) 0%, transparent 60%), radial-gradient(ellipse 55% 45% at 30% 60%, rgba(251, 191, 36, 0.08) 0%, transparent 60%)",
+                "radial-gradient(ellipse 60% 50% at 40% 70%, rgba(244, 114, 182, 0.10) 0%, transparent 60%), radial-gradient(ellipse 55% 45% at 70% 30%, rgba(6, 182, 212, 0.08) 0%, transparent 60%)",
+                "radial-gradient(ellipse 60% 50% at 70% 60%, rgba(251, 191, 36, 0.10) 0%, transparent 60%), radial-gradient(ellipse 55% 45% at 40% 40%, rgba(167, 139, 250, 0.08) 0%, transparent 60%)",
+                "radial-gradient(ellipse 60% 50% at 60% 40%, rgba(167, 139, 250, 0.10) 0%, transparent 60%), radial-gradient(ellipse 55% 45% at 30% 60%, rgba(251, 191, 36, 0.08) 0%, transparent 60%)",
+              ],
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 5 }}
+          />
+
+          {/* Aurora curtain effects - shimmering vertical gradients */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: "linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.03) 30%, rgba(57, 255, 20, 0.02) 50%, rgba(0, 204, 106, 0.03) 70%, transparent 100%)",
+              opacity: 0.6,
+            }}
+            animate={{
+              backgroundPosition: ["0% 0%", "0% 100%", "0% 0%"],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: "linear-gradient(180deg, transparent 0%, rgba(167, 139, 250, 0.02) 25%, rgba(244, 114, 182, 0.015) 50%, rgba(251, 191, 36, 0.02) 75%, transparent 100%)",
+              opacity: 0.5,
+            }}
+            animate={{
+              backgroundPosition: ["0% 100%", "0% 0%", "0% 100%"],
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          />
+
+          {/* Deep space layers - parallax depth */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: "radial-gradient(ellipse 120% 80% at 50% 50%, rgba(0, 255, 136, 0.04) 0%, transparent 60%)",
+              filter: "blur(80px)",
+            }}
+            animate={{
+              scale: [1, 1.02, 1],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          />
+
           <motion.div
             className="absolute w-64 h-64 rounded-full"
             style={{ top: "10%", left: "10%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.08) 0%, transparent 70%)", filter: "blur(60px)" }}
@@ -91,6 +169,46 @@ export default function Home() {
             style={{ bottom: "10%", right: "10%", background: "radial-gradient(circle, rgba(244, 114, 182, 0.12) 0%, transparent 70%)", filter: "blur(50px)" }}
             animate={{ x: [0, -10, 12, 0], y: [0, 10, -14, 0], scale: [1, 0.94, 1.06, 1] }}
             transition={{ duration: 27, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          {/* Firefly-like sparkles */}
+          {Array.from({ length: 15 }).map((_, i) => (
+            <motion.div
+              key={`sparkle-${i}`}
+              className="absolute w-1 h-1 rounded-full"
+              style={{
+                left: `${10 + (i * 7) % 80}%`,
+                top: `${15 + (i * 11) % 70}%`,
+                background: i % 3 === 0 ? "rgba(0, 255, 136, 0.8)" : i % 3 === 1 ? "rgba(167, 139, 250, 0.7)" : "rgba(251, 191, 36, 0.6)",
+                boxShadow: i % 3 === 0 ? "0 0 8px rgba(0, 255, 136, 0.6)" : i % 3 === 1 ? "0 0 8px rgba(167, 139, 250, 0.5)" : "0 0 8px rgba(251, 191, 36, 0.4)",
+              }}
+              animate={{
+                x: [0, (i % 2 === 0 ? 30 : -30), (i % 2 === 0 ? -20 : 20), 0],
+                y: [0, (i % 3 === 0 ? -25 : 25), (i % 3 === 0 ? 15 : -15), 0],
+                opacity: [0, 0.8, 0.4, 0],
+                scale: [0.5, 1.2, 0.8, 0.5],
+              }}
+              transition={{
+                duration: 6 + (i % 4) * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.4,
+              }}
+            />
+          ))}
+
+          {/* Breathing center glow */}
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
+            style={{
+              background: "radial-gradient(circle, rgba(0, 255, 136, 0.06) 0%, rgba(57, 255, 20, 0.03) 30%, transparent 60%)",
+              filter: "blur(60px)",
+            }}
+            animate={{
+              scale: [0.8, 1.2, 0.8],
+              opacity: [0.2, 0.4, 0.2],
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
 

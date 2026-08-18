@@ -1315,6 +1315,18 @@ body.compact-mode .gap-4 {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Background colour cycle animation */
+@keyframes bg-hue-cycle {
+  0% { filter: hue-rotate(0deg) brightness(0.6); }
+  14% { filter: hue-rotate(60deg) brightness(0.6); }
+  28% { filter: hue-rotate(120deg) brightness(0.6); }
+  42% { filter: hue-rotate(180deg) brightness(0.6); }
+  57% { filter: hue-rotate(240deg) brightness(0.6); }
+  71% { filter: hue-rotate(300deg) brightness(0.6); }
+  85% { filter: hue-rotate(330deg) brightness(0.6); }
+  100% { filter: hue-rotate(360deg) brightness(0.6); }
+}
+
 /* Live page — magic */
 @keyframes liveTwinkle {
   0%, 100% { opacity: 0.1; transform: scale(0.6); }

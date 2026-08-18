@@ -33,9 +33,10 @@ const bottomLinks = [
 
 interface NavigationProps {
   activePage?: string;
+  hideToggle?: boolean;
 }
 
-export default function Navigation({ activePage }: NavigationProps) {
+export default function Navigation({ activePage, hideToggle }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
 
@@ -62,6 +63,7 @@ export default function Navigation({ activePage }: NavigationProps) {
   return (
     <>
       {/* Toggle button */}
+      {!hideToggle && (
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
           initial={{ opacity: 0, scale: 0.8 }}
@@ -81,6 +83,7 @@ export default function Navigation({ activePage }: NavigationProps) {
         >
         {isOpen ? "✕" : "◈"}
       </motion.button>
+      )}
 
       <AnimatePresence>
         {isOpen && (
