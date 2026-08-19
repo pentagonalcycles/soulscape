@@ -570,7 +570,7 @@ function detectPatterns(cards: SelectedCard[]): Pattern[] {
       };
       patterns.push({
         title: `Repeated Number: ${num}`,
-        description: `The number ${num} appears ${count} times, pointing to themes of ${numMeanings[num] || "cycles and patterns"}.`,
+        description: `The number ${num} appears ${count} times, pointing to themes of ${numMeanings[Number(num)] || "cycles and patterns"}.`,
       });
     }
   });
