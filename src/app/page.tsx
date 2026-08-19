@@ -4,31 +4,10 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import ElovayneLogo from "@/components/ElovayneLogo";
 import GlowingPortal from "@/components/GlowingPortal";
-import { useBgTheme } from "@/lib/useBgTheme";
 
 export default function Home() {
-  const { darkBg } = useBgTheme();
-
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Full-page colour-shifting background (hidden in dark mode) */}
-      {!darkBg && (
-        <div
-          className="fixed inset-0 z-0"
-          style={{
-            background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
-            animation: "bg-hue-cycle 30s linear infinite",
-          }}
-        />
-      )}
-
-      {/* Dark background (hidden in colour mode) */}
-      {darkBg && (
-        <div
-          className="fixed inset-0 z-0"
-          style={{ background: "#08080c" }}
-        />
-      )}
 
       {/* HERO SECTION */}
       <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">

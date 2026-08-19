@@ -14,6 +14,7 @@ import Navigation from "@/components/Navigation";
 import VisitorTracker from "@/components/VisitorTracker";
 import PresenceMap from "@/components/PresenceMap";
 import SignalNotification from "@/components/human-signal/SignalNotification";
+import { useBgTheme } from "@/lib/useBgTheme";
 
 const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads"];
 const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads"];
@@ -67,6 +68,7 @@ function BannedScreen() {
 function LayoutInner({ children }: { children: ReactNode }) {
   const { isBanned, loading } = useAuth();
   const pathname = usePathname();
+  const { darkBg } = useBgTheme();
 
   useEffect(() => {
     // Always use dark bioluminescent theme
@@ -122,6 +124,21 @@ function LayoutInner({ children }: { children: ReactNode }) {
 
   return (
     <>
+      {/* Global background - colour-shifting or dark based on settings */}
+      {!darkBg ? (
+        <div
+          className="fixed inset-0 z-0"
+          style={{
+            background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
+            animation: "bg-hue-cycle 30s linear infinite",
+          }}
+        />
+      ) : (
+        <div
+          className="fixed inset-0 z-0"
+          style={{ background: "#08080c" }}
+        />
+      )}
       {!hideArtisticBg && <ArtisticBackground variant="cosmic" />}
       {!isHeavyPage && (
         <>

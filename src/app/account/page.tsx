@@ -145,13 +145,6 @@ export default function AccountPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 40%, rgba(0, 255, 136, 0.03) 100%)",
-          zIndex: 2,
-        }}
-      />
       <div className="global-corners" />
       <div className="global-corners-extra" />
 

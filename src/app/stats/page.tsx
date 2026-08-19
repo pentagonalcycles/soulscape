@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useAllPresence } from "@/hooks/usePagePresence";
-import { useBgTheme } from "@/lib/useBgTheme";
 
 interface StatsData {
   totals: {
@@ -89,7 +88,6 @@ export default function StatsPage() {
   const [error, setError] = useState(false);
   const presenceCounts = useAllPresence();
   const realtimeOnline = Object.values(presenceCounts).reduce((a, b) => a + b, 0);
-  const { darkBg } = useBgTheme();
   const [nameInput, setNameInput] = useState(() => {
     if (typeof window === "undefined") return "";
     try {
@@ -177,24 +175,6 @@ export default function StatsPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Full-page colour-shifting background */}
-      {!darkBg && (
-        <div
-          className="fixed inset-0 pointer-events-none"
-          style={{
-            background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
-            animation: "bg-hue-cycle 30s linear infinite",
-            zIndex: 0,
-          }}
-        />
-      )}
-      {/* Dark background */}
-      {darkBg && (
-        <div
-          className="fixed inset-0 pointer-events-none"
-          style={{ background: "#08080c", zIndex: 0 }}
-        />
-      )}
       {/* Colourful ambient glows */}
       <div
         className="fixed inset-0 pointer-events-none"

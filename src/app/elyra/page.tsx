@@ -53,28 +53,15 @@ export default function ElyraPage() {
         display: "flex", flexDirection: "column",
         background: "#08080c",
       }}>
-        {/* Colour-shifting background (togglable) */}
-        {colorBg && (
-          <div
-            className="fixed inset-0 z-0"
-            style={{
-              background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
-              animation: "bg-hue-cycle 30s linear infinite",
-            }}
-          />
-        )}
-
-        {/* Subtle ambient (dark mode) */}
-        {!colorBg && (
-          <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
-            <div style={{
-              position: "absolute", top: "-30%", left: "20%", right: "20%",
-              height: "50%",
-              background: "radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.015) 0%, transparent 60%)",
-              filter: "blur(80px)",
-            }} />
-          </div>
-        )}
+        {/* Subtle ambient overlay */}
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
+          <div style={{
+            position: "absolute", top: "-30%", left: "20%", right: "20%",
+            height: "50%",
+            background: "radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.015) 0%, transparent 60%)",
+            filter: "blur(80px)",
+          }} />
+        </div>
 
         {/* Header */}
         <div style={{
