@@ -136,7 +136,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
       ) : (
         <div
           className="fixed inset-0 z-0"
-          style={{ background: "#08080c" }}
+          style={{ background: "#000000" }}
         />
       )}
       {!hideArtisticBg && <ArtisticBackground variant="cosmic" />}

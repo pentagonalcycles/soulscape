@@ -9,7 +9,7 @@ export default function IdeasPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden" style={{
-      background: darkBg ? "#08080c" : "transparent",
+      background: darkBg ? "#000000" : "transparent",
     }}>
       {/* Ambient yellow orbs */}
       {!darkBg && (

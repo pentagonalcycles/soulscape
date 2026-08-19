@@ -191,7 +191,7 @@ export default function CameraPage() {
   return (
     <FeatureGate featureId="cosmic-camera">
     <main className="relative min-h-screen overflow-hidden" style={{
-      background: darkBg ? "#08080c" : "transparent",
+      background: darkBg ? "#000000" : "transparent",
     }}>
       {/* Magical animated background */}
       {!darkBg && (

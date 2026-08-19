@@ -1192,7 +1192,7 @@ export default function DreamCanvasPage() {
 
   return (
     <FeatureGate featureId="dream-canvas">
-    <main className="relative min-h-screen overflow-hidden" style={{ background: darkBg ? "#08080c" : "transparent" }}>
+    <main className="relative min-h-screen overflow-hidden" style={{ background: darkBg ? "#000000" : "transparent" }}>
       <div className="pt-14 h-screen flex flex-col">
         {/* Toolbar - hidden on mobile */}
         {!isMobile && <div className="flex items-center gap-1 px-3 py-2 flex-wrap" style={{ background: "#0a0f0b", borderBottom: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>

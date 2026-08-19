@@ -121,7 +121,7 @@ export default function SettingsPage() {
                   <div
                     className="w-full h-8 rounded-lg"
                     style={{
-                      background: "#08080c",
+                      background: "#000000",
                       border: "1px solid rgba(255, 255, 255, 0.08)",
                       opacity: darkBg ? 1 : 0.3,
                     }}

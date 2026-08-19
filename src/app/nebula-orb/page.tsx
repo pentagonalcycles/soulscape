@@ -16,7 +16,7 @@ export default function NebulaOrbPage() {
 
   return (
     <FeatureGate featureId="nebula-orb">
-      <main className="relative h-screen supports-[height:100dvh]:h-dvh overflow-hidden" style={{ background: darkBg ? "#08080c" : "transparent" }}>
+      <main className="relative h-screen supports-[height:100dvh]:h-dvh overflow-hidden" style={{ background: darkBg ? "#000000" : "transparent" }}>
         <NebulaOrbGame />
       </main>
     </FeatureGate>

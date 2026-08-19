@@ -6,6 +6,7 @@ import { getDailyQuestion, CATEGORIES } from "@/lib/soul-map/questions";
 import SoulMapVisual from "./SoulMapVisual";
 import SoulMapQuestion from "./SoulMapQuestion";
 import SoulMapHistory from "./SoulMapHistory";
+import { useBgTheme } from "@/lib/useBgTheme";
 
 interface Answer {
   id: string;
@@ -32,6 +33,7 @@ function saveAnswers(answers: Answer[]) {
 }
 
 export default function SoulMapPage() {
+  const { darkBg } = useBgTheme();
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [showQuestion, setShowQuestion] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<Answer | null>(null);
@@ -91,7 +93,7 @@ export default function SoulMapPage() {
   return (
     <div
       className="relative min-h-screen overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #0a0a1a 0%, #0f0a1a 50%, #0a0a1a 100%)" }}
+      style={{ background: darkBg ? "#000000" : "linear-gradient(180deg, #0a0a1a 0%, #0f0a1a 50%, #0a0a1a 100%)" }}
     >
       {/* Mandala canvas */}
       <SoulMapVisual

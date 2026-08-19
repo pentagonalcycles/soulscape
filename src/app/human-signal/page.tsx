@@ -7,7 +7,7 @@ export default function HumanSignalPage() {
   const { darkBg } = useBgTheme();
 
   return (
-    <main className="relative min-h-screen overflow-hidden" style={{ background: darkBg ? "#08080c" : "transparent" }}>
+    <main className="relative min-h-screen overflow-hidden" style={{ background: darkBg ? "#000000" : "transparent" }}>
       <HumanSignal />
     </main>
   );

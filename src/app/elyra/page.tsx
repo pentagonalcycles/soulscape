@@ -19,7 +19,7 @@ export default function ElyraPage() {
         position: "fixed", inset: 0,
         display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center",
-        background: darkBg ? "#08080c" : "transparent",
+        background: darkBg ? "#000000" : "transparent",
       }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -51,7 +51,7 @@ export default function ElyraPage() {
       <div style={{
         position: "fixed", inset: 0,
         display: "flex", flexDirection: "column",
-        background: darkBg ? "#08080c" : "transparent",
+        background: darkBg ? "#000000" : "transparent",
       }}>
         {/* Subtle ambient overlay */}
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>

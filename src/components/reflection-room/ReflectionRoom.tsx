@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useBgTheme } from "@/lib/useBgTheme";
 
 const PROMPTS = [
   "What gave you hope recently?",
@@ -55,6 +56,7 @@ function saveEntries(entries: Entry[]) {
 }
 
 export default function ReflectionRoom() {
+  const { darkBg } = useBgTheme();
   const [view, setView] = useState<"landing" | "write" | "past">("landing");
   const [journalText, setJournalText] = useState("");
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -90,6 +92,7 @@ export default function ReflectionRoom() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Light blue ambient background */}
+      {!darkBg && (
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
@@ -97,8 +100,10 @@ export default function ReflectionRoom() {
           zIndex: 1,
         }}
       />
+      )}
 
       {/* Floating organic shapes */}
+      {!darkBg && (
       <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
         <div
           className="absolute w-[700px] h-[700px] rounded-full"
@@ -131,6 +136,7 @@ export default function ReflectionRoom() {
           }}
         />
       </div>
+      )}
 
       {/* Content */}
       <div className="relative z-10">

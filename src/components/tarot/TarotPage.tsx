@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
+import { useBgTheme } from "@/lib/useBgTheme";
 import {
   ALL_CARDS,
   MAJOR_ARCANA,
@@ -390,6 +391,7 @@ function CardMeaningPanel({ card, reversed, onClose }: { card: TarotCard; revers
 
 export default function TarotPage() {
   const { userId, loading: authLoading } = useAuth();
+  const { darkBg } = useBgTheme();
   const [section, setSection] = useState<TarotSection>("home");
   const [allowReversed, setAllowReversed] = useState(() => {
     if (typeof window === "undefined") return true;
@@ -580,7 +582,7 @@ export default function TarotPage() {
   return (
     <main style={{
       minHeight: "100vh",
-      background: "linear-gradient(180deg, #2a1050 0%, #3d1870 50%, #2a1050 100%)",
+      background: darkBg ? "#000000" : "linear-gradient(180deg, #2a1050 0%, #3d1870 50%, #2a1050 100%)",
       position: "relative",
       overflow: "hidden",
     }}>

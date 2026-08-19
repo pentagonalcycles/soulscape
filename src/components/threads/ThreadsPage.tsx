@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
+import { useBgTheme } from "@/lib/useBgTheme";
 import {
   KNITTING_STITCHES,
   CROCHET_STITCHES,
@@ -74,6 +75,7 @@ const sectionTitle = {
 
 export default function ThreadsPage() {
   const { userId, loading: authLoading } = useAuth();
+  const { darkBg } = useBgTheme();
   const [section, setSection] = useState<ThreadsSection>("home");
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
@@ -237,7 +239,7 @@ export default function ThreadsPage() {
   return (
     <main style={{
       minHeight: "100vh",
-      background: "linear-gradient(180deg, #1f3828 0%, #244232 50%, #1f3828 100%)",
+      background: darkBg ? "#000000" : "linear-gradient(180deg, #1f3828 0%, #244232 50%, #1f3828 100%)",
       position: "relative",
       overflow: "hidden",
     }}>
