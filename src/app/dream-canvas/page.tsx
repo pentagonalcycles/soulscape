@@ -172,7 +172,7 @@ export default function DreamCanvasPage() {
     if (!ctx) return;
 
     if (!skipCanvasInit.current) {
-      ctx.fillStyle = "#0a0f0b";
+      ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
     } else if (pendingCanvasContent.current) {
       ctx.drawImage(pendingCanvasContent.current, 0, 0);
@@ -1102,8 +1102,8 @@ export default function DreamCanvasPage() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const bgMap: Record<string, string> = { "white": "#0a0f0b", "light-gray": "rgba(0, 255, 136, 0.12)", "dark-gray": "#a0d4b0", "black": "#000000", "checker": "#0a0f0b" };
-    ctx.fillStyle = bgMap[canvasBg] || "#0a0f0b";
+    const bgMap: Record<string, string> = { "white": "#ffffff", "light-gray": "#f0f0f0", "dark-gray": "#333333", "black": "#000000", "checker": "#ffffff" };
+    ctx.fillStyle = bgMap[canvasBg] || "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     saveToHistory();
   }, [saveToHistory, canvasBg]);
@@ -1846,11 +1846,11 @@ export default function DreamCanvasPage() {
           {/* Checkered transparency background */}
           <div style={{ position: "absolute", left: panOffset.x, top: panOffset.y, width: canvasSize.width * zoom, height: canvasSize.height * zoom, transform: `rotate(${canvasRotation}deg)`, transformOrigin: "center center" }}>
             <div style={{ width: "100%", height: "100%", background: "repeating-conic-gradient(#d4d4d8 0% 25%, #e4e4e7 0% 50%) 50% / 16px 16px", borderRadius: "2px" }} />
-            <canvas ref={canvasRef} style={{ width: "100%", height: "100%", background: "#ffffff", display: "block", position: "absolute", top: 0, left: 0 }}
+            <canvas ref={canvasRef} width={canvasSize.width} height={canvasSize.height} style={{ width: "100%", height: "100%", background: "#ffffff", display: "block", position: "absolute", top: 0, left: 0 }}
               onMouseDown={startDraw} onMouseMove={draw} onMouseUp={endDraw} onMouseLeave={endDraw}
               onTouchStart={startDraw} onTouchMove={draw} onTouchEnd={endDraw}
             />
-            <canvas ref={overlayCanvasRef} className="pointer-events-none" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }} />
+            <canvas ref={overlayCanvasRef} width={canvasSize.width} height={canvasSize.height} className="pointer-events-none" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }} />
           </div>
 
           {/* Grid overlay */}
@@ -2201,9 +2201,9 @@ function hsvToHex(h: number, s: number, v: number): string {
 }
 
 const BG_OPTIONS = [
-  { value: "white" as const, label: "White", color: "#0a0f0b" },
-  { value: "light-gray" as const, label: "Light Gray", color: "rgba(0, 255, 136, 0.12)" },
-  { value: "dark-gray" as const, label: "Dark Gray", color: "#a0d4b0" },
+  { value: "white" as const, label: "White", color: "#ffffff" },
+  { value: "light-gray" as const, label: "Light Gray", color: "#f0f0f0" },
+  { value: "dark-gray" as const, label: "Dark Gray", color: "#333333" },
   { value: "black" as const, label: "Black", color: "#000000" },
   { value: "checker" as const, label: "Transparent", color: "checker" },
 ];
