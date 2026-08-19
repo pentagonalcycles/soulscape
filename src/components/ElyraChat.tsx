@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import ElyraCodeBlock from "./ElyraCodeBlock";
+import ElyraSandbox, { type SandboxFile } from "./ElyraSandbox";
 import {
   loadConversations,
   upsertConversation,
@@ -223,6 +224,8 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   const [editingConvId, setEditingConvId] = useState<string | null>(null);
   const [convRenameDraft, setConvRenameDraft] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [sandboxFiles, setSandboxFiles] = useState<SandboxFile[]>([]);
+  const [sandboxOpen, setSandboxOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -255,6 +258,38 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [messages, loading]);
 
   const currentProject = currentProjectId ? projects.find(p => p.id === currentProjectId) || null : null;
+
+  const handleRunCode = useCallback((code: string, language: string, filename?: string) => {
+    const lang = language.toLowerCase();
+    let name = filename || "";
+    if (!name) {
+      if (lang === "html") name = "index.html";
+      else if (lang === "css") name = "style.css";
+      else if (lang === "javascript" || lang === "js") name = "script.js";
+      else if (lang === "typescript" || lang === "ts") name = "script.ts";
+      else name = `file.${lang}`;
+    }
+
+    setSandboxFiles(prev => {
+      const existing = prev.findIndex(f => f.name === name);
+      if (existing >= 0) {
+        const updated = [...prev];
+        updated[existing] = { name, content: code, language: lang };
+        return updated;
+      }
+      return [...prev, { name, content: code, language: lang }];
+    });
+    setSandboxOpen(true);
+  }, []);
+
+  const handleUpdateSandboxFile = useCallback((name: string, content: string) => {
+    setSandboxFiles(prev => prev.map(f => f.name === name ? { ...f, content } : f));
+  }, []);
+
+  const handleResetSandbox = useCallback(() => {
+    setSandboxFiles([]);
+    setSandboxOpen(false);
+  }, []);
 
   async function send(overrideText?: string) {
     const text = overrideText ?? input.trim();
@@ -613,27 +648,47 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   }
 
   return (
-    <div style={{ height: "100%", display: "flex", flexDirection: "column", background: "transparent" }}>
+    <div style={{ height: "100%", display: "flex", background: "transparent" }}>
+      {/* Main chat area */}
+      <div style={{ flex: sandboxOpen ? "0 0 50%" : "1 1 auto", display: "flex", flexDirection: "column", minWidth: 0, transition: "flex 0.3s ease" }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", borderBottom: "1px solid rgba(255, 255, 255, 0.04)", flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.4)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", fontWeight: 400 }}>{name}</span>
         </div>
-        <button
-          onClick={startNewConversation}
-          disabled={loading}
-          style={{
-            padding: "6px 14px", borderRadius: "6px",
-            background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.06)",
-            color: "rgba(255, 255, 255, 0.3)", fontSize: "9px", cursor: loading ? "default" : "pointer",
-            fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
-            transition: "all 0.2s", opacity: loading ? 0.4 : 1,
-          }}
-          onMouseEnter={e => { if (!loading) { e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)"; e.currentTarget.style.color = "rgba(255, 255, 255, 0.5)"; }}}
-          onMouseLeave={e => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)"; e.currentTarget.style.color = "rgba(255, 255, 255, 0.3)"; }}
-        >
-          + New Chat
-        </button>
+        <div style={{ display: "flex", gap: 8 }}>
+          {sandboxFiles.length > 0 && (
+            <button
+              onClick={() => setSandboxOpen(o => !o)}
+              style={{
+                padding: "6px 14px", borderRadius: "6px",
+                background: sandboxOpen ? "rgba(0, 255, 136, 0.1)" : "rgba(255, 255, 255, 0.03)",
+                border: `1px solid ${sandboxOpen ? "rgba(0, 255, 136, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
+                color: sandboxOpen ? "#00ff88" : "rgba(255, 255, 255, 0.3)",
+                fontSize: "9px", cursor: "pointer",
+                fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
+                transition: "all 0.2s",
+              }}
+            >
+              {sandboxOpen ? "Close Sandbox" : "Sandbox"}
+            </button>
+          )}
+          <button
+            onClick={startNewConversation}
+            disabled={loading}
+            style={{
+              padding: "6px 14px", borderRadius: "6px",
+              background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.06)",
+              color: "rgba(255, 255, 255, 0.3)", fontSize: "9px", cursor: loading ? "default" : "pointer",
+              fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
+              transition: "all 0.2s", opacity: loading ? 0.4 : 1,
+            }}
+            onMouseEnter={e => { if (!loading) { e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)"; e.currentTarget.style.color = "rgba(255, 255, 255, 0.5)"; }}}
+            onMouseLeave={e => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)"; e.currentTarget.style.color = "rgba(255, 255, 255, 0.3)"; }}
+          >
+            + New Chat
+          </button>
+        </div>
       </div>
       {/* Messages */}
       <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", overflowX: "hidden", background: "transparent" }}>
@@ -846,7 +901,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                                       filename = filenameMatch[1];
                                     }
                                     return (
-                                      <ElyraCodeBlock language={match ? match[1] : undefined} filename={filename}>
+                                      <ElyraCodeBlock language={match ? match[1] : undefined} filename={filename} onRun={handleRunCode}>
                                         {codeStr.replace(/\n$/, "")}
                                       </ElyraCodeBlock>
                                     );
@@ -1637,6 +1692,19 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
         .elyra-code-block::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 3px; }
         .elyra-code-block::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.65); }
       `}</style>
+      </div>
+
+      {/* Sandbox panel */}
+      {sandboxOpen && sandboxFiles.length > 0 && (
+        <div style={{ flex: "0 0 50%", minWidth: 0 }}>
+          <ElyraSandbox
+            files={sandboxFiles}
+            onUpdateFile={handleUpdateSandboxFile}
+            onReset={handleResetSandbox}
+            onClose={() => setSandboxOpen(false)}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -8,6 +8,7 @@ interface ElyraCodeBlockProps {
   language?: string;
   filename?: string;
   children: string;
+  onRun?: (code: string, language: string, filename?: string) => void;
 }
 
 const customTheme = {
@@ -29,8 +30,12 @@ const customTheme = {
   },
 };
 
-export default function ElyraCodeBlock({ language, filename, children }: ElyraCodeBlockProps) {
+const RUNNABLE_LANGUAGES = ["html", "css", "javascript", "js", "typescript", "ts"];
+
+export default function ElyraCodeBlock({ language, filename, children, onRun }: ElyraCodeBlockProps) {
   const [copied, setCopied] = useState(false);
+
+  const canRun = onRun && RUNNABLE_LANGUAGES.includes(language?.toLowerCase() || "");
 
   const handleCopy = async () => {
     try {
@@ -51,6 +56,18 @@ export default function ElyraCodeBlock({ language, filename, children }: ElyraCo
 
   const displayLang = language || "code";
   const displayHeader = filename ? `${filename} · ${displayLang}` : displayLang;
+
+  const btnBase = {
+    display: "flex" as const,
+    alignItems: "center" as const,
+    gap: "5px",
+    padding: "4px 10px",
+    borderRadius: "6px",
+    fontSize: "11px",
+    cursor: "pointer" as const,
+    transition: "all 0.2s ease",
+    fontFamily: "monospace",
+  };
 
   return (
     <div style={{
@@ -84,37 +101,52 @@ export default function ElyraCodeBlock({ language, filename, children }: ElyraCo
         }} title={displayHeader}>
           {displayHeader}
         </span>
-        <button
-          onClick={handleCopy}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "5px",
-            padding: "4px 10px",
-            borderRadius: "6px",
-            border: "1px solid rgba(0, 255, 136, 0.15)",
-            background: copied ? "rgba(0, 255, 136, 0.12)" : "rgba(0, 255, 136, 0.04)",
-            color: copied ? "#00ff88" : "rgba(0, 255, 136, 0.6)",
-            fontSize: "11px",
-            cursor: "pointer",
-            transition: "all 0.2s ease",
-            fontFamily: "monospace",
-          }}
-          onMouseEnter={(e) => {
-            if (!copied) {
-              e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
-              e.currentTarget.style.color = "rgba(0, 255, 136, 0.9)";
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (!copied) {
-              e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
-              e.currentTarget.style.color = "rgba(0, 255, 136, 0.6)";
-            }
-          }}
-        >
-          {copied ? "✓ copied" : "copy"}
-        </button>
+        <div style={{ display: "flex", gap: 6 }}>
+          {canRun && (
+            <button
+              onClick={() => onRun(children, language || "text", filename)}
+              style={{
+                ...btnBase,
+                border: "1px solid rgba(0, 255, 136, 0.25)",
+                background: "rgba(0, 255, 136, 0.08)",
+                color: "#00ff88",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(0, 255, 136, 0.15)";
+                e.currentTarget.style.boxShadow = "0 0 10px rgba(0, 255, 136, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              ▶ Run
+            </button>
+          )}
+          <button
+            onClick={handleCopy}
+            style={{
+              ...btnBase,
+              border: "1px solid rgba(0, 255, 136, 0.15)",
+              background: copied ? "rgba(0, 255, 136, 0.12)" : "rgba(0, 255, 136, 0.04)",
+              color: copied ? "#00ff88" : "rgba(0, 255, 136, 0.6)",
+            }}
+            onMouseEnter={(e) => {
+              if (!copied) {
+                e.currentTarget.style.background = "rgba(0, 255, 136, 0.08)";
+                e.currentTarget.style.color = "rgba(0, 255, 136, 0.9)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!copied) {
+                e.currentTarget.style.background = "rgba(0, 255, 136, 0.04)";
+                e.currentTarget.style.color = "rgba(0, 255, 136, 0.6)";
+              }
+            }}
+          >
+            {copied ? "✓ copied" : "copy"}
+          </button>
+        </div>
       </div>
 
       {/* Code */}
