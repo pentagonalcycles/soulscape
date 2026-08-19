@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
 import { useBgTheme } from "@/lib/useBgTheme";
+import ArcanaCompare from "./ArcanaCompare";
 import {
   ALL_CARDS,
   MAJOR_ARCANA,
@@ -23,7 +24,7 @@ import {
 } from "@/lib/tarot";
 import type { TarotCard, DrawnCard, SpreadDefinition } from "@/lib/tarot";
 
-type TarotSection = "home" | "daily" | "ask" | "spreads" | "explore" | "learn" | "readings" | "reading-result" | "card-detail";
+type TarotSection = "home" | "daily" | "ask" | "spreads" | "explore" | "learn" | "readings" | "reading-result" | "card-detail" | "compare";
 
 interface SavedReading {
   id: string;
@@ -671,6 +672,7 @@ export default function TarotPage() {
                 { id: "explore" as TarotSection, icon: "☆", label: "Explore the Deck", desc: "Browse all 78 cards" },
                 { id: "learn" as TarotSection, icon: "📖", label: "Learn Tarot", desc: "Beginner guide" },
                 { id: "readings" as TarotSection, icon: "◇", label: "My Readings", desc: "Your saved readings" },
+                { id: "compare" as TarotSection, icon: "⚖", label: "Arcana Compare", desc: "Explore cards together" },
               ].map(opt => (
                 <motion.button
                   key={opt.id}
@@ -1091,6 +1093,11 @@ export default function TarotPage() {
               </div>
             </div>
           </motion.div>
+        )}
+
+        {/* Arcana Compare */}
+        {section === "compare" && (
+          <ArcanaCompare onBack={() => setSection("home")} />
         )}
 
         {/* My Readings */}
