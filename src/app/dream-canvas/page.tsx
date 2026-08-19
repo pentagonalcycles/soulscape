@@ -1746,7 +1746,9 @@ export default function DreamCanvasPage() {
         <div ref={containerRef} className="flex-1 relative overflow-hidden" style={{ background: "#ffffff", cursor: isPanning ? "grab" : activeTool === "eyedropper" ? "crosshair" : activeTool === "fill" ? "crosshair" : activeTool === "text" ? "text" : "none", touchAction: "none", paddingBottom: isMobile ? "110px" : "0" }}
           onWheel={e => {
             e.preventDefault();
-            const delta = e.deltaY > 0 ? -0.05 : 0.05;
+            // Trackpad pinch-to-zoom sends wheel events with ctrlKey
+            const isPinch = e.ctrlKey;
+            const delta = isPinch ? -e.deltaY * 0.01 : (e.deltaY > 0 ? -0.05 : 0.05);
             const newZoom = Math.max(0.1, Math.min(5, zoom + delta));
             const container = containerRef.current;
             if (container) {
