@@ -428,6 +428,12 @@ export default function Home() {
                 {[
                   "Voice recordings",
                   "More AI personalities",
+                  "Custom profile themes",
+                  "Notification system",
+                  "Post bookmarks sync",
+                  "Room-specific ambient sounds",
+                  "Mobile app (PWA improvements)",
+                  "Accessibility enhancements",
                 ].map((item) => (
                   <div key={item} style={{
                     display: "flex", alignItems: "center", gap: 8,
