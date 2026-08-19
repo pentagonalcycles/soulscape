@@ -382,6 +382,7 @@ export default function Home() {
                   "Campfire", "Poetry", "Soul Map", "Reflection Room",
                   "Threads", "Luna AI", "Cosmic Camera",
                   "Tarot", "Dream Canvas", "Mural", "Nebula Orb", "Stats",
+                  "Settings", "Background Themes",
                 ].map((item) => (
                   <div key={item} style={{
                     display: "flex", alignItems: "center", gap: 8,
@@ -425,10 +426,8 @@ export default function Home() {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 {[
-                  "Real-time presence accuracy",
-                  "Mobile responsiveness polish",
-                  "Campfire message history",
-                  "AI response quality",
+                  "Voice recordings",
+                  "More AI personalities",
                 ].map((item) => (
                   <div key={item} style={{
                     display: "flex", alignItems: "center", gap: 8,
