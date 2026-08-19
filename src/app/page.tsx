@@ -431,7 +431,6 @@ export default function Home() {
                   "Custom profile themes",
                   "Notification system",
                   "Post bookmarks sync",
-                  "Room-specific ambient sounds",
                   "Mobile app (PWA improvements)",
                   "Accessibility enhancements",
                 ].map((item) => (

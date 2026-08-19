@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { CampfireRoom, CampfireMessage, CampfirePresence } from "@/lib/campfire/types";
 import { CampfireMultiplayer } from "@/lib/campfire/multiplayer";
-import { AmbientSoundEngine } from "@/lib/sound/engine";
 import CampfireLobby from "./CampfireLobby";
 import CampfireScene from "./CampfireScene";
 import CampfireChat from "./CampfireChat";
@@ -16,20 +15,13 @@ export default function CampfirePage() {
   const [currentRoom, setCurrentRoom] = useState<CampfireRoom | null>(null);
   const [messages, setMessages] = useState<CampfireMessage[]>([]);
   const [presences, setPresences] = useState<CampfirePresence[]>([]);
-  const [soundOn, setSoundOn] = useState(true);
   const [theme, setTheme] = useState<CampfireTheme>("dark");
   const multiRef = useRef<CampfireMultiplayer | null>(null);
-  const soundRef = useRef<AmbientSoundEngine | null>(null);
 
   const handleJoin = useCallback(async (room: CampfireRoom, displayName: string) => {
     setCurrentRoom(room);
     setMessages([]);
     setPresences([]);
-
-    const sound = new AmbientSoundEngine();
-    soundRef.current = sound;
-    await sound.play("fireplace");
-    sound.setVolume(0.3);
 
     const multi = new CampfireMultiplayer();
     multiRef.current = multi;
@@ -55,9 +47,6 @@ export default function CampfirePage() {
   const handleLeave = useCallback(() => {
     multiRef.current?.leave();
     multiRef.current = null;
-    soundRef.current?.stop();
-    soundRef.current?.destroy();
-    soundRef.current = null;
     setCurrentRoom(null);
     setMessages([]);
     setPresences([]);
@@ -76,15 +65,6 @@ export default function CampfirePage() {
     multiRef.current?.stopTyping();
   }, []);
 
-  const toggleSound = useCallback(() => {
-    if (soundOn) {
-      soundRef.current?.setVolume(0);
-    } else {
-      soundRef.current?.setVolume(0.3);
-    }
-    setSoundOn(!soundOn);
-  }, [soundOn]);
-
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   }, []);
@@ -92,8 +72,6 @@ export default function CampfirePage() {
   useEffect(() => {
     return () => {
       multiRef.current?.leave();
-      soundRef.current?.stop();
-      soundRef.current?.destroy();
     };
   }, []);
 
