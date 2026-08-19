@@ -534,7 +534,6 @@ function getFeatures(category: "elyra" | "arcana" | "threads" | "campfire" | "mu
       { name: "Elovayne Tarot Deck", description: "An original 78-card deck created specifically for Elovayne.", status: "BUILDING" },
       { name: "Tarot Reading Intelligence", description: "Deeper readings that understand the whole spread.", status: "CONCEPT" },
       { name: "Arcana Personal Decks", description: "Make Tarot feel more personal with different visual styles.", status: "CONCEPT" },
-      { name: "Arcana Reading Stories", description: "Turn a spread into one connected story.", status: "CONCEPT" },
     ],
     threads: [
       { name: "Threads Pattern Studio", description: "Turn an idea into a personalised knitting or crochet pattern.", status: "BUILDING" },
