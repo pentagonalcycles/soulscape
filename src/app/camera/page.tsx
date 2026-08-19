@@ -2,7 +2,6 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import FeatureGate from "@/components/FeatureGate";
 import { useBgTheme } from "@/lib/useBgTheme";
 
 type FilterType = "none" | "dreamy" | "cosmic" | "neon" | "ocean" | "sunset" | "aurora" | "glitch" | "vintage" | "noir" | "frost" | "ember" | "botanical" | "midnight" | "golden" | "infrared" | "softfocus" | "vivid" | "muted" | "holographic" | "solarflare" | "deepspace" | "prism" | "vaporwave" | "cinematic" | "rain" | "autumn" | "cherryblossom" | "desert" | "melancholy" | "euphoria" | "ethereal" | "noirchrome" | "lomo" | "polaroid" | "filmgrain";
@@ -189,7 +188,6 @@ export default function CameraPage() {
   ].filter(Boolean).join(" ");
 
   return (
-    <FeatureGate featureId="cosmic-camera">
     <main className="relative min-h-screen overflow-hidden" style={{
       background: darkBg ? "#000000" : "transparent",
     }}>
@@ -536,6 +534,5 @@ export default function CameraPage() {
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
     </main>
-    </FeatureGate>
   );
 }
