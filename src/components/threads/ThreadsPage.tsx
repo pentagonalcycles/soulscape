@@ -239,7 +239,7 @@ export default function ThreadsPage() {
   return (
     <main style={{
       minHeight: "100vh",
-      background: darkBg ? "#000000" : "linear-gradient(180deg, #1f3828 0%, #244232 50%, #1f3828 100%)",
+      background: darkBg ? "#000000" : "transparent",
       position: "relative",
       overflow: "hidden",
     }}>

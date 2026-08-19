@@ -171,7 +171,7 @@ export default function PoetryPage() {
     return (
       <div
         className="min-h-screen flex items-center justify-center"
-        style={{ background: darkBg ? "#000000" : "linear-gradient(180deg, #1a1510 0%, #2a1f15 50%, #1a1510 100%)" }}
+        style={{ background: darkBg ? "#000000" : "transparent" }}
       >
         <div className="text-center">
           <div className="w-8 h-8 rounded-full border-2 border-amber-500 border-t-transparent animate-spin mx-auto mb-3" />

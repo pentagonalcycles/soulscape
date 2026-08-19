@@ -114,7 +114,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center p-6"
-      style={{ background: darkBg ? "#000000" : "linear-gradient(135deg, #f0fdf9 0%, #e6f7f2 50%, #dbeafe 100%)" }}
+      style={{ background: darkBg ? "#000000" : "transparent" }}
     >
       <motion.div
         initial={{ opacity: 0, y: -20 }}

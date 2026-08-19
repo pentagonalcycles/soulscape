@@ -62,7 +62,7 @@ export default function SharePage() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: darkBg ? "#000000" : "linear-gradient(180deg, #1a0000 0%, #2d0000 50%, #1a0000 100%)",
+      background: darkBg ? "#000000" : "transparent",
       position: "relative",
       overflow: "hidden",
     }}>

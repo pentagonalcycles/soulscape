@@ -582,7 +582,7 @@ export default function TarotPage() {
   return (
     <main style={{
       minHeight: "100vh",
-      background: darkBg ? "#000000" : "linear-gradient(180deg, #2a1050 0%, #3d1870 50%, #2a1050 100%)",
+      background: darkBg ? "#000000" : "transparent",
       position: "relative",
       overflow: "hidden",
     }}>

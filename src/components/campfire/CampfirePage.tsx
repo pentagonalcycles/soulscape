@@ -106,7 +106,7 @@ export default function CampfirePage() {
   return (
     <div
       className="relative h-screen w-screen overflow-hidden"
-      style={{ background: darkBg ? "#000000" : (isLight ? "#f5f0e8" : "#050510") }}
+      style={{ background: darkBg ? "#000000" : "transparent" }}
     >
       {/* Fire scene */}
       <CampfireScene isPlaying={true} theme={theme} />

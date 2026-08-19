@@ -93,7 +93,7 @@ export default function SoulMapPage() {
   return (
     <div
       className="relative min-h-screen overflow-hidden"
-      style={{ background: darkBg ? "#000000" : "linear-gradient(180deg, #0a0a1a 0%, #0f0a1a 50%, #0a0a1a 100%)" }}
+      style={{ background: darkBg ? "#000000" : "transparent" }}
     >
       {/* Mandala canvas */}
       <SoulMapVisual
