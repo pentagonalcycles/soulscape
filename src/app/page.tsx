@@ -520,7 +520,6 @@ function getStatusColor(status: string) {
 function getFeatures(category: "elyra" | "arcana" | "threads" | "campfire" | "mural"): Feature[] {
   const features: Record<string, Feature[]> = {
     elyra: [
-      { name: "Elyra Sandbox", description: "Run and preview code safely inside an isolated workspace.", status: "BUILDING" },
       { name: "Elyra Voice", description: "Talk naturally with Elyra using your voice.", status: "CONCEPT" },
       { name: "Elyra Projects", description: "Build something with Elyra and return to it later.", status: "BUILDING" },
       { name: "Elyra Preview", description: "See what you're building directly inside Elyra.", status: "CONCEPT" },
