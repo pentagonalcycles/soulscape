@@ -438,6 +438,12 @@ export default function Home() {
                   "Mood-based room suggestions",
                   "Daily inspiration quotes",
                   "User-created rooms",
+                  "Dream Journal — record & share dreams",
+                  "Stargazing — leave messages in the night sky",
+                  "Wish Lanterns — release lanterns with wishes",
+                  "Memory Garden — plant memories that grow",
+                  "Whisper Wall — anonymous secrets shared",
+                  "Time Capsule — messages to your future self",
                 ].map((item) => (
                   <div key={item} style={{
                     display: "flex", alignItems: "center", gap: 8,
