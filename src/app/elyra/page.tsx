@@ -5,9 +5,22 @@ import ElyraChat from "@/components/ElyraChat";
 import FeatureGate from "@/components/FeatureGate";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export default function ElyraPage() {
   const { loading, userId } = useAuth();
+  const [colorBg, setColorBg] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("elyra-color-bg");
+    if (saved === "true") setColorBg(true);
+  }, []);
+
+  const toggleBg = () => {
+    const next = !colorBg;
+    setColorBg(next);
+    localStorage.setItem("elyra-color-bg", String(next));
+  };
 
   if (loading) {
     return (
@@ -49,21 +62,34 @@ export default function ElyraPage() {
         display: "flex", flexDirection: "column",
         background: "#08080c",
       }}>
-        {/* Subtle ambient */}
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
-          <div style={{
-            position: "absolute", top: "-30%", left: "20%", right: "20%",
-            height: "50%",
-            background: "radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.015) 0%, transparent 60%)",
-            filter: "blur(80px)",
-          }} />
-        </div>
+        {/* Colour-shifting background (togglable) */}
+        {colorBg && (
+          <div
+            className="fixed inset-0 z-0"
+            style={{
+              background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
+              animation: "bg-hue-cycle 30s linear infinite",
+            }}
+          />
+        )}
+
+        {/* Subtle ambient (dark mode) */}
+        {!colorBg && (
+          <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
+            <div style={{
+              position: "absolute", top: "-30%", left: "20%", right: "20%",
+              height: "50%",
+              background: "radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.015) 0%, transparent 60%)",
+              filter: "blur(80px)",
+            }} />
+          </div>
+        )}
 
         {/* Header */}
         <div style={{
           flexShrink: 0,
           padding: "14px 20px",
-          background: "rgba(8, 8, 12, 0.9)",
+          background: colorBg ? "rgba(8, 8, 12, 0.85)" : "rgba(8, 8, 12, 0.9)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           borderBottom: "1px solid rgba(255, 255, 255, 0.04)",
@@ -112,6 +138,30 @@ export default function ElyraPage() {
               }}>AI Assistant</div>
             </div>
           </div>
+
+          {/* Background toggle */}
+          <button
+            onClick={toggleBg}
+            title={colorBg ? "Switch to dark background" : "Switch to colour background"}
+            style={{
+              padding: "6px 10px",
+              borderRadius: 6,
+              background: colorBg ? "rgba(0, 255, 136, 0.12)" : "rgba(255, 255, 255, 0.02)",
+              border: `1px solid ${colorBg ? "rgba(0, 255, 136, 0.3)" : "rgba(255, 255, 255, 0.06)"}`,
+              color: colorBg ? "#00ff88" : "rgba(255, 255, 255, 0.3)",
+              fontSize: 10,
+              fontFamily: "monospace",
+              letterSpacing: "1px",
+              cursor: "pointer",
+              transition: "all 0.2s",
+              display: "flex",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <span style={{ fontSize: 12 }}>{colorBg ? "◐" : "◑"}</span>
+            {colorBg ? "Dark" : "Colour"}
+          </button>
 
           {/* Status */}
           <div style={{
