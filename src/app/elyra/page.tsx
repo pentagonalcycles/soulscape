@@ -5,22 +5,13 @@ import ElyraChat from "@/components/ElyraChat";
 import FeatureGate from "@/components/FeatureGate";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useBgTheme } from "@/lib/useBgTheme";
 
 export default function ElyraPage() {
   const { loading, userId } = useAuth();
-  const [colorBg, setColorBg] = useState(false);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("elyra-color-bg");
-    if (saved === "true") setColorBg(true);
-  }, []);
-
-  const toggleBg = () => {
-    const next = !colorBg;
-    setColorBg(next);
-    localStorage.setItem("elyra-color-bg", String(next));
-  };
+  const { darkBg, toggleBg } = useBgTheme();
+  // Luna AI uses inverted logic: dark by default, colour on toggle
+  const colorBg = !darkBg;
 
   if (loading) {
     return (

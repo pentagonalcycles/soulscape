@@ -116,6 +116,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
     "/faq": "faq",
     "/account": "account",
     "/stats": "stats",
+    "/settings": "settings",
   };
   const activePage = pathname ? pathToActivePage[pathname] : undefined;
 

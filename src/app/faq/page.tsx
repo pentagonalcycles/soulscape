@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState, useMemo } from "react";
+import { useBgTheme } from "@/lib/useBgTheme";
 
 const faqSections = [
   {
@@ -110,6 +111,7 @@ const faqSections = [
 export default function FAQPage() {
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
   const [search, setSearch] = useState("");
+  const { darkBg } = useBgTheme();
 
   const toggle = (key: string) => {
     setOpenItems((prev) => {
@@ -136,13 +138,22 @@ export default function FAQPage() {
   return (
     <main className="relative min-h-screen overflow-hidden">
       {/* Full-page colour-shifting background */}
-      <div
-        className="fixed inset-0 z-0"
-        style={{
-          background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
-          animation: "bg-hue-cycle 30s linear infinite",
-        }}
-      />
+      {!darkBg && (
+        <div
+          className="fixed inset-0 z-0"
+          style={{
+            background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
+            animation: "bg-hue-cycle 30s linear infinite",
+          }}
+        />
+      )}
+      {/* Dark background */}
+      {darkBg && (
+        <div
+          className="fixed inset-0 z-0"
+          style={{ background: "#08080c" }}
+        />
+      )}
       <div className="relative z-10 pt-20 sm:pt-28 pb-16 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
