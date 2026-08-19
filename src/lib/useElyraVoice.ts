@@ -14,7 +14,10 @@ export function useElyraVoice({ onTranscript, onSpeakComplete, language = "en-US
   const [state, setState] = useState<VoiceState>("idle");
   const [interimText, setInterimText] = useState("");
   const [voiceEnabled, setVoiceEnabled] = useState(false);
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("elyra_voice_mute") === "true";
+  });
   const [error, setError] = useState<string | null>(null);
 
   const recognitionRef = useRef<any>(null);
@@ -162,9 +165,11 @@ export function useElyraVoice({ onTranscript, onSpeakComplete, language = "en-US
       }
 
       const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
-      utterance.rate = 0.95;
+      const savedVolume = parseInt(localStorage.getItem("elyra_voice_volume") || "90") / 100;
+      const savedSpeed = parseInt(localStorage.getItem("elyra_voice_speed") || "95") / 100;
+      utterance.rate = savedSpeed;
       utterance.pitch = 1.0;
-      utterance.volume = 0.9;
+      utterance.volume = savedVolume;
       utterance.lang = language;
 
       const voices = synthRef.current.getVoices();
