@@ -72,11 +72,6 @@ The website feels emotional, dreamlike, welcoming, mysterious, and visually arti
 ### AI Companion
 - **Elyra** — AI companion chat with streaming responses, mood detection, customizable personality, and chat history
 
-### Shop & Monetization
-- **Elovayne Shop** — Digital products (journals, wallpapers, soundscapes, profile themes, gifts)
-- **Elovayne Plus** — Premium membership with exclusive features
-- **Stripe Integration** — Secure checkout and subscription management
-
 ### Visual Design
 - **Light Aesthetic** — White/mint backgrounds, teal/cyan accents, soft gradients
 - **Glass Morphism** — Translucent cards with backdrop blur
@@ -153,14 +148,6 @@ Optional (for Elyra AI):
 OPENROUTER_API_KEY=your_openrouter_key_here
 ```
 
-Optional (for Stripe/shop):
-```env
-STRIPE_SECRET_KEY=your_stripe_secret_key
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
-STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
-STRIPE_MONTHLY_PRICE_ID=your_price_id
-```
-
 See [ENVIRONMENT.md](./ENVIRONMENT.md) for detailed setup instructions.
 
 ---
@@ -203,7 +190,6 @@ soulscape/
 │   │   └── api/                      # API routes
 │   │       ├── admin/                # Admin endpoints
 │   │       ├── elyra/chat/route.ts   # AI chat streaming
-│   │       ├── stripe/               # Stripe checkout & webhooks
 │   │       └── download/             # File downloads
 │   ├── components/
 │   │   ├── Starfield.tsx             # Canvas particle starfield (toggleable)
@@ -227,7 +213,6 @@ soulscape/
 │   │   ├── ElyraButton.tsx           # AI chat trigger button
 │   │   ├── PremiumGate.tsx           # Premium content gating
 │   │   ├── PlusBadge.tsx             # Premium badge indicator
-│   │   ├── ShopProductImage.tsx       # SVG animated product images
 │   │   ├── ServiceWorkerRegistration.tsx # PWA service worker
 │   │   ├── CanvasToolbar.tsx         # Drawing tools for Dream Canvas
 │   │   ├── DreamCanvas.tsx           # Browser-based drawing app
@@ -247,10 +232,6 @@ soulscape/
 │   │   └── useMotionDetection.ts     # Motion detection hook
 │   └── lib/
 │       ├── supabase.ts               # Supabase client (SSR-safe)
-│       ├── stripe.ts                 # Stripe SDK initialization
-│       ├── monetisation.ts           # Membership & purchase queries
-│       ├── premium.ts                # Plus membership check
-│       ├── shop-data.ts              # Product catalogue
 │       ├── offline-db.ts             # IndexedDB offline storage
 │       ├── sync-queue.ts             # Offline sync processor
 │       ├── campfire/                 # Campfire multiplayer logic
@@ -395,8 +376,6 @@ See `supabase/schema.sql` for the full schema.
 - [x] Nebula Orb (multiplayer arena game)
 - [x] Ideas (community feature voting)
 - [x] Elyra AI companion (streaming chat)
-- [x] Elovayne Shop (digital products + Plus membership)
-- [x] Stripe integration (checkout, webhooks)
 - [x] Admin dashboard (reports, users, content, products)
 - [x] FAQ page
 - [x] Support page (crisis resources)

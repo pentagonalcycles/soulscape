@@ -9,7 +9,6 @@ const navLinks = [
   { href: "/elyra", label: "Luna AI", icon: "✦" },
   { href: "/tarot", label: "Arcana", icon: "☽" },
   { href: "/threads", label: "Threads", icon: "🧶" },
-  { href: "/live", label: "Live", icon: "📡" },
   { href: "/reflection-room", label: "Reflection", icon: "◈" },
   { href: "/dream-canvas", label: "Canvas", icon: "△" },
   { href: "/mural", label: "Mural", icon: "◇" },

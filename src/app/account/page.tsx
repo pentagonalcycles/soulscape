@@ -201,18 +201,7 @@ export default function AccountPage() {
                   </div>
                 ) : (
                   <div>
-                    <p className="text-elovayne-dim text-sm mb-4">You have access to community features. Unlock premium tools from the shop.</p>
-                    <Link
-                      href="/shop"
-                      className="inline-block px-4 py-2 rounded-lg text-xs font-body text-elovayne-light"
-                      style={{
-                        background: "linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 204, 106, 0.2))",
-                        border: "1px solid rgba(0, 255, 136, 0.3)",
-                        boxShadow: "0 4px 20px rgba(0, 255, 136, 0.25)",
-                      }}
-                    >
-                      Upgrade to Plus
-                    </Link>
+                    <p className="text-elovayne-dim text-sm mb-4">You have access to community features.</p>
                   </div>
                 )}
               </div>

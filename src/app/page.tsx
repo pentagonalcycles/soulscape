@@ -372,7 +372,7 @@ export default function Home() {
                 {[
                   "Share", "Ideas Board", "Human Signal",
                   "Campfire", "Poetry", "Soul Map", "Reflection Room",
-                  "Threads", "Live (watching)", "Luna AI", "Cosmic Camera",
+                  "Threads", "Luna AI", "Cosmic Camera",
                   "Tarot", "Dream Canvas", "Mural", "Nebula Orb", "Stats",
                 ].map((item) => (
                   <div key={item} style={{
@@ -417,8 +417,6 @@ export default function Home() {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 {[
-                  "Live streaming stability",
-                  "Payment flow testing",
                   "Real-time presence accuracy",
                   "Mobile responsiveness polish",
                   "Campfire message history",

@@ -112,7 +112,6 @@ Each room has its own atmosphere:
 - `ElyraChat.tsx` — AI companion chat with streaming SSE, mood detection, localStorage history
 - `PremiumGate.tsx` — Glass-card overlay gating premium content behind Plus upgrade
 - `PlusBadge.tsx` — Inline "PLUS" badge for premium features
-- `ShopProductImage.tsx` — SVG animated product images for the shop
 - `ServiceWorkerRegistration.tsx` — PWA service worker registration
 - `CanvasToolbar.tsx` — Drawing tools for Dream Canvas (32 brush types)
 - `DreamCanvas.tsx` — Browser-based drawing/painting app with export
@@ -224,4 +223,4 @@ vercel --prod    # Deploy to production
 - **Phase 3:** ✅ Complete — Personal Space (profiles, saves, UI personalization)
 - **Phase 4:** ✅ Complete — Polish & Launch (email auth, journals, sound, moderation, 404)
 - **Phase 5:** ✅ Complete — Trust, Clarity & Engagement (about page, welcome modal, new rooms, footer, prompts, logo)
-- **Phase 6:** ✅ Complete — Immersive Experiences (Dream Canvas, Dream World, Campfire, Cosmic Camera, Human Signal, Nebula Orb, Soul Map, Wish Lanterns, Elyra AI, Shop, Poetry, Mural, Ideas, Admin, FAQ, Support)
+- **Phase 6:** ✅ Complete — Immersive Experiences (Dream Canvas, Dream World, Campfire, Cosmic Camera, Human Signal, Nebula Orb, Soul Map, Wish Lanterns, Elyra AI, Poetry, Mural, Ideas, Admin, FAQ, Support)

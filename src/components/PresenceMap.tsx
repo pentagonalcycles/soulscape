@@ -6,7 +6,6 @@ import { useAllPresence, usePagePresence } from "@/hooks/usePagePresence";
 
 const PAGE_LABELS: Record<string, string> = {
   "/": "Home",
-  "/live": "Live",
   "/campfire": "Campfire",
   "/mural": "Mural",
   "/human-signal": "Human Signal",
@@ -21,7 +20,6 @@ const PAGE_LABELS: Record<string, string> = {
   "/ideas": "Ideas",
   "/share": "Share",
   "/elyra": "Luna AI",
-  "/shop": "Shop",
   "/about": "About",
   "/faq": "FAQ",
   "/support": "Support",
@@ -30,7 +28,6 @@ const PAGE_LABELS: Record<string, string> = {
 
 const PAGE_ICONS: Record<string, string> = {
   "/": "◈",
-  "/live": "●",
   "/campfire": "◆",
   "/mural": "◇",
   "/human-signal": "◎",
@@ -45,7 +42,6 @@ const PAGE_ICONS: Record<string, string> = {
   "/ideas": "◇",
   "/share": "◈",
   "/elyra": "☽",
-  "/shop": "◇",
 };
 
 export default function PresenceMap() {

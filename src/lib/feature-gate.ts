@@ -65,15 +65,6 @@ export const FEATURES: Record<string, Feature> = {
     icon: "🃏",
     path: "/tarot",
   },
-  "live-broadcast": {
-    id: "live-broadcast",
-    name: "Go Live",
-    description: "Broadcast your own live stream to the community",
-    pricePence: 200,
-    priceLabel: "£2",
-    icon: "🔴",
-    path: "/live",
-  },
 };
 
 export const ALL_FEATURES = Object.values(FEATURES);
