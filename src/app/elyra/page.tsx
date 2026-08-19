@@ -140,24 +140,6 @@ export default function ElyraPage() {
             <span style={{ fontSize: 12 }}>{colorBg ? "◐" : "◑"}</span>
             {colorBg ? "Dark" : "Colour"}
           </button>
-
-          {/* Status */}
-          <div style={{
-            display: "flex", alignItems: "center", gap: "6px",
-            padding: "5px 10px", borderRadius: 6,
-            background: "rgba(255, 255, 255, 0.02)",
-            border: "1px solid rgba(255, 255, 255, 0.04)",
-          }}>
-            <div style={{
-              width: 5, height: 5, borderRadius: "50%",
-              background: "rgba(255, 255, 255, 0.4)",
-            }} />
-            <span style={{
-              fontSize: 9, color: "rgba(255, 255, 255, 0.25)",
-              fontFamily: "monospace", letterSpacing: "1px",
-              textTransform: "uppercase",
-            }}>Online</span>
-          </div>
         </div>
 
         {/* Chat */}
