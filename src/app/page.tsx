@@ -4,18 +4,66 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import ElovayneLogo from "@/components/ElovayneLogo";
 import GlowingPortal from "@/components/GlowingPortal";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [darkBg, setDarkBg] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("home-dark-bg");
+    if (saved === "true") setDarkBg(true);
+  }, []);
+
+  const toggleBg = () => {
+    const next = !darkBg;
+    setDarkBg(next);
+    localStorage.setItem("home-dark-bg", String(next));
+  };
+
   return (
     <main className="relative min-h-screen overflow-hidden">
-      {/* Full-page colour-shifting background */}
-      <div
-        className="fixed inset-0 z-0"
+      {/* Full-page colour-shifting background (hidden in dark mode) */}
+      {!darkBg && (
+        <div
+          className="fixed inset-0 z-0"
+          style={{
+            background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
+            animation: "bg-hue-cycle 30s linear infinite",
+          }}
+        />
+      )}
+
+      {/* Dark background (hidden in colour mode) */}
+      {darkBg && (
+        <div
+          className="fixed inset-0 z-0"
+          style={{ background: "#08080c" }}
+        />
+      )}
+
+      {/* Background toggle button */}
+      <button
+        onClick={toggleBg}
+        title={darkBg ? "Switch to colour background" : "Switch to dark background"}
+        className="fixed top-5 right-5 z-[1000] flex items-center gap-1.5"
         style={{
-          background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
-          animation: "bg-hue-cycle 30s linear infinite",
+          padding: "6px 12px",
+          borderRadius: 8,
+          background: darkBg ? "rgba(255, 255, 255, 0.03)" : "rgba(0, 0, 0, 0.4)",
+          border: `1px solid ${darkBg ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.15)"}`,
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          color: darkBg ? "rgba(255, 255, 255, 0.35)" : "rgba(255, 255, 255, 0.6)",
+          fontSize: 10,
+          fontFamily: "monospace",
+          letterSpacing: "1px",
+          cursor: "pointer",
+          transition: "all 0.3s ease",
         }}
-      />
+      >
+        <span style={{ fontSize: 13 }}>{darkBg ? "◑" : "◐"}</span>
+        {darkBg ? "Colour" : "Dark"}
+      </button>
 
       {/* HERO SECTION */}
       <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
