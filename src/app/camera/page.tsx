@@ -277,7 +277,7 @@ export default function CameraPage() {
           ) : (
             <>
               <video ref={videoRef} autoPlay playsInline muted
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-contain"
                 style={{ filter: customFilter, transform: isMirrored && facingMode === "user" ? "scaleX(-1)" : "none" }}
               />
 
