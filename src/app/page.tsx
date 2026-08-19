@@ -519,14 +519,7 @@ function getStatusColor(status: string) {
 
 function getFeatures(category: "elyra" | "arcana" | "threads" | "campfire" | "mural"): Feature[] {
   const features: Record<string, Feature[]> = {
-    elyra: [
-      { name: "Elyra Projects", description: "Build something with Elyra and return to it later.", status: "BUILDING" },
-      { name: "Elyra Vision", description: "Show Elyra something and let her understand it.", status: "CONCEPT" },
-      { name: "Elyra Build Mode", description: "Describe what you want. Elyra helps build it.", status: "CONCEPT" },
-      { name: "Elyra Project Memory", description: "Elyra remembers the important details of each project.", status: "CONCEPT" },
-      { name: "Elyra Design to Code", description: "Turn a visual idea into working frontend code.", status: "CONCEPT" },
-      { name: "Elyra Website Inspector", description: "Let Elyra examine a website and explain what could be improved.", status: "CONCEPT" },
-    ],
+    elyra: [],
     arcana: [
       { name: "Elovayne Tarot Deck", description: "An original 78-card deck created specifically for Elovayne.", status: "BUILDING" },
       { name: "Tarot Reading Intelligence", description: "Deeper readings that understand the whole spread.", status: "CONCEPT" },
