@@ -521,10 +521,8 @@ function getFeatures(category: "elyra" | "arcana" | "threads" | "campfire" | "mu
   const features: Record<string, Feature[]> = {
     elyra: [
       { name: "Elyra Projects", description: "Build something with Elyra and return to it later.", status: "BUILDING" },
-      { name: "Elyra Preview", description: "See what you're building directly inside Elyra.", status: "CONCEPT" },
       { name: "Elyra Vision", description: "Show Elyra something and let her understand it.", status: "CONCEPT" },
       { name: "Elyra Build Mode", description: "Describe what you want. Elyra helps build it.", status: "CONCEPT" },
-      { name: "Elyra Code Preview", description: "Write code. See the result. Improve it instantly.", status: "CONCEPT" },
       { name: "Elyra Project Memory", description: "Elyra remembers the important details of each project.", status: "CONCEPT" },
       { name: "Elyra Debugger", description: "Find the problem and help fix it.", status: "CONCEPT" },
       { name: "Elyra Design to Code", description: "Turn a visual idea into working frontend code.", status: "CONCEPT" },

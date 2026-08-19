@@ -227,6 +227,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [sandboxFiles, setSandboxFiles] = useState<SandboxFile[]>([]);
   const [sandboxOpen, setSandboxOpen] = useState(false);
+  const [sandboxAutoRun, setSandboxAutoRun] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -291,6 +292,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
       return [...prev, { name, content: code, language: lang }];
     });
     setSandboxOpen(true);
+    setSandboxAutoRun(true);
   }, []);
 
   const handleUpdateSandboxFile = useCallback((name: string, content: string) => {
@@ -1875,6 +1877,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             onUpdateFile={handleUpdateSandboxFile}
             onReset={handleResetSandbox}
             onClose={() => setSandboxOpen(false)}
+            autoRun={sandboxAutoRun}
           />
         </div>
       )}
