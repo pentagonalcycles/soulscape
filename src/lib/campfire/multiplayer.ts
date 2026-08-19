@@ -117,30 +117,41 @@ export class CampfireMultiplayer {
       payload: msg,
     });
     this.onMessage?.(msg);
-    // Persist to database
+    // Persist to database (fire and forget)
     supabase().from("campfire_messages").insert({
       room_id: this.roomId,
       user_name: this.userName,
       user_color: this.userColor,
       message: text.trim(),
+    }).then(({ error }) => {
+      if (error) console.error("[Campfire] Error saving message:", error);
     });
   }
 
   async loadRecent(): Promise<CampfireMessage[]> {
-    const { data } = await supabase()
-      .from("campfire_messages")
-      .select("user_name, user_color, message, created_at")
-      .eq("room_id", this.roomId)
-      .order("created_at", { ascending: false })
-      .limit(30);
-    if (!data) return [];
-    return data.reverse().map((row) => ({
-      name: row.user_name,
-      color: row.user_color,
-      text: row.message,
-      timestamp: new Date(row.created_at).getTime(),
-      type: "message" as const,
-    }));
+    try {
+      const { data, error } = await supabase()
+        .from("campfire_messages")
+        .select("user_name, user_color, message, created_at")
+        .eq("room_id", this.roomId)
+        .order("created_at", { ascending: false })
+        .limit(30);
+      if (error) {
+        console.error("[Campfire] Error loading messages:", error);
+        return [];
+      }
+      if (!data) return [];
+      return data.reverse().map((row) => ({
+        name: row.user_name,
+        color: row.user_color,
+        text: row.message,
+        timestamp: new Date(row.created_at).getTime(),
+        type: "message" as const,
+      }));
+    } catch (err) {
+      console.error("[Campfire] Failed to load messages:", err);
+      return [];
+    }
   }
 
   startTyping(): void {
