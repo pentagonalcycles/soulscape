@@ -16,7 +16,7 @@ const faqSections = [
       },
       {
         q: "How much does it cost?",
-        a: "Many features are free to use, including Share, Ideas, Human Signal, Campfire, Poetry, and more. Some premium features like Luna AI and Dream Canvas have a small one-time unlock fee.",
+        a: "Everything is free — Dream Canvas, Mural, Campfire, Poetry, Tarot, Camera, and more. The only paid feature is Luna AI (your personal AI companion), which has a small one-time fee of £6.99.",
       },
       {
         q: "Do I need to create an account?",

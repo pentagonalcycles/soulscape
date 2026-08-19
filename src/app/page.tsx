@@ -283,6 +283,22 @@ export default function Home() {
             </p>
           </motion.div>
 
+          {/* Pricing info */}
+          <motion.div
+            className="text-center p-4 rounded-2xl mb-16"
+            style={{ background: "rgba(0, 255, 136, 0.02)", border: "1px solid rgba(0, 255, 136, 0.06)" }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="text-xs leading-relaxed" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
+              Everything on Elovayne is free. The only paid feature is{" "}
+              <span style={{ color: "#00ff88" }}>Luna AI</span>
+              {" "}— your personal AI companion — which costs a small one-time fee.
+            </p>
+          </motion.div>
+
           {/* Crisis support */}
           <motion.div
             className="text-center p-4 rounded-2xl"
