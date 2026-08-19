@@ -22,6 +22,9 @@ export default function SignalNotification() {
   const [chatSignal, setChatSignal] = useState<HumanSignal | null>(null);
 
   useEffect(() => {
+    // Check if signal notifications are disabled
+    if (localStorage.getItem("signal_notifications_disabled") === "true") return;
+
     const client = supabase();
     const uid = userId || localStorage.getItem("elovayne-visitor-id");
 

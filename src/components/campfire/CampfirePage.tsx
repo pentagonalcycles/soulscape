@@ -16,7 +16,16 @@ export default function CampfirePage() {
   const [messages, setMessages] = useState<CampfireMessage[]>([]);
   const [presences, setPresences] = useState<CampfirePresence[]>([]);
   const [theme, setTheme] = useState<CampfireTheme>("dark");
+  const [soundOn, setSoundOn] = useState(() => localStorage.getItem("campfire_sound_off") !== "true");
   const multiRef = useRef<CampfireMultiplayer | null>(null);
+
+  const toggleSound = useCallback(() => {
+    setSoundOn(prev => {
+      const next = !prev;
+      localStorage.setItem("campfire_sound_off", String(!next));
+      return next;
+    });
+  }, []);
 
   const handleJoin = useCallback(async (room: CampfireRoom, displayName: string) => {
     setCurrentRoom(room);
