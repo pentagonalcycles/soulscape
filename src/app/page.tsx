@@ -433,6 +433,11 @@ export default function Home() {
                   "Post bookmarks sync",
                   "Mobile app (PWA improvements)",
                   "Accessibility enhancements",
+                  "Community events & gatherings",
+                  "Collaborative storytelling",
+                  "Mood-based room suggestions",
+                  "Daily inspiration quotes",
+                  "User-created rooms",
                 ].map((item) => (
                   <div key={item} style={{
                     display: "flex", alignItems: "center", gap: 8,
