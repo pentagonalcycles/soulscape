@@ -2,10 +2,12 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useState } from "react";
 import ElovayneLogo from "@/components/ElovayneLogo";
 import GlowingPortal from "@/components/GlowingPortal";
 
 export default function Home() {
+  const [activeCategory, setActiveCategory] = useState<"elyra" | "arcana" | "threads">("elyra");
   return (
     <main className="relative min-h-screen overflow-hidden">
 
@@ -411,7 +413,7 @@ export default function Home() {
                 padding: "24px",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
                 <span style={{
                   width: 8, height: 8, borderRadius: "50%",
                   background: "#fbbf24",
@@ -422,35 +424,78 @@ export default function Home() {
                   fontSize: 11, color: "#fbbf24",
                   letterSpacing: "2px", textTransform: "uppercase",
                   fontFamily: "monospace", fontWeight: 600,
-                }}>In Progress</span>
+                }}>Coming Soon</span>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+
+              {/* Category Tabs */}
+              <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
                 {[
-                  "Voice recordings",
-                  "More AI personalities",
-                  "Custom profile themes",
-                  "Notification system",
-                  "Post bookmarks sync",
-                  "Mobile app (PWA improvements)",
-                  "Accessibility enhancements",
-                  "Community events & gatherings",
-                  "Collaborative storytelling",
-                  "Mood-based room suggestions",
-                  "Daily inspiration quotes",
-                  "User-created rooms",
-                  "Dream Journal — record & share dreams",
-                  "Memory Garden — plant memories that grow",
-                ].map((item) => (
-                  <div key={item} style={{
-                    display: "flex", alignItems: "center", gap: 8,
-                    padding: "4px 0",
-                    fontSize: 13,
-                    color: "rgba(240, 255, 245, 0.65)",
-                    fontWeight: 300,
-                  }}>
-                    <span style={{ color: "rgba(251, 191, 36, 0.4)", fontSize: 8 }}>&#9654;</span>
-                    {item}
-                  </div>
+                  { id: "elyra" as const, label: "Elyra", icon: "✦" },
+                  { id: "arcana" as const, label: "Arcana", icon: "☽" },
+                  { id: "threads" as const, label: "Threads", icon: "🧶" },
+                ].map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setActiveCategory(cat.id)}
+                    style={{
+                      display: "flex", alignItems: "center", gap: 6,
+                      padding: "8px 16px", borderRadius: 10,
+                      background: activeCategory === cat.id ? "rgba(0, 255, 136, 0.12)" : "rgba(255, 255, 255, 0.02)",
+                      border: `1px solid ${activeCategory === cat.id ? "rgba(0, 255, 136, 0.3)" : "rgba(255, 255, 255, 0.06)"}`,
+                      color: activeCategory === cat.id ? "#00ff88" : "rgba(240, 255, 245, 0.5)",
+                      fontSize: 12, fontFamily: "monospace", fontWeight: 500,
+                      cursor: "pointer", transition: "all 0.3s ease",
+                    }}
+                  >
+                    <span>{cat.icon}</span>
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Feature Cards */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
+                {getFeatures(activeCategory).map((feature, i) => (
+                  <motion.div
+                    key={feature.name}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: i * 0.05 }}
+                    style={{
+                      background: "rgba(0, 0, 0, 0.2)",
+                      border: "1px solid rgba(255, 255, 255, 0.06)",
+                      borderRadius: 12,
+                      padding: "16px",
+                      transition: "all 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.15)";
+                      e.currentTarget.style.background = "rgba(0, 255, 136, 0.03)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.06)";
+                      e.currentTarget.style.background = "rgba(0, 0, 0, 0.2)";
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ fontSize: 13, color: "rgba(240, 255, 245, 0.9)", fontWeight: 500 }}>
+                        {feature.name}
+                      </span>
+                      <span style={{
+                        fontSize: 9, padding: "3px 8px", borderRadius: 6,
+                        background: getStatusColor(feature.status).bg,
+                        color: getStatusColor(feature.status).text,
+                        border: `1px solid ${getStatusColor(feature.status).border}`,
+                        fontFamily: "monospace", fontWeight: 600,
+                        letterSpacing: "0.5px", textTransform: "uppercase",
+                      }}>
+                        {feature.status}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: 11, color: "rgba(240, 255, 245, 0.5)", lineHeight: 1.5, margin: 0 }}>
+                      {feature.description}
+                    </p>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
@@ -496,4 +541,58 @@ export default function Home() {
       </section>
     </main>
   );
+}
+
+interface Feature {
+  name: string;
+  description: string;
+  status: "CONCEPT" | "BUILDING" | "TESTING" | "NEARLY READY";
+}
+
+function getStatusColor(status: string) {
+  switch (status) {
+    case "BUILDING":
+      return { bg: "rgba(59, 130, 246, 0.15)", text: "#60a5fa", border: "rgba(59, 130, 246, 0.3)" };
+    case "TESTING":
+      return { bg: "rgba(168, 85, 247, 0.15)", text: "#c084fc", border: "rgba(168, 85, 247, 0.3)" };
+    case "NEARLY READY":
+      return { bg: "rgba(0, 255, 136, 0.15)", text: "#00ff88", border: "rgba(0, 255, 136, 0.3)" };
+    default:
+      return { bg: "rgba(251, 191, 36, 0.15)", text: "#fbbf24", border: "rgba(251, 191, 36, 0.3)" };
+  }
+}
+
+function getFeatures(category: "elyra" | "arcana" | "threads"): Feature[] {
+  const features: Record<string, Feature[]> = {
+    elyra: [
+      { name: "Elyra Sandbox", description: "Run and preview code safely inside an isolated workspace.", status: "BUILDING" },
+      { name: "Elyra Voice", description: "Talk naturally with Elyra using your voice.", status: "CONCEPT" },
+      { name: "Elyra Projects", description: "Build something with Elyra and return to it later.", status: "BUILDING" },
+      { name: "Elyra Preview", description: "See what you're building directly inside Elyra.", status: "CONCEPT" },
+      { name: "Elyra Vision", description: "Show Elyra something and let her understand it.", status: "CONCEPT" },
+      { name: "Elyra Build Mode", description: "Describe what you want. Elyra helps build it.", status: "CONCEPT" },
+      { name: "Elyra Code Preview", description: "Write code. See the result. Improve it instantly.", status: "CONCEPT" },
+      { name: "Elyra Project Memory", description: "Elyra remembers the important details of each project.", status: "CONCEPT" },
+      { name: "Elyra Debugger", description: "Find the problem and help fix it.", status: "CONCEPT" },
+      { name: "Elyra Design to Code", description: "Turn a visual idea into working frontend code.", status: "CONCEPT" },
+      { name: "Elyra Website Inspector", description: "Let Elyra examine a website and explain what could be improved.", status: "CONCEPT" },
+    ],
+    arcana: [
+      { name: "Elovayne Tarot Deck", description: "An original 78-card deck created specifically for Elovayne.", status: "BUILDING" },
+      { name: "Tarot Reading Intelligence", description: "Deeper readings that understand the whole spread.", status: "CONCEPT" },
+      { name: "Arcana Personal Decks", description: "Make Tarot feel more personal with different visual styles.", status: "CONCEPT" },
+      { name: "Arcana Reading Stories", description: "Turn a spread into one connected story.", status: "CONCEPT" },
+      { name: "Arcana Compare", description: "Explore what two or more cards mean together.", status: "CONCEPT" },
+    ],
+    threads: [
+      { name: "Threads Pattern Studio", description: "Turn an idea into a personalised knitting or crochet pattern.", status: "BUILDING" },
+      { name: "Threads Visual Guide", description: "See difficult stitches and pattern steps more clearly.", status: "CONCEPT" },
+      { name: "Threads Pattern Scanner", description: "Turn a confusing pattern into clear steps.", status: "CONCEPT" },
+      { name: "Threads Size Adapt", description: "Adapt a pattern to a different size.", status: "CONCEPT" },
+      { name: "Threads Yarn Match", description: "Find what you can make with the yarn you already own.", status: "CONCEPT" },
+      { name: "Threads Project Rescue", description: "Fix mistakes without starting over.", status: "CONCEPT" },
+      { name: "Threads Pattern Visualiser", description: "See how a pattern should begin to take shape.", status: "CONCEPT" },
+    ],
+  };
+  return features[category] || [];
 }
