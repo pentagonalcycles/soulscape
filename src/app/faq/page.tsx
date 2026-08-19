@@ -81,10 +81,6 @@ const faqSections = [
         a: "Daily prompts inspire anonymous poems. Write with a pen name, read others page by page, and react with hearts and poetic reactions.",
       },
       {
-        q: "What is Soul Map?",
-        a: "Answer deep questions about yourself. Each answer adds a ring to your mandala. Watch your inner world grow. Fully private, stored on your device.",
-      },
-      {
         q: "What is Nebula Orb?",
         a: "A multiplayer cosmic arena where you consume orbs, grow, and compete. Choose your skin, trail, and pet. Play on mobile or desktop.",
       },

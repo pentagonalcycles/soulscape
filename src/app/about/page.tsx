@@ -63,7 +63,6 @@ const sections = [
       "Paint together in the Collaborative Mural in real-time.",
       "Sit around a Campfire and chat anonymously.",
       "Write poems inspired by daily prompts in Poetry.",
-      "Map your inner world with Soul Map — a private mandala.",
       "Play Nebula Orb, a multiplayer cosmic arena game.",
       "Use Cosmic Camera with 36 filters and creative effects.",
       "Share music and art with the Community Share.",

@@ -16,11 +16,11 @@ import PresenceMap from "@/components/PresenceMap";
 import SignalNotification from "@/components/human-signal/SignalNotification";
 import { useBgTheme } from "@/lib/useBgTheme";
 
-const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads"];
-const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads"];
-const NO_ELYRA_BUTTON_ROUTES = ["/", "/elyra", "/camera", "/mural", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads"];
-const NO_FOOTER_ROUTES = ["/elyra", "/mural", "/campfire", "/poetry", "/soul-map", "/tarot", "/threads"];
-const DARK_PAGES = ["/campfire", "/soul-map", "/poetry", "/tarot", "/threads"];
+const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/campfire", "/poetry", "/tarot", "/threads"];
+const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/campfire", "/poetry", "/tarot", "/threads"];
+const NO_ELYRA_BUTTON_ROUTES = ["/", "/elyra", "/camera", "/mural", "/campfire", "/poetry", "/tarot", "/threads"];
+const NO_FOOTER_ROUTES = ["/elyra", "/mural", "/campfire", "/poetry", "/tarot", "/threads"];
+const DARK_PAGES = ["/campfire", "/poetry", "/tarot", "/threads"];
 
 function BannedScreen() {
   const { banReason, signOut } = useAuth();
@@ -108,7 +108,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
     "/mural": "mural",
     "/campfire": "campfire",
     "/poetry": "poetry",
-    "/soul-map": "soul map",
     "/nebula-orb": "nebula orb",
     "/human-signal": "human signal",
     "/ideas": "ideas board",
