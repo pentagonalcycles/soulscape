@@ -352,7 +352,7 @@ try { ${js} } catch(e) { parent.postMessage({type:'console',level:'error',args:[
           <button onClick={handleReset} style={{
             ...btnStyle(),
             color: confirmReset ? "#ff4444" : "rgba(255, 255, 255, 0.4)",
-            borderColor: confirmReset ? "rgba(255, 68, 68, 0.3)" : "rgba(255, 255, 255, 0.06)",
+            border: `1px solid ${confirmReset ? "rgba(255, 68, 68, 0.3)" : "rgba(255, 255, 255, 0.06)"}`,
           }} title={confirmReset ? "Click again to confirm" : "Reset sandbox"}>
             {confirmReset ? "Confirm?" : "Reset"}
           </button>

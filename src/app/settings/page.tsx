@@ -376,7 +376,7 @@ export default function SettingsPage() {
 
             {/* ========== DANGER ZONE ========== */}
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.55 }}>
-              <div style={{ ...cardStyle, borderColor: "rgba(255,80,80,0.1)" }}>
+              <div style={{ ...cardStyle, border: `1px solid rgba(255,80,80,0.1)` }}>
                 <h2 className="text-base mb-3" style={{ color: "rgba(255,80,80,0.7)", fontWeight: 500 }}>Danger Zone</h2>
 
                 {/* Clear Luna Memory */}
