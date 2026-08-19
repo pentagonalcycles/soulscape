@@ -7,7 +7,7 @@ import ElovayneLogo from "@/components/ElovayneLogo";
 import GlowingPortal from "@/components/GlowingPortal";
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState<"elyra" | "arcana" | "threads" | "campfire" | "mural">("elyra");
+  const [activeCategory, setActiveCategory] = useState<"luna" | "arcana" | "threads" | "campfire" | "mural">("luna");
   return (
     <main className="relative min-h-screen overflow-hidden">
 
@@ -383,7 +383,7 @@ export default function Home() {
               {/* Category Tabs */}
               <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
                 {[
-                  { id: "elyra" as const, label: "Elyra", icon: "✦" },
+                  { id: "luna" as const, label: "Luna", icon: "✦" },
                   { id: "arcana" as const, label: "Arcana", icon: "☽" },
                   { id: "threads" as const, label: "Threads", icon: "🧶" },
                   { id: "campfire" as const, label: "Campfire", icon: "🔥" },
@@ -517,9 +517,16 @@ function getStatusColor(status: string) {
   }
 }
 
-function getFeatures(category: "elyra" | "arcana" | "threads" | "campfire" | "mural"): Feature[] {
+function getFeatures(category: "luna" | "arcana" | "threads" | "campfire" | "mural"): Feature[] {
   const features: Record<string, Feature[]> = {
-    elyra: [],
+    luna: [
+      { name: "Luna Test Lab", description: "Let Luna automatically test what you build and find what breaks.", status: "CONCEPT" },
+      { name: "Luna Version Time Machine", description: "Return to an earlier version of your project.", status: "CONCEPT" },
+      { name: "Luna Deploy", description: "Take a finished Luna project from build to the web.", status: "CONCEPT" },
+      { name: "Luna Research", description: "Let Luna investigate a topic using current sources.", status: "CONCEPT" },
+      { name: "Luna Security Audit", description: "Check a project for security problems before release.", status: "CONCEPT" },
+      { name: "Luna Prototype Mode", description: "Turn an idea into a working first prototype.", status: "CONCEPT" },
+    ],
     arcana: [
       { name: "Elovayne Tarot Deck", description: "An original 78-card deck created specifically for Elovayne.", status: "BUILDING" },
       { name: "Tarot Reading Intelligence", description: "Deeper readings that understand the whole spread.", status: "CONCEPT" },
