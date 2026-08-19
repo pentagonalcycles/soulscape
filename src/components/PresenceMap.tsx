@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { useAllPresence, usePagePresence } from "@/hooks/usePagePresence";
 
@@ -45,6 +45,10 @@ const PAGE_ICONS: Record<string, string> = {
 export default function PresenceMap() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const [position, setPosition] = useState({ x: 16, y: 60 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartRef = useRef({ x: 0, y: 0, posX: 0, posY: 0 });
+  const dragMovedRef = useRef(false);
   
   // Track current page presence
   const currentCount = usePagePresence(pathname);
@@ -64,15 +68,58 @@ export default function PresenceMap() {
     window.location.href = path;
   };
 
+  const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    dragStartRef.current = { x: clientX, y: clientY, posX: position.x, posY: position.y };
+    setIsDragging(true);
+    dragMovedRef.current = false;
+  }, [position]);
+
+  const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
+    if (!isDragging) return;
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    const dx = clientX - dragStartRef.current.x;
+    const dy = clientY - dragStartRef.current.y;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) dragMovedRef.current = true;
+    setPosition({
+      x: Math.max(0, Math.min(window.innerWidth - 150, dragStartRef.current.posX + dx)),
+      y: Math.max(0, Math.min(window.innerHeight - 40, dragStartRef.current.posY + dy)),
+    });
+  }, [isDragging]);
+
+  const handleDragEnd = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener("mousemove", handleDragMove);
+      window.addEventListener("mouseup", handleDragEnd);
+      window.addEventListener("touchmove", handleDragMove);
+      window.addEventListener("touchend", handleDragEnd);
+      return () => {
+        window.removeEventListener("mousemove", handleDragMove);
+        window.removeEventListener("mouseup", handleDragEnd);
+        window.removeEventListener("touchmove", handleDragMove);
+        window.removeEventListener("touchend", handleDragEnd);
+      };
+    }
+  }, [isDragging, handleDragMove, handleDragEnd]);
+
   return (
     <>
       {/* Toggle button */}
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => { if (!dragMovedRef.current) setOpen(!open); }}
+        onMouseDown={handleDragStart}
+        onTouchStart={handleDragStart}
         style={{
           position: "fixed",
-          bottom: 60,
-          left: 16,
+          bottom: "auto",
+          left: position.x,
+          top: position.y,
           zIndex: 60,
           display: "flex",
           alignItems: "center",
@@ -82,12 +129,13 @@ export default function PresenceMap() {
           background: open ? "rgba(0, 255, 136, 0.12)" : "rgba(0, 255, 136, 0.06)",
           border: `1px solid ${open ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.12)"}`,
           backdropFilter: "blur(8px)",
-          cursor: "pointer",
-          transition: "all 0.2s",
+          cursor: isDragging ? "grabbing" : "grab",
+          transition: isDragging ? "none" : "all 0.2s",
           color: "rgba(0, 255, 136, 0.8)",
           fontSize: 11,
           fontFamily: "monospace",
           letterSpacing: "0.5px",
+          userSelect: "none",
         }}
       >
         <span style={{
@@ -107,8 +155,8 @@ export default function PresenceMap() {
         <div
           style={{
             position: "fixed",
-            bottom: 96,
-            left: 16,
+            top: position.y + 40,
+            left: position.x,
             zIndex: 60,
             width: 240,
             maxHeight: 360,
