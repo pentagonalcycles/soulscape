@@ -7,7 +7,7 @@ import ElovayneLogo from "@/components/ElovayneLogo";
 import GlowingPortal from "@/components/GlowingPortal";
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState<"elyra" | "arcana" | "threads">("elyra");
+  const [activeCategory, setActiveCategory] = useState<"elyra" | "arcana" | "threads" | "campfire" | "mural">("elyra");
   return (
     <main className="relative min-h-screen overflow-hidden">
 
@@ -428,11 +428,13 @@ export default function Home() {
               </div>
 
               {/* Category Tabs */}
-              <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+              <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
                 {[
                   { id: "elyra" as const, label: "Elyra", icon: "✦" },
                   { id: "arcana" as const, label: "Arcana", icon: "☽" },
                   { id: "threads" as const, label: "Threads", icon: "🧶" },
+                  { id: "campfire" as const, label: "Campfire", icon: "🔥" },
+                  { id: "mural" as const, label: "Mural", icon: "🎨" },
                 ].map((cat) => (
                   <button
                     key={cat.id}
@@ -562,7 +564,7 @@ function getStatusColor(status: string) {
   }
 }
 
-function getFeatures(category: "elyra" | "arcana" | "threads"): Feature[] {
+function getFeatures(category: "elyra" | "arcana" | "threads" | "campfire" | "mural"): Feature[] {
   const features: Record<string, Feature[]> = {
     elyra: [
       { name: "Elyra Sandbox", description: "Run and preview code safely inside an isolated workspace.", status: "BUILDING" },
@@ -592,6 +594,25 @@ function getFeatures(category: "elyra" | "arcana" | "threads"): Feature[] {
       { name: "Threads Yarn Match", description: "Find what you can make with the yarn you already own.", status: "CONCEPT" },
       { name: "Threads Project Rescue", description: "Fix mistakes without starting over.", status: "CONCEPT" },
       { name: "Threads Pattern Visualiser", description: "See how a pattern should begin to take shape.", status: "CONCEPT" },
+    ],
+    campfire: [
+      { name: "Campfire Topics", description: "Gentle shared questions or topics for people around the Campfire.", status: "CONCEPT" },
+      { name: "Pass the Flame", description: "Leave a question, thought or short message for the next person who arrives.", status: "CONCEPT" },
+      { name: "Quiet Mode", description: "Allow people to stay around the Campfire without needing to speak or participate.", status: "CONCEPT" },
+      { name: "Campfire Prompts", description: "Subtle conversation starters when the Campfire becomes quiet.", status: "CONCEPT" },
+      { name: "Campfire Stories", description: "Allow people to contribute short pieces to shared stories or conversations.", status: "CONCEPT" },
+      { name: "Anonymous Campfire", description: "Explore safe anonymous participation while keeping moderation and reporting available.", status: "CONCEPT" },
+      { name: "Elyra at the Campfire", description: "Use Elyra to optionally provide conversation prompts or help when requested.", status: "CONCEPT" },
+      { name: "Campfire Archive", description: "Preserve selected shared Campfire moments or community stories.", status: "CONCEPT" },
+    ],
+    mural: [
+      { name: "Collaborative Mural", description: "Allow multiple people to contribute to the same shared canvas.", status: "BUILDING" },
+      { name: "Mural Layers", description: "Allow creative additions without permanently destroying previous artwork.", status: "CONCEPT" },
+      { name: "Mural Time-Lapse", description: "Replay how a mural developed from beginning to completion.", status: "CONCEPT" },
+      { name: "Anonymous Marks", description: "Allow people to leave a small drawing, word, colour or symbol without prominently showing their identity.", status: "CONCEPT" },
+      { name: "Mural Themes", description: "Create occasional shared mural themes such as Hope, Chaos, Memory, Dreams, Connection, Change.", status: "CONCEPT" },
+      { name: "Elyra Mural Prompt", description: "Use Elyra to optionally give someone a creative prompt when they do not know what to add.", status: "CONCEPT" },
+      { name: "Mural Archive", description: "Preserve completed murals so new collaborative murals can begin without losing earlier artwork.", status: "CONCEPT" },
     ],
   };
   return features[category] || [];
