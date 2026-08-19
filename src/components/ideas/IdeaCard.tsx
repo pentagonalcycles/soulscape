@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 
 const categoryConfig: Record<string, { label: string; icon: string; color: string }> = {
-  improvement: { label: "Improvement", icon: "✦", color: "#00ff88" },
+  improvement: { label: "Improvement", icon: "✦", color: "var(--elovayne-nebula)" },
   addition: { label: "Addition", icon: "◎", color: "#3b82f6" },
   change: { label: "Change", icon: "◇", color: "#8b5cf6" },
   bug: { label: "Bug", icon: "△", color: "#ef4444" },
@@ -139,7 +139,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
             style={{
               background: idea.userVoted ? "rgba(0, 255, 136, 0.12)" : "rgba(0, 255, 136, 0.04)",
               border: `1px solid ${idea.userVoted ? "rgba(0, 255, 136, 0.25)" : "rgba(0, 255, 136, 0.08)"}`,
-              color: idea.userVoted ? "#00ff88" : "var(--text-dim, #94a3b8)",
+              color: idea.userVoted ? "var(--elovayne-nebula)" : "var(--text-dim, #94a3b8)",
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -148,7 +148,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
               <path d="M12 4l-8 8h5v8h6v-8h5z" />
             </svg>
           </motion.button>
-          <span className="text-xs font-medium" style={{ color: idea.userVoted ? "#00ff88" : "var(--text-dim, #94a3b8)" }}>
+          <span className="text-xs font-medium" style={{ color: idea.userVoted ? "var(--elovayne-nebula)" : "var(--text-dim, #94a3b8)" }}>
             {idea.voteCount}
           </span>
         </div>
@@ -191,7 +191,7 @@ export default function IdeaCard({ idea, userId, onVote, onDelete, isAdmin }: Id
             <button
               onClick={() => setShowComments(!showComments)}
               className="flex items-center gap-1.5 text-xs transition-colors"
-              style={{ color: showComments ? "#00ff88" : "var(--text-dim, #94a3b8)" }}
+              style={{ color: showComments ? "var(--elovayne-nebula)" : "var(--text-dim, #94a3b8)" }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />

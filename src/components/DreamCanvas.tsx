@@ -594,7 +594,7 @@ const DreamCanvas = forwardRef<DreamCanvasRef, DreamCanvasProps>(
             
             // ─── AURORA - Shifting colors ───
             case "aurora": {
-              const colors = ["#00ff88", "#00ccff", "#8855ff", "#ff55aa"];
+              const colors = ["var(--elovayne-nebula)", "#00ccff", "#8855ff", "#ff55aa"];
               for (let i = 0; i < 4; i++) {
                 const ox = (Math.random() - 0.5) * actualSize * 0.5;
                 const oy = (Math.random() - 0.5) * actualSize * 0.5;

@@ -51,7 +51,7 @@ const resources = [
     title: "International Association for Suicide Prevention",
     desc: "Crisis centers worldwide",
     link: "https://www.iasp.info/resources/Crisis_Centres/",
-    color: "#00ff88",
+    color: "var(--elovayne-nebula)",
   },
   {
     icon: "💜",
@@ -86,7 +86,7 @@ export default function SupportPage() {
             <h1
               className="text-3xl sm:text-4xl font-light tracking-wide mb-3"
               style={{
-                background: "linear-gradient(135deg, #00ff88, #00cc6a)",
+                background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 textShadow: "0 0 30px rgba(0, 255, 136, 0.2), 0 0 60px rgba(57, 255, 20, 0.08)",
@@ -186,7 +186,7 @@ export default function SupportPage() {
                       animate={{ rotate: openFaq === i ? 45 : 0 }}
                       transition={{ duration: 0.2 }}
                       className="text-lg flex-shrink-0"
-                      style={{ color: "#00ff88" }}
+                      style={{ color: "var(--elovayne-nebula)" }}
                     >
                       +
                     </motion.span>

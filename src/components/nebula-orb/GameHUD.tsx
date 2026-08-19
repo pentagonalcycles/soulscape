@@ -35,7 +35,7 @@ const POWERUP_ICONS: Record<string, string> = {
 };
 
 const POWERUP_COLORS: Record<string, string> = {
-  speed: "#00cc6a",
+  speed: "var(--elovayne-violet)",
   shield: "#10b981",
   ghost: "#a78bfa",
   glow: "#22d3ee",
@@ -119,7 +119,7 @@ export default function GameHUD({
           <div className={isMobile ? "flex items-center gap-3" : "flex items-center gap-6"}>
             <div>
               <div className="text-[8px] uppercase tracking-wider" style={{ color: textMuted }}>Score</div>
-              <div className={isMobile ? "text-base font-bold" : "text-lg font-bold"} style={{ color: "#00ff88" }}>{Math.round(score)}</div>
+              <div className={isMobile ? "text-base font-bold" : "text-lg font-bold"} style={{ color: "var(--elovayne-nebula)" }}>{Math.round(score)}</div>
             </div>
             <div>
               <div className="text-[8px] uppercase tracking-wider" style={{ color: textMuted }}>Kills</div>
@@ -128,7 +128,7 @@ export default function GameHUD({
             {!isMobile && (
               <div>
                 <div className="text-[8px] uppercase tracking-wider" style={{ color: textMuted }}>Size</div>
-                <div className="text-lg font-bold" style={{ color: "#00cc6a" }}>{Math.round(radius)}</div>
+                <div className="text-lg font-bold" style={{ color: "var(--elovayne-violet)" }}>{Math.round(radius)}</div>
               </div>
             )}
           </div>
@@ -222,7 +222,7 @@ export default function GameHUD({
                   backdropFilter: "blur(8px)",
                 }}
               >
-                <span style={{ color: "#00ff88" }}>{entry.killer}</span>
+                <span style={{ color: "var(--elovayne-nebula)" }}>{entry.killer}</span>
                 <span style={{ color: textMuted }}> eliminated </span>
                 <span style={{ color: "#f87171" }}>{entry.victim}</span>
               </motion.div>
@@ -245,7 +245,7 @@ export default function GameHUD({
             <div className="text-[9px] uppercase tracking-wider mb-2" style={{ color: textMuted }}>Leaderboard</div>
             {leaderboard.slice(0, 5).map((entry, i) => (
               <div key={i} className="flex items-center gap-2 py-0.5 text-[10px]">
-                <span style={{ color: i === 0 ? "#10b981" : i === 1 ? "#00ff88" : i === 2 ? "#00cc6a" : textMuted }}>
+                <span style={{ color: i === 0 ? "#10b981" : i === 1 ? "var(--elovayne-nebula)" : i === 2 ? "var(--elovayne-violet)" : textMuted }}>
                   {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`}
                 </span>
                 <span style={{ color: textPrimary }}>{entry.name}</span>

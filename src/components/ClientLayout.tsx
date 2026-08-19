@@ -128,7 +128,7 @@ function LayoutInner({ children }: { children: ReactNode }) {
         <div
           className="fixed inset-0 z-0"
           style={{
-            background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
+            background: "linear-gradient(135deg, var(--elovayne-nebula) 0%, #0088ff 50%, #8800ff 100%)",
             animation: "bg-hue-cycle 30s linear infinite",
           }}
         />

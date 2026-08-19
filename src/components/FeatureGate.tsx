@@ -45,7 +45,7 @@ export default function FeatureGate({ featureId, children }: FeatureGateProps) {
           width: 28,
           height: 28,
           border: "2px solid rgba(0, 255, 136, 0.2)",
-          borderTopColor: "#00ff88",
+          borderTopColor: "var(--elovayne-nebula)",
           borderRadius: "50%",
           animation: "spin 1s linear infinite",
         }} />
@@ -133,7 +133,7 @@ function UnlockScreen({ feature, userId, onUnlock }: { feature: Feature; userId:
             borderRadius: 12,
             background: loading
               ? "rgba(0, 255, 136, 0.1)"
-              : "linear-gradient(135deg, #00ff88, #00cc6a)",
+              : "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
             border: "none",
             color: loading ? "rgba(0, 255, 136, 0.5)" : "#050510",
             fontSize: 16,

@@ -296,7 +296,7 @@ export default function Home() {
           >
             <p className="text-xs leading-relaxed" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
               Everything on Elovayne is free. The only paid feature is{" "}
-              <span style={{ color: "#00ff88" }}>Luna AI</span>
+              <span style={{ color: "var(--elovayne-nebula)" }}>Luna AI</span>
               {" "}— your personal AI companion — which costs a small one-time fee.
             </p>
           </motion.div>
@@ -312,7 +312,7 @@ export default function Home() {
           >
             <p className="text-xs leading-relaxed" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
               In crisis? Reach out — you are not alone.{" "}
-              <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "#00ff88", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
+              <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--elovayne-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
                 findahelpline.com
               </a>
               {" "} · US: 988 · UK: 116 123
@@ -397,7 +397,7 @@ export default function Home() {
                       padding: "8px 16px", borderRadius: 10,
                       background: activeCategory === cat.id ? "rgba(0, 255, 136, 0.12)" : "rgba(255, 255, 255, 0.02)",
                       border: `1px solid ${activeCategory === cat.id ? "rgba(0, 255, 136, 0.3)" : "rgba(255, 255, 255, 0.06)"}`,
-                      color: activeCategory === cat.id ? "#00ff88" : "rgba(240, 255, 245, 0.5)",
+                      color: activeCategory === cat.id ? "var(--elovayne-nebula)" : "rgba(240, 255, 245, 0.5)",
                       fontSize: 12, fontFamily: "monospace", fontWeight: 500,
                       cursor: "pointer", transition: "all 0.3s ease",
                     }}
@@ -511,7 +511,7 @@ function getStatusColor(status: string) {
     case "TESTING":
       return { bg: "rgba(168, 85, 247, 0.15)", text: "#c084fc", border: "rgba(168, 85, 247, 0.3)" };
     case "NEARLY READY":
-      return { bg: "rgba(0, 255, 136, 0.15)", text: "#00ff88", border: "rgba(0, 255, 136, 0.3)" };
+      return { bg: "rgba(0, 255, 136, 0.15)", text: "var(--elovayne-nebula)", border: "rgba(0, 255, 136, 0.3)" };
     default:
       return { bg: "rgba(251, 191, 36, 0.15)", text: "#fbbf24", border: "rgba(251, 191, 36, 0.3)" };
   }

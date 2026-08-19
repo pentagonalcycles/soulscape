@@ -66,7 +66,7 @@ const glassStyle = {
 const sectionTitle = {
   fontSize: 14,
   fontWeight: 600,
-  color: "#00ff88",
+  color: "var(--elovayne-nebula)",
   letterSpacing: "3px",
   textTransform: "uppercase" as const,
   marginBottom: 16,
@@ -256,7 +256,7 @@ export default function ThreadsPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <h1 style={{
               fontSize: 36, fontWeight: 100, letterSpacing: "16px", textTransform: "uppercase",
-              background: "linear-gradient(135deg, #00ff88, #00cc6a, #00d4aa)",
+              background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet), var(--elovayne-nebula))",
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
               margin: "0 0 12px", textAlign: "center",
             }}>
@@ -273,7 +273,7 @@ export default function ThreadsPage() {
                   padding: "8px 20px", borderRadius: 6,
                   border: `1px solid ${craft === c ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.1)"}`,
                   background: craft === c ? "rgba(0, 255, 136, 0.08)" : "transparent",
-                  color: craft === c ? "#00ff88" : "rgba(0, 255, 136, 0.4)",
+                  color: craft === c ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.4)",
                   fontSize: 11, cursor: "pointer", fontFamily: "monospace",
                   letterSpacing: "1px", textTransform: "uppercase", transition: "all 0.2s",
                 }}>
@@ -289,7 +289,7 @@ export default function ThreadsPage() {
                   padding: "6px 14px", borderRadius: 4,
                   border: `1px solid ${termSystem === t ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
                   background: termSystem === t ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                  color: termSystem === t ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
+                  color: termSystem === t ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.3)",
                   fontSize: 10, cursor: "pointer", fontFamily: "monospace",
                   letterSpacing: "1px", textTransform: "uppercase", transition: "all 0.2s",
                 }}>
@@ -350,7 +350,7 @@ export default function ThreadsPage() {
                     flex: 1, padding: "10px", borderRadius: 6,
                     border: `1px solid ${craft === c ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.1)"}`,
                     background: craft === c ? "rgba(0, 255, 136, 0.08)" : "transparent",
-                    color: craft === c ? "#00ff88" : "rgba(0, 255, 136, 0.4)",
+                    color: craft === c ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.4)",
                     fontSize: 12, cursor: "pointer", transition: "all 0.2s",
                   }}>
                     {c === "knitting" ? "🧶 Knitting" : "🪝 Crochet"}
@@ -359,21 +359,21 @@ export default function ThreadsPage() {
               </div>
 
               {/* Project name */}
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Project Name</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Project Name</label>
               <input value={projectName} onChange={e => setProjectName(e.target.value)} placeholder="My project" style={{
                 width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                 borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 16, boxSizing: "border-box",
               }} />
 
               {/* Project type */}
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>What are you making?</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>What are you making?</label>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
                 {["Sweater", "Beanie", "Scarf", "Blanket", "Bag", "Cardigan", "Socks", "Top"].map(t => (
                   <button key={t} onClick={() => setProjectType(t)} style={{
                     padding: "6px 12px", borderRadius: 4,
                     border: `1px solid ${projectType === t ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.08)"}`,
                     background: projectType === t ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                    color: projectType === t ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
+                    color: projectType === t ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.3)",
                     fontSize: 10, cursor: "pointer", transition: "all 0.2s",
                   }}>{t}</button>
                 ))}
@@ -384,14 +384,14 @@ export default function ThreadsPage() {
               </div>
 
               {/* Size */}
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Size</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Size</label>
               <input value={projectSize} onChange={e => setProjectSize(e.target.value)} placeholder="Medium / 40 inch / Custom" style={{
                 width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                 borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 16, boxSizing: "border-box",
               }} />
 
               {/* Yarn weight */}
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Yarn Weight</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Yarn Weight</label>
               <select value={yarnWeight} onChange={e => setYarnWeight(e.target.value)} style={{
                 width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                 borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 16,
@@ -403,7 +403,7 @@ export default function ThreadsPage() {
               </select>
 
               {/* Needle/hook size */}
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>
                 {craft === "knitting" ? "Needle Size" : "Hook Size"}
               </label>
               <input value={needleHook} onChange={e => setNeedleHook(e.target.value)} placeholder="5mm / US 8" style={{
@@ -412,21 +412,21 @@ export default function ThreadsPage() {
               }} />
 
               {/* Difficulty */}
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Difficulty</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Difficulty</label>
               <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
                 {["beginner", "intermediate", "advanced"].map(d => (
                   <button key={d} onClick={() => setDifficulty(d)} style={{
                     flex: 1, padding: "8px", borderRadius: 4,
                     border: `1px solid ${difficulty === d ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.08)"}`,
                     background: difficulty === d ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                    color: difficulty === d ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
+                    color: difficulty === d ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.3)",
                     fontSize: 10, cursor: "pointer", textTransform: "capitalize", transition: "all 0.2s",
                   }}>{d}</button>
                 ))}
               </div>
 
               {/* Notes */}
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Notes</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Notes</label>
               <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Any notes about your project..." style={{
                 width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                 borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none",
@@ -437,7 +437,7 @@ export default function ThreadsPage() {
                 width: "100%", padding: "12px", borderRadius: 8,
                 background: projectName ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
                 border: `1px solid ${projectName ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                color: projectName ? "#00ff88" : "rgba(0, 255, 136, 0.2)",
+                color: projectName ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.2)",
                 fontSize: 12, cursor: projectName ? "pointer" : "default", fontFamily: "monospace",
                 letterSpacing: "1px", textTransform: "uppercase", transition: "all 0.2s",
               }}>
@@ -462,7 +462,7 @@ export default function ThreadsPage() {
                 <button onClick={() => setSection("new-project")} style={{
                   padding: "8px 20px", borderRadius: 6,
                   background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.3)",
-                  color: "#00ff88", fontSize: 11, cursor: "pointer", fontFamily: "monospace",
+                  color: "var(--elovayne-nebula)", fontSize: 11, cursor: "pointer", fontFamily: "monospace",
                   letterSpacing: "1px", textTransform: "uppercase",
                 }}>Start a Project</button>
               </div>
@@ -483,7 +483,7 @@ export default function ThreadsPage() {
                         padding: "4px 8px", borderRadius: 4, fontSize: 9,
                         background: p.status === "completed" ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)",
                         border: `1px solid ${p.status === "completed" ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                        color: p.status === "completed" ? "#00ff88" : "rgba(0, 255, 136, 0.4)",
+                        color: p.status === "completed" ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.4)",
                         textTransform: "uppercase", letterSpacing: "1px", fontFamily: "monospace",
                       }}>
                         {p.status === "completed" ? "✓ Done" : `Row ${p.current_row}`}
@@ -516,7 +516,7 @@ export default function ThreadsPage() {
                   padding: "6px 12px", borderRadius: 4, fontSize: 10,
                   background: activeProject.status === "completed" ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)",
                   border: `1px solid ${activeProject.status === "completed" ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.1)"}`,
-                  color: activeProject.status === "completed" ? "#00ff88" : "rgba(0, 255, 136, 0.5)",
+                  color: activeProject.status === "completed" ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.5)",
                   cursor: "pointer", fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
                 }}>
                   {activeProject.status === "completed" ? "✓ Complete" : "Mark Complete"}
@@ -542,7 +542,7 @@ export default function ThreadsPage() {
                 <button onClick={() => setRowCount(rowCount + 1)} style={{
                   width: 72, height: 72, borderRadius: "50%",
                   background: "rgba(0, 255, 136, 0.08)", border: "2px solid rgba(0, 255, 136, 0.3)",
-                  color: "#00ff88", fontSize: 24, cursor: "pointer",
+                  color: "var(--elovayne-nebula)", fontSize: 24, cursor: "pointer",
                 }}>+</button>
                 <button onClick={() => setRepeatCount(repeatCount + 1)} style={{
                   width: 56, height: 56, borderRadius: "50%",
@@ -591,7 +591,7 @@ export default function ThreadsPage() {
                 <button onClick={() => setRowCount(rowCount + 1)} style={{
                   width: 80, height: 80, borderRadius: "50%",
                   background: "rgba(0, 255, 136, 0.08)", border: "2px solid rgba(0, 255, 136, 0.3)",
-                  color: "#00ff88", fontSize: 28, cursor: "pointer",
+                  color: "var(--elovayne-nebula)", fontSize: 28, cursor: "pointer",
                 }}>+</button>
               </div>
               <button onClick={() => setRowCount(0)} style={{
@@ -615,7 +615,7 @@ export default function ThreadsPage() {
                   padding: "6px 14px", borderRadius: 4,
                   border: `1px solid ${stitchCraft === c ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
                   background: stitchCraft === c ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                  color: stitchCraft === c ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
+                  color: stitchCraft === c ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.3)",
                   fontSize: 10, cursor: "pointer", fontFamily: "monospace",
                   letterSpacing: "1px", textTransform: "uppercase", transition: "all 0.2s",
                 }}>{c === "all" ? "All" : c === "knitting" ? "🧶 Knitting" : "🪝 Crochet"}</button>
@@ -655,7 +655,7 @@ export default function ThreadsPage() {
               </div>
               <p style={{ fontSize: 13, color: "#cce8d8", lineHeight: 1.7, marginBottom: 20 }}>{selectedStitch.explanation}</p>
               <div style={{ marginBottom: 16 }}>
-                <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 8 }}>Steps</div>
+                <div style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 8 }}>Steps</div>
                 <ol style={{ margin: 0, paddingLeft: 20 }}>
                   {selectedStitch.steps.map((step, i) => (
                     <li key={i} style={{ fontSize: 12, color: "#cce8d8", marginBottom: 6, lineHeight: 1.6 }}>{step}</li>
@@ -664,7 +664,7 @@ export default function ThreadsPage() {
               </div>
               {selectedStitch.tips && (
                 <div>
-                  <div style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 8 }}>Tips</div>
+                  <div style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 8 }}>Tips</div>
                   {selectedStitch.tips.map((tip, i) => (
                     <p key={i} style={{ fontSize: 12, color: "#90c8a0", margin: "0 0 6px", lineHeight: 1.5 }}>• {tip}</p>
                   ))}
@@ -699,7 +699,7 @@ export default function ThreadsPage() {
                     <span style={{ fontSize: 14, fontWeight: 600, color: "#e0f5e8", fontFamily: "monospace" }}>{abbr.term}</span>
                     <span style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.4)" }}>{abbr.craft}</span>
                   </div>
-                  <div style={{ fontSize: 12, color: "#00ff88", marginBottom: 4 }}>{abbr.fullName}</div>
+                  <div style={{ fontSize: 12, color: "var(--elovayne-nebula)", marginBottom: 4 }}>{abbr.fullName}</div>
                   <div style={{ fontSize: 11, color: "#90c8a0" }}>{abbr.explanation}</div>
                 </div>
               ))}
@@ -713,7 +713,7 @@ export default function ThreadsPage() {
             <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Yarn Calculator</h2>
 
             <div style={{ ...glassStyle, maxWidth: 500, margin: "0 auto" }}>
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Project Type</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Project Type</label>
               <select value={yarnCalcProject} onChange={e => setYarnCalcProject(e.target.value)} style={{
                 width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                 borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 16,
@@ -723,7 +723,7 @@ export default function ThreadsPage() {
                 ))}
               </select>
 
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Yarn Weight</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Yarn Weight</label>
               <select value={yarnCalcWeight} onChange={e => setYarnCalcWeight(e.target.value)} style={{
                 width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                 borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 24,
@@ -753,14 +753,14 @@ export default function ThreadsPage() {
             <div style={{ ...glassStyle, maxWidth: 500, margin: "0 auto" }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
                 <div>
-                  <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Stitches</label>
+                  <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Stitches</label>
                   <input value={gaugeStitches} onChange={e => setGaugeStitches(e.target.value)} type="number" placeholder="20" style={{
                     width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                     borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", boxSizing: "border-box",
                   }} />
                 </div>
                 <div>
-                  <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Width (inches)</label>
+                  <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Width (inches)</label>
                   <input value={gaugeWidth} onChange={e => setGaugeWidth(e.target.value)} type="number" placeholder="4" style={{
                     width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                     borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", boxSizing: "border-box",
@@ -768,7 +768,7 @@ export default function ThreadsPage() {
                 </div>
               </div>
 
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Target Stitches per Inch</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Target Stitches per Inch</label>
               <input value={targetStitches} onChange={e => setTargetStitches(e.target.value)} type="number" placeholder="5" style={{
                 width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                 borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 24, boxSizing: "border-box",
@@ -777,7 +777,7 @@ export default function ThreadsPage() {
               {gaugeResult && (
                 <div style={{ padding: "16px", borderRadius: 8, background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.1)" }}>
                   <div style={{ fontSize: 13, color: "#e0f5e8", marginBottom: 4 }}>{gaugeResult.message}</div>
-                  <div style={{ fontSize: 12, color: "#00ff88" }}>{gaugeResult.action}</div>
+                  <div style={{ fontSize: 12, color: "var(--elovayne-nebula)" }}>{gaugeResult.action}</div>
                 </div>
               )}
             </div>
@@ -790,14 +790,14 @@ export default function ThreadsPage() {
             <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Pattern Helper</h2>
 
             <div style={{ ...glassStyle, maxWidth: 600, margin: "0 auto" }}>
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Paste your pattern</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Paste your pattern</label>
               <textarea value={patternInput} onChange={e => setPatternInput(e.target.value)} placeholder="Paste your knitting or crochet pattern here..." style={{
                 width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                 borderRadius: 8, padding: "12px 16px", color: "#e0f5e8", fontSize: 13, outline: "none",
                 resize: "vertical", minHeight: 150, marginBottom: 16, boxSizing: "border-box", fontFamily: "inherit",
               }} />
 
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>What do you need help with?</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>What do you need help with?</label>
               <input value={patternQuestion} onChange={e => setPatternQuestion(e.target.value)} placeholder="e.g. What does k2tog mean? Where do I increase?" style={{
                 width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                 borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 20, boxSizing: "border-box",
@@ -811,7 +811,7 @@ export default function ThreadsPage() {
                 width: "100%", padding: "12px", borderRadius: 8,
                 background: patternInput ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
                 border: `1px solid ${patternInput ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                color: patternInput ? "#00ff88" : "rgba(0, 255, 136, 0.2)",
+                color: patternInput ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.2)",
                 fontSize: 12, cursor: patternInput ? "pointer" : "default", fontFamily: "monospace",
                 letterSpacing: "1px", textTransform: "uppercase",
               }}>
@@ -827,7 +827,7 @@ export default function ThreadsPage() {
             <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Fix My Project</h2>
 
             <div style={{ ...glassStyle, maxWidth: 600, margin: "0 auto" }}>
-              <label style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Describe your problem</label>
+              <label style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Describe your problem</label>
               <textarea value={fixDescription} onChange={e => setFixDescription(e.target.value)} placeholder="e.g. My edges are curling, I have holes appearing, my stitch count is wrong..." style={{
                 width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
                 borderRadius: 8, padding: "12px 16px", color: "#e0f5e8", fontSize: 13, outline: "none",
@@ -840,7 +840,7 @@ export default function ThreadsPage() {
                     padding: "6px 10px", borderRadius: 4, fontSize: 10,
                     background: fixDescription === problem ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
                     border: `1px solid ${fixDescription === problem ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                    color: fixDescription === problem ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
+                    color: fixDescription === problem ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.3)",
                     cursor: "pointer", transition: "all 0.2s",
                   }}>{problem}</button>
                 ))}
@@ -854,7 +854,7 @@ export default function ThreadsPage() {
                 width: "100%", padding: "12px", borderRadius: 8,
                 background: fixDescription ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
                 border: `1px solid ${fixDescription ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                color: fixDescription ? "#00ff88" : "rgba(0, 255, 136, 0.2)",
+                color: fixDescription ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.2)",
                 fontSize: 12, cursor: fixDescription ? "pointer" : "default", fontFamily: "monospace",
                 letterSpacing: "1px", textTransform: "uppercase",
               }}>
@@ -888,7 +888,7 @@ export default function ThreadsPage() {
                 width: "100%", padding: "12px", borderRadius: 8,
                 background: patternInput ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
                 border: `1px solid ${patternInput ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                color: patternInput ? "#00ff88" : "rgba(0, 255, 136, 0.2)",
+                color: patternInput ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.2)",
                 fontSize: 12, cursor: patternInput ? "pointer" : "default", fontFamily: "monospace",
                 letterSpacing: "1px", textTransform: "uppercase",
               }}>
@@ -978,7 +978,7 @@ export default function ThreadsPage() {
         {/* YARN INFO (accessible from home) */}
         {section === "home" && (
           <div style={{ ...glassStyle, marginTop: 40 }}>
-            <h3 style={{ fontSize: 12, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 16 }}>Yarn Weights</h3>
+            <h3 style={{ fontSize: 12, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 16 }}>Yarn Weights</h3>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8 }}>
               {YARN_WEIGHTS.map(yw => (
                 <div key={yw.id} style={{ padding: "8px 12px", borderRadius: 6, background: "rgba(0, 255, 136, 0.02)", border: "1px solid rgba(0, 255, 136, 0.06)" }}>
@@ -988,7 +988,7 @@ export default function ThreadsPage() {
               ))}
             </div>
 
-            <h3 style={{ fontSize: 12, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 16, marginTop: 24 }}>UK/US Crochet Terms</h3>
+            <h3 style={{ fontSize: 12, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 16, marginTop: 24 }}>UK/US Crochet Terms</h3>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4, fontSize: 11 }}>
               <div style={{ color: "rgba(0, 255, 136, 0.5)", padding: "4px 8px", fontWeight: 600 }}>UK</div>
               <div style={{ color: "rgba(0, 255, 136, 0.5)", padding: "4px 8px", fontWeight: 600 }}>US</div>

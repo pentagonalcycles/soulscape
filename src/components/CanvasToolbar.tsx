@@ -106,8 +106,8 @@ interface CanvasToolbarProps {
 
 const cosmicColors = [
   "#ffffff", "#1a1a3e", "#2d1b69",
-  "#6b3fa0", "#00ff88", "#c4b5fd",
-  "#00cc6a", "#f472b6",
+  "#6b3fa0", "var(--elovayne-nebula)", "#c4b5fd",
+  "var(--elovayne-violet)", "#f472b6",
   "#10b981", "#fbbf24",
   "#60a5fa", "#818cf8",
   "#ffffff", "#e8e0f0",
@@ -115,7 +115,7 @@ const cosmicColors = [
 ];
 
 const recentColorsList = [
-  "#ffffff", "#00cc6a", "#00ff88", "#00e68a", "#10b981", "#60a5fa",
+  "#ffffff", "var(--elovayne-violet)", "var(--elovayne-nebula)", "#00e68a", "#10b981", "#60a5fa",
 ];
 
 const blendModes: { value: GlobalCompositeOperation; label: string }[] = [
@@ -298,12 +298,12 @@ const defaultPresets: BrushPreset[] = [
   },
   {
     id: "p4", name: "Nebula Mist", icon: "✧",
-    tool: { type: "airbrush", size: 120, color: "#00ff88", color2: "#00cc6a", opacity: 0.15, hardness: 0, flow: 0.15, scatter: 50, angle: 0, spacing: 30, jitter: { size: 20, opacity: 30, color: 25 }, gradientType: "radial", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
+    tool: { type: "airbrush", size: 120, color: "var(--elovayne-nebula)", color2: "var(--elovayne-violet)", opacity: 0.15, hardness: 0, flow: 0.15, scatter: 50, angle: 0, spacing: 30, jitter: { size: 20, opacity: 30, color: 25 }, gradientType: "radial", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
     createdAt: Date.now(),
   },
   {
     id: "p5", name: "Cosmic Spray", icon: "⁂",
-    tool: { type: "spray", size: 80, color: "#10b981", color2: "#00cc6a", opacity: 0.5, hardness: 0, flow: 0.4, scatter: 60, angle: 0, spacing: 20, jitter: { size: 30, opacity: 40, color: 35 }, gradientType: "linear", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
+    tool: { type: "spray", size: 80, color: "#10b981", color2: "var(--elovayne-violet)", opacity: 0.5, hardness: 0, flow: 0.4, scatter: 60, angle: 0, spacing: 20, jitter: { size: 30, opacity: 40, color: 35 }, gradientType: "linear", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
     createdAt: Date.now(),
   },
   {

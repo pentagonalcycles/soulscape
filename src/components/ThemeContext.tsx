@@ -132,7 +132,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--elovayne-text-secondary", "#cce8d8");
     root.style.setProperty("--elovayne-border", "rgba(0, 255, 136, 0.18)");
     root.style.setProperty("--elovayne-gold", "#ffd700");
-    root.style.setProperty("--elovayne-teal", "#00d4aa");
+    root.style.setProperty("--elovayne-teal", "var(--elovayne-nebula)");
     root.style.setProperty("--bg-color", "#1f3828");
     root.style.setProperty("--text-primary", "#edfcf3");
     root.style.setProperty("--text-secondary", "#cce8d8");

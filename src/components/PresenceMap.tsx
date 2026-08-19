@@ -142,7 +142,7 @@ export default function PresenceMap() {
           width: 7,
           height: 7,
           borderRadius: "50%",
-          background: "#00ff88",
+          background: "var(--elovayne-nebula)",
           boxShadow: "0 0 8px rgba(0, 255, 136, 0.6)",
           animation: "pulse 2s ease-in-out infinite",
         }} />
@@ -177,7 +177,7 @@ export default function PresenceMap() {
           }}>
             <span style={{
               fontSize: 10,
-              color: "#00ff88",
+              color: "var(--elovayne-nebula)",
               letterSpacing: "2px",
               textTransform: "uppercase",
               fontFamily: "monospace",
@@ -255,7 +255,7 @@ export default function PresenceMap() {
                   <span style={{
                     fontSize: 11,
                     fontWeight: 600,
-                    color: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.5)",
+                    color: count > 1 ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.5)",
                     fontFamily: "monospace",
                     minWidth: 20,
                     textAlign: "right",
@@ -266,7 +266,7 @@ export default function PresenceMap() {
                     width: 6,
                     height: 6,
                     borderRadius: "50%",
-                    background: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.3)",
+                    background: count > 1 ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.3)",
                     boxShadow: count > 1 ? "0 0 6px rgba(0, 255, 136, 0.5)" : "none",
                   }} />
                 </button>

@@ -313,7 +313,7 @@ const GameCanvas = forwardRef<GameCanvasRef, GameCanvasProps>(({ state, onDeath,
           const knobX = joy.x + joy.dx * JOYSTICK_RADIUS;
           const knobY = joy.y + joy.dy * JOYSTICK_RADIUS;
           ctx.globalAlpha = 0.5;
-          ctx.fillStyle = "#00ff88";
+          ctx.fillStyle = "var(--elovayne-nebula)";
           ctx.beginPath();
           ctx.arc(knobX, knobY, JOYSTICK_KNOB_RADIUS, 0, Math.PI * 2);
           ctx.fill();

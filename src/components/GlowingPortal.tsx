@@ -47,7 +47,7 @@ export default function GlowingPortal() {
             style={{
               top: "50%",
               left: "-3px",
-              background: "#00ff88",
+              background: "var(--elovayne-nebula)",
               boxShadow: "0 0 8px rgba(0, 255, 136, 0.6)",
             }}
           />
@@ -56,7 +56,7 @@ export default function GlowingPortal() {
             style={{
               top: "-3px",
               left: "50%",
-              background: "#57ff14",
+              background: "var(--elovayne-cosmic-pink)",
               boxShadow: "0 0 6px rgba(57, 255, 20, 0.5)",
             }}
           />
@@ -188,11 +188,11 @@ export default function GlowingPortal() {
             <div className="flex items-center gap-1.5">
               <motion.div
                 className="w-1 h-1 rounded-full"
-                  style={{ background: isHovered ? "#57ff14" : "#00ff88" }}
+                  style={{ background: isHovered ? "var(--elovayne-cosmic-pink)" : "var(--elovayne-nebula)" }}
                 animate={{
                   opacity: isHovered ? [1, 0.4, 1] : [0.5, 0.8, 0.5],
                   boxShadow: isHovered
-                    ? ["0 0 4px #57ff14", "0 0 2px #57ff14", "0 0 4px #57ff14"]
+                    ? ["0 0 4px var(--elovayne-cosmic-pink)", "0 0 2px var(--elovayne-cosmic-pink)", "0 0 4px var(--elovayne-cosmic-pink)"]
                     : ["0 0 2px rgba(0,255,136,0.3)", "0 0 4px rgba(0,255,136,0.3)", "0 0 2px rgba(0,255,136,0.3)"],
                 }}
                 transition={{ duration: 1.5, repeat: Infinity }}
@@ -213,7 +213,7 @@ export default function GlowingPortal() {
             <span
               className="text-sm md:text-base tracking-[0.2em] uppercase"
               style={{
-                color: isHovered ? "#00ff88" : "#e0f5e8",
+                color: isHovered ? "var(--elovayne-nebula)" : "#e0f5e8",
                 textShadow: isHovered ? "0 0 12px rgba(0, 255, 136, 0.4)" : "0 0 6px rgba(0, 255, 136, 0.15)",
                 fontWeight: 300,
                 transition: "all 0.4s ease",
@@ -245,7 +245,7 @@ export default function GlowingPortal() {
               <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
                 <path
                   d="M0 4H12M12 4L8 0.5M12 4L8 7.5"
-                  stroke={isHovered ? "#00ff88" : "rgba(240, 255, 245, 0.6)"}
+                  stroke={isHovered ? "var(--elovayne-nebula)" : "rgba(240, 255, 245, 0.6)"}
                   strokeWidth="1"
                   strokeLinecap="round"
                   strokeLinejoin="round"

@@ -119,7 +119,7 @@ export default function ReadingStory({ drawnCards, spread, question, onAskElyra,
                 padding: "5px 12px", borderRadius: 6, fontSize: 10,
                 background: style === s.id ? "rgba(0, 255, 136, 0.08)" : "rgba(255, 255, 255, 0.02)",
                 border: `1px solid ${style === s.id ? "rgba(0, 255, 136, 0.2)" : "rgba(255, 255, 255, 0.06)"}`,
-                color: style === s.id ? "#00ff88" : "rgba(255, 255, 255, 0.4)",
+                color: style === s.id ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.4)",
                 cursor: "pointer", transition: "all 0.2s",
               }}
             >
@@ -221,7 +221,7 @@ export default function ReadingStory({ drawnCards, spread, question, onAskElyra,
             padding: "14px 16px", borderRadius: 10,
             background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)",
           }}>
-            <span style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase" }}>
+            <span style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase" }}>
               Central Theme
             </span>
             <p style={{ fontSize: 14, color: "#e0f5e8", lineHeight: 1.6, margin: "6px 0 0", fontWeight: 300 }}>
@@ -251,7 +251,7 @@ export default function ReadingStory({ drawnCards, spread, question, onAskElyra,
             padding: "14px 16px", borderRadius: 10,
             background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)",
           }}>
-            <span style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase" }}>
+            <span style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase" }}>
               Reflection Question
             </span>
             <p style={{ fontSize: 13, color: "rgba(224, 245, 232, 0.7)", lineHeight: 1.6, margin: "6px 0 0", fontStyle: "italic" }}>
@@ -284,7 +284,7 @@ function btnStyle() {
   return {
     padding: "8px 16px", borderRadius: 8, fontSize: 11,
     background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.12)",
-    color: "#00ff88", cursor: "pointer" as const, fontFamily: "monospace",
+    color: "var(--elovayne-nebula)", cursor: "pointer" as const, fontFamily: "monospace",
   };
 }
 

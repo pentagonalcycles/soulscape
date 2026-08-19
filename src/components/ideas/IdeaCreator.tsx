@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const categories = [
-  { value: "improvement", label: "Improvement", icon: "✦", color: "#00ff88" },
+  { value: "improvement", label: "Improvement", icon: "✦", color: "var(--elovayne-nebula)" },
   { value: "addition", label: "Addition", icon: "◎", color: "#3b82f6" },
   { value: "change", label: "Change", icon: "◇", color: "#8b5cf6" },
   { value: "bug", label: "Bug", icon: "△", color: "#ef4444" },
@@ -121,7 +121,7 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
                     className="relative w-9 h-5 rounded-full cursor-pointer transition-all"
                     onClick={() => setIsAnonymous(!isAnonymous)}
                     style={{
-                      background: isAnonymous ? "#00ff88" : "rgba(0, 255, 136, 0.15)",
+                      background: isAnonymous ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.15)",
                     }}
                   >
                     <div

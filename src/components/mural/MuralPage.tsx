@@ -15,7 +15,7 @@ export default function MuralPage() {
     return (
       <Suspense fallback={
         <div className="h-screen flex flex-col items-center justify-center gap-4" style={{ background: darkBg ? "#000000" : "#f0fdf9" }}>
-          <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "#00ff88", borderTopColor: "transparent" }} />
+          <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "var(--elovayne-nebula)", borderTopColor: "transparent" }} />
           <p style={{ color: "rgba(240, 255, 245, 0.65)" }}>Loading canvas...</p>
         </div>
       }>

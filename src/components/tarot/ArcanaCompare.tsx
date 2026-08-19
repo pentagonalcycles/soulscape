@@ -190,7 +190,7 @@ export default function ArcanaCompare({ onBack }: { onBack: () => void }) {
                   marginTop: 6, padding: "3px 8px", borderRadius: 4, fontSize: 9,
                   background: s.reversed ? "rgba(244, 114, 182, 0.12)" : "rgba(0, 255, 136, 0.06)",
                   border: `1px solid ${s.reversed ? "rgba(244, 114, 182, 0.25)" : "rgba(0, 255, 136, 0.12)"}`,
-                  color: s.reversed ? "#f472b6" : "#00ff88",
+                  color: s.reversed ? "#f472b6" : "var(--elovayne-nebula)",
                   cursor: "pointer", fontFamily: "monospace",
                 }}
               >
@@ -353,7 +353,7 @@ export default function ArcanaCompare({ onBack }: { onBack: () => void }) {
                 padding: "14px 16px", borderRadius: 10,
                 background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)",
               }}>
-                <span style={{ fontSize: 10, color: "#00ff88", letterSpacing: "2px", textTransform: "uppercase" }}>
+                <span style={{ fontSize: 10, color: "var(--elovayne-nebula)", letterSpacing: "2px", textTransform: "uppercase" }}>
                   Reflection Question
                 </span>
                 <p style={{ fontSize: 13, color: "rgba(224, 245, 232, 0.7)", lineHeight: 1.6, margin: "6px 0 0", fontStyle: "italic" }}>
@@ -367,7 +367,7 @@ export default function ArcanaCompare({ onBack }: { onBack: () => void }) {
               <button onClick={copyReading} style={{
                 padding: "8px 16px", borderRadius: 8, fontSize: 11,
                 background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.12)",
-                color: "#00ff88", cursor: "pointer", fontFamily: "monospace",
+                color: "var(--elovayne-nebula)", cursor: "pointer", fontFamily: "monospace",
               }}>Copy Reading</button>
               <button onClick={() => setShowResult(false)} style={{
                 padding: "8px 16px", borderRadius: 8, fontSize: 11,

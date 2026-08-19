@@ -310,7 +310,7 @@ export default function SignalNotification() {
               }}>
                 <span style={{
                   width: 8, height: 8, borderRadius: "50%",
-                  background: "#00ff88",
+                  background: "var(--elovayne-nebula)",
                   boxShadow: "0 0 8px rgba(0, 255, 136, 0.6)",
                   animation: "pulse 1.5s ease-in-out infinite",
                 }} />

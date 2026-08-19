@@ -109,7 +109,7 @@ export default function ElyraCodeBlock({ language, filename, children, onRun }: 
                 ...btnBase,
                 border: "1px solid rgba(0, 255, 136, 0.25)",
                 background: "rgba(0, 255, 136, 0.08)",
-                color: "#00ff88",
+                color: "var(--elovayne-nebula)",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "rgba(0, 255, 136, 0.15)";
@@ -129,7 +129,7 @@ export default function ElyraCodeBlock({ language, filename, children, onRun }: 
               ...btnBase,
               border: "1px solid rgba(0, 255, 136, 0.15)",
               background: copied ? "rgba(0, 255, 136, 0.12)" : "rgba(0, 255, 136, 0.04)",
-              color: copied ? "#00ff88" : "rgba(0, 255, 136, 0.6)",
+              color: copied ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.6)",
             }}
             onMouseEnter={(e) => {
               if (!copied) {

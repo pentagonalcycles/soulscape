@@ -40,7 +40,7 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
         style={{
           background: isOpen ? "rgba(239, 68, 68, 0.1)" : "rgba(0, 255, 136, 0.1)",
           border: `1px solid ${isOpen ? "rgba(239, 68, 68, 0.2)" : "rgba(0, 255, 136, 0.2)"}`,
-          color: isOpen ? "#ef4444" : "#00ff88",
+          color: isOpen ? "#ef4444" : "var(--elovayne-nebula)",
           fontSize: "16px",
         }}
       >
@@ -119,7 +119,7 @@ export default function MuralChat({ messages, onSend, isOpen, onToggle }: MuralC
               onClick={handleSend}
               disabled={!text.trim()}
               className="px-3 py-1.5 rounded-lg text-xs text-white cursor-pointer disabled:opacity-40"
-              style={{ background: "linear-gradient(135deg, #00ff88, #00cc6a)" }}
+              style={{ background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))" }}
             >
               Send
             </button>

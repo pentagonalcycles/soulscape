@@ -126,7 +126,7 @@ export default function ElyraPage() {
               borderRadius: 6,
               background: colorBg ? "rgba(0, 255, 136, 0.12)" : "rgba(255, 255, 255, 0.02)",
               border: `1px solid ${colorBg ? "rgba(0, 255, 136, 0.3)" : "rgba(255, 255, 255, 0.06)"}`,
-              color: colorBg ? "#00ff88" : "rgba(255, 255, 255, 0.3)",
+              color: colorBg ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.3)",
               fontSize: 10,
               fontFamily: "monospace",
               letterSpacing: "1px",

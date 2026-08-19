@@ -69,7 +69,7 @@ export default function PrivacyPage() {
 
               <section>
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Contact</h2>
-                <p>For privacy questions, contact us through our <a href="/support" style={{ color: "#00d4aa", textDecoration: "none", borderBottom: "1px solid rgba(0, 212, 170, 0.3)" }}>Support page</a>.</p>
+                <p>For privacy questions, contact us through our <a href="/support" style={{ color: "var(--elovayne-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 212, 170, 0.3)" }}>Support page</a>.</p>
               </section>
 
               <p className="text-xs mt-8" style={{ color: "var(--text-dim)" }}>Last updated: January 2026</p>

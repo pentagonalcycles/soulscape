@@ -165,7 +165,7 @@ try { ${js} } catch(e) { parent.postMessage({type:'console',level:'error',args:[
     borderRadius: 6,
     background: active ? "rgba(0, 255, 136, 0.12)" : "rgba(255, 255, 255, 0.03)",
     border: `1px solid ${active ? "rgba(0, 255, 136, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
-    color: active ? "#00ff88" : "rgba(255, 255, 255, 0.4)",
+    color: active ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.4)",
     fontSize: 10,
     fontFamily: "monospace",
     cursor: "pointer",
@@ -195,7 +195,7 @@ try { ${js} } catch(e) { parent.postMessage({type:'console',level:'error',args:[
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{
               width: 5, height: 5, borderRadius: "50%",
-              background: isRunning ? "#fbbf24" : "#00ff88",
+              background: isRunning ? "#fbbf24" : "var(--elovayne-nebula)",
               boxShadow: isRunning ? "0 0 5px rgba(251, 191, 36, 0.5)" : "0 0 5px rgba(0, 255, 136, 0.5)",
             }} />
             <span style={{ fontSize: 10, fontFamily: "monospace", color: "rgba(0, 255, 136, 0.6)" }}>Preview</span>
@@ -218,8 +218,8 @@ try { ${js} } catch(e) { parent.postMessage({type:'console',level:'error',args:[
                 flex: 1, padding: "8px", fontSize: 10, fontFamily: "monospace",
                 background: mobileTab === tab ? "rgba(0, 255, 136, 0.06)" : "transparent",
                 border: "none",
-                borderBottom: `2px solid ${mobileTab === tab ? "#00ff88" : "transparent"}`,
-                color: mobileTab === tab ? "#00ff88" : "rgba(255, 255, 255, 0.35)",
+                borderBottom: `2px solid ${mobileTab === tab ? "var(--elovayne-nebula)" : "transparent"}`,
+                color: mobileTab === tab ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.35)",
                 cursor: "pointer", textTransform: "capitalize",
               }}
             >
@@ -253,8 +253,8 @@ try { ${js} } catch(e) { parent.postMessage({type:'console',level:'error',args:[
                     style={{
                       padding: "6px 10px", fontSize: 10, fontFamily: "monospace",
                       background: activeFile === f.name ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                      border: "none", borderBottom: `2px solid ${activeFile === f.name ? "#00ff88" : "transparent"}`,
-                      color: activeFile === f.name ? "#00ff88" : "rgba(255, 255, 255, 0.35)",
+                      border: "none", borderBottom: `2px solid ${activeFile === f.name ? "var(--elovayne-nebula)" : "transparent"}`,
+                      color: activeFile === f.name ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.35)",
                       cursor: "pointer", whiteSpace: "nowrap",
                     }}
                   >
@@ -326,7 +326,7 @@ try { ${js} } catch(e) { parent.postMessage({type:'console',level:'error',args:[
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{
             width: 6, height: 6, borderRadius: "50%",
-            background: isRunning ? "#fbbf24" : "#00ff88",
+            background: isRunning ? "#fbbf24" : "var(--elovayne-nebula)",
             boxShadow: isRunning ? "0 0 6px rgba(251, 191, 36, 0.5)" : "0 0 6px rgba(0, 255, 136, 0.5)",
           }} />
           <span style={{ fontSize: 11, fontFamily: "monospace", color: "rgba(0, 255, 136, 0.6)", letterSpacing: "0.5px" }}>
@@ -374,8 +374,8 @@ try { ${js} } catch(e) { parent.postMessage({type:'console',level:'error',args:[
               style={{
                 padding: "8px 14px", fontSize: 11, fontFamily: "monospace",
                 background: activeFile === f.name ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                border: "none", borderBottom: `2px solid ${activeFile === f.name ? "#00ff88" : "transparent"}`,
-                color: activeFile === f.name ? "#00ff88" : "rgba(255, 255, 255, 0.35)",
+                border: "none", borderBottom: `2px solid ${activeFile === f.name ? "var(--elovayne-nebula)" : "transparent"}`,
+                color: activeFile === f.name ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.35)",
                 cursor: "pointer", transition: "all 0.2s", whiteSpace: "nowrap",
               }}
             >

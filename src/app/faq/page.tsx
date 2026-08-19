@@ -8,7 +8,7 @@ const faqSections = [
   {
     title: "Getting Started",
     icon: "✦",
-    color: "#00ff88",
+    color: "var(--elovayne-nebula)",
     items: [
       {
         q: "What is Elovayne?",
@@ -58,7 +58,7 @@ const faqSections = [
   {
     title: "Features",
     icon: "◇",
-    color: "#00cc6a",
+    color: "var(--elovayne-violet)",
     items: [
       {
         q: "What is Luna AI?",
@@ -143,7 +143,7 @@ export default function FAQPage() {
             <h1
               className="text-3xl sm:text-4xl font-light tracking-wide mb-3"
               style={{
-                background: "linear-gradient(135deg, #00ff88, #00cc6a)",
+                background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 textShadow: "0 0 30px rgba(0, 255, 136, 0.2), 0 0 60px rgba(57, 255, 20, 0.08)",
@@ -257,7 +257,7 @@ export default function FAQPage() {
               <button
                 onClick={() => setSearch("")}
                 className="mt-3 text-xs"
-                style={{ color: "#00ff88", background: "none", border: "none", cursor: "pointer" }}
+                style={{ color: "var(--elovayne-nebula)", background: "none", border: "none", cursor: "pointer" }}
               >
                 Clear search
               </button>

@@ -29,7 +29,7 @@ export default function PagePresence() {
           width: 7,
           height: 7,
           borderRadius: "50%",
-          background: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.4)",
+          background: count > 1 ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.4)",
           boxShadow: count > 1 ? "0 0 8px rgba(0, 255, 136, 0.6)" : "none",
           animation: count > 1 ? "pulse 2s ease-in-out infinite" : "none",
         }}
@@ -37,7 +37,7 @@ export default function PagePresence() {
       <span
         style={{
           fontSize: 11,
-          color: count > 1 ? "#00ff88" : "rgba(0, 255, 136, 0.6)",
+          color: count > 1 ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.6)",
           fontFamily: "monospace",
           fontWeight: count > 1 ? 600 : 400,
           letterSpacing: "0.5px",

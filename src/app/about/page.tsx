@@ -8,13 +8,13 @@ const sections = [
     icon: "✦",
     title: "What is Elovayne?",
     content: `Elovayne is a home for people who need a quiet place. A place where you can share what is in your heart — a story, a feeling, something you have been carrying alone — and know that someone understands. You do not need to be brave here. You just need to be yourself.`,
-    color: "#00ff88",
+    color: "var(--elovayne-nebula)",
   },
   {
     icon: "◎",
     title: "Why does this exist?",
     content: `The internet can be a loud place. Elovayne is the opposite — a quiet corner with no followers, no likes, no algorithms. Just people being real with each other, sharing what matters, and finding comfort in knowing they are not alone.`,
-    color: "#00cc6a",
+    color: "var(--elovayne-violet)",
   },
   {
     icon: "◇",
@@ -95,7 +95,7 @@ export default function AboutPage() {
             <h1
               className="text-3xl sm:text-4xl mb-4"
               style={{
-                background: "linear-gradient(135deg, #00ff88, #00cc6a)",
+                background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 fontWeight: 300,
@@ -176,7 +176,7 @@ export default function AboutPage() {
               <div className="space-y-2 text-xs">
                 <p style={{ color: "var(--text-dim)" }}>
                   <span style={{ color: "#3b82f6", fontWeight: 400 }}>International:</span>{" "}
-                  <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "#00ff88", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
+                  <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--elovayne-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
                     findahelpline.com
                   </a>
                 </p>

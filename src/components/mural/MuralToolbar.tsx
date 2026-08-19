@@ -58,7 +58,7 @@ export default function MuralToolbar({
           background: "rgba(0, 255, 136, 0.08)",
           border: "1px solid rgba(0, 255, 136, 0.15)",
           backdropFilter: "blur(8px)",
-          color: "#00ff88",
+          color: "var(--elovayne-nebula)",
           fontSize: "14px",
         }}
       >
@@ -102,7 +102,7 @@ export default function MuralToolbar({
                   <h3
                     className="text-sm font-medium truncate flex-1"
                     style={{
-                      background: "linear-gradient(135deg, #00ff88, #00cc6a)",
+                      background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                     }}
@@ -161,7 +161,7 @@ export default function MuralToolbar({
                     style={{
                       background: "rgba(0, 255, 136, 0.06)",
                       border: "1px solid rgba(0, 255, 136, 0.12)",
-                      color: "#00ff88",
+                      color: "var(--elovayne-nebula)",
                       textDecoration: "none",
                     }}
                   >

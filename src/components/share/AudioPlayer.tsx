@@ -125,7 +125,7 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
             borderRadius: "50%",
             border: "1px solid rgba(0, 255, 136, 0.2)",
             background: "rgba(0, 255, 136, 0.08)",
-            color: "#00ff88",
+            color: "var(--elovayne-nebula)",
             fontSize: "14px",
             cursor: isLoading ? "wait" : "pointer",
             display: "flex",
@@ -157,7 +157,7 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
                 top: 0,
                 bottom: 0,
                 width: duration ? `${(currentTime / duration) * 100}%` : "0%",
-                background: "linear-gradient(90deg, #00ff88, #00cc6a)",
+                background: "linear-gradient(90deg, var(--elovayne-nebula), var(--elovayne-violet))",
                 borderRadius: "2px",
                 transition: "width 0.1s linear",
               }}
@@ -188,7 +188,7 @@ export default function AudioPlayer({ src }: AudioPlayerProps) {
             style={{
               width: "50px",
               height: "3px",
-              accentColor: "#00ff88",
+              accentColor: "var(--elovayne-nebula)",
               cursor: "pointer",
             }}
           />

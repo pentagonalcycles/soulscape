@@ -108,7 +108,7 @@ export default function SharePage() {
             fontSize: "28px",
             fontWeight: 300,
             letterSpacing: "0.08em",
-            background: "linear-gradient(135deg, #00d4aa, #ffd700, #00ff88)",
+            background: "linear-gradient(135deg, var(--elovayne-nebula), #ffd700, var(--elovayne-nebula))",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             margin: "0 0 8px",

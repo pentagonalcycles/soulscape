@@ -50,7 +50,7 @@ const BRUSH_PRESETS: { type: BrushType; name: string; icon: string; description:
 
 const COLOR_PALETTE = [
   ["#000000", "#a0d4b0", "#60b890", "#40a070", "rgba(0, 255, 136, 0.15)", "#fff"],
-  ["#0369a1", "#0ea5e9", "#38bdf8", "#00ff88", "#14b8a6", "#2dd4bf"],
+  ["#0369a1", "#0ea5e9", "#38bdf8", "var(--elovayne-nebula)", "#14b8a6", "#2dd4bf"],
   ["#065f46", "#059669", "#10b981", "#34d399", "#84cc16", "#a3e635"],
   ["#dc2626", "#ef4444", "#f97316", "#f59e0b", "#eab308", "#fbbf24"],
   ["#7c3aed", "#8b5cf6", "#a855f7", "#ec4899", "#f472b6", "#fb7185"],
@@ -1205,11 +1205,11 @@ export default function DreamCanvasPage() {
               { tool: "text" as ToolType, icon: "T", label: "Text (T)" },
             ].map(t => (
               <button key={t.tool} onClick={() => setActiveTool(t.tool)} className="relative p-1.5 rounded-lg text-sm transition-all hover:bg-gray-50"
-                style={{ background: activeTool === t.tool ? "rgba(0, 255, 136, 0.08)" : "transparent", border: `1px solid ${activeTool === t.tool ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}`, color: activeTool === t.tool ? "#00ff88" : "#60b890" }}
+                style={{ background: activeTool === t.tool ? "rgba(0, 255, 136, 0.08)" : "transparent", border: `1px solid ${activeTool === t.tool ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}`, color: activeTool === t.tool ? "var(--elovayne-nebula)" : "#60b890" }}
                 title={t.label}
               >
                 {t.icon}
-                {activeTool === t.tool && <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#00ff88]" />}
+                {activeTool === t.tool && <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--elovayne-nebula)]" />}
               </button>
             ))}
           </div>
@@ -1223,7 +1223,7 @@ export default function DreamCanvasPage() {
                 <span className="text-[9px] text-gray-400 uppercase tracking-wider mr-1 font-medium">Brush</span>
                 {BRUSH_PRESETS.filter(b => b.category === "basic").map(p => (
                   <button key={p.type} onClick={() => setBrushType(p.type)} className="p-1.5 rounded-lg text-sm transition-all hover:bg-gray-50"
-                    style={{ background: brushType === p.type ? "rgba(0, 255, 136, 0.08)" : "transparent", border: `1px solid ${brushType === p.type ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}`, color: brushType === p.type ? "#00ff88" : "#60b890" }}
+                    style={{ background: brushType === p.type ? "rgba(0, 255, 136, 0.08)" : "transparent", border: `1px solid ${brushType === p.type ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}`, color: brushType === p.type ? "var(--elovayne-nebula)" : "#60b890" }}
                     title={`${p.name} — ${p.description}`}
                   >{p.icon}</button>
                 ))}
@@ -1253,7 +1253,7 @@ export default function DreamCanvasPage() {
                           >
                             <span className="text-base">{p.icon}</span>
                             <div>
-                              <div className="text-xs font-medium" style={{ color: brushType === p.type ? "#00ff88" : "#a0d4b0" }}>{p.name}</div>
+                              <div className="text-xs font-medium" style={{ color: brushType === p.type ? "var(--elovayne-nebula)" : "#a0d4b0" }}>{p.name}</div>
                               <div className="text-[9px] text-gray-400">{p.description}</div>
                             </div>
                           </button>
@@ -1278,7 +1278,7 @@ export default function DreamCanvasPage() {
               { type: "triangle" as ShapeType, icon: "△", label: "Triangle" },
             ].map(s => (
               <button key={s.type} onClick={() => setShapeMode(s.type)} className="p-1.5 rounded-lg text-sm transition-all hover:bg-gray-50"
-                style={{ background: shapeMode === s.type ? "rgba(0, 255, 136, 0.08)" : "transparent", border: `1px solid ${shapeMode === s.type ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}`, color: shapeMode === s.type ? "#00ff88" : "#60b890" }}
+                style={{ background: shapeMode === s.type ? "rgba(0, 255, 136, 0.08)" : "transparent", border: `1px solid ${shapeMode === s.type ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}`, color: shapeMode === s.type ? "var(--elovayne-nebula)" : "#60b890" }}
                 title={s.label}
               >{s.icon}</button>
             ))}
@@ -1290,7 +1290,7 @@ export default function DreamCanvasPage() {
           <div className="flex items-center gap-1.5">
             <span className="text-[9px] text-gray-400 uppercase tracking-wider font-medium">Size</span>
             <div className="relative w-20">
-              <input type="range" min="1" max="100" value={brushSize} onChange={e => setBrushSize(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "#00ff88", background: "linear-gradient(to right, #00ff88 0%, #00ff88 " + ((brushSize/100)*100) + "%, rgba(0, 255, 136, 0.12) " + ((brushSize/100)*100) + "%, rgba(0, 255, 136, 0.12) 100%)" }} />
+              <input type="range" min="1" max="100" value={brushSize} onChange={e => setBrushSize(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "var(--elovayne-nebula)", background: "linear-gradient(to right, var(--elovayne-nebula) 0%, var(--elovayne-nebula) " + ((brushSize/100)*100) + "%, rgba(0, 255, 136, 0.12) " + ((brushSize/100)*100) + "%, rgba(0, 255, 136, 0.12) 100%)" }} />
             </div>
             <span className="text-[10px] text-gray-500 w-6 text-right font-mono bg-gray-50 px-1 py-0.5 rounded">{brushSize}</span>
           </div>
@@ -1299,7 +1299,7 @@ export default function DreamCanvasPage() {
           <div className="flex items-center gap-1.5">
             <span className="text-[9px] text-gray-400 uppercase tracking-wider font-medium">Opacity</span>
             <div className="relative w-16">
-              <input type="range" min="0.05" max="1" step="0.05" value={opacity} onChange={e => setOpacity(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "#00ff88", background: "linear-gradient(to right, #00ff88 0%, #00ff88 " + (opacity*100) + "%, rgba(0, 255, 136, 0.12) " + (opacity*100) + "%, rgba(0, 255, 136, 0.12) 100%)" }} />
+              <input type="range" min="0.05" max="1" step="0.05" value={opacity} onChange={e => setOpacity(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "var(--elovayne-nebula)", background: "linear-gradient(to right, var(--elovayne-nebula) 0%, var(--elovayne-nebula) " + (opacity*100) + "%, rgba(0, 255, 136, 0.12) " + (opacity*100) + "%, rgba(0, 255, 136, 0.12) 100%)" }} />
             </div>
             <span className="text-[10px] text-gray-500 w-8 text-right font-mono bg-gray-50 px-1 py-0.5 rounded">{Math.round(opacity * 100)}%</span>
           </div>
@@ -1310,7 +1310,7 @@ export default function DreamCanvasPage() {
           <div className="flex items-center gap-1.5">
             <span className="text-[9px] text-gray-400 uppercase tracking-wider font-medium" title="Line stabilization for cleaner strokes">Smooth</span>
             <div className="relative w-16">
-              <input type="range" min="0" max="100" value={smoothing} onChange={e => setSmoothing(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "#00ff88", background: "linear-gradient(to right, #00ff88 0%, #00ff88 " + smoothing + "%, rgba(0, 255, 136, 0.12) " + smoothing + "%, rgba(0, 255, 136, 0.12) 100%)" }} />
+              <input type="range" min="0" max="100" value={smoothing} onChange={e => setSmoothing(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "var(--elovayne-nebula)", background: "linear-gradient(to right, var(--elovayne-nebula) 0%, var(--elovayne-nebula) " + smoothing + "%, rgba(0, 255, 136, 0.12) " + smoothing + "%, rgba(0, 255, 136, 0.12) 100%)" }} />
             </div>
             <span className="text-[10px] text-gray-500 w-8 text-right font-mono bg-gray-50 px-1 py-0.5 rounded">{smoothing}%</span>
           </div>
@@ -1321,7 +1321,7 @@ export default function DreamCanvasPage() {
           <div className="flex items-center gap-1.5">
             <span className="text-[9px] text-gray-400 uppercase tracking-wider font-medium" title="Brush edge softness">Hard</span>
             <div className="relative w-16">
-              <input type="range" min="0" max="100" value={brushHardness} onChange={e => setBrushHardness(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "#00ff88", background: "linear-gradient(to right, #00ff88 0%, #00ff88 " + brushHardness + "%, rgba(0, 255, 136, 0.12) " + brushHardness + "%, rgba(0, 255, 136, 0.12) 100%)" }} />
+              <input type="range" min="0" max="100" value={brushHardness} onChange={e => setBrushHardness(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "var(--elovayne-nebula)", background: "linear-gradient(to right, var(--elovayne-nebula) 0%, var(--elovayne-nebula) " + brushHardness + "%, rgba(0, 255, 136, 0.12) " + brushHardness + "%, rgba(0, 255, 136, 0.12) 100%)" }} />
             </div>
             <span className="text-[10px] text-gray-500 w-8 text-right font-mono bg-gray-50 px-1 py-0.5 rounded">{brushHardness}%</span>
           </div>
@@ -1330,7 +1330,7 @@ export default function DreamCanvasPage() {
 
           {/* Pressure toggle */}
           <button onClick={() => setPressureEnabled(p => !p)} className="p-1.5 rounded-lg text-[10px] font-medium transition-all hover:bg-gray-50"
-            style={{ background: pressureEnabled ? "rgba(0, 255, 136, 0.08)" : "transparent", color: pressureEnabled ? "#00ff88" : "#40a070", border: `1px solid ${pressureEnabled ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}` }}
+            style={{ background: pressureEnabled ? "rgba(0, 255, 136, 0.08)" : "transparent", color: pressureEnabled ? "var(--elovayne-nebula)" : "#40a070", border: `1px solid ${pressureEnabled ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}` }}
             title="Speed-based pressure simulation"
           >◉</button>
 
@@ -1339,7 +1339,7 @@ export default function DreamCanvasPage() {
           {/* Color swatches (foreground/background) */}
           <div className="relative w-10 h-10">
             <button onClick={() => setShowColorPicker(!showColorPicker)} className="absolute top-0 left-0 w-7 h-7 rounded-lg border-2 transition-all hover:scale-110 hover:shadow-md z-10"
-              style={{ background: color, borderColor: showColorPicker ? "#00ff88" : "rgba(0,0,0,0.15)" }} title="Foreground color" />
+              style={{ background: color, borderColor: showColorPicker ? "var(--elovayne-nebula)" : "rgba(0,0,0,0.15)" }} title="Foreground color" />
             <button onClick={() => { const t = color; setColor(secondaryColor); setSecondaryColor(t); }}
               className="absolute bottom-0 right-0 w-7 h-7 rounded-lg border-2 transition-all hover:scale-110 hover:shadow-md"
               style={{ background: secondaryColor, borderColor: "rgba(0,0,0,0.15)" }} title="Background color (D to swap)" />
@@ -1351,11 +1351,11 @@ export default function DreamCanvasPage() {
 
           {/* Toggles */}
           <button onClick={() => setSymmetry(!symmetry)} className="p-1.5 rounded-lg text-sm transition-all hover:bg-gray-50"
-            style={{ background: symmetry ? "rgba(0, 255, 136, 0.08)" : "transparent", color: symmetry ? "#00ff88" : "#60b890", border: `1px solid ${symmetry ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}` }}
+            style={{ background: symmetry ? "rgba(0, 255, 136, 0.08)" : "transparent", color: symmetry ? "var(--elovayne-nebula)" : "#60b890", border: `1px solid ${symmetry ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}` }}
             title="Symmetry (4-way)"
           >✦</button>
           <button onClick={() => setShowGrid(g => !g)} className="p-1.5 rounded-lg text-sm transition-all hover:bg-gray-50"
-            style={{ background: showGrid ? "rgba(0, 255, 136, 0.08)" : "transparent", color: showGrid ? "#00ff88" : "#60b890", border: `1px solid ${showGrid ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}` }}
+            style={{ background: showGrid ? "rgba(0, 255, 136, 0.08)" : "transparent", color: showGrid ? "var(--elovayne-nebula)" : "#60b890", border: `1px solid ${showGrid ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}` }}
             title="Grid (G)"
           >#</button>
 
@@ -1388,7 +1388,7 @@ export default function DreamCanvasPage() {
           {/* Paper texture */}
           <div className="relative">
             <button onClick={e => { e.stopPropagation(); setShowPaperPicker(!showPaperPicker); }} className="p-1.5 rounded-lg text-[10px] font-medium transition-all hover:bg-gray-50"
-              style={{ background: showPaperPicker ? "rgba(0, 255, 136, 0.08)" : paperTexture !== "none" ? "rgba(0, 255, 136, 0.06)" : "transparent", color: paperTexture !== "none" ? "#00ff88" : "#60b890", border: `1px solid ${paperTexture !== "none" ? "rgba(0, 255, 136, 0.2)" : "rgba(0,0,0,0.06)"}` }}
+              style={{ background: showPaperPicker ? "rgba(0, 255, 136, 0.08)" : paperTexture !== "none" ? "rgba(0, 255, 136, 0.06)" : "transparent", color: paperTexture !== "none" ? "var(--elovayne-nebula)" : "#60b890", border: `1px solid ${paperTexture !== "none" ? "rgba(0, 255, 136, 0.2)" : "rgba(0,0,0,0.06)"}` }}
               title="Paper texture"
             >⊞</button>
             {showPaperPicker && (
@@ -1403,7 +1403,7 @@ export default function DreamCanvasPage() {
                   >
                     <span className="text-sm">{opt.icon}</span>
                     <div>
-                      <div className="text-[11px] font-medium" style={{ color: paperTexture === opt.value ? "#00ff88" : "#a0d4b0" }}>{opt.label}</div>
+                      <div className="text-[11px] font-medium" style={{ color: paperTexture === opt.value ? "var(--elovayne-nebula)" : "#a0d4b0" }}>{opt.label}</div>
                       <div className="text-[9px] text-gray-400">{opt.desc}</div>
                     </div>
                   </button>
@@ -1414,7 +1414,7 @@ export default function DreamCanvasPage() {
 
           {/* Color wheel toggle */}
           <button onClick={() => { setShowColorWheel(!showColorWheel); setShowColorPicker(false); }} className="p-1.5 rounded-lg text-sm transition-all hover:bg-gray-50"
-            style={{ background: showColorWheel ? "rgba(0, 255, 136, 0.08)" : "transparent", color: showColorWheel ? "#00ff88" : "#60b890", border: `1px solid ${showColorWheel ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}` }}
+            style={{ background: showColorWheel ? "rgba(0, 255, 136, 0.08)" : "transparent", color: showColorWheel ? "var(--elovayne-nebula)" : "#60b890", border: `1px solid ${showColorWheel ? "rgba(0, 255, 136, 0.2)" : "1px solid transparent"}` }}
             title="Color wheel"
           >◎</button>
 
@@ -1467,7 +1467,7 @@ export default function DreamCanvasPage() {
                 <button onClick={() => { setShowCanvasPresets(false); setShowCustomSize(true); }}
                   className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-left transition-all hover:bg-gray-50"
                 >
-                  <span className="text-xs font-medium" style={{ color: "#00ff88" }}>Custom Size</span>
+                  <span className="text-xs font-medium" style={{ color: "var(--elovayne-nebula)" }}>Custom Size</span>
                   <span className="text-[10px] text-gray-400">✎</span>
                 </button>
               </motion.div>
@@ -1481,7 +1481,7 @@ export default function DreamCanvasPage() {
           <button onClick={redo} disabled={historyIndex >= history.length - 1} className="p-1.5 rounded-lg text-sm transition-all hover:bg-gray-50" style={{ color: historyIndex >= history.length - 1 ? "rgba(0, 255, 136, 0.1)" : "#60b890" }} title="Redo (⌘⇧Z)">↪</button>
           <button onClick={clearCanvas} className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium transition-all hover:bg-red-50" style={{ background: "rgba(239, 68, 68, 0.06)", color: "#ef4444", border: "1px solid rgba(239, 68, 68, 0.1)" }}>Clear</button>
           <button onClick={() => setShowShortcuts(!showShortcuts)} className="p-1.5 rounded-lg text-[10px] font-medium transition-all hover:bg-gray-50" style={{ color: "#60b890", border: "1px solid rgba(0,0,0,0.06)" }} title="Keyboard shortcuts (?)">?</button>
-          <button onClick={() => setShowExportModal(true)} className="px-3 py-1.5 rounded-lg text-[10px] font-semibold transition-all hover:bg-teal-50" style={{ background: "rgba(0, 255, 136, 0.08)", color: "#00ff88", border: "1px solid rgba(0, 255, 136, 0.15)" }}>Export</button>
+          <button onClick={() => setShowExportModal(true)} className="px-3 py-1.5 rounded-lg text-[10px] font-semibold transition-all hover:bg-teal-50" style={{ background: "rgba(0, 255, 136, 0.08)", color: "var(--elovayne-nebula)", border: "1px solid rgba(0, 255, 136, 0.15)" }}>Export</button>
         </div>}
 
         {/* Color picker */}
@@ -1510,7 +1510,7 @@ export default function DreamCanvasPage() {
                     {recentColors.map((c, i) => (
                       <button key={`${c}-${i}`} onClick={() => selectColor(c)}
                         className="w-7 h-7 rounded-lg transition-all hover:scale-110 hover:shadow-md"
-                        style={{ background: c, border: color === c ? "2px solid #00ff88" : "1px solid rgba(0,0,0,0.1)" }}
+                        style={{ background: c, border: color === c ? "2px solid var(--elovayne-nebula)" : "1px solid rgba(0,0,0,0.1)" }}
                       />
                     ))}
                   </div>
@@ -1524,7 +1524,7 @@ export default function DreamCanvasPage() {
                   {row.map(c => (
                     <button key={c} onClick={() => selectColor(c)}
                       className="w-7 h-7 rounded-lg transition-all hover:scale-110 hover:shadow-md"
-                      style={{ background: c, border: color === c ? "2px solid #00ff88" : "1px solid rgba(0,0,0,0.08)" }}
+                      style={{ background: c, border: color === c ? "2px solid var(--elovayne-nebula)" : "1px solid rgba(0,0,0,0.08)" }}
                     />
                   ))}
                 </div>
@@ -1619,12 +1619,12 @@ export default function DreamCanvasPage() {
               />
               <div className="flex items-center gap-3 mt-3">
                 <span className="text-[10px] text-gray-400 font-medium">Size</span>
-                <input type="range" min="8" max="120" value={fontSize} onChange={e => setFontSize(Number(e.target.value))} className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "#00ff88" }} />
+                <input type="range" min="8" max="120" value={fontSize} onChange={e => setFontSize(Number(e.target.value))} className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "var(--elovayne-nebula)" }} />
                 <span className="text-[10px] text-gray-500 font-mono bg-gray-50 px-1.5 py-0.5 rounded">{fontSize}px</span>
               </div>
               <div className="flex gap-2 mt-4">
                 <button onClick={() => setTextInput({ x: 0, y: 0, active: false })} className="flex-1 px-3 py-2 rounded-xl text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all border border-gray-100">Cancel</button>
-                <button onClick={() => { handleTextAdd(textInput.x, textInput.y, textValue); setTextInput({ x: 0, y: 0, active: false }); }} className="flex-1 px-3 py-2 rounded-xl text-xs font-semibold text-white transition-all" style={{ background: "#00ff88" }}>Add</button>
+                <button onClick={() => { handleTextAdd(textInput.x, textInput.y, textValue); setTextInput({ x: 0, y: 0, active: false }); }} className="flex-1 px-3 py-2 rounded-xl text-xs font-semibold text-white transition-all" style={{ background: "var(--elovayne-nebula)" }}>Add</button>
               </div>
             </div>
           </div>
@@ -1658,7 +1658,7 @@ export default function DreamCanvasPage() {
                         className="px-3 py-2.5 rounded-xl text-center transition-all"
                         style={{ background: exportFormat === f.value ? "rgba(0, 255, 136, 0.08)" : "#1f3828", border: `1px solid ${exportFormat === f.value ? "rgba(0, 255, 136, 0.25)" : "rgba(0,0,0,0.06)"}` }}
                       >
-                        <div className="text-xs font-semibold" style={{ color: exportFormat === f.value ? "#00ff88" : "#a0d4b0" }}>{f.label}</div>
+                        <div className="text-xs font-semibold" style={{ color: exportFormat === f.value ? "var(--elovayne-nebula)" : "#a0d4b0" }}>{f.label}</div>
                         <div className="text-[9px] text-gray-400 mt-0.5">{f.description}</div>
                       </button>
                     ))}
@@ -1672,7 +1672,7 @@ export default function DreamCanvasPage() {
                       <span className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Quality</span>
                       <span className="text-[10px] text-gray-500 font-mono bg-gray-50 px-1.5 py-0.5 rounded">{exportQuality}%</span>
                     </div>
-                    <input type="range" min="10" max="100" step="5" value={exportQuality} onChange={e => setExportQuality(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "#00ff88", background: `linear-gradient(to right, #00ff88 0%, #00ff88 ${exportQuality}%, rgba(0, 255, 136, 0.12) ${exportQuality}%, rgba(0, 255, 136, 0.12) 100%)` }} />
+                    <input type="range" min="10" max="100" step="5" value={exportQuality} onChange={e => setExportQuality(Number(e.target.value))} className="w-full h-1.5 rounded-full appearance-none cursor-pointer" style={{ accentColor: "var(--elovayne-nebula)", background: `linear-gradient(to right, var(--elovayne-nebula) 0%, var(--elovayne-nebula) ${exportQuality}%, rgba(0, 255, 136, 0.12) ${exportQuality}%, rgba(0, 255, 136, 0.12) 100%)` }} />
                     <div className="flex justify-between mt-1">
                       <span className="text-[9px] text-gray-300">Smaller file</span>
                       <span className="text-[9px] text-gray-300">Higher quality</span>
@@ -1683,7 +1683,7 @@ export default function DreamCanvasPage() {
                 {/* Actions */}
                 <div className="flex gap-2">
                   <button onClick={() => setShowExportModal(false)} className="flex-1 px-4 py-2.5 rounded-xl text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all border border-gray-100">Cancel</button>
-                  <button onClick={exportCanvas} className="flex-1 px-4 py-2.5 rounded-xl text-xs font-semibold text-white transition-all hover:opacity-90" style={{ background: "#00ff88" }}>
+                  <button onClick={exportCanvas} className="flex-1 px-4 py-2.5 rounded-xl text-xs font-semibold text-white transition-all hover:opacity-90" style={{ background: "var(--elovayne-nebula)" }}>
                     Download {exportFormat.toUpperCase()}
                   </button>
                 </div>
@@ -1731,7 +1731,7 @@ export default function DreamCanvasPage() {
                 <div className="flex gap-2">
                   <button onClick={() => setShowCustomSize(false)} className="flex-1 px-4 py-2.5 rounded-xl text-xs font-medium text-gray-500 hover:bg-gray-50 transition-all border border-gray-100">Cancel</button>
                   <button onClick={() => { setShowCustomSize(false); resizeCanvas(customWidth, customHeight); }}
-                    className="flex-1 px-4 py-2.5 rounded-xl text-xs font-semibold text-white transition-all hover:opacity-90" style={{ background: "#00ff88" }}>
+                    className="flex-1 px-4 py-2.5 rounded-xl text-xs font-semibold text-white transition-all hover:opacity-90" style={{ background: "var(--elovayne-nebula)" }}>
                     Apply Size
                   </button>
                 </div>
@@ -1968,7 +1968,7 @@ export default function DreamCanvasPage() {
               top: `${Math.max(0, (-panOffset.y / (canvasSize.height * zoom)) * 100)}px`,
               width: `${Math.min(150, (1 / zoom) * 150)}px`,
               height: `${Math.min(100, (1 / zoom) * 100)}px`,
-              border: "1.5px solid #00ff88",
+              border: "1.5px solid var(--elovayne-nebula)",
               borderRadius: 2,
               background: "rgba(0, 255, 136, 0.08)",
               minWidth: 8,
@@ -2059,7 +2059,7 @@ export default function DreamCanvasPage() {
                 <button key={t.tool} onClick={() => setActiveTool(t.tool)} className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all"
                   style={{ background: activeTool === t.tool ? "rgba(0, 255, 136, 0.1)" : "transparent" }}>
                   <span className="text-lg">{t.icon}</span>
-                  <span className="text-[9px] font-medium" style={{ color: activeTool === t.tool ? "#00ff88" : "#40a070" }}>{t.label}</span>
+                  <span className="text-[9px] font-medium" style={{ color: activeTool === t.tool ? "var(--elovayne-nebula)" : "#40a070" }}>{t.label}</span>
                 </button>
               ))}
             </div>
@@ -2077,12 +2077,12 @@ export default function DreamCanvasPage() {
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-[10px] text-gray-400 w-10">Size</span>
-                <input type="range" min="1" max="100" value={brushSize} onChange={e => setBrushSize(Number(e.target.value))} className="flex-1 h-2 rounded-full appearance-none" style={{ accentColor: "#00ff88" }} />
+                <input type="range" min="1" max="100" value={brushSize} onChange={e => setBrushSize(Number(e.target.value))} className="flex-1 h-2 rounded-full appearance-none" style={{ accentColor: "var(--elovayne-nebula)" }} />
                 <span className="text-[10px] text-gray-500 font-mono w-8 text-right">{brushSize}</span>
               </div>
               <div className="flex items-center gap-3 mt-1">
                 <span className="text-[10px] text-gray-400 w-10">Opacity</span>
-                <input type="range" min="0.05" max="1" step="0.05" value={opacity} onChange={e => setOpacity(Number(e.target.value))} className="flex-1 h-2 rounded-full appearance-none" style={{ accentColor: "#00ff88" }} />
+                <input type="range" min="0.05" max="1" step="0.05" value={opacity} onChange={e => setOpacity(Number(e.target.value))} className="flex-1 h-2 rounded-full appearance-none" style={{ accentColor: "var(--elovayne-nebula)" }} />
                 <span className="text-[10px] text-gray-500 font-mono w-8 text-right">{Math.round(opacity * 100)}%</span>
               </div>
             </div>
@@ -2101,7 +2101,7 @@ export default function DreamCanvasPage() {
               <div className="flex gap-1.5 flex-wrap">
                 {COLOR_PALETTE.flat().map((c, i) => (
                   <button key={`${c}-${i}`} onClick={() => selectColor(c)} className="w-8 h-8 rounded-lg transition-all active:scale-90"
-                    style={{ background: c, border: color === c ? "2px solid #00ff88" : "1px solid rgba(0,0,0,0.08)" }} />
+                    style={{ background: c, border: color === c ? "2px solid var(--elovayne-nebula)" : "1px solid rgba(0,0,0,0.08)" }} />
                 ))}
               </div>
             </div>
@@ -2113,8 +2113,8 @@ export default function DreamCanvasPage() {
                 <button onClick={redo} disabled={historyIndex >= history.length - 1} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: historyIndex >= history.length - 1 ? "rgba(0, 255, 136, 0.06)" : "#1f3828", color: historyIndex >= history.length - 1 ? "#cbd5e1" : "#60b890", border: "1px solid rgba(0,0,0,0.06)" }}>↪ Redo</button>
               </div>
               <div className="flex items-center gap-2">
-                <button onClick={() => setSymmetry(s => !s)} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: symmetry ? "rgba(0,255,136,0.08)" : "#1f3828", color: symmetry ? "#00ff88" : "#60b890", border: `1px solid ${symmetry ? "rgba(0,255,136,0.2)" : "rgba(0,0,0,0.06)"}` }}>✦ Symmetry</button>
-                <button onClick={() => setShowGrid(g => !g)} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: showGrid ? "rgba(0,255,136,0.08)" : "#1f3828", color: showGrid ? "#00ff88" : "#60b890", border: `1px solid ${showGrid ? "rgba(0,255,136,0.2)" : "rgba(0,0,0,0.06)"}` }}># Grid</button>
+                <button onClick={() => setSymmetry(s => !s)} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: symmetry ? "rgba(0,255,136,0.08)" : "#1f3828", color: symmetry ? "var(--elovayne-nebula)" : "#60b890", border: `1px solid ${symmetry ? "rgba(0,255,136,0.2)" : "rgba(0,0,0,0.06)"}` }}>✦ Symmetry</button>
+                <button onClick={() => setShowGrid(g => !g)} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: showGrid ? "rgba(0,255,136,0.08)" : "#1f3828", color: showGrid ? "var(--elovayne-nebula)" : "#60b890", border: `1px solid ${showGrid ? "rgba(0,255,136,0.2)" : "rgba(0,0,0,0.06)"}` }}># Grid</button>
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={() => setZoom(z => Math.max(0.1, z - 0.1))} className="py-2 px-3 rounded-xl text-xs font-medium transition-all" style={{ background: "#1f3828", color: "#60b890", border: "1px solid rgba(0,0,0,0.06)" }}>−</button>
@@ -2123,7 +2123,7 @@ export default function DreamCanvasPage() {
                 <button onClick={fitZoom} className="py-2 px-3 rounded-xl text-xs font-medium transition-all" style={{ background: "#1f3828", color: "#60b890", border: "1px solid rgba(0,0,0,0.06)" }}>⊡</button>
               </div>
               <div className="flex items-center gap-2">
-                <button onClick={() => setShowExportModal(true)} className="flex-1 py-2.5 rounded-xl text-xs font-semibold text-white transition-all" style={{ background: "#00ff88" }}>Export</button>
+                <button onClick={() => setShowExportModal(true)} className="flex-1 py-2.5 rounded-xl text-xs font-semibold text-white transition-all" style={{ background: "var(--elovayne-nebula)" }}>Export</button>
                 <button onClick={clearCanvas} className="py-2.5 px-4 rounded-xl text-xs font-medium transition-all" style={{ background: "rgba(239,68,68,0.06)", color: "#ef4444", border: "1px solid rgba(239,68,68,0.1)" }}>Clear</button>
               </div>
             </div>
@@ -2137,10 +2137,10 @@ export default function DreamCanvasPage() {
               { id: "settings" as const, icon: "⚙️", label: "More" },
             ].map(tab => (
               <button key={tab.id} onClick={() => setMobileTab(tab.id)} className="flex-1 flex flex-col items-center py-2 transition-all"
-                style={{ color: mobileTab === tab.id ? "#00ff88" : "#40a070" }}>
+                style={{ color: mobileTab === tab.id ? "var(--elovayne-nebula)" : "#40a070" }}>
                 <span className="text-base">{tab.icon}</span>
                 <span className="text-[9px] font-medium">{tab.label}</span>
-                {mobileTab === tab.id && <div className="w-4 h-0.5 rounded-full bg-[#00ff88] mt-0.5" />}
+                {mobileTab === tab.id && <div className="w-4 h-0.5 rounded-full bg-[var(--elovayne-nebula)] mt-0.5" />}
               </button>
             ))}
           </div>

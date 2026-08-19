@@ -39,10 +39,10 @@ function formatDate(iso: string) {
   });
 }
 
-const PALETTE = ["#00ff88", "#22d3ee", "#a78bfa", "#f472b6", "#ffd700", "#fb923c", "#34d399", "#60a5fa"];
+const PALETTE = ["var(--elovayne-nebula)", "#22d3ee", "#a78bfa", "#f472b6", "#ffd700", "#fb923c", "#34d399", "#60a5fa"];
 
 const cardThemes = [
-  { color: "#00ff88", glow: "rgba(0, 255, 136, 0.5)", icon: "🌌", border: "rgba(0, 255, 136, 0.25)" },
+  { color: "var(--elovayne-nebula)", glow: "rgba(0, 255, 136, 0.5)", icon: "🌌", border: "rgba(0, 255, 136, 0.25)" },
   { color: "#22d3ee", glow: "rgba(34, 211, 238, 0.5)", icon: "🪐", border: "rgba(34, 211, 238, 0.25)" },
   { color: "#ffd700", glow: "rgba(255, 215, 0, 0.5)", icon: "✨", border: "rgba(255, 215, 0, 0.25)" },
   { color: "#a78bfa", glow: "rgba(167, 139, 250, 0.5)", icon: "🔮", border: "rgba(167, 139, 250, 0.25)" },
@@ -203,7 +203,7 @@ export default function StatsPage() {
               <h1
                 className="font-heading text-3xl md:text-5xl mb-3"
                 style={{
-                  background: "linear-gradient(120deg, #00ff88, #22d3ee, #a78bfa, #f472b6, #ffd700)",
+                  background: "linear-gradient(120deg, var(--elovayne-nebula), #22d3ee, #a78bfa, #f472b6, #ffd700)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundSize: "200% 100%",
@@ -217,9 +217,9 @@ export default function StatsPage() {
               </p>
               <p
                 className="inline-flex items-center gap-2 mt-3 px-3 py-1.5 rounded-full text-[10px] uppercase tracking-wider"
-                style={{ background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.2)", color: "#00ff88" }}
+                style={{ background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.2)", color: "var(--elovayne-nebula)" }}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-elovayne-nebula animate-pulse" style={{ boxShadow: "0 0 8px #00ff88" }} />
+                <span className="w-1.5 h-1.5 rounded-full bg-elovayne-nebula animate-pulse" style={{ boxShadow: "0 0 8px var(--elovayne-nebula)" }} />
                 Live · refreshes every 15s
               </p>
             </motion.div>
@@ -487,7 +487,7 @@ export default function StatsPage() {
                       {nameStatus === "saving" ? "Saving…" : "Set name"}
                     </button>
                     {nameStatus === "saved" && (
-                      <span className="text-xs shrink-0" style={{ color: "#00ff88", textShadow: "0 0 10px rgba(0, 255, 136, 0.5)" }}>
+                      <span className="text-xs shrink-0" style={{ color: "var(--elovayne-nebula)", textShadow: "0 0 10px rgba(0, 255, 136, 0.5)" }}>
                         ✓ Saved
                       </span>
                     )}

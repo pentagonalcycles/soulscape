@@ -132,7 +132,7 @@ export default function Navigation({ activePage, hideToggle }: NavigationProps) 
                   fontSize: "20px",
                   fontWeight: 300,
                   letterSpacing: "0.12em",
-                  background: "linear-gradient(135deg, #00d4aa, #ffd700, #00ff88)",
+                  background: "linear-gradient(135deg, var(--elovayne-nebula), #ffd700, var(--elovayne-nebula))",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}>
@@ -244,7 +244,7 @@ export default function Navigation({ activePage, hideToggle }: NavigationProps) 
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = "rgba(0, 212, 170, 0.12)";
-                    e.currentTarget.style.color = "#00d4aa";
+                    e.currentTarget.style.color = "var(--elovayne-nebula)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = "rgba(0, 212, 170, 0.06)";
@@ -265,7 +265,7 @@ export default function Navigation({ activePage, hideToggle }: NavigationProps) 
                     borderRadius: "10px",
                     background: "rgba(0, 212, 170, 0.08)",
                     border: "1px solid rgba(0, 212, 170, 0.15)",
-                    color: "#00d4aa",
+                    color: "var(--elovayne-nebula)",
                     textDecoration: "none",
                     fontSize: "12px",
                     letterSpacing: "0.02em",

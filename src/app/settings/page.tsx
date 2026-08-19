@@ -7,7 +7,7 @@ import { useBgTheme } from "@/lib/useBgTheme";
 import { useAuth } from "@/components/AuthProvider";
 
 const ACCENT_COLORS = [
-  "#00ff88", "#00d4aa", "#22d3ee", "#3b82f6", "#8b5cf6",
+  "var(--elovayne-nebula)", "var(--elovayne-violet)", "#22d3ee", "#3b82f6", "#8b5cf6",
   "#a855f7", "#ec4899", "#f43f5e", "#f97316", "#eab308",
 ];
 
@@ -71,7 +71,7 @@ export default function SettingsPage() {
         padding: "8px 16px", borderRadius: 8,
         background: active ? "rgba(0, 255, 136, 0.12)" : "rgba(255, 255, 255, 0.03)",
         border: `1px solid ${active ? "rgba(0, 255, 136, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
-        color: active ? "#00ff88" : "rgba(255, 255, 255, 0.4)",
+        color: active ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.4)",
         fontSize: 11, cursor: "pointer", fontFamily: "monospace",
       }}
     >
@@ -94,7 +94,7 @@ export default function SettingsPage() {
             <h1
               className="text-3xl sm:text-4xl mb-3"
               style={{
-                background: "linear-gradient(135deg, #00ff88, #00cc6a)",
+                background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 fontWeight: 300,
@@ -111,7 +111,7 @@ export default function SettingsPage() {
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="text-xs mt-2"
-                style={{ color: "#00ff88" }}
+                style={{ color: "var(--elovayne-nebula)" }}
               >
                 Saved
               </motion.p>
@@ -137,9 +137,9 @@ export default function SettingsPage() {
                     cursor: "pointer",
                   }}
                 >
-                  <div className="w-full h-8 rounded-lg" style={{ background: "linear-gradient(90deg, #00ff88, #0088ff, #8800ff)", animation: !darkBg ? "bg-hue-cycle 6s linear infinite" : "none", opacity: !darkBg ? 1 : 0.3 }} />
-                  <span className="text-xs font-medium" style={{ color: !darkBg ? "#00ff88" : "rgba(255,255,255,0.3)" }}>Colour</span>
-                  {!darkBg && <span className="text-[10px]" style={{ color: "#00ff88" }}>&#10003; Active</span>}
+                  <div className="w-full h-8 rounded-lg" style={{ background: "linear-gradient(90deg, var(--elovayne-nebula), #0088ff, #8800ff)", animation: !darkBg ? "bg-hue-cycle 6s linear infinite" : "none", opacity: !darkBg ? 1 : 0.3 }} />
+                  <span className="text-xs font-medium" style={{ color: !darkBg ? "var(--elovayne-nebula)" : "rgba(255,255,255,0.3)" }}>Colour</span>
+                  {!darkBg && <span className="text-[10px]" style={{ color: "var(--elovayne-nebula)" }}>&#10003; Active</span>}
                 </button>
                 <button
                   onClick={() => { if (!darkBg) toggleBg(); }}
@@ -199,7 +199,7 @@ export default function SettingsPage() {
                       cursor: "pointer",
                     }}
                   >
-                    <div className="text-sm font-medium" style={{ color: userPreferences.text_size === s.id ? "#00ff88" : "rgba(255,255,255,0.5)" }}>{s.label}</div>
+                    <div className="text-sm font-medium" style={{ color: userPreferences.text_size === s.id ? "var(--elovayne-nebula)" : "rgba(255,255,255,0.5)" }}>{s.label}</div>
                     <div className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.3)" }}>{s.desc}</div>
                   </button>
                 ))}
@@ -269,7 +269,7 @@ export default function SettingsPage() {
                   style={{
                     background: "rgba(0,255,136,0.08)",
                     border: "1px solid rgba(0,255,136,0.15)",
-                    color: "#00ff88",
+                    color: "var(--elovayne-nebula)",
                     cursor: "pointer",
                   }}
                 >
@@ -296,7 +296,7 @@ export default function SettingsPage() {
                     localStorage.setItem("elyra_voice_volume", String(v));
                   }}
                   className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                  style={{ accentColor: "#00ff88" }}
+                  style={{ accentColor: "var(--elovayne-nebula)" }}
                 />
               </div>
 
@@ -311,7 +311,7 @@ export default function SettingsPage() {
                     localStorage.setItem("elyra_voice_speed", String(v));
                   }}
                   className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                  style={{ accentColor: "#00ff88" }}
+                  style={{ accentColor: "var(--elovayne-nebula)" }}
                 />
               </div>
 

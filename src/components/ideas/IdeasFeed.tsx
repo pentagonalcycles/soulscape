@@ -196,7 +196,7 @@ export default function IdeasFeed() {
               className="relative px-3 py-1.5 rounded-lg text-[11px] transition-all"
               style={{
                 background: activeFilter === tab.key ? "rgba(0, 255, 136, 0.1)" : "transparent",
-                color: activeFilter === tab.key ? "#00ff88" : "var(--text-dim, #94a3b8)",
+                color: activeFilter === tab.key ? "var(--elovayne-nebula)" : "var(--text-dim, #94a3b8)",
               }}
             >
               {activeFilter === tab.key && (
@@ -222,7 +222,7 @@ export default function IdeasFeed() {
             className="px-3 py-1.5 rounded-md text-[11px] transition-all"
             style={{
               background: sortBy === "popular" ? "rgba(0, 255, 136, 0.1)" : "transparent",
-              color: sortBy === "popular" ? "#00ff88" : "var(--text-dim, #94a3b8)",
+              color: sortBy === "popular" ? "var(--elovayne-nebula)" : "var(--text-dim, #94a3b8)",
             }}
           >
             Popular
@@ -232,7 +232,7 @@ export default function IdeasFeed() {
             className="px-3 py-1.5 rounded-md text-[11px] transition-all"
             style={{
               background: sortBy === "newest" ? "rgba(0, 255, 136, 0.1)" : "transparent",
-              color: sortBy === "newest" ? "#00ff88" : "var(--text-dim, #94a3b8)",
+              color: sortBy === "newest" ? "var(--elovayne-nebula)" : "var(--text-dim, #94a3b8)",
             }}
           >
             Newest

@@ -55,7 +55,7 @@ export default function SignalLanding({ onSend }: SignalLandingProps) {
         style={{
           fontWeight: 200,
           letterSpacing: "0.04em",
-          background: "linear-gradient(135deg, #00ff88, #00cc6a, #6366f1)",
+          background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet), #6366f1)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
         }}

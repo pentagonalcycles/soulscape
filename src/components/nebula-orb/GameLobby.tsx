@@ -84,7 +84,7 @@ export default function GameLobby({ onStart, isMobile = false, siteBg }: GameLob
   const cardBg = isLightBg ? "rgba(255, 255, 255, 0.85)" : "rgba(255, 255, 255, 0.04)";
   const cardBorder = isLightBg ? "rgba(0, 255, 136, 0.15)" : "rgba(0, 255, 136, 0.1)";
   const cardShadow = isLightBg ? "0 8px 40px rgba(0,0,0,0.06)" : "0 8px 40px rgba(0,0,0,0.3)";
-  const titleColor = "#00ff88";
+  const titleColor = "var(--elovayne-nebula)";
   const subtitleColor = isLightBg ? "rgba(240, 255, 245, 0.75)" : "rgba(148, 163, 184, 0.6)";
   const labelColor = isLightBg ? "rgba(224, 245, 232, 0.6)" : "rgba(148, 163, 184, 0.5)";
   const inputBg = isLightBg ? "rgba(0, 255, 136, 0.08)" : "rgba(255, 255, 255, 0.05)";
@@ -92,7 +92,7 @@ export default function GameLobby({ onStart, isMobile = false, siteBg }: GameLob
   const inputText = isLightBg ? "#0f172a" : "#e2e8f0";
   const activeBg = isLightBg ? "rgba(0, 255, 136, 0.12)" : "rgba(0, 255, 136, 0.2)";
   const activeBorder = isLightBg ? "rgba(0, 255, 136, 0.25)" : "rgba(0, 255, 136, 0.35)";
-  const activeText = "#00ff88";
+  const activeText = "var(--elovayne-nebula)";
   const inactiveBg = isLightBg ? "rgba(0, 255, 136, 0.04)" : "rgba(255, 255, 255, 0.04)";
   const inactiveBorder = isLightBg ? "rgba(0, 255, 136, 0.1)" : "rgba(255, 255, 255, 0.06)";
   const inactiveText = isLightBg ? "rgba(240, 255, 245, 0.75)" : "rgba(148, 163, 184, 0.5)";
@@ -442,7 +442,7 @@ export default function GameLobby({ onStart, isMobile = false, siteBg }: GameLob
             : "w-full py-3.5 rounded-xl text-sm uppercase tracking-wider cursor-pointer transition-all"
           }
           style={{
-            background: name.trim() ? "linear-gradient(135deg, #00ff88, #00cc6a)" : "rgba(0, 255, 136, 0.06)",
+            background: name.trim() ? "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))" : "rgba(0, 255, 136, 0.06)",
             color: name.trim() ? "#ffffff" : "rgba(148, 163, 184, 0.3)",
             border: name.trim() ? "1px solid rgba(0, 255, 136, 0.3)" : "1px solid rgba(0, 255, 136, 0.08)",
             boxShadow: name.trim() ? "0 4px 20px rgba(0, 255, 136, 0.25)" : "none",

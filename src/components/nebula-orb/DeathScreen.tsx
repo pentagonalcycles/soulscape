@@ -13,8 +13,8 @@ interface DeathScreenProps {
 
 function getRating(kills: number, score: number): { label: string; color: string; glow: string } {
   if (kills >= 20 || score >= 5000) return { label: "Legendary", color: "#10b981", glow: "rgba(16, 185, 129, 0.4)" };
-  if (kills >= 15 || score >= 3000) return { label: "Mythic", color: "#00ff88", glow: "rgba(0, 255, 136, 0.4)" };
-  if (kills >= 10 || score >= 2000) return { label: "Champion", color: "#00cc6a", glow: "rgba(0, 204, 106, 0.4)" };
+  if (kills >= 15 || score >= 3000) return { label: "Mythic", color: "var(--elovayne-nebula)", glow: "rgba(0, 255, 136, 0.4)" };
+  if (kills >= 10 || score >= 2000) return { label: "Champion", color: "var(--elovayne-violet)", glow: "rgba(0, 204, 106, 0.4)" };
   if (kills >= 7 || score >= 1200) return { label: "Expert", color: "#22d3ee", glow: "rgba(34, 211, 238, 0.4)" };
   if (kills >= 5 || score >= 800) return { label: "Skilled", color: "#14b8a6", glow: "rgba(20, 184, 166, 0.4)" };
   if (kills >= 3 || score >= 400) return { label: "Promising", color: "#5eead4", glow: "rgba(94, 234, 212, 0.4)" };
@@ -41,9 +41,9 @@ export default function DeathScreen({ score, kills, timeSurvived, onPlayAgain, o
   const statBorder = "rgba(0, 255, 136, 0.12)";
 
   const stats = [
-    { label: "Final Score", value: Math.round(score).toLocaleString(), color: "#00ff88" },
+    { label: "Final Score", value: Math.round(score).toLocaleString(), color: "var(--elovayne-nebula)" },
     { label: "Eliminations", value: kills.toString(), color: "#10b981" },
-    { label: "Time Survived", value: formatTime(timeSurvived), color: "#00cc6a" },
+    { label: "Time Survived", value: formatTime(timeSurvived), color: "var(--elovayne-violet)" },
     { label: "Score/Kill", value: scorePerKill.toLocaleString(), color: "#14b8a6" },
   ];
 
@@ -123,7 +123,7 @@ export default function DeathScreen({ score, kills, timeSurvived, onPlayAgain, o
             onClick={onPlayAgain}
             className={isMobile ? "w-full py-4 rounded-xl text-base cursor-pointer" : "w-full py-3 rounded-xl text-sm cursor-pointer"}
             style={{
-              background: "linear-gradient(135deg, #00ff88, #00cc6a)",
+              background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
               color: "#fff",
               border: "1px solid rgba(0, 255, 136, 0.3)",
               boxShadow: "0 4px 20px rgba(0, 255, 136, 0.25)",
