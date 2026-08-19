@@ -7,6 +7,7 @@ import { drawBrushStroke, BrushParams } from "@/lib/mural/brushes";
 import { MuralMultiplayer, ChatMessage } from "@/lib/mural/multiplayer";
 import MuralToolbar from "./MuralToolbar";
 import MuralChat from "./MuralChat";
+import { useBgTheme } from "@/lib/useBgTheme";
 
 interface MuralCanvasProps {
   room: MuralRoom;
@@ -23,6 +24,7 @@ function hashCode(str: string): number {
 }
 
 export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
+  const { darkBg } = useBgTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
   const multiRef = useRef<MuralMultiplayer | null>(null);
@@ -279,9 +281,9 @@ export default function MuralCanvas({ room, onLeave }: MuralCanvasProps) {
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden relative" style={{ background: "#f0fdf9" }}>
+    <div className="h-screen w-screen overflow-hidden relative" style={{ background: darkBg ? "#000000" : "#f0fdf9" }}>
       {loading && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center" style={{ background: "#f0fdf9" }}>
+        <div className="absolute inset-0 z-50 flex items-center justify-center" style={{ background: darkBg ? "#000000" : "#f0fdf9" }}>
           <div className="text-center">
             <div className="w-8 h-8 rounded-full border-2 border-teal-500 border-t-transparent animate-spin mx-auto mb-3" />
             <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.6)" }}>Loading mural...</p>

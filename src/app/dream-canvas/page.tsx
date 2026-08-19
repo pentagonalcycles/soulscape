@@ -1743,7 +1743,7 @@ export default function DreamCanvasPage() {
         </AnimatePresence>
 
         {/* Canvas */}
-        <div ref={containerRef} className="flex-1 relative overflow-hidden" style={{ background: "#e8ecf0", cursor: isPanning ? "grab" : activeTool === "eyedropper" ? "crosshair" : activeTool === "fill" ? "crosshair" : activeTool === "text" ? "text" : "none", touchAction: "none", paddingBottom: isMobile ? "110px" : "0" }}
+        <div ref={containerRef} className="flex-1 relative overflow-hidden" style={{ background: "#ffffff", cursor: isPanning ? "grab" : activeTool === "eyedropper" ? "crosshair" : activeTool === "fill" ? "crosshair" : activeTool === "text" ? "text" : "none", touchAction: "none", paddingBottom: isMobile ? "110px" : "0" }}
           onWheel={e => {
             e.preventDefault();
             const delta = e.deltaY > 0 ? -0.05 : 0.05;
@@ -1846,7 +1846,7 @@ export default function DreamCanvasPage() {
           {/* Checkered transparency background */}
           <div style={{ position: "absolute", left: panOffset.x, top: panOffset.y, width: canvasSize.width * zoom, height: canvasSize.height * zoom, transform: `rotate(${canvasRotation}deg)`, transformOrigin: "center center" }}>
             <div style={{ width: "100%", height: "100%", background: "repeating-conic-gradient(#d4d4d8 0% 25%, #e4e4e7 0% 50%) 50% / 16px 16px", borderRadius: "2px" }} />
-            <canvas ref={canvasRef} style={{ width: "100%", height: "100%", background: "#0a0f0b", display: "block", position: "absolute", top: 0, left: 0 }}
+            <canvas ref={canvasRef} style={{ width: "100%", height: "100%", background: "#ffffff", display: "block", position: "absolute", top: 0, left: 0 }}
               onMouseDown={startDraw} onMouseMove={draw} onMouseUp={endDraw} onMouseLeave={endDraw}
               onTouchStart={startDraw} onTouchMove={draw} onTouchEnd={endDraw}
             />

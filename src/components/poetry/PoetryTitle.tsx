@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useBgTheme } from "@/lib/useBgTheme";
 
 interface PoetryTitleProps {
   prompt: string;
@@ -10,6 +11,7 @@ interface PoetryTitleProps {
 }
 
 export default function PoetryTitle({ prompt, onWrite, onRead, poemCount }: PoetryTitleProps) {
+  const { darkBg } = useBgTheme();
   const today = new Date();
   const dateStr = today.toLocaleDateString("en-US", {
     weekday: "long",
@@ -22,7 +24,7 @@ export default function PoetryTitle({ prompt, onWrite, onRead, poemCount }: Poet
     <div
       className="min-h-screen flex flex-col items-center justify-center px-6 py-16"
       style={{
-        background: "linear-gradient(180deg, #1a1510 0%, #2a1f15 50%, #1a1510 100%)",
+        background: darkBg ? "#000000" : "linear-gradient(180deg, #1a1510 0%, #2a1f15 50%, #1a1510 100%)",
       }}
     >
       {/* Ornamental top */}
