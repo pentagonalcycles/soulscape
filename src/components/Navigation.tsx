@@ -27,7 +27,6 @@ const bottomLinks = [
   { href: "/share", label: "Share" },
   { href: "/ideas", label: "Ideas" },
   { href: "/stats", label: "Stats" },
-  { href: "/settings", label: "Settings" },
 ];
 
 interface NavigationProps {
@@ -206,7 +205,7 @@ export default function Navigation({ activePage, hideToggle }: NavigationProps) 
 
               {/* Bottom */}
               <div style={{ padding: "16px 16px 20px", borderTop: "1px solid rgba(0, 212, 170, 0.1)" }}>
-                <div className="flex gap-2 mb-4">
+                <div className="flex gap-2 mb-3">
                   {bottomLinks.map((link) => (
                     <Link
                       key={link.href}
@@ -224,6 +223,40 @@ export default function Navigation({ activePage, hideToggle }: NavigationProps) 
                     </Link>
                   ))}
                 </div>
+
+                {/* Settings button */}
+                <Link
+                  href="/settings"
+                  onClick={close}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                    padding: "10px",
+                    marginBottom: "8px",
+                    borderRadius: "10px",
+                    background: "rgba(0, 212, 170, 0.06)",
+                    border: "1px solid rgba(0, 212, 170, 0.15)",
+                    color: "rgba(0, 212, 170, 0.6)",
+                    textDecoration: "none",
+                    fontSize: "12px",
+                    letterSpacing: "0.02em",
+                    transition: "all 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(0, 212, 170, 0.12)";
+                    e.currentTarget.style.color = "#00d4aa";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "rgba(0, 212, 170, 0.06)";
+                    e.currentTarget.style.color = "rgba(0, 212, 170, 0.6)";
+                  }}
+                >
+                  <span style={{ fontSize: "14px" }}>⚙</span>
+                  Settings
+                </Link>
+
                 <Link
                   href="/"
                   onClick={close}
