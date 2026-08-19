@@ -6,6 +6,7 @@ import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
 import { useBgTheme } from "@/lib/useBgTheme";
 import ArcanaCompare from "./ArcanaCompare";
+import ReadingStory from "./ReadingStory";
 import {
   ALL_CARDS,
   MAJOR_ARCANA,
@@ -24,7 +25,7 @@ import {
 } from "@/lib/tarot";
 import type { TarotCard, DrawnCard, SpreadDefinition } from "@/lib/tarot";
 
-type TarotSection = "home" | "daily" | "ask" | "spreads" | "explore" | "learn" | "readings" | "reading-result" | "card-detail" | "compare";
+type TarotSection = "home" | "daily" | "ask" | "spreads" | "explore" | "learn" | "readings" | "reading-result" | "card-detail" | "compare" | "reading-story";
 
 interface SavedReading {
   id: string;
@@ -875,6 +876,27 @@ export default function TarotPage() {
                               </p>
                             </div>
                           )}
+
+                          {/* Tell Me the Story button */}
+                          {drawnCards.length >= 2 && activeSpread && (
+                            <div style={{ marginTop: 16, textAlign: "center" }}>
+                              <button
+                                onClick={() => setSection("reading-story")}
+                                style={{
+                                  padding: "10px 24px", borderRadius: 10,
+                                  background: "linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(244, 114, 182, 0.06))",
+                                  border: "1px solid rgba(168, 85, 247, 0.2)",
+                                  color: "#c084fc", fontSize: 12, fontWeight: 500,
+                                  cursor: "pointer", letterSpacing: "0.03em",
+                                  transition: "all 0.3s",
+                                }}
+                                onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 0 16px rgba(168, 85, 247, 0.15)"; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "none"; }}
+                              >
+                                ✦ Tell Me the Story
+                              </button>
+                            </div>
+                          )}
                         </div>
 
                         {/* Save & Notes */}
@@ -1098,6 +1120,19 @@ export default function TarotPage() {
         {/* Arcana Compare */}
         {section === "compare" && (
           <ArcanaCompare onBack={() => setSection("home")} />
+        )}
+
+        {/* Reading Story */}
+        {section === "reading-story" && activeSpread && (
+          <ReadingStory
+            drawnCards={drawnCards}
+            spread={activeSpread}
+            question={question}
+            onAskElyra={(ctx) => {
+              window.open(`/elyra?context=${encodeURIComponent(ctx)}`, "_blank");
+            }}
+            onClose={() => setSection("reading-result")}
+          />
         )}
 
         {/* My Readings */}
