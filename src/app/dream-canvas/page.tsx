@@ -84,7 +84,7 @@ export default function DreamCanvasPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const minimapCanvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [color, setColor] = useState("#e0f5e8");
+  const [color, setColor] = useState("#000000");
   const [brushSize, setBrushSize] = useState(4);
   const [brushType, setBrushType] = useState<BrushType>("pen");
   const [activeTool, setActiveTool] = useState<ToolType>("brush");
@@ -2115,6 +2115,12 @@ export default function DreamCanvasPage() {
               <div className="flex items-center gap-2">
                 <button onClick={() => setSymmetry(s => !s)} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: symmetry ? "rgba(0,255,136,0.08)" : "#1f3828", color: symmetry ? "#00ff88" : "#60b890", border: `1px solid ${symmetry ? "rgba(0,255,136,0.2)" : "rgba(0,0,0,0.06)"}` }}>✦ Symmetry</button>
                 <button onClick={() => setShowGrid(g => !g)} className="flex-1 py-2 rounded-xl text-xs font-medium transition-all" style={{ background: showGrid ? "rgba(0,255,136,0.08)" : "#1f3828", color: showGrid ? "#00ff88" : "#60b890", border: `1px solid ${showGrid ? "rgba(0,255,136,0.2)" : "rgba(0,0,0,0.06)"}` }}># Grid</button>
+              </div>
+              <div className="flex items-center gap-2">
+                <button onClick={() => setZoom(z => Math.max(0.1, z - 0.1))} className="py-2 px-3 rounded-xl text-xs font-medium transition-all" style={{ background: "#1f3828", color: "#60b890", border: "1px solid rgba(0,0,0,0.06)" }}>−</button>
+                <span className="flex-1 text-center text-xs font-mono" style={{ color: "#60b890" }}>{Math.round(zoom * 100)}%</span>
+                <button onClick={() => setZoom(z => Math.min(5, z + 0.1))} className="py-2 px-3 rounded-xl text-xs font-medium transition-all" style={{ background: "#1f3828", color: "#60b890", border: "1px solid rgba(0,0,0,0.06)" }}>+</button>
+                <button onClick={fitZoom} className="py-2 px-3 rounded-xl text-xs font-medium transition-all" style={{ background: "#1f3828", color: "#60b890", border: "1px solid rgba(0,0,0,0.06)" }}>⊡</button>
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={() => setShowExportModal(true)} className="flex-1 py-2.5 rounded-xl text-xs font-semibold text-white transition-all" style={{ background: "#00ff88" }}>Export</button>
