@@ -2,13 +2,18 @@
 
 import { motion } from "framer-motion";
 import IdeasFeed from "@/components/ideas/IdeasFeed";
+import { useBgTheme } from "@/lib/useBgTheme";
 
 export default function IdeasPage() {
+  const { darkBg } = useBgTheme();
+
   return (
     <main className="relative min-h-screen overflow-hidden" style={{
-      background: "linear-gradient(180deg, #1a1a00 0%, #2d2d00 50%, #1a1a00 100%)",
+      background: darkBg ? "#08080c" : "transparent",
     }}>
       {/* Ambient yellow orbs */}
+      {!darkBg && (
+      <>
       <div style={{
         position: "fixed", top: "-20%", left: "-10%", width: 500, height: 500,
         borderRadius: "50%", background: "radial-gradient(circle, rgba(234, 179, 8, 0.06) 0%, transparent 70%)",
@@ -19,6 +24,8 @@ export default function IdeasPage() {
         borderRadius: "50%", background: "radial-gradient(circle, rgba(253, 224, 71, 0.05) 0%, transparent 70%)",
         filter: "blur(60px)", pointerEvents: "none",
       }} />
+      </>
+      )}
       <div className="relative z-10 pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {/* Header */}

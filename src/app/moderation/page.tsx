@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/components/AuthProvider";
+import { useBgTheme } from "@/lib/useBgTheme";
 
 interface Report {
   id: string;
@@ -26,6 +27,7 @@ const statusColors: Record<string, string> = {
 
 export default function ModerationPage() {
   const { isAdmin, loading: authLoading } = useAuth();
+  const { darkBg } = useBgTheme();
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("pending");
@@ -107,6 +109,7 @@ export default function ModerationPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden">
+      {!darkBg && (
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
@@ -114,6 +117,7 @@ export default function ModerationPage() {
           zIndex: 2,
         }}
       />
+      )}
       <div className="global-corners" />
       <div className="global-corners-extra" />
 
