@@ -348,58 +348,11 @@ export default function Home() {
               Platform Status
             </h2>
             <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-              What&apos;s working and what we&apos;re improving
+              What we&apos;re building next
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Working */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              style={{
-                background: "rgba(0, 255, 136, 0.02)",
-                border: "1px solid rgba(0, 255, 136, 0.08)",
-                borderRadius: 16,
-                padding: "24px",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                <span style={{
-                  width: 8, height: 8, borderRadius: "50%",
-                  background: "#00ff88",
-                  boxShadow: "0 0 8px rgba(0, 255, 136, 0.5)",
-                }} />
-                <span style={{
-                  fontSize: 11, color: "#00ff88",
-                  letterSpacing: "2px", textTransform: "uppercase",
-                  fontFamily: "monospace", fontWeight: 600,
-                }}>Working</span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {[
-                  "Share", "Ideas Board", "Human Signal",
-                  "Campfire", "Poetry", "Reflection Room",
-                  "Threads", "Luna AI", "Cosmic Camera",
-                  "Tarot", "Dream Canvas", "Mural", "Nebula Orb", "Stats",
-                  "Settings", "Background Themes",
-                ].map((item) => (
-                  <div key={item} style={{
-                    display: "flex", alignItems: "center", gap: 8,
-                    padding: "4px 0",
-                    fontSize: 13,
-                    color: "rgba(240, 255, 245, 0.65)",
-                    fontWeight: 300,
-                  }}>
-                    <span style={{ color: "rgba(0, 255, 136, 0.4)", fontSize: 8 }}>&#9654;</span>
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
+          <div className="grid grid-cols-1 gap-6">
             {/* In Progress */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
