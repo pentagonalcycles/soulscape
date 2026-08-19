@@ -66,6 +66,7 @@ const MODES = [
   { id: "create" as const, label: "Create", icon: "+" },
   { id: "explain" as const, label: "Explain", icon: "?" },
   { id: "terminal" as const, label: "Terminal", icon: "$" },
+  { id: "debug" as const, label: "Debug", icon: "⚡" },
 ];
 
 const MODE_SUGGESTIONS: Record<string, string[]> = {
@@ -95,6 +96,12 @@ const MODE_SUGGESTIONS: Record<string, string[]> = {
     "Build a working terminal",
     "Create a phone terminal",
     "Help me fix my terminal",
+  ],
+  debug: [
+    "Why isn't this working?",
+    "Fix this error",
+    "Find the bug",
+    "My page is blank",
   ],
 };
 
@@ -303,6 +310,11 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
     setSandboxFiles([]);
     setSandboxOpen(false);
   }, []);
+
+  const handleDebugError = useCallback((errorText: string) => {
+    const debugPrompt = `Debug this error from the sandbox:\n\n\`\`\`\n${errorText}\n\`\`\`\n\nPlease identify the cause and fix the relevant file.`;
+    send(debugPrompt);
+  }, [messages, loading, isPlus, settings, memory, memoryEnabled, currentProjectId, activeMode]);
 
   async function send(overrideText?: string) {
     const text = overrideText ?? input.trim();
@@ -1877,6 +1889,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             onUpdateFile={handleUpdateSandboxFile}
             onReset={handleResetSandbox}
             onClose={() => setSandboxOpen(false)}
+            onDebugError={handleDebugError}
             autoRun={sandboxAutoRun}
           />
         </div>

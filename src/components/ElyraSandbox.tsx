@@ -13,6 +13,7 @@ interface ElyraSandboxProps {
   onUpdateFile: (name: string, content: string) => void;
   onReset: () => void;
   onClose: () => void;
+  onDebugError?: (errorText: string) => void;
   autoRun?: boolean;
 }
 
@@ -25,7 +26,7 @@ const DEVICE_WIDTHS: Record<DeviceSize, string> = {
   mobile: "375px",
 };
 
-export default function ElyraSandbox({ files, onUpdateFile, onReset, onClose, autoRun }: ElyraSandboxProps) {
+export default function ElyraSandbox({ files, onUpdateFile, onReset, onClose, onDebugError, autoRun }: ElyraSandboxProps) {
   const [activeFile, setActiveFile] = useState<string>(files[0]?.name || "");
   const [previewKey, setPreviewKey] = useState(0);
   const [consoleOutput, setConsoleOutput] = useState<{ type: "log" | "error" | "warn" | "info"; text: string }[]>([]);
@@ -492,14 +493,29 @@ try { ${js} } catch(e) { parent.postMessage({type:'console',level:'error',args:[
                   ) : (
                     consoleOutput.map((entry, i) => (
                       <div key={i} style={{
-                        fontSize: 11, fontFamily: "monospace", padding: "2px 0",
+                        fontSize: 11, fontFamily: "monospace", padding: "3px 0",
                         color: entry.type === "error" ? "#ff4444" : entry.type === "warn" ? "#ffaa00" : "rgba(240, 255, 245, 0.7)",
                         borderBottom: "1px solid rgba(255, 255, 255, 0.03)",
+                        display: "flex", alignItems: "flex-start", gap: 6,
                       }}>
-                        <span style={{ color: "rgba(255, 255, 255, 0.2)", marginRight: 8 }}>
+                        <span style={{ color: "rgba(255, 255, 255, 0.2)", flexShrink: 0 }}>
                           {entry.type === "error" ? "✕" : entry.type === "warn" ? "⚠" : "›"}
                         </span>
-                        {entry.text}
+                        <span style={{ flex: 1, wordBreak: "break-all" }}>{entry.text}</span>
+                        {entry.type === "error" && onDebugError && (
+                          <button
+                            onClick={() => onDebugError(entry.text)}
+                            style={{
+                              padding: "2px 8px", borderRadius: 4, fontSize: 9,
+                              background: "rgba(168, 85, 247, 0.12)", border: "1px solid rgba(168, 85, 247, 0.25)",
+                              color: "#c084fc", cursor: "pointer", fontFamily: "monospace",
+                              whiteSpace: "nowrap", flexShrink: 0,
+                            }}
+                            title="Ask Luna to debug this error"
+                          >
+                            Debug
+                          </button>
+                        )}
                       </div>
                     ))
                   )}

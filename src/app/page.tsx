@@ -524,7 +524,6 @@ function getFeatures(category: "elyra" | "arcana" | "threads" | "campfire" | "mu
       { name: "Elyra Vision", description: "Show Elyra something and let her understand it.", status: "CONCEPT" },
       { name: "Elyra Build Mode", description: "Describe what you want. Elyra helps build it.", status: "CONCEPT" },
       { name: "Elyra Project Memory", description: "Elyra remembers the important details of each project.", status: "CONCEPT" },
-      { name: "Elyra Debugger", description: "Find the problem and help fix it.", status: "CONCEPT" },
       { name: "Elyra Design to Code", description: "Turn a visual idea into working frontend code.", status: "CONCEPT" },
       { name: "Elyra Website Inspector", description: "Let Elyra examine a website and explain what could be improved.", status: "CONCEPT" },
     ],
