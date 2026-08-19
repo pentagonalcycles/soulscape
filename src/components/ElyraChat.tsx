@@ -5,6 +5,7 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import ElyraCodeBlock from "./ElyraCodeBlock";
 import ElyraSandbox, { type SandboxFile } from "./ElyraSandbox";
+import { useElyraVoice } from "@/lib/useElyraVoice";
 import {
   loadConversations,
   upsertConversation,
@@ -230,6 +231,16 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const initialized = useRef(false);
+  const speakNextResponse = useRef(false);
+
+  const voice = useElyraVoice({
+    onTranscript: (text) => {
+      send(text);
+    },
+    onSpeakComplete: () => {
+      speakNextResponse.current = true;
+    },
+  });
 
   useEffect(() => {
     if (initialized.current) return;
@@ -423,6 +434,11 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
     }
 
     if (interrupted) setErrorNotice("The response was interrupted. You can retry below.");
+
+    // Speak the response if voice is enabled
+    if (voice.voiceEnabled && !voice.muted && finalContent && !interrupted) {
+      voice.speak(finalContent);
+    }
   }
 
   function startNewConversation() {
@@ -1061,6 +1077,106 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             <div style={{ position: "absolute", bottom: "-1px", right: "-1px", width: "8px", height: "1px", background: "#ffffff" }} />
 
             {/* File upload button */}
+            {/* Voice button */}
+            <button
+              onClick={() => {
+                if (!voice.voiceEnabled) {
+                  voice.enableVoice();
+                  setTimeout(() => voice.startListening(), 200);
+                } else if (voice.state === "listening") {
+                  voice.stopListening();
+                } else if (voice.state === "speaking") {
+                  voice.interrupt();
+                } else {
+                  voice.startListening();
+                }
+              }}
+              style={{
+                width: "40px", height: "40px", borderRadius: "8px",
+                background: voice.state === "listening"
+                  ? "rgba(0, 255, 136, 0.12)"
+                  : voice.state === "speaking"
+                    ? "rgba(168, 85, 247, 0.12)"
+                    : voice.voiceEnabled
+                      ? "rgba(0, 255, 136, 0.06)"
+                      : "transparent",
+                border: `1px solid ${voice.state === "listening"
+                  ? "rgba(0, 255, 136, 0.3)"
+                  : voice.state === "speaking"
+                    ? "rgba(168, 85, 247, 0.25)"
+                    : voice.voiceEnabled
+                      ? "rgba(0, 255, 136, 0.15)"
+                      : "rgba(255, 255, 255, 0.06)"}`,
+                color: voice.state === "listening"
+                  ? "#00ff88"
+                  : voice.state === "speaking"
+                    ? "#c084fc"
+                    : voice.voiceEnabled
+                      ? "rgba(0, 255, 136, 0.6)"
+                      : "rgba(255, 255, 255, 0.4)",
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "all 0.2s", flexShrink: 0,
+                animation: voice.state === "listening" ? "pulse 1.5s ease-in-out infinite" : "none",
+              }}
+              title={
+                !voice.voiceEnabled ? "Start voice conversation"
+                : voice.state === "listening" ? "Stop listening"
+                : voice.state === "speaking" ? "Interrupt Luna"
+                : "Start listening"
+              }
+            >
+              {voice.state === "listening" ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="6" width="12" height="12" rx="2" />
+                </svg>
+              ) : voice.state === "speaking" ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                  <line x1="12" y1="19" x2="12" y2="23" />
+                  <line x1="8" y1="23" x2="16" y2="23" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                  <line x1="12" y1="19" x2="12" y2="23" />
+                  <line x1="8" y1="23" x2="16" y2="23" />
+                </svg>
+              )}
+            </button>
+
+            {/* Mute/unmute voice output */}
+            {voice.voiceEnabled && (
+              <button
+                onClick={voice.toggleMute}
+                style={{
+                  width: "40px", height: "40px", borderRadius: "8px",
+                  background: voice.muted ? "rgba(255, 80, 80, 0.06)" : "transparent",
+                  border: `1px solid ${voice.muted ? "rgba(255, 80, 80, 0.15)" : "rgba(255, 255, 255, 0.06)"}`,
+                  color: voice.muted ? "rgba(255, 80, 80, 0.6)" : "rgba(255, 255, 255, 0.3)",
+                  cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                  transition: "all 0.2s", flexShrink: 0,
+                }}
+                title={voice.muted ? "Unmute Luna" : "Mute Luna"}
+              >
+                {voice.muted ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                    <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" />
+                    <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2c0 .76-.13 1.49-.36 2.18" />
+                    <line x1="12" y1="19" x2="12" y2="23" />
+                    <line x1="8" y1="23" x2="16" y2="23" />
+                  </svg>
+                ) : (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  </svg>
+                )}
+              </button>
+            )}
+
             <button
               onClick={() => fileInputRef.current?.click()}
               style={{
@@ -1157,6 +1273,63 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             </button>
           )}
         </div>
+
+        {/* Voice state indicator */}
+        {voice.voiceEnabled && (
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+            marginTop: 6, padding: "4px 0",
+          }}>
+            {voice.state === "listening" && (
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{
+                  width: 6, height: 6, borderRadius: "50%",
+                  background: "#00ff88",
+                  boxShadow: "0 0 8px rgba(0, 255, 136, 0.5)",
+                  animation: "pulse 1s ease-in-out infinite",
+                }} />
+                <span style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.6)", fontFamily: "monospace" }}>
+                  Listening{voice.interimText ? `: ${voice.interimText}` : "..."}
+                </span>
+              </div>
+            )}
+            {voice.state === "thinking" && (
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{
+                  width: 6, height: 6, borderRadius: "50%",
+                  background: "#a855f7",
+                  animation: "pulse 1.5s ease-in-out infinite",
+                }} />
+                <span style={{ fontSize: 10, color: "rgba(168, 85, 247, 0.6)", fontFamily: "monospace" }}>
+                  Thinking...
+                </span>
+              </div>
+            )}
+            {voice.state === "speaking" && (
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{
+                  width: 6, height: 6, borderRadius: "50%",
+                  background: "#c084fc",
+                  animation: "pulse 1s ease-in-out infinite",
+                }} />
+                <span style={{ fontSize: 10, color: "rgba(192, 132, 252, 0.6)", fontFamily: "monospace" }}>
+                  Speaking... (tap mic to interrupt)
+                </span>
+              </div>
+            )}
+            {voice.state === "error" && voice.error && (
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ fontSize: 10, color: "rgba(255, 80, 80, 0.6)", fontFamily: "monospace" }}>
+                  {voice.error}
+                </span>
+                <button onClick={voice.clearError} style={{
+                  fontSize: 9, color: "rgba(255, 255, 255, 0.4)", background: "none",
+                  border: "none", cursor: "pointer", fontFamily: "monospace",
+                }}>dismiss</button>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Uploaded files preview */}
         {uploadedFiles.length > 0 && (
