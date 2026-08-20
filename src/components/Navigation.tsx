@@ -35,7 +35,7 @@ interface NavigationProps {
 
 export default function Navigation({ activePage, hideToggle }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const isMobile = useIsMobile();
+  const { isMobile } = useIsMobile();
 
   const close = useCallback(() => setIsOpen(false), []);
 

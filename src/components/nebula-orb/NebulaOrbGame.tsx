@@ -21,7 +21,7 @@ export default function NebulaOrbGame() {
   const [siteBg, setSiteBg] = useState<string | null>(null);
   const canvasRef = useRef<GameCanvasRef>(null);
   const gameStateRef = useRef<GameState | null>(null);
-  const isMobile = useIsMobile();
+  const { isMobile } = useIsMobile();
 
   // Load website background on mount
   useEffect(() => {

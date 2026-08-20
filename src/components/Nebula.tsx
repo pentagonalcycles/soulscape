@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useIsMobile } from "@/lib/useIsMobile";
 
 export default function Nebula() {
-  const isMobile = useIsMobile();
+  const { isMobile } = useIsMobile();
 
   if (isMobile) {
     return (

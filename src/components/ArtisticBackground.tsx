@@ -10,7 +10,7 @@ interface ArtisticBackgroundProps {
 
 export default function ArtisticBackground({ variant = "default" }: ArtisticBackgroundProps) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const isMobile = useIsMobile();
+  const { isMobile } = useIsMobile();
 
   useEffect(() => {
     const handleMouse = (e: MouseEvent) => {

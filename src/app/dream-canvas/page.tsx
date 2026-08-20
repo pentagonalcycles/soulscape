@@ -142,7 +142,7 @@ export default function DreamCanvasPage() {
   const [showPaperPicker, setShowPaperPicker] = useState(false);
   const textureCanvasRef = useRef<HTMLCanvasElement>(null);
   const [textureDataUrl, setTextureDataUrl] = useState<string | null>(null);
-  const isMobile = useIsMobile();
+  const { isMobile } = useIsMobile();
   const [mobileTab, setMobileTab] = useState<"tools" | "brush" | "color" | "settings">("tools");
   const touchDistance = useRef(0);
   const touchMidpoint = useRef({ x: 0, y: 0 });

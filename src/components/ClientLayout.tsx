@@ -14,6 +14,7 @@ import Navigation from "@/components/Navigation";
 import VisitorTracker from "@/components/VisitorTracker";
 import PresenceMap from "@/components/PresenceMap";
 import SignalNotification from "@/components/human-signal/SignalNotification";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/campfire", "/poetry", "/tarot", "/threads"];
 const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/campfire", "/poetry", "/tarot", "/threads"];
@@ -139,7 +140,9 @@ function LayoutInner({ children }: { children: ReactNode }) {
       )}
       <div className="min-h-screen flex flex-col relative scanlines grain-overlay" style={{ zIndex: 1 }}>
         <div className="flex-1">
-          {loading ? null : isBanned ? <BannedScreen /> : children}
+          <ErrorBoundary>
+            {loading ? null : isBanned ? <BannedScreen /> : children}
+          </ErrorBoundary>
         </div>
         {!hideFooter && <Footer />}
       </div>

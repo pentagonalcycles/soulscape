@@ -99,6 +99,11 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   overscroll-behavior: none;
+  /* Safe area support for notched devices */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 /* Selection */
@@ -1307,4 +1312,60 @@ body.compact-mode .gap-4 {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* Fix for iOS Safari viewport height issues */
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Fix for iOS Safari fixed positioning */
+  .fixed {
+    position: -webkit-sticky;
+    position: fixed;
+  }
+  
+  /* Prevent iOS Safari from bouncing */
+  html {
+    overflow: hidden;
+    height: 100%;
+  }
+  
+  body {
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Tablet specific styles */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Adjust font sizes for tablets */
+  :root {
+    --font-size-base: 17px;
+    --font-size-heading: 1.05;
+  }
+  
+  /* Increase touch targets for tablets */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Mobile specific styles */
+@media (max-width: 767px) {
+  /* Smaller font sizes for mobile */
+  :root {
+    --font-size-base: 15px;
+    --font-size-heading: 0.95;
+  }
+  
+  /* Increase touch targets for mobile */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }

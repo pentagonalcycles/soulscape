@@ -16,10 +16,21 @@ export default function ElyraPage() {
   if (loading) {
     return (
       <div style={{
-        position: "fixed", inset: 0,
-        display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
         background: darkBg ? "#000000" : "transparent",
+        /* iOS Safari safe areas */
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
+        paddingLeft: "env(safe-area-inset-left)",
+        paddingRight: "env(safe-area-inset-right)",
       }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -49,9 +60,19 @@ export default function ElyraPage() {
   return (
     <FeatureGate featureId="luna-ai">
       <div style={{
-        position: "fixed", inset: 0,
-        display: "flex", flexDirection: "column",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: "flex",
+        flexDirection: "column",
         background: darkBg ? "#000000" : "transparent",
+        /* iOS Safari safe areas */
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
+        paddingLeft: "env(safe-area-inset-left)",
+        paddingRight: "env(safe-area-inset-right)",
       }}>
         {/* Subtle ambient overlay */}
         <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
