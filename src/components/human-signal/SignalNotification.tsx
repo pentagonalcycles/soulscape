@@ -83,17 +83,10 @@ export default function SignalNotification() {
 
           const signalType = getSignalType(updated.signal_type);
 
+          // Auto-open chat for sender
           setClaimedSignal(updated);
-          setClaimedAlert({
-            signal: updated,
-            message: "Someone heard your signal and wants to chat.",
-            signalLabel: signalType.label,
-          });
-
-          // Auto-hide after 20 seconds
-          setTimeout(() => {
-            setClaimedAlert((prev) => (prev?.signal.id === updated.id ? null : prev));
-          }, 20000);
+          setChatSignal(updated);
+          setShowChat(true);
         }
       )
       .subscribe();
@@ -118,10 +111,9 @@ export default function SignalNotification() {
 
     if (error) {
       console.error("[Signal] Claim error:", error);
-      // Still open chat even if claim fails (non-atomic)
     }
 
-    // Open chat
+    // Auto-open chat for receiver
     setChatSignal(alert.signal);
     setShowChat(true);
     setAlert(null);
