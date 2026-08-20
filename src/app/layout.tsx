@@ -30,9 +30,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Elovayne — A Safe Place for Your Soul",
+  title: "Elovayne — Where Your Soul Can Rest",
   description:
-    "A safe place where people share stories, support each other, and find comfort in knowing they are not alone.",
+    "A quiet place where people share stories, support each other, and find comfort in knowing they are not alone.",
 };
 
 export default function RootLayout({

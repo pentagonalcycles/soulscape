@@ -139,7 +139,7 @@ export default function Navigation({ activePage, hideToggle }: NavigationProps) 
                   Elovayne
                 </div>
                 <div style={{ fontSize: "11px", color: "rgba(0, 212, 170, 0.45)", marginTop: "4px", letterSpacing: "0.02em" }}>
-                  A safe place for your soul
+                  Where your soul can rest
                 </div>
               </div>
 
