@@ -2,17 +2,15 @@
 
 import { motion } from "framer-motion";
 import IdeasFeed from "@/components/ideas/IdeasFeed";
-import { useBgTheme } from "@/lib/useBgTheme";
 
 export default function IdeasPage() {
-  const { darkBg } = useBgTheme();
 
   return (
     <main className="relative min-h-screen overflow-hidden" style={{
-      background: darkBg ? "#000000" : "transparent",
+      background: "transparent",
     }}>
       {/* Ambient yellow orbs */}
-      {!darkBg && (
+      
       <>
       <div style={{
         position: "fixed", top: "-20%", left: "-10%", width: 500, height: 500,

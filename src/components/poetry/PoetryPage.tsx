@@ -7,7 +7,6 @@ import { getDailyPrompt } from "@/lib/poetry/prompts";
 import PoetryTitle from "./PoetryTitle";
 import PoemWriter from "./PoemWriter";
 import PoemReader from "./PoemReader";
-import { useBgTheme } from "@/lib/useBgTheme";
 
 interface Poem {
   id: string;
@@ -23,7 +22,6 @@ type View = "title" | "write" | "read";
 
 export default function PoetryPage() {
   const { isAdmin, userId } = useAuth();
-  const { darkBg } = useBgTheme();
   const [view, setView] = useState<View>("title");
   const [poems, setPoems] = useState<Poem[]>([]);
   const [todayCount, setTodayCount] = useState(0);
@@ -171,7 +169,7 @@ export default function PoetryPage() {
     return (
       <div
         className="min-h-screen flex items-center justify-center"
-        style={{ background: darkBg ? "#000000" : "transparent" }}
+        style={{ background: "transparent" }}
       >
         <div className="text-center">
           <div className="w-8 h-8 rounded-full border-2 border-amber-500 border-t-transparent animate-spin mx-auto mb-3" />

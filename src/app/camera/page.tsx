@@ -2,7 +2,6 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useBgTheme } from "@/lib/useBgTheme";
 
 type FilterType = "none" | "dreamy" | "cosmic" | "neon" | "ocean" | "sunset" | "aurora" | "glitch" | "vintage" | "noir" | "frost" | "ember" | "botanical" | "midnight" | "golden" | "infrared" | "softfocus" | "vivid" | "muted" | "holographic" | "solarflare" | "deepspace" | "prism" | "vaporwave" | "cinematic" | "rain" | "autumn" | "cherryblossom" | "desert" | "melancholy" | "euphoria" | "ethereal" | "noirchrome" | "lomo" | "polaroid" | "filmgrain";
 
@@ -46,7 +45,6 @@ const FILTERS: { type: FilterType; name: string; icon: string; css: string; over
 ];
 
 export default function CameraPage() {
-  const { darkBg } = useBgTheme();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -189,10 +187,10 @@ export default function CameraPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden" style={{
-      background: darkBg ? "#000000" : "transparent",
+      background: "transparent",
     }}>
       {/* Magical animated background */}
-      {!darkBg && (
+      
       <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
         <div
           className="absolute w-[600px] h-[600px] rounded-full"

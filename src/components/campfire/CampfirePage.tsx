@@ -6,12 +6,10 @@ import { CampfireMultiplayer } from "@/lib/campfire/multiplayer";
 import CampfireLobby from "./CampfireLobby";
 import CampfireScene from "./CampfireScene";
 import CampfireChat from "./CampfireChat";
-import { useBgTheme } from "@/lib/useBgTheme";
 
 export type CampfireTheme = "dark" | "light";
 
 export default function CampfirePage() {
-  const { darkBg } = useBgTheme();
   const [currentRoom, setCurrentRoom] = useState<CampfireRoom | null>(null);
   const [messages, setMessages] = useState<CampfireMessage[]>([]);
   const [presences, setPresences] = useState<CampfirePresence[]>([]);
@@ -93,7 +91,7 @@ export default function CampfirePage() {
   return (
     <div
       className="relative h-screen w-screen overflow-hidden"
-      style={{ background: darkBg ? "#000000" : "transparent" }}
+      style={{ background: "transparent" }}
     >
       {/* Fire scene */}
       <CampfireScene isPlaying={true} theme={theme} />

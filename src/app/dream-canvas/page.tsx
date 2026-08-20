@@ -3,7 +3,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/lib/useIsMobile";
-import { useBgTheme } from "@/lib/useBgTheme";
 
 type BrushType = "pen" | "pencil" | "airbrush" | "calligraphy" | "marker" | "eraser" | "neon" | "rainbow" | "watercolor" | "fire" | "sparkle" | "galaxy" | "chalk" | "oil" | "confetti" | "snow" | "vines" | "electric" | "smoke" | "bubbles" | "stars" | "mosaic" | "dna" | "aurora" | "ink" | "charcoal" | "halftone" | "pixel" | "spray" | "glitch" | "ribbon" | "fur";
 type ToolType = "brush" | "eyedropper" | "fill" | "blur" | "text";
@@ -77,7 +76,6 @@ const EXPORT_FORMATS = [
 ];
 
 export default function DreamCanvasPage() {
-  const { darkBg } = useBgTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -1190,7 +1188,7 @@ export default function DreamCanvasPage() {
   }, [canvasSize]);
 
   return (
-    <main className="relative min-h-screen overflow-hidden" style={{ background: darkBg ? "#000000" : "transparent" }}>
+    <main className="relative min-h-screen overflow-hidden" style={{ background: "transparent" }}>
       <div className="pt-14 h-screen flex flex-col">
         {/* Toolbar - hidden on mobile */}
         {!isMobile && <div className="flex items-center gap-1 px-3 py-2 flex-wrap" style={{ background: "#0a0f0b", borderBottom: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>

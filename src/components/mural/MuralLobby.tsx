@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { MuralRoom } from "@/lib/mural/types";
-import { useBgTheme } from "@/lib/useBgTheme";
 
 const THEME_COLORS = [
   "var(--elovayne-nebula)", "var(--elovayne-violet)", "#8b5cf6", "#ec4899",
@@ -17,7 +16,6 @@ interface MuralLobbyProps {
 }
 
 export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
-  const { darkBg } = useBgTheme();
   const [rooms, setRooms] = useState<MuralRoom[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
@@ -114,7 +112,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center p-6"
-      style={{ background: darkBg ? "#000000" : "transparent" }}
+      style={{ background: "transparent" }}
     >
       <motion.div
         initial={{ opacity: 0, y: -20 }}

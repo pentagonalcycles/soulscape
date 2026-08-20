@@ -10,10 +10,8 @@ import { GameState, GameSettings, OrbCustomization, KillFeedEntry, Notification 
 import { createInitialState, getLeaderboard } from "@/lib/nebula-orb/engine";
 import { createOrb, getOrbRadius } from "@/lib/nebula-orb/orb";
 import { useIsMobile } from "@/lib/useIsMobile";
-import { useBgTheme } from "@/lib/useBgTheme";
 
 export default function NebulaOrbGame() {
-  const { darkBg } = useBgTheme();
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [showLobby, setShowLobby] = useState(true);
   const [showDeath, setShowDeath] = useState(false);
@@ -110,7 +108,7 @@ export default function NebulaOrbGame() {
   }, []);
 
   return (
-    <div className="relative w-full h-screen supports-[height:100dvh]:h-dvh overflow-hidden" style={{ background: darkBg ? "#000000" : (siteBg || "#050510"), touchAction: "none" }}>
+    <div className="relative w-full h-screen supports-[height:100dvh]:h-dvh overflow-hidden" style={{ background: "transparent", touchAction: "none" }}>
       <AnimatePresence>
         {showLobby && (
           <motion.div

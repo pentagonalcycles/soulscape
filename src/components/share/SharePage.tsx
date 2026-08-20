@@ -6,7 +6,6 @@ import { supabase } from "@/lib/supabase";
 import FileUploader from "./FileUploader";
 import FileCard from "./FileCard";
 import CategoryFilter from "./CategoryFilter";
-import { useBgTheme } from "@/lib/useBgTheme";
 
 interface CommunityFile {
   id: string;
@@ -25,7 +24,6 @@ interface CommunityFile {
 type Category = "all" | "music" | "image";
 
 export default function SharePage() {
-  const { darkBg } = useBgTheme();
   const [files, setFiles] = useState<CommunityFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<Category>("all");
@@ -62,7 +60,7 @@ export default function SharePage() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: darkBg ? "#000000" : "transparent",
+      background: "transparent",
       position: "relative",
       overflow: "hidden",
     }}>
