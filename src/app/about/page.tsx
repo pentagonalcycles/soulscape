@@ -56,8 +56,10 @@ const sections = [
     icon: "△",
     title: "What you can do here",
     items: [
-      "Talk to Luna, an AI companion who listens without judgment.",
-      "Explore Arcana — a full 78-card Tarot deck for reflection and insight.",
+      "Build projects with Luna — an AI that writes code, previews it live, and helps you create.",
+      "Talk to Luna using your voice — speak naturally and hear her respond.",
+      "Debug your code with Luna — she finds errors, explains them, and fixes them.",
+      "Explore Arcana — a full 78-card Tarot deck with Compare and Reading Stories.",
       "Reflect in the Reflection Room with daily prompts.",
       "Create art in the Dream Canvas with 32 brush types.",
       "Paint together in the Collaborative Mural in real-time.",
