@@ -70,8 +70,8 @@ function LayoutInner({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Always use dark bioluminescent theme
-    document.documentElement.style.setProperty("--bg-color", "#1f3828");
-    document.body.style.background = "#1f3828";
+    document.documentElement.style.setProperty("--bg-color", "transparent");
+    document.body.style.background = "transparent";
 
     const root = document.documentElement.style;
     root.setProperty("--text-primary", "#e8fff0");
