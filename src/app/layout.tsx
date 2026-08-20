@@ -33,6 +33,9 @@ export const metadata: Metadata = {
   title: "Elovayne — Where Your Soul Can Rest",
   description:
     "A quiet place where people share stories, support each other, and find comfort in knowing they are not alone.",
+  other: {
+    "x-app-version": Date.now().toString(),
+  },
 };
 
 export default function RootLayout({
@@ -46,6 +49,16 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${spaceGrotesk.variable} ${inter.variable} ${shareTechMono.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `
+          try {
+            // Clear old dark theme setting on first load
+            if (localStorage.getItem('elovayne-dark-bg') === 'true') {
+              localStorage.removeItem('elovayne-dark-bg');
+            }
+          } catch(e) {}
+        `}} />
+      </head>
       <body className="min-h-full flex flex-col text-elovayne-light font-body">
         <ClientLayout>{children}</ClientLayout>
       </body>
