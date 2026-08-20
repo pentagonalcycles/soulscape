@@ -70,8 +70,8 @@ function LayoutInner({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Always use dark bioluminescent theme
-    document.documentElement.style.setProperty("--bg-color", "transparent");
-    document.body.style.background = "transparent";
+    document.documentElement.style.setProperty("--bg-color", "#000000");
+    document.body.style.background = "#000000";
 
     const root = document.documentElement.style;
     root.setProperty("--text-primary", "#e8fff0");
@@ -123,9 +123,10 @@ function LayoutInner({ children }: { children: ReactNode }) {
     <>
       {/* Global colour-shifting background (always visible) */}
       <div
-        className="fixed inset-0 z-0"
+        className="fixed inset-0"
         style={{
-          background: "linear-gradient(135deg, var(--elovayne-nebula) 0%, #0088ff 50%, #8800ff 100%)",
+          zIndex: -1,
+          background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
           animation: "bg-hue-cycle 30s linear infinite",
         }}
       />

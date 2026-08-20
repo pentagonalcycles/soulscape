@@ -147,7 +147,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--constellation-opacity", "0.45");
     root.style.setProperty("--glow-opacity", "0.18");
     root.style.setProperty("--orb-opacity", "0.28");
-    document.body.style.background = "transparent";
+    document.body.style.background = "#000000";
     root.setAttribute("data-theme", "dark");
   }, [userPreferences]);
 
