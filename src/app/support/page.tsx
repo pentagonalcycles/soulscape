@@ -7,7 +7,7 @@ import { useState } from "react";
 const faqItems = [
   {
     q: "How much does Elovayne cost?",
-    a: "Many features are free to use, including community spaces, sharing, and social tools. Some premium features like Luna AI and Dream Canvas have a small one-time unlock fee.",
+    a: "Everything is free except Luna AI, which has a small one-time fee of £6.99. All other features — Dream Canvas, Mural, Campfire, Poetry, Tarot, Camera, and more — are completely free.",
   },
   {
     q: "Do I need to create an account?",

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-const STORAGE_KEY = "elovayne-dark-bg";
+const STORAGE_KEY = "elyra-dark-bg";
 
 export function useBgTheme() {
   const [darkBg, setDarkBg] = useState(false);

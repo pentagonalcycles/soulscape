@@ -381,7 +381,7 @@ export default function SettingsPage() {
                   <button
                     onClick={() => {
                       if (clearConfirm === "all") {
-                        const keep = ["elovayne-dark-bg", "elovayne-visitor-id", "elovayne-visitor-name"];
+                        const keep = ["elyra-dark-bg", "elovayne-visitor-id", "elovayne-visitor-name"];
                         const keys = Object.keys(localStorage);
                         keys.forEach(k => { if (!keep.includes(k)) localStorage.removeItem(k); });
                         setClearConfirm(null);

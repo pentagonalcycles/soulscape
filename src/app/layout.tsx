@@ -52,10 +52,9 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: `
           try {
-            // Clear old dark theme setting on first load
-            if (localStorage.getItem('elovayne-dark-bg') === 'true') {
-              localStorage.removeItem('elovayne-dark-bg');
-            }
+            // Clear old dark theme settings on first load
+            localStorage.removeItem('elovayne-dark-bg');
+            localStorage.removeItem('elyra-dark-bg');
           } catch(e) {}
         `}} />
       </head>

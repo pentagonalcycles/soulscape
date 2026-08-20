@@ -202,7 +202,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
             >
               <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.75)", fontWeight: 300 }}>
-                Elovayne is <strong style={{ color: "#10b981", fontWeight: 500 }}>free to join</strong>. Many features are free, with premium tools available for a small one-time fee.
+                Elovayne is <strong style={{ color: "#10b981", fontWeight: 500 }}>free to use</strong>. Everything is free except Luna AI, which has a small one-time fee.
                 No premium walls. No hidden fees. No ads.
               </p>
             </motion.div>
