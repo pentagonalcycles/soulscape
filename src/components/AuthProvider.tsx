@@ -42,7 +42,7 @@ interface AuthContextType {
 }
 
 const defaultPreferences: UserPreferences = {
-  accent_color: "var(--elovayne-nebula)",
+  accent_color: "#00ff88",
   default_page: "/",
   anonymous_default: true,
   text_size: "medium",

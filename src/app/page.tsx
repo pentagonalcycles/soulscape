@@ -278,10 +278,10 @@ export default function Home() {
               What is Elovayne?
             </h2>
             <p className="text-base leading-relaxed max-w-md mx-auto" style={{ color: "var(--text-muted)", fontWeight: 300 }}>
-              An artistic community for real expression. No pressure, no performance — just space to be you.
+              A creative space where you can build, write, draw, play, and explore — with an AI that helps you make things, not just talk.
             </p>
             <p className="text-sm mt-3" style={{ color: "var(--text-dim)" }}>
-              No followers. No likes. No algorithms. Just you.
+              No followers. No likes. No algorithms. Just creation.
             </p>
           </motion.div>
 
