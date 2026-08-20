@@ -115,7 +115,6 @@ export default function ModerationPage() {
           zIndex: 2,
         }}
       />
-      )}
       <div className="global-corners" />
       <div className="global-corners-extra" />
 

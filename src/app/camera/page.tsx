@@ -233,7 +233,6 @@ export default function CameraPage() {
           }}
         />
       </div>
-      )}
 
       <div className="relative z-10 pt-14 h-screen flex flex-col">
         {/* Header */}

@@ -10,8 +10,6 @@ export default function IdeasPage() {
       background: "transparent",
     }}>
       {/* Ambient yellow orbs */}
-      
-      <>
       <div style={{
         position: "fixed", top: "-20%", left: "-10%", width: 500, height: 500,
         borderRadius: "50%", background: "radial-gradient(circle, rgba(234, 179, 8, 0.06) 0%, transparent 70%)",
@@ -22,8 +20,6 @@ export default function IdeasPage() {
         borderRadius: "50%", background: "radial-gradient(circle, rgba(253, 224, 71, 0.05) 0%, transparent 70%)",
         filter: "blur(60px)", pointerEvents: "none",
       }} />
-      </>
-      )}
       <div className="relative z-10 pt-24 sm:pt-32 pb-20 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
           {/* Header */}

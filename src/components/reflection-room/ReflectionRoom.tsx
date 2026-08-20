@@ -98,7 +98,6 @@ export default function ReflectionRoom() {
           zIndex: 1,
         }}
       />
-      )}
 
       {/* Floating organic shapes */}
       
@@ -134,7 +133,6 @@ export default function ReflectionRoom() {
           }}
         />
       </div>
-      )}
 
       {/* Content */}
       <div className="relative z-10">
