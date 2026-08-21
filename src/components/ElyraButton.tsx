@@ -50,30 +50,6 @@ export default function ElyraButton() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ delay: 2, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          {/* Outer glow */}
-          <motion.div
-            className="absolute inset-0 rounded-full"
-            style={{
-              background: "radial-gradient(circle, rgba(0, 255, 136, 0.15) 0%, transparent 70%)",
-              filter: "blur(12px)",
-            }}
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          />
-
-          {/* Rotating ring */}
-          <motion.div
-            className="absolute inset-[-4px] rounded-full"
-            style={{
-              border: "1px solid rgba(0, 255, 136, 0.1)",
-            }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          />
-
           {/* Main button */}
           <motion.div
             className="relative w-12 h-12 rounded-full flex items-center justify-center"
@@ -91,16 +67,7 @@ export default function ElyraButton() {
             transition={{ duration: 0.3 }}
           >
             {/* Icon */}
-            <motion.span
-              className="text-lg"
-              animate={{
-                opacity: [0.6, 1, 0.6],
-                scale: [0.95, 1.05, 0.95],
-              }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
-              ✦
-            </motion.span>
+            <span className="text-lg" style={{ opacity: 0.8 }}>✦</span>
 
             {/* Pulse indicator */}
             <motion.div

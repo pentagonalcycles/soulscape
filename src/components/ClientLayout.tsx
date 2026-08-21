@@ -128,7 +128,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
         style={{
           zIndex: -1,
           background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
-          animation: "bg-hue-cycle 30s linear infinite",
         }}
       />
       {!hideArtisticBg && <ArtisticBackground variant="cosmic" />}
