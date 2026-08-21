@@ -164,10 +164,10 @@ export default function GameLobby({ onStart, isMobile = false, siteBg }: GameLob
   };
 
   const bgPresets = [
-    { name: "Dark", value: "#050510" },
-    { name: "Midnight", value: "#0a0a2e" },
-    { name: "White", value: "#ffffff" },
-    { name: "Lavender", value: "#e6e6fa" },
+    { name: "Purple", value: "#0a0a2e" },
+    { name: "Blue", value: "#0c1830" },
+    { name: "Green", value: "#0a1810" },
+    { name: "Pink", value: "#1a0a1a" },
   ];
 
   return (
