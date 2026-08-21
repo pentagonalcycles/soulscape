@@ -150,9 +150,8 @@ export default function SignalPulse({ variant = "idle", size = "md" }: SignalPul
         animate={{
           scale: [1, 1.1, 1],
           opacity: [0.2, 0.4, 0.2],
-          rotate: [0, 360],
         }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 4, repeat: Infinity }}
       />
 
       {/* Inner glow */}

@@ -39,108 +39,6 @@ export default function SignalLanding({ onSend }: SignalLandingProps) {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20 relative overflow-hidden">
-      {/* Magical floating orbs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Large ambient orbs */}
-        <motion.div
-          className="absolute w-[500px] h-[500px] rounded-full"
-          style={{
-            top: "-15%",
-            left: "-10%",
-            background: "radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%)",
-            filter: "blur(60px)",
-          }}
-          animate={{
-            x: [0, 40, -20, 0],
-            y: [0, -30, 20, 0],
-            scale: [1, 1.1, 0.95, 1],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute w-[400px] h-[400px] rounded-full"
-          style={{
-            bottom: "-10%",
-            right: "-5%",
-            background: "radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, transparent 70%)",
-            filter: "blur(50px)",
-          }}
-          animate={{
-            x: [0, -30, 20, 0],
-            y: [0, 25, -15, 0],
-            scale: [1, 0.95, 1.05, 1],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute w-[300px] h-[300px] rounded-full"
-          style={{
-            top: "40%",
-            left: "60%",
-            background: "radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%)",
-            filter: "blur(45px)",
-          }}
-          animate={{
-            x: [0, 25, -15, 0],
-            y: [0, -20, 25, 0],
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {/* Floating sparkles */}
-        {Array.from({ length: 20 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 rounded-full"
-            style={{
-              left: `${5 + (i * 4.7) % 90}%`,
-              top: `${10 + (i * 7.3) % 80}%`,
-              background: i % 3 === 0 ? "rgba(0, 255, 136, 0.8)" : i % 3 === 1 ? "rgba(168, 85, 247, 0.7)" : "rgba(236, 72, 153, 0.6)",
-              boxShadow: i % 3 === 0 ? "0 0 6px rgba(0, 255, 136, 0.5)" : i % 3 === 1 ? "0 0 6px rgba(168, 85, 247, 0.4)" : "0 0 6px rgba(236, 72, 153, 0.3)",
-            }}
-            animate={{
-              y: [0, -30, 10, 0],
-              x: [0, (i % 2 === 0 ? 15 : -15), (i % 2 === 0 ? -10 : 10), 0],
-              opacity: [0, 0.8, 0.4, 0],
-              scale: [0.5, 1.2, 0.8, 0.5],
-            }}
-            transition={{
-              duration: 8 + (i % 4) * 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.3,
-            }}
-          />
-        ))}
-
-        {/* Constellation lines */}
-        <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.15 }}>
-          {[
-            { x1: "20%", y1: "30%", x2: "40%", y2: "20%" },
-            { x1: "40%", y1: "20%", x2: "60%", y2: "35%" },
-            { x1: "60%", y1: "35%", x2: "75%", y2: "25%" },
-            { x1: "30%", y1: "60%", x2: "50%", y2: "70%" },
-            { x1: "50%", y1: "70%", x2: "70%", y2: "65%" },
-            { x1: "15%", y1: "50%", x2: "35%", y2: "45%" },
-            { x1: "65%", y1: "55%", x2: "85%", y2: "50%" },
-          ].map((line, i) => (
-            <motion.line
-              key={i}
-              x1={line.x1}
-              y1={line.y1}
-              x2={line.x2}
-              y2={line.y2}
-              stroke="rgba(0, 255, 136, 0.3)"
-              strokeWidth="0.5"
-              strokeDasharray="4 8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0.1, 0.4, 0.1] }}
-              transition={{ duration: 4 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
-            />
-          ))}
-        </svg>
-      </div>
-
       {/* Pulse */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
@@ -192,7 +90,7 @@ export default function SignalLanding({ onSend }: SignalLandingProps) {
       >
         <button
           onClick={onSend}
-          className="w-full py-4 px-6 rounded-2xl text-sm tracking-wide transition-all relative overflow-hidden"
+          className="w-full py-4 px-6 rounded-2xl text-sm tracking-wide transition-all"
           style={{
             background: "linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.08))",
             border: "1px solid rgba(0, 255, 136, 0.2)",
@@ -210,14 +108,6 @@ export default function SignalLanding({ onSend }: SignalLandingProps) {
             e.currentTarget.style.borderColor = "rgba(0, 255, 136, 0.2)";
           }}
         >
-          {/* Shimmer effect */}
-          <div
-            className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500"
-            style={{
-              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)",
-              animation: "shimmer 3s ease-in-out infinite",
-            }}
-          />
           <span className="text-lg mr-2">📡</span>
           Send a Signal
         </button>
@@ -251,10 +141,6 @@ export default function SignalLanding({ onSend }: SignalLandingProps) {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
-        }
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
         }
       `}</style>
     </div>
