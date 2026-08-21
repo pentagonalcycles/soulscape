@@ -1203,6 +1203,15 @@ body.compact-mode .gap-4 {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Global background gradient shift */
+@keyframes bg-gradient-shift {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 100%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 0%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* Campfire lobby floating orb animations */
 @keyframes lobbyFloat1 {
   0%, 100% { transform: translate(0, 0) scale(1); }

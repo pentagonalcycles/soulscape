@@ -127,7 +127,9 @@ function LayoutInner({ children }: { children: ReactNode }) {
         className="fixed inset-0"
         style={{
           zIndex: -1,
-          background: "linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #8800ff 100%)",
+          background: "linear-gradient(135deg, #00ff88, #0088ff, #8800ff, #ff00aa, #ff8800, #00ff88)",
+          backgroundSize: "300% 300%",
+          animation: "bg-gradient-shift 20s ease infinite",
         }}
       />
       {!hideArtisticBg && <ArtisticBackground variant="cosmic" />}
