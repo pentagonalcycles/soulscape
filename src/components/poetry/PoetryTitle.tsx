@@ -20,11 +20,28 @@ export default function PoetryTitle({ prompt, onWrite, onRead, poemCount }: Poet
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center px-6 py-16"
+      className="min-h-screen flex flex-col items-center justify-center px-6 py-16 relative overflow-hidden"
       style={{
         background: "transparent",
       }}
     >
+      {/* Magical ambient orbs */}
+      <div style={{
+        position: "fixed", top: "-15%", right: "-10%", width: 600, height: 600,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%)",
+        filter: "blur(80px)", pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "fixed", bottom: "-15%", left: "-10%", width: 500, height: 500,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(217, 119, 6, 0.12) 0%, transparent 70%)",
+        filter: "blur(60px)", pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "fixed", top: "50%", left: "50%", width: 450, height: 450,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(254, 243, 199, 0.1) 0%, transparent 70%)",
+        filter: "blur(50px)", pointerEvents: "none",
+      }} />
+
       {/* Ornamental top */}
       <motion.div
         initial={{ opacity: 0 }}

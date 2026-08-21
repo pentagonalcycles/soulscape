@@ -586,16 +586,26 @@ export default function TarotPage() {
       position: "relative",
       overflow: "hidden",
     }}>
-      {/* Ambient orbs */}
+      {/* Magical ambient orbs */}
       <div style={{
-        position: "fixed", top: "-20%", left: "-10%", width: 500, height: 500,
-        borderRadius: "50%", background: "radial-gradient(circle, rgba(168, 85, 247, 0.06) 0%, transparent 70%)",
+        position: "fixed", top: "-20%", left: "-10%", width: 700, height: 700,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, transparent 70%)",
+        filter: "blur(80px)", pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "fixed", bottom: "-20%", right: "-10%", width: 600, height: 600,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)",
+        filter: "blur(70px)", pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "fixed", top: "40%", left: "60%", width: 500, height: 500,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, transparent 70%)",
         filter: "blur(60px)", pointerEvents: "none",
       }} />
       <div style={{
-        position: "fixed", bottom: "-20%", right: "-10%", width: 400, height: 400,
-        borderRadius: "50%", background: "radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%)",
-        filter: "blur(60px)", pointerEvents: "none",
+        position: "fixed", top: "60%", left: "20%", width: 450, height: 450,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%)",
+        filter: "blur(50px)", pointerEvents: "none",
       }} />
 
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "80px 20px 60px", position: "relative", zIndex: 1 }}>

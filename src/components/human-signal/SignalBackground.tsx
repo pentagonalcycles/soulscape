@@ -12,36 +12,41 @@ export default function SignalBackground({ mood = "default" }: SignalBackgroundP
   useEffect(() => { setMounted(true); }, []);
   if (!mounted) return null;
 
-  const gradients: Record<string, { main: string; orb1: string; orb2: string; orb3: string }> = {
+  const gradients: Record<string, { main: string; orb1: string; orb2: string; orb3: string; orb4: string }> = {
     default: {
-      main: "linear-gradient(160deg, #0a0a12 0%, #0f1520 40%, #0a1018 100%)",
-      orb1: "rgba(0, 255, 136, 0.08)",
-      orb2: "rgba(99, 102, 241, 0.06)",
-      orb3: "rgba(236, 72, 153, 0.04)",
+      main: "linear-gradient(160deg, #0f1a20 0%, #142028 40%, #0f1a20 100%)",
+      orb1: "rgba(0, 255, 136, 0.2)",
+      orb2: "rgba(99, 102, 241, 0.15)",
+      orb3: "rgba(236, 72, 153, 0.12)",
+      orb4: "rgba(251, 191, 36, 0.1)",
     },
     sending: {
-      main: "linear-gradient(160deg, #0a0a12 0%, #0d1520 40%, #0a1018 100%)",
-      orb1: "rgba(0, 255, 136, 0.12)",
-      orb2: "rgba(99, 102, 241, 0.08)",
-      orb3: "rgba(0, 204, 106, 0.06)",
+      main: "linear-gradient(160deg, #0f1a20 0%, #122028 40%, #0f1a20 100%)",
+      orb1: "rgba(0, 255, 136, 0.25)",
+      orb2: "rgba(99, 102, 241, 0.18)",
+      orb3: "rgba(0, 204, 106, 0.15)",
+      orb4: "rgba(251, 191, 36, 0.12)",
     },
     waiting: {
-      main: "linear-gradient(160deg, #080810 0%, #0c1018 40%, #080c14 100%)",
-      orb1: "rgba(0, 255, 136, 0.06)",
-      orb2: "rgba(99, 102, 241, 0.04)",
-      orb3: "rgba(236, 72, 153, 0.03)",
+      main: "linear-gradient(160deg, #0c1418 0%, #101820 40%, #0c1418 100%)",
+      orb1: "rgba(0, 255, 136, 0.12)",
+      orb2: "rgba(99, 102, 241, 0.1)",
+      orb3: "rgba(236, 72, 153, 0.08)",
+      orb4: "rgba(251, 191, 36, 0.06)",
     },
     heard: {
-      main: "linear-gradient(160deg, #0c0a14 0%, #12101e 40%, #0e0c18 100%)",
-      orb1: "rgba(236, 72, 153, 0.1)",
-      orb2: "rgba(99, 102, 241, 0.08)",
-      orb3: "rgba(0, 255, 136, 0.06)",
+      main: "linear-gradient(160deg, #14101a 0%, #1a1420 40%, #14101a 100%)",
+      orb1: "rgba(236, 72, 153, 0.2)",
+      orb2: "rgba(99, 102, 241, 0.15)",
+      orb3: "rgba(0, 255, 136, 0.12)",
+      orb4: "rgba(251, 191, 36, 0.1)",
     },
     receiving: {
-      main: "linear-gradient(160deg, #0a0a12 0%, #10141c 40%, #0c1018 100%)",
-      orb1: "rgba(99, 102, 241, 0.08)",
-      orb2: "rgba(0, 255, 136, 0.06)",
-      orb3: "rgba(236, 72, 153, 0.04)",
+      main: "linear-gradient(160deg, #0f1a20 0%, #141820 40%, #0f1a20 100%)",
+      orb1: "rgba(99, 102, 241, 0.18)",
+      orb2: "rgba(0, 255, 136, 0.15)",
+      orb3: "rgba(236, 72, 153, 0.12)",
+      orb4: "rgba(251, 191, 36, 0.1)",
     },
   };
 
@@ -55,7 +60,7 @@ export default function SignalBackground({ mood = "default" }: SignalBackgroundP
         transition={{ duration: 2 }}
       />
 
-      {/* Primary orb */}
+      {/* Primary orb - green */}
       <motion.div
         className="absolute rounded-full"
         style={{
@@ -79,7 +84,7 @@ export default function SignalBackground({ mood = "default" }: SignalBackgroundP
         }}
       />
 
-      {/* Secondary orb */}
+      {/* Secondary orb - indigo */}
       <motion.div
         className="absolute rounded-full"
         style={{
@@ -103,7 +108,7 @@ export default function SignalBackground({ mood = "default" }: SignalBackgroundP
         }}
       />
 
-      {/* Third orb - adds depth */}
+      {/* Third orb - pink */}
       <motion.div
         className="absolute rounded-full"
         style={{
@@ -124,6 +129,30 @@ export default function SignalBackground({ mood = "default" }: SignalBackgroundP
           background: { duration: 2 },
           x: { duration: 18, repeat: Infinity, ease: "easeInOut" },
           y: { duration: 15, repeat: Infinity, ease: "easeInOut" },
+        }}
+      />
+
+      {/* Fourth orb - gold */}
+      <motion.div
+        className="absolute rounded-full"
+        style={{
+          width: "35vw",
+          height: "35vw",
+          maxWidth: "350px",
+          maxHeight: "350px",
+          top: "20%",
+          left: "30%",
+          filter: "blur(50px)",
+        }}
+        animate={{
+          background: `radial-gradient(circle, ${g.orb4}, transparent 70%)`,
+          x: [0, -20, 15, 0],
+          y: [0, 15, -20, 0],
+        }}
+        transition={{
+          background: { duration: 2 },
+          x: { duration: 20, repeat: Infinity, ease: "easeInOut" },
+          y: { duration: 16, repeat: Infinity, ease: "easeInOut" },
         }}
       />
     </div>

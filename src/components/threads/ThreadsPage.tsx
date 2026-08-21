@@ -241,10 +241,21 @@ export default function ThreadsPage() {
       position: "relative",
       overflow: "hidden",
     }}>
+      {/* Magical ambient orbs */}
       <div style={{
-        position: "fixed", top: "-20%", right: "-10%", width: 400, height: 400,
-        borderRadius: "50%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.04) 0%, transparent 70%)",
+        position: "fixed", top: "-20%", right: "-10%", width: 600, height: 600,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.15) 0%, transparent 70%)",
+        filter: "blur(80px)", pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "fixed", bottom: "-15%", left: "-10%", width: 500, height: 500,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(0, 255, 136, 0.12) 0%, transparent 70%)",
         filter: "blur(60px)", pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "fixed", top: "50%", left: "50%", width: 450, height: 450,
+        borderRadius: "50%", background: "radial-gradient(circle, rgba(57, 255, 20, 0.1) 0%, transparent 70%)",
+        filter: "blur(50px)", pointerEvents: "none",
       }} />
 
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "80px 20px 60px", position: "relative", zIndex: 1 }}>
