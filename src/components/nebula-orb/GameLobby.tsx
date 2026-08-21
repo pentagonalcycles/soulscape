@@ -166,16 +166,8 @@ export default function GameLobby({ onStart, isMobile = false, siteBg }: GameLob
   const bgPresets = [
     { name: "Dark", value: "#050510" },
     { name: "Midnight", value: "#0a0a2e" },
-    { name: "Deep Blue", value: "#0c1018" },
-    { name: "Forest", value: "#0a1410" },
     { name: "White", value: "#ffffff" },
-    { name: "Cream", value: "#fffdd0" },
-    { name: "Mint", value: "#f5fffa" },
     { name: "Lavender", value: "#e6e6fa" },
-    { name: "Rose", value: "#ffe4e1" },
-    { name: "Sky", value: "#e8f4fd" },
-    { name: "Sage", value: "#f0f4f0" },
-    { name: "Peach", value: "#ffdab9" },
   ];
 
   return (
