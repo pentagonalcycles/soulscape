@@ -701,38 +701,48 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
           <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.4)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", fontWeight: 400 }}>{name}</span>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
-          {sandboxFiles.length > 0 && (
-            <>
-              <button
-                onClick={() => { setSandboxOpen(o => !o); if (sandboxOpen) setTestLabOpen(false); }}
-                style={{
-                  padding: "6px 14px", borderRadius: "6px",
-                  background: sandboxOpen && !testLabOpen ? "rgba(0, 255, 136, 0.1)" : "rgba(255, 255, 255, 0.03)",
-                  border: `1px solid ${sandboxOpen && !testLabOpen ? "rgba(0, 255, 136, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
-                  color: sandboxOpen && !testLabOpen ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.3)",
-                  fontSize: "9px", cursor: "pointer",
-                  fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
-                  transition: "all 0.2s",
-                }}
-              >
-                {sandboxOpen && !testLabOpen ? "Close Sandbox" : "Sandbox"}
-              </button>
-              <button
-                onClick={() => { setTestLabOpen(t => !t); if (!testLabOpen) setSandboxOpen(true); }}
-                style={{
-                  padding: "6px 14px", borderRadius: "6px",
-                  background: testLabOpen ? "rgba(168, 85, 247, 0.1)" : "rgba(255, 255, 255, 0.03)",
-                  border: `1px solid ${testLabOpen ? "rgba(168, 85, 247, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
-                  color: testLabOpen ? "#c084fc" : "rgba(255, 255, 255, 0.3)",
-                  fontSize: "9px", cursor: "pointer",
-                  fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
-                  transition: "all 0.2s",
-                }}
-              >
-                {testLabOpen ? "Close Test Lab" : "Test Lab"}
-              </button>
-            </>
-          )}
+          <button
+            onClick={() => {
+              if (sandboxFiles.length === 0) {
+                send("I'd like to open the Sandbox, but there are no files yet. Can you write some code for my project?");
+                return;
+              }
+              setSandboxOpen(o => !o);
+              if (sandboxOpen) setTestLabOpen(false);
+            }}
+            style={{
+              padding: "6px 14px", borderRadius: "6px",
+              background: sandboxOpen && !testLabOpen ? "rgba(0, 255, 136, 0.1)" : "rgba(255, 255, 255, 0.03)",
+              border: `1px solid ${sandboxOpen && !testLabOpen ? "rgba(0, 255, 136, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
+              color: sandboxOpen && !testLabOpen ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.3)",
+              fontSize: "9px", cursor: "pointer",
+              fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
+              transition: "all 0.2s",
+            }}
+          >
+            {sandboxOpen && !testLabOpen ? "Close Sandbox" : "Sandbox"}
+          </button>
+          <button
+            onClick={() => {
+              if (sandboxFiles.length === 0) {
+                send("I'd like to run tests on my project, but there are no files yet. Can you write some code first?");
+                return;
+              }
+              setTestLabOpen(t => !t);
+              if (!testLabOpen) setSandboxOpen(true);
+            }}
+            style={{
+              padding: "6px 14px", borderRadius: "6px",
+              background: testLabOpen ? "rgba(168, 85, 247, 0.1)" : "rgba(255, 255, 255, 0.03)",
+              border: `1px solid ${testLabOpen ? "rgba(168, 85, 247, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
+              color: testLabOpen ? "#c084fc" : "rgba(255, 255, 255, 0.3)",
+              fontSize: "9px", cursor: "pointer",
+              fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
+              transition: "all 0.2s",
+            }}
+          >
+            {testLabOpen ? "Close Test Lab" : "Test Lab"}
+          </button>
           <button
             onClick={startNewConversation}
             disabled={loading}
@@ -1440,14 +1450,16 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             <button onClick={() => { setShowSettings(!showSettings); setShowProjects(false); setShowHistory(false); setShowMemory(false); }} style={controlButtonStyle}
               onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
               onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◈ Configure</button>
-            {sandboxFiles.length > 0 && (
-              <>
-                <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-                <button onClick={() => { setTestLabOpen(true); setSandboxOpen(true); }} style={controlButtonStyle}
-                  onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
-                  onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>🧪 Test Lab</button>
-              </>
-            )}
+            <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
+            <button onClick={() => {
+              if (sandboxFiles.length === 0) {
+                send("I'd like to run tests, but there are no files yet. Can you write some code for my project?");
+                return;
+              }
+              setTestLabOpen(true); setSandboxOpen(true);
+            }} style={controlButtonStyle}
+              onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
+              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>🧪 Test Lab</button>
             {lastUserMessage && !loading && (
               <>
                 <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
