@@ -27,7 +27,7 @@ export default function GlowingPortal() {
           className="absolute rounded-full pointer-events-none"
           style={{
             inset: -60,
-            background: "radial-gradient(circle, rgba(0, 212, 170, 0.08) 0%, rgba(255, 215, 0, 0.05) 35%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(0, 180, 220, 0.08) 0%, rgba(72, 202, 228, 0.05) 35%, transparent 65%)",
             filter: "blur(40px)",
           }}
         />
@@ -37,7 +37,7 @@ export default function GlowingPortal() {
           className="absolute rounded-full pointer-events-none"
           style={{
             inset: -16,
-            border: "1px solid rgba(0, 255, 136, 0.08)",
+            border: "1px solid rgba(0, 180, 220, 0.08)",
           }}
           animate={{ rotate: 360 }}
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
@@ -47,8 +47,8 @@ export default function GlowingPortal() {
             style={{
               top: "50%",
               left: "-3px",
-              background: "var(--elovayne-nebula)",
-              boxShadow: "0 0 8px rgba(0, 255, 136, 0.6)",
+              background: "#00b4d8",
+              boxShadow: "0 0 8px rgba(0, 180, 216, 0.6)",
             }}
           />
           <div
@@ -56,8 +56,8 @@ export default function GlowingPortal() {
             style={{
               top: "-3px",
               left: "50%",
-              background: "var(--elovayne-cosmic-pink)",
-              boxShadow: "0 0 6px rgba(57, 255, 20, 0.5)",
+              background: "#48cae4",
+              boxShadow: "0 0 6px rgba(72, 202, 228, 0.5)",
             }}
           />
         </motion.div>
@@ -67,7 +67,7 @@ export default function GlowingPortal() {
           className="absolute rounded-full pointer-events-none"
           style={{
             inset: -4,
-            border: "1px dashed rgba(0, 255, 136, 0.08)",
+            border: "1px dashed rgba(0, 180, 220, 0.08)",
           }}
           animate={{ rotate: -360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -77,8 +77,8 @@ export default function GlowingPortal() {
             style={{
               top: "50%",
               right: "-2px",
-              background: "rgba(0, 255, 136, 0.5)",
-              boxShadow: "0 0 6px rgba(0, 255, 136, 0.4)",
+              background: "rgba(0, 180, 220, 0.5)",
+              boxShadow: "0 0 6px rgba(0, 180, 220, 0.4)",
             }}
           />
         </motion.div>
@@ -90,7 +90,7 @@ export default function GlowingPortal() {
             left: "10%",
             right: "10%",
             height: "1px",
-            background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.12), transparent)",
+            background: "linear-gradient(90deg, transparent, rgba(0, 180, 220, 0.12), transparent)",
           }}
           animate={{
             top: ["20%", "80%", "20%"],
@@ -108,14 +108,14 @@ export default function GlowingPortal() {
           className="absolute inset-0 rounded-full cursor-pointer"
           style={{
             background: isHovered
-              ? "radial-gradient(circle, rgba(0, 255, 136, 0.15) 0%, rgba(57, 255, 20, 0.06) 40%, rgba(0, 255, 136, 0.02) 70%, transparent 90%)"
-              : "radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, rgba(57, 255, 20, 0.03) 45%, transparent 75%)",
+              ? "radial-gradient(circle, rgba(0, 180, 220, 0.15) 0%, rgba(72, 202, 228, 0.06) 40%, rgba(0, 180, 220, 0.02) 70%, transparent 90%)"
+              : "radial-gradient(circle, rgba(0, 180, 220, 0.08) 0%, rgba(72, 202, 228, 0.03) 45%, transparent 75%)",
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
             border: "none",
             boxShadow: isHovered
-              ? "0 0 80px rgba(0, 255, 136, 0.3), 0 0 160px rgba(0, 204, 106, 0.18), inset 0 0 60px rgba(0, 255, 136, 0.05), 0 0 40px rgba(0, 255, 136, 0.2), 0 0 80px rgba(57, 255, 20, 0.1), inset 0 0 30px rgba(0, 255, 136, 0.06)"
-              : "0 0 80px rgba(0, 255, 136, 0.3), 0 0 160px rgba(0, 204, 106, 0.18), inset 0 0 60px rgba(0, 255, 136, 0.05), 0 0 20px rgba(0, 255, 136, 0.08), 0 0 40px rgba(57, 255, 20, 0.03), inset 0 0 15px rgba(0, 255, 136, 0.03)",
+              ? "0 0 80px rgba(0, 180, 220, 0.3), 0 0 160px rgba(72, 202, 228, 0.18), inset 0 0 60px rgba(0, 180, 220, 0.05), 0 0 40px rgba(0, 180, 220, 0.2), 0 0 80px rgba(72, 202, 228, 0.1), inset 0 0 30px rgba(0, 180, 220, 0.06)"
+              : "0 0 80px rgba(0, 180, 220, 0.3), 0 0 160px rgba(72, 202, 228, 0.18), inset 0 0 60px rgba(0, 180, 220, 0.05), 0 0 20px rgba(0, 180, 220, 0.08), 0 0 40px rgba(72, 202, 228, 0.03), inset 0 0 15px rgba(0, 180, 220, 0.03)",
             transition: "all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
           }}
           onMouseEnter={() => setIsHovered(true)}
@@ -135,7 +135,7 @@ export default function GlowingPortal() {
             className="absolute rounded-full pointer-events-none"
             style={{
               inset: 30,
-              border: "1px solid rgba(0, 255, 136, 0.05)",
+              border: "1px solid rgba(0, 180, 220, 0.05)",
             }}
             animate={{
               scale: [1, 1.08, 1],
@@ -151,7 +151,7 @@ export default function GlowingPortal() {
             className="absolute rounded-full pointer-events-none"
             style={{
               inset: 50,
-              border: "1px solid rgba(0, 255, 136, 0.04)",
+              border: "1px solid rgba(0, 180, 220, 0.04)",
             }}
             animate={{
               scale: [1, 1.12, 1],
@@ -170,7 +170,7 @@ export default function GlowingPortal() {
             className="absolute rounded-full pointer-events-none"
             style={{
               inset: 60,
-              background: "radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(0, 180, 220, 0.08) 0%, transparent 70%)",
             }}
             animate={{
               opacity: isHovered ? [0.6, 1, 0.6] : [0.3, 0.5, 0.3],
@@ -188,19 +188,19 @@ export default function GlowingPortal() {
             <div className="flex items-center gap-1.5">
               <motion.div
                 className="w-1 h-1 rounded-full"
-                  style={{ background: isHovered ? "var(--elovayne-cosmic-pink)" : "var(--elovayne-nebula)" }}
+                  style={{ background: isHovered ? "#48cae4" : "#00b4d8" }}
                 animate={{
                   opacity: isHovered ? [1, 0.4, 1] : [0.5, 0.8, 0.5],
                   boxShadow: isHovered
-                    ? ["0 0 4px var(--elovayne-cosmic-pink)", "0 0 2px var(--elovayne-cosmic-pink)", "0 0 4px var(--elovayne-cosmic-pink)"]
-                    : ["0 0 2px rgba(0,255,136,0.3)", "0 0 4px rgba(0,255,136,0.3)", "0 0 2px rgba(0,255,136,0.3)"],
+                    ? ["0 0 4px #48cae4", "0 0 2px #48cae4", "0 0 4px #48cae4"]
+                    : ["0 0 2px rgba(0,180,216,0.3)", "0 0 4px rgba(0,180,216,0.3)", "0 0 2px rgba(0,180,216,0.3)"],
                 }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
               <span
                 className="uppercase tracking-[0.3em]"
                 style={{
-                  color: isHovered ? "rgba(0, 255, 136, 0.7)" : "rgba(0, 255, 136, 0.4)",
+                  color: isHovered ? "rgba(0, 180, 220, 0.7)" : "rgba(0, 180, 220, 0.4)",
                   fontSize: "7px",
                   transition: "color 0.4s ease",
                 }}
@@ -213,8 +213,8 @@ export default function GlowingPortal() {
             <span
               className="text-sm md:text-base tracking-[0.2em] uppercase"
               style={{
-                color: isHovered ? "var(--elovayne-nebula)" : "#e0f5e8",
-                textShadow: isHovered ? "0 0 12px rgba(0, 255, 136, 0.4)" : "0 0 6px rgba(0, 255, 136, 0.15)",
+                color: isHovered ? "#00b4d8" : "#e0f5f8",
+                textShadow: isHovered ? "0 0 12px rgba(0, 180, 220, 0.4)" : "0 0 6px rgba(0, 180, 220, 0.15)",
                 fontWeight: 300,
                 transition: "all 0.4s ease",
               }}
@@ -226,7 +226,7 @@ export default function GlowingPortal() {
             <motion.div
               style={{
                 height: "1px",
-                  background: "linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent)",
+                  background: "linear-gradient(90deg, transparent, rgba(0, 180, 220, 0.3), transparent)",
               }}
               animate={{
                 width: isHovered ? 40 : 20,
@@ -245,7 +245,7 @@ export default function GlowingPortal() {
               <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
                 <path
                   d="M0 4H12M12 4L8 0.5M12 4L8 7.5"
-                  stroke={isHovered ? "var(--elovayne-nebula)" : "rgba(240, 255, 245, 0.6)"}
+                  stroke={isHovered ? "#00b4d8" : "rgba(240, 255, 245, 0.6)"}
                   strokeWidth="1"
                   strokeLinecap="round"
                   strokeLinejoin="round"

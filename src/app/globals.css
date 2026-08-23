@@ -1212,6 +1212,15 @@ body.compact-mode .gap-4 {
   100% { background-position: 0% 50%; }
 }
 
+/* Logo hue shift */
+@keyframes logoHueShift {
+  0% { filter: hue-rotate(0deg) drop-shadow(0 0 8px rgba(0, 255, 136, 0.25)); }
+  25% { filter: hue-rotate(60deg) drop-shadow(0 0 12px rgba(0, 136, 255, 0.35)); }
+  50% { filter: hue-rotate(120deg) drop-shadow(0 0 16px rgba(136, 0, 255, 0.35)); }
+  75% { filter: hue-rotate(200deg) drop-shadow(0 0 12px rgba(255, 0, 170, 0.3)); }
+  100% { filter: hue-rotate(360deg) drop-shadow(0 0 8px rgba(0, 255, 136, 0.25)); }
+}
+
 /* Campfire lobby floating orb animations */
 @keyframes lobbyFloat1 {
   0%, 100% { transform: translate(0, 0) scale(1); }

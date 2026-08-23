@@ -69,14 +69,9 @@ export default function ElovayneLogo() {
         {/* SVG Symbol */}
         <motion.div
           className="absolute inset-0"
-          animate={{
-            filter: [
-              "drop-shadow(0 0 8px rgba(0, 255, 136, 0.25))",
-              "drop-shadow(0 0 16px rgba(0, 255, 136, 0.45))",
-              "drop-shadow(0 0 8px rgba(0, 255, 136, 0.25))",
-            ],
+          style={{
+            animation: "logoHueShift 12s ease-in-out infinite",
           }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         >
           <svg viewBox="0 0 200 200" className="w-full h-full">
             <defs>
