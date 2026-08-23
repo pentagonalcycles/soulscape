@@ -2,17 +2,15 @@
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ALL_CARDS, MAJOR_ARCANA, CUPS, WANDS, SWORDS, PENTACLES } from "@/lib/tarot";
-import type { TarotCard } from "@/lib/tarot";
-
-type Context = "general" | "love" | "career" | "personal" | "decision" | "situation";
+import { ALL_CARDS, MAJOR_ARCANA, CUPS, WANDS, SWORDS, PENTACLES, detectPatterns } from "@/lib/tarot";
+import type { TarotCard, ReadingContext, Pattern } from "@/lib/tarot";
 
 interface SelectedCard {
   card: TarotCard;
   reversed: boolean;
 }
 
-const CONTEXTS: { id: Context; label: string; icon: string }[] = [
+const CONTEXTS: { id: ReadingContext; label: string; icon: string }[] = [
   { id: "general", label: "General", icon: "✦" },
   { id: "love", label: "Love", icon: "💗" },
   { id: "career", label: "Career", icon: "💼" },
@@ -32,7 +30,7 @@ const SUIT_FILTERS = [
 
 export default function ArcanaCompare({ onBack }: { onBack: () => void }) {
   const [selected, setSelected] = useState<SelectedCard[]>([]);
-  const [context, setContext] = useState<Context>("general");
+  const [context, setContext] = useState<ReadingContext>("general");
   const [showPicker, setShowPicker] = useState(false);
   const [search, setSearch] = useState("");
   const [suitFilter, setSuitFilter] = useState("all");
@@ -504,89 +502,7 @@ function getSuitIcon(suit?: string): string {
   }
 }
 
-interface Pattern {
-  title: string;
-  description: string;
-}
-
-function detectPatterns(cards: SelectedCard[]): Pattern[] {
-  const patterns: Pattern[] = [];
-
-  const majorCount = cards.filter(c => c.card.arcana === "major").length;
-  if (majorCount >= 2) {
-    patterns.push({
-      title: "Multiple Major Arcana",
-      description: `${majorCount} Major Arcana cards suggest significant life themes and deeper forces at work. These are not small matters — the cards point to meaningful transformation.`,
-    });
-  }
-
-  const suitCounts: Record<string, number> = {};
-  cards.forEach(c => {
-    if (c.card.suit) {
-      suitCounts[c.card.suit] = (suitCounts[c.card.suit] || 0) + 1;
-    }
-  });
-
-  const suitNames: Record<string, string> = {
-    cups: "Cups (emotions, relationships, intuition)",
-    wands: "Wands (passion, creativity, action)",
-    swords: "Swords (thought, communication, conflict)",
-    pentacles: "Pentacles (material, career, stability)",
-  };
-
-  Object.entries(suitCounts).forEach(([suit, count]) => {
-    if (count >= 2) {
-      patterns.push({
-        title: `Multiple ${suit.charAt(0).toUpperCase() + suit.slice(1)}`,
-        description: `${count} ${suitNames[suit]} cards. The energy of ${suit} is strong in this reading.`,
-      });
-    }
-  });
-
-  const reversedCount = cards.filter(c => c.reversed).length;
-  if (reversedCount >= 2) {
-    patterns.push({
-      title: "Strong Reversal Pattern",
-      description: `${reversedCount} of ${cards.length} cards are reversed. This suggests internalized energy, blocked expression, or a need to look inward rather than outward.`,
-    });
-  }
-
-  const numbers = cards.filter(c => c.card.number !== null).map(c => c.card.number!);
-  const numberCounts: Record<number, number> = {};
-  numbers.forEach(n => { numberCounts[n] = (numberCounts[n] || 0) + 1; });
-  Object.entries(numberCounts).forEach(([num, count]) => {
-    if (count >= 2) {
-      const numMeanings: Record<number, string> = {
-        1: "new beginnings and potential",
-        2: "balance, duality, and partnership",
-        3: "creativity, growth, and expression",
-        4: "stability, structure, and foundation",
-        5: "change, conflict, and challenge",
-        6: "harmony, responsibility, and adjustment",
-        7: "reflection, assessment, and inner work",
-        8: "movement, mastery, and accomplishment",
-        9: "completion, fulfillment, and transition",
-        10: "culmination, ending, and new cycles",
-      };
-      patterns.push({
-        title: `Repeated Number: ${num}`,
-        description: `The number ${num} appears ${count} times, pointing to themes of ${numMeanings[Number(num)] || "cycles and patterns"}.`,
-      });
-    }
-  });
-
-  const courtCount = cards.filter(c => c.card.number !== null && c.card.number! >= 11).length;
-  if (courtCount >= 2) {
-    patterns.push({
-      title: "Court Card Energy",
-      description: `${courtCount} court cards suggest strong personality dynamics, interpersonal themes, or different aspects of yourself at play.`,
-    });
-  }
-
-  return patterns;
-}
-
-function generateInterpretation(cards: SelectedCard[], context: Context) {
+function generateInterpretation(cards: SelectedCard[], context: ReadingContext) {
   const cardNames = cards.map(c => `${c.card.name}${c.reversed ? " (Reversed)" : ""}`).join(" + ");
 
   let together = "";
@@ -598,7 +514,7 @@ function generateInterpretation(cards: SelectedCard[], context: Context) {
   const reversedCards = cards.filter(c => c.reversed);
 
   // Generate contextual meanings
-  const getContextMeaning = (card: TarotCard, ctx: Context, isReversed: boolean): string => {
+  const getContextMeaning = (card: TarotCard, ctx: ReadingContext, isReversed: boolean): string => {
     const prefix = isReversed ? "In reverse, " : "";
     switch (ctx) {
       case "love":
@@ -678,7 +594,7 @@ function generateInterpretation(cards: SelectedCard[], context: Context) {
   return { together, keyMessage, reflectionQuestion, context };
 }
 
-function generateKeyMessage(cards: SelectedCard[], context: Context): string {
+function generateKeyMessage(cards: SelectedCard[], context: ReadingContext): string {
   const reversedCount = cards.filter(c => c.reversed).length;
   const majorCount = cards.filter(c => c.card.arcana === "major").length;
 
@@ -701,7 +617,7 @@ function generateKeyMessage(cards: SelectedCard[], context: Context): string {
   return "The cards reflect where you are. What you do next is always your choice.";
 }
 
-function generateReflectionQuestion(cards: SelectedCard[], context: Context): string {
+function generateReflectionQuestion(cards: SelectedCard[], context: ReadingContext): string {
   const questions = [
     "What are you being asked to release before something calmer can take its place?",
     "Which part of this message do you resist most — and why?",

@@ -21,8 +21,11 @@ import {
   getCardOfMonth,
   searchCards,
   getCombinationInterpretation,
+  analyzeReading,
+  formatReadingAsText,
+  formatForLuna,
 } from "@/lib/tarot";
-import type { TarotCard, DrawnCard, SpreadDefinition } from "@/lib/tarot";
+import type { TarotCard, DrawnCard, SpreadDefinition, ReadingIntelligence, ReadingContext, PatternCard } from "@/lib/tarot";
 
 type TarotSection = "home" | "daily" | "ask" | "spreads" | "explore" | "learn" | "readings" | "reading-result" | "card-detail" | "compare" | "reading-story";
 
@@ -406,6 +409,7 @@ export default function TarotPage() {
   const [savedReadings, setSavedReadings] = useState<SavedReading[]>([]);
   const [favourites, setFavourites] = useState<Set<string>>(new Set());
   const [readingNotes, setReadingNotes] = useState("");
+  const [readingContext, setReadingContext] = useState<ReadingContext>("general");
   const [customPositions, setCustomPositions] = useState<string[]>(["", "", ""]);
   const [customSpreadName, setCustomSpreadName] = useState("");
   const [showDisclaimer, setShowDisclaimer] = useState(true);
@@ -515,7 +519,7 @@ export default function TarotPage() {
         reversed: dc.reversed,
         position: dc.position,
       })),
-      interpretation: generateInterpretation(drawnCards, activeSpread),
+      interpretation: generateInterpretation(drawnCards, activeSpread, readingContext),
       notes: readingNotes,
     };
     const { data, error } = await client.from("tarot_readings").insert(reading).select().single();
@@ -867,10 +871,24 @@ export default function TarotPage() {
                     {/* Interpretation */}
                     {drawnCards.length === activeSpread.positions.length && (
                       <>
+                        {/* Context selector */}
+                        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
+                          {(["general", "love", "career", "personal", "decision", "situation"] as ReadingContext[]).map(ctx => (
+                            <button key={ctx} onClick={() => setReadingContext(ctx)} style={{
+                              padding: "5px 10px", borderRadius: 6,
+                              border: `1px solid ${readingContext === ctx ? "rgba(168, 85, 247, 0.4)" : "rgba(168, 85, 247, 0.1)"}`,
+                              background: readingContext === ctx ? "rgba(168, 85, 247, 0.12)" : "transparent",
+                              color: readingContext === ctx ? "#c084fc" : "rgba(224, 245, 232, 0.4)",
+                              fontSize: 9, cursor: "pointer", fontFamily: "monospace",
+                              letterSpacing: "0.5px", textTransform: "capitalize", transition: "all 0.2s",
+                            }}>{ctx}</button>
+                          ))}
+                        </div>
+
                         <div style={{ borderTop: "1px solid rgba(168, 85, 247, 0.08)", paddingTop: 20 }}>
                           <div style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 12 }}>Interpretation</div>
                           <p style={{ fontSize: 13, color: "#cce8d8", lineHeight: 1.7, margin: "0 0 16px" }}>
-                            {generateInterpretation(drawnCards, activeSpread)}
+                            {generateInterpretation(drawnCards, activeSpread, readingContext)}
                           </p>
 
                           {/* Card combinations */}
@@ -943,8 +961,9 @@ export default function TarotPage() {
                               </button>
                             )}
                             <button onClick={() => {
-                              const readingText = drawnCards.map(dc => `${dc.position}: ${dc.card.name}${dc.reversed ? " (Reversed)" : ""}`).join("\n");
-                              window.open(`/elyra?context=${encodeURIComponent(`Tarot Reading\nQuestion: ${question}\n${readingText}\nPlease explain this reading.`)}`, "_blank");
+                              const intel = analyzeReading(drawnCards as PatternCard[], activeSpread, readingContext, question);
+                              const lunaContext = formatForLuna(intel, drawnCards as PatternCard[], activeSpread, question);
+                              window.open(`/elyra?context=${encodeURIComponent(lunaContext)}`, "_blank");
                             }} style={{
                               padding: "8px 20px",
                               borderRadius: 6,
@@ -1281,22 +1300,12 @@ function getCardsForSuit(suit: string): TarotCard[] {
   }
 }
 
-function generateInterpretation(drawnCards: { card: TarotCard; reversed: boolean; position: string }[], spread: SpreadDefinition): string {
+function generateInterpretation(
+  drawnCards: { card: TarotCard; reversed: boolean; position: string }[],
+  spread: SpreadDefinition,
+  context: ReadingContext = "general"
+): string {
   if (drawnCards.length === 0) return "";
-
-  const parts = drawnCards.map(dc => {
-    const meaning = dc.reversed ? dc.card.reversedMeaning : dc.card.uprightMeaning;
-    return `**${dc.position}** — ${dc.card.name}${dc.reversed ? " (Reversed)" : ""}: ${meaning.split(".")[0]}.`;
-  });
-
-  let interpretation = parts.join("\n\n");
-
-  if (drawnCards.length >= 2) {
-    interpretation += "\n\nThe cards together suggest a narrative of ";
-    const themes = drawnCards.flatMap(dc => dc.card.keywords.slice(0, 2));
-    interpretation += themes.slice(0, 4).join(", ") + ". ";
-    interpretation += "Trust your intuition about how these energies are manifesting in your life.";
-  }
-
-  return interpretation;
+  const intel = analyzeReading(drawnCards as PatternCard[], spread, context);
+  return formatReadingAsText(intel, drawnCards as PatternCard[], spread);
 }

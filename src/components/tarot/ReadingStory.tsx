@@ -3,8 +3,9 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { TarotCard, SpreadDefinition } from "@/lib/tarot";
+import { detectPatterns, analyzeReading } from "@/lib/tarot";
+import type { Pattern, ReadingContext } from "@/lib/tarot";
 
-type Context = "general" | "love" | "career" | "personal" | "decision" | "situation";
 type StoryStyle = "clear" | "reflective" | "story";
 
 interface DrawnCard {
@@ -22,7 +23,7 @@ interface ReadingStoryProps {
   onClose: () => void;
 }
 
-const CONTEXTS: { id: Context; label: string; icon: string }[] = [
+const CONTEXTS: { id: ReadingContext; label: string; icon: string }[] = [
   { id: "general", label: "General", icon: "✦" },
   { id: "love", label: "Love", icon: "💗" },
   { id: "career", label: "Career", icon: "💼" },
@@ -38,7 +39,7 @@ const STYLES: { id: StoryStyle; label: string }[] = [
 ];
 
 export default function ReadingStory({ drawnCards, spread, question, onAskElyra, onSave, onClose }: ReadingStoryProps) {
-  const [context, setContext] = useState<Context>("general");
+  const [context, setContext] = useState<ReadingContext>("general");
   const [style, setStyle] = useState<StoryStyle>("reflective");
   const [storyKey, setStoryKey] = useState(0);
 
@@ -56,9 +57,10 @@ export default function ReadingStory({ drawnCards, spread, question, onAskElyra,
     setStoryKey(k => k + 1);
   };
 
-  const askElyraContext = () => {
+  const askElyraReadingContext = () => {
+    const intel = analyzeReading(drawnCards, spread, context, question);
     const cardList = drawnCards.map(dc => `${dc.position}: ${dc.card.name}${dc.reversed ? " (Reversed)" : ""}`).join(", ");
-    const ctx = `Tarot Reading Story\nSpread: ${spread.name}\n${question ? `Question: ${question}\n` : ""}Cards: ${cardList}\nContext: ${context}\n\nStory:\n${story.narrative}\n\nCentral Theme: ${story.centralTheme}\n\nPlease help me understand this reading more deeply.`;
+    const ctx = `Tarot Reading Story\nSpread: ${spread.name}\n${question ? `Question: ${question}\n` : ""}Cards: ${cardList}\nContext: ${context}\n\nStory:\n${story.narrative}\n\nCentral Theme: ${story.centralTheme}\n\nKey Connections:\n${intel.keyConnections.slice(0, 3).map(c => `  ${c.from} → ${c.to}: ${c.description}`).join("\n")}\n\nPlease help me understand this reading more deeply.`;
     onAskElyra?.(ctx);
   };
 
@@ -81,10 +83,10 @@ export default function ReadingStory({ drawnCards, spread, question, onAskElyra,
         </div>
       </div>
 
-      {/* Context Selector */}
+      {/* ReadingContext Selector */}
       <div style={{ marginBottom: 16 }}>
         <span style={{ fontSize: 10, color: "#a855f7", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 8 }}>
-          Context
+          ReadingContext
         </span>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {CONTEXTS.map(c => (
@@ -265,7 +267,7 @@ export default function ReadingStory({ drawnCards, spread, question, onAskElyra,
           <button onClick={copyStory} style={btnStyle()}>Copy Story</button>
           <button onClick={regenerate} style={btnStyle()}>Interpret Again</button>
           {onAskElyra && (
-            <button onClick={askElyraContext} style={{
+            <button onClick={askElyraReadingContext} style={{
               ...btnStyle(),
               background: "rgba(168, 85, 247, 0.08)", border: "1px solid rgba(168, 85, 247, 0.2)",
               color: "#c084fc",
@@ -288,64 +290,6 @@ function btnStyle() {
   };
 }
 
-interface Pattern {
-  title: string;
-  description: string;
-}
-
-function detectPatterns(cards: DrawnCard[]): Pattern[] {
-  const patterns: Pattern[] = [];
-
-  const majorCount = cards.filter(c => c.card.arcana === "major").length;
-  if (majorCount >= 2) {
-    patterns.push({
-      title: "Major Arcana Dominance",
-      description: `${majorCount} Major Arcana cards suggest this reading touches on deep, archetypal life themes rather than everyday matters.`,
-    });
-  }
-
-  const suitCounts: Record<string, number> = {};
-  cards.forEach(c => {
-    if (c.card.suit) suitCounts[c.card.suit] = (suitCounts[c.card.suit] || 0) + 1;
-  });
-  const suitNames: Record<string, string> = {
-    cups: "emotional and relational energy",
-    wands: "creative and passionate energy",
-    swords: "mental and communicative energy",
-    pentacles: "material and practical energy",
-  };
-  Object.entries(suitCounts).forEach(([suit, count]) => {
-    if (count >= 2) {
-      patterns.push({
-        title: `${suit.charAt(0).toUpperCase() + suit.slice(1)} Dominance`,
-        description: `${count} ${suit} cards emphasize ${suitNames[suit]}.`,
-      });
-    }
-  });
-
-  const reversedCount = cards.filter(c => c.reversed).length;
-  if (reversedCount >= 2) {
-    patterns.push({
-      title: "Reversal Pattern",
-      description: `${reversedCount} reversed cards suggest internalized energy, blocked expression, or a need for inward reflection.`,
-    });
-  }
-
-  const numbers = cards.filter(c => c.card.number !== null).map(c => c.card.number!);
-  const numberCounts: Record<number, number> = {};
-  numbers.forEach(n => { numberCounts[n] = (numberCounts[n] || 0) + 1; });
-  Object.entries(numberCounts).forEach(([num, count]) => {
-    if (count >= 2) {
-      patterns.push({
-        title: `Number ${num} Repeated`,
-        description: `The number ${num} appears ${count} times, emphasizing cycles and patterns.`,
-      });
-    }
-  });
-
-  return patterns;
-}
-
 interface StorySection {
   title: string;
   text: string;
@@ -363,14 +307,14 @@ interface StoryResult {
 function generateStory(
   cards: DrawnCard[],
   spread: SpreadDefinition,
-  context: Context,
+  context: ReadingContext,
   style: StoryStyle,
   question: string
 ): StoryResult {
   const sections: StorySection[] = [];
   let turningPoint: string | null = null;
 
-  const getCardMeaning = (card: TarotCard, reversed: boolean, ctx: Context): string => {
+  const getCardMeaning = (card: TarotCard, reversed: boolean, ctx: ReadingContext): string => {
     const base = reversed ? card.reversedMeaning : card.uprightMeaning;
     switch (ctx) {
       case "love": return reversed ? `In love, blocked or imbalanced energy. ${card.love}` : card.love;
@@ -476,7 +420,7 @@ function generateStory(
   return { sections, turningPoint, centralTheme, invitation, reflectionQuestion, narrative };
 }
 
-function generateCentralTheme(cards: DrawnCard[], context: Context, themes: string[]): string {
+function generateCentralTheme(cards: DrawnCard[], context: ReadingContext, themes: string[]): string {
   const reversedCount = cards.filter(c => c.reversed).length;
   const majorCount = cards.filter(c => c.card.arcana === "major").length;
 
@@ -495,7 +439,7 @@ function generateCentralTheme(cards: DrawnCard[], context: Context, themes: stri
   return `The central thread running through this spread is ${themes.join(", ")} — energies that connect every card in the reading.`;
 }
 
-function generateInvitation(cards: DrawnCard[], context: Context): string {
+function generateInvitation(cards: DrawnCard[], context: ReadingContext): string {
   const last = cards[cards.length - 1];
   if (last.reversed) {
     return "This reading invites you to slow down and listen to what is not yet ready to emerge. Some things need time before they become clear.";
@@ -512,7 +456,7 @@ function generateInvitation(cards: DrawnCard[], context: Context): string {
   return "This reading invites you to see the pattern more clearly — and to consider what part of it you are ready to change.";
 }
 
-function generateReflectionQuestion(cards: DrawnCard[], context: Context): string {
+function generateReflectionQuestion(cards: DrawnCard[], context: ReadingContext): string {
   const questions = [
     "What part of this reading feels most true — and most uncomfortable?",
     "If these cards could speak in one sentence, what would they say to you?",

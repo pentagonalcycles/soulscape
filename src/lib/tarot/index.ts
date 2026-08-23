@@ -1,6 +1,8 @@
 export { ALL_CARDS, MAJOR_ARCANA, CUPS, WANDS, SWORDS, PENTACLES } from "./minor-arcana";
 export { SPREADS } from "./types";
 export type { TarotCard, DrawnCard, SpreadDefinition } from "./types";
+export { analyzeReading, formatReadingAsText, formatForLuna, detectPatterns } from "./reading-intelligence";
+export type { ReadingIntelligence, ReadingContext, CardAnalysis, KeyConnection, ConnectionType, Contradiction, Pattern, PatternCard } from "./reading-intelligence";
 
 import type { TarotCard } from "./types";
 import { ALL_CARDS } from "./minor-arcana";
