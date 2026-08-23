@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
@@ -393,6 +394,7 @@ function CardMeaningPanel({ card, reversed, onClose }: { card: TarotCard; revers
 
 export default function TarotPage() {
   const { userId, loading: authLoading } = useAuth();
+  const router = useRouter();
   const [section, setSection] = useState<TarotSection>("home");
   const [allowReversed, setAllowReversed] = useState(() => {
     if (typeof window === "undefined") return true;
@@ -963,7 +965,7 @@ export default function TarotPage() {
                             <button onClick={() => {
                               const intel = analyzeReading(drawnCards as PatternCard[], activeSpread, readingContext, question);
                               const lunaContext = formatForLuna(intel, drawnCards as PatternCard[], activeSpread, question);
-                              window.open(`/elyra?context=${encodeURIComponent(lunaContext)}`, "_blank");
+                              router.push(`/elyra?context=${encodeURIComponent(lunaContext)}`);
                             }} style={{
                               padding: "8px 20px",
                               borderRadius: 6,
@@ -1154,7 +1156,7 @@ export default function TarotPage() {
             spread={activeSpread}
             question={question}
             onAskElyra={(ctx) => {
-              window.open(`/elyra?context=${encodeURIComponent(ctx)}`, "_blank");
+              router.push(`/elyra?context=${encodeURIComponent(ctx)}`);
             }}
             onClose={() => setSection("reading-result")}
           />
