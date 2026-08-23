@@ -343,7 +343,6 @@ function getStatusColor(status: string) {
 function getFeatures(category: "luna" | "arcana" | "threads" | "campfire" | "mural"): Feature[] {
   const features: Record<string, Feature[]> = {
     luna: [
-      { name: "Luna Test Lab", description: "Let Luna automatically test what you build and find what breaks.", status: "LIVE" },
       { name: "Luna Version Time Machine", description: "Return to an earlier version of your project.", status: "CONCEPT" },
       { name: "Luna Deploy", description: "Take a finished Luna project from build to the web.", status: "CONCEPT" },
       { name: "Luna Research", description: "Let Luna investigate a topic using current sources.", status: "CONCEPT" },
