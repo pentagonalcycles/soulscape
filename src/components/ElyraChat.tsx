@@ -214,15 +214,11 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   const [loading, setLoading] = useState(false);
   const [lastMood, setLastMood] = useState<MoodAnalysis | null>(null);
   const [settings, setSettings] = useState<ElyraSettings>(defaultSettings);
-  const [showSettings, setShowSettings] = useState(false);
   const [conversations, setConversations] = useState<ElyraConversation[]>([]);
-  const [showHistory, setShowHistory] = useState(false);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
   const [memory, setMemory] = useState<ElyraMemoryItem[]>([]);
-  const [showMemory, setShowMemory] = useState(false);
   const [memoryEnabled, setMemoryEnabled] = useState(true);
   const [projects, setProjects] = useState<ElyraProject[]>([]);
-  const [showProjects, setShowProjects] = useState(false);
   const [projectDetailId, setProjectDetailId] = useState<string | null>(null);
   const [currentProjectId, setCurrentProjectId] = useState<string | null>(null);
   const [newProjectOpen, setNewProjectOpen] = useState(false);
@@ -239,6 +235,8 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   const [sandboxAutoRun, setSandboxAutoRun] = useState(false);
   const [testLabOpen, setTestLabOpen] = useState(false);
   const [testHistory, setTestHistory] = useState<TestRun[]>([]);
+  const [sidePanelOpen, setSidePanelOpen] = useState(false);
+  const [sidePanelSection, setSidePanelSection] = useState<"projects" | "history" | "memory" | "settings" | "testlab">("projects");
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -475,7 +473,6 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
     setLastMood(null);
     setCurrentConversationId(null);
     setErrorNotice(null);
-    setShowHistory(false);
   }
   function updateSettings(p: Partial<ElyraSettings>) { const n = { ...settings, ...p }; setSettings(n); saveSettings(n); }
 
@@ -520,8 +517,6 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
     setCurrentConversationId(conversation.id);
     setLastMood(null);
     setErrorNotice(null);
-    setShowHistory(false);
-    setShowProjects(false);
   }
 
   function deleteConversation(id: string) {
@@ -613,7 +608,6 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
 
   function openProject(proj: ElyraProject) {
     setCurrentProjectId(proj.id);
-    setShowProjects(false);
     if (proj.conversationId) {
       const conv = conversations.find(c => c.id === proj.conversationId);
       if (conv) {
@@ -630,7 +624,8 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
 
   function startNewProject() {
     setNewProjectOpen(true);
-    setShowProjects(true);
+    setSidePanelOpen(true);
+    setSidePanelSection("projects");
     setProjectDetailId(null);
   }
 
@@ -694,13 +689,20 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   return (
     <div style={{ height: "100%", display: "flex", background: "transparent" }}>
       {/* Main chat area */}
-      <div style={{ flex: sandboxOpen ? (testLabOpen ? "0 0 30%" : "0 0 50%") : "1 1 auto", display: "flex", flexDirection: "column", minWidth: 0, transition: "flex 0.3s ease" }}>
+      <div style={{
+        flex: sandboxOpen
+          ? (testLabOpen ? "0 0 30%" : "0 0 50%")
+          : sidePanelOpen ? "1 1 auto" : "1 1 auto",
+        display: "flex", flexDirection: "column", minWidth: 0,
+        transition: "flex 0.3s ease",
+        marginRight: sidePanelOpen && !sandboxOpen ? 0 : 0,
+      }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", borderBottom: "1px solid rgba(255, 255, 255, 0.04)", flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.4)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", fontWeight: 400 }}>{name}</span>
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <button
             onClick={() => {
               if (sandboxFiles.length === 0) {
@@ -757,6 +759,24 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             onMouseLeave={e => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)"; e.currentTarget.style.color = "rgba(255, 255, 255, 0.3)"; }}
           >
             + New Chat
+          </button>
+          <button
+            onClick={() => setSidePanelOpen(o => !o)}
+            style={{
+              padding: "6px 10px", borderRadius: "6px",
+              background: sidePanelOpen ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.03)",
+              border: `1px solid ${sidePanelOpen ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.06)"}`,
+              color: sidePanelOpen ? "rgba(255, 255, 255, 0.7)" : "rgba(255, 255, 255, 0.3)",
+              fontSize: "9px", cursor: "pointer",
+              fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
+              transition: "all 0.2s", display: "flex", alignItems: "center", gap: 5,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)"; e.currentTarget.style.color = "rgba(255, 255, 255, 0.5)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = sidePanelOpen ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.03)"; e.currentTarget.style.color = sidePanelOpen ? "rgba(255, 255, 255, 0.7)" : "rgba(255, 255, 255, 0.3)"; }}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
           </button>
         </div>
       </div>
@@ -1429,457 +1449,17 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             )}
           </div>
         )}
-        {messages.length > 0 && (
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "12px", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
-            <button onClick={startNewConversation} style={controlButtonStyle}
+        {lastUserMessage && !loading && (
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "10px", gap: "12px" }}>
+            <button onClick={editLastMessage} style={controlButtonStyle}
               onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◇ New</button>
-            <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-            <button onClick={() => { setShowProjects(true); setShowHistory(false); setShowMemory(false); setShowSettings(false); }} style={controlButtonStyle}
+              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>✎ Edit</button>
+            <button onClick={regenerateResponse} style={controlButtonStyle}
               onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◈ Projects</button>
-            <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-            <button onClick={() => { setShowHistory(!showHistory); setShowProjects(false); setShowMemory(false); setShowSettings(false); }} style={controlButtonStyle}
-              onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◈ History</button>
-            <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-            <button onClick={() => { setShowMemory(!showMemory); setShowProjects(false); setShowHistory(false); setShowSettings(false); }} style={controlButtonStyle}
-              onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◇ Memory</button>
-            <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-            <button onClick={() => { setShowSettings(!showSettings); setShowProjects(false); setShowHistory(false); setShowMemory(false); }} style={controlButtonStyle}
-              onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◈ Configure</button>
-            <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-            <button onClick={() => {
-              if (sandboxFiles.length === 0) {
-                send("I'd like to run tests, but there are no files yet. Can you write some code for my project?");
-                return;
-              }
-              setTestLabOpen(true); setSandboxOpen(true);
-            }} style={controlButtonStyle}
-              onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
-              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>🧪 Test Lab</button>
-            {lastUserMessage && !loading && (
-              <>
-                <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-                <button onClick={editLastMessage} style={controlButtonStyle}
-                  onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
-                  onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>✎ Edit</button>
-                <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
-                <button onClick={regenerateResponse} style={controlButtonStyle}
-                  onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
-                  onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>↻ Regenerate</button>
-              </>
-            )}
+              onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>↻ Regenerate</button>
           </div>
         )}
       </div>
-
-      {/* Settings overlay */}
-      {showSettings && (
-        <div style={{
-          position: "absolute", bottom: "80px", left: "16px", right: "16px",
-          background: "rgba(3, 7, 18, 0.95)",
-          backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-          borderRadius: "12px",
-          boxShadow: "0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.15)",
-          padding: "20px", zIndex: 20, maxHeight: "60vh", overflowY: "auto",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-            <span style={{ fontSize: "12px", fontWeight: 600, color: "#ffffff", letterSpacing: "2px", textTransform: "uppercase" }}>Configuration</span>
-            <button onClick={() => setShowSettings(false)} style={{
-              background: "rgba(255, 255, 255, 0.08)",
-              border: "1px solid rgba(255, 255, 255, 0.15)",
-              color: "#a8e4b8",
-              fontSize: "12px", width: "28px", height: "28px",
-              borderRadius: "6px", cursor: "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>✕</button>
-          </div>
-          <div style={{ marginBottom: "20px" }}>
-            <label style={{ fontSize: "10px", color: "#ffffff", display: "block", marginBottom: "10px", letterSpacing: "2px", textTransform: "uppercase" }}>Interface Mode</label>
-            <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-              {PERSONALITIES.map(p => (
-                <button key={p.id} onClick={() => updateSettings({ personality: p.id })} style={{
-                  padding: "8px 14px", borderRadius: "6px",
-                  border: `1px solid ${settings.personality === p.id ? "rgba(255, 255, 255, 0.65)" : "rgba(255, 255, 255, 0.1)"}`,
-                  background: settings.personality === p.id ? "rgba(255, 255, 255, 0.1)" : "transparent",
-                  color: settings.personality === p.id ? "#ffffff" : "#a8e4b8",
-                  fontSize: "11px", cursor: "pointer", transition: "all 0.2s",
-                  letterSpacing: "0.5px",
-                }}>{p.emoji} {p.name}</button>
-              ))}
-            </div>
-          </div>
-          <div style={{ marginBottom: "20px" }}>
-            <label style={{ fontSize: "10px", color: "#ffffff", display: "block", marginBottom: "10px", letterSpacing: "2px", textTransform: "uppercase" }}>Designation</label>
-            <input type="text" value={settings.customName} onChange={e => updateSettings({ customName: e.target.value })} style={{
-              width: "100%", background: "rgba(255, 255, 255, 0.04)",
-              border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "8px",
-              padding: "10px 14px", color: "#e8e8e8", fontSize: "13px",
-              outline: "none", boxSizing: "border-box",
-              letterSpacing: "0.5px",
-            }} />
-          </div>
-          <div>
-            <label style={{ fontSize: "10px", color: "#ffffff", display: "block", marginBottom: "10px", letterSpacing: "2px", textTransform: "uppercase" }}>Response Protocol</label>
-            <div style={{ display: "flex", gap: "6px" }}>
-              {(["short", "medium", "long"] as const).map(l => (
-                <button key={l} onClick={() => updateSettings({ responseLength: l })} style={{
-                  flex: 1, padding: "8px", borderRadius: "6px",
-                  border: `1px solid ${settings.responseLength === l ? "rgba(255, 255, 255, 0.65)" : "rgba(255, 255, 255, 0.1)"}`,
-                  background: settings.responseLength === l ? "rgba(255, 255, 255, 0.1)" : "transparent",
-                  color: settings.responseLength === l ? "#ffffff" : "#a8e4b8",
-                  fontSize: "11px", cursor: "pointer", textTransform: "capitalize",
-                  transition: "all 0.2s", letterSpacing: "0.5px",
-                }}>{l}</button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Conversation history panel */}
-      {showHistory && (
-        <div style={{
-          position: "absolute", bottom: "80px", left: "16px", right: "16px",
-          background: "rgba(3, 7, 18, 0.95)",
-          backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-          borderRadius: "12px",
-          boxShadow: "0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.15)",
-          padding: "20px", zIndex: 20, maxHeight: "60vh", overflowY: "auto",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-            <span style={{ fontSize: "12px", fontWeight: 600, color: "#ffffff", letterSpacing: "2px", textTransform: "uppercase" }}>History</span>
-            <button onClick={() => setShowHistory(false)} style={{
-              background: "rgba(255, 255, 255, 0.08)",
-              border: "1px solid rgba(255, 255, 255, 0.15)",
-              color: "#a8e4b8",
-              fontSize: "12px", width: "28px", height: "28px",
-              borderRadius: "6px", cursor: "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>✕</button>
-          </div>
-          {conversations.length === 0 ? (
-            <p style={{ fontSize: "11px", color: "#a8e4b8", textAlign: "center", padding: "20px 0" }}>No conversations yet</p>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              {conversations.slice(0, 20).map(conv => (
-                <div key={conv.id} style={{
-                  display: "flex", alignItems: "center", justifyContent: "space-between",
-                  padding: "10px 12px", borderRadius: "8px",
-                  background: currentConversationId === conv.id ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.02)",
-                  border: `1px solid ${currentConversationId === conv.id ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.08)"}`,
-                  transition: "all 0.2s",
-                }}>
-                  {editingConvId === conv.id ? (
-                    <div style={{ flex: 1, minWidth: 0, display: "flex", gap: "6px", alignItems: "center" }}>
-                      <input
-                        autoFocus
-                        value={convRenameDraft}
-                        onChange={e => setConvRenameDraft(e.target.value)}
-                        onKeyDown={e => {
-                          if (e.key === "Enter") { renameConversation(conv.id, convRenameDraft); setEditingConvId(null); }
-                          if (e.key === "Escape") setEditingConvId(null);
-                        }}
-                        onClick={e => e.stopPropagation()}
-                        style={{
-                          flex: 1, minWidth: 0, boxSizing: "border-box",
-                          background: "rgba(255, 255, 255, 0.04)",
-                          border: "1px solid rgba(255, 255, 255, 0.2)", borderRadius: "4px",
-                          padding: "4px 8px", color: "#e8e8e8", fontSize: "12px", outline: "none",
-                        }}
-                      />
-                      <button onClick={(e) => { e.stopPropagation(); renameConversation(conv.id, convRenameDraft); setEditingConvId(null); }} style={{
-                        background: "none", border: "none", color: "#ffffff", cursor: "pointer",
-                        padding: "4px", fontSize: "12px",
-                      }}>✓</button>
-                    </div>
-                  ) : (
-                    <>
-                      <div style={{ flex: 1, minWidth: 0, cursor: "pointer" }} onClick={() => loadConversation(conv)}>
-                        <div style={{ fontSize: "12px", color: "#e8e8e8", marginBottom: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                          {conv.title}
-                        </div>
-                        <div style={{ fontSize: "9px", color: "#a8e4b8" }}>
-                          {new Date(conv.updatedAt).toLocaleDateString()} · {conv.messages.length} msg
-                        </div>
-                      </div>
-                      <button onClick={(e) => { e.stopPropagation(); setEditingConvId(conv.id); setConvRenameDraft(conv.title); }} style={{
-                        background: "none", border: "none",
-                        color: "#a8e4b8", cursor: "pointer", padding: "4px",
-                        fontSize: "12px", transition: "color 0.2s",
-                      }} onMouseOver={e => e.currentTarget.style.color = "#ffffff"} onMouseOut={e => e.currentTarget.style.color = "#a8e4b8"}>
-                        ✎
-                      </button>
-                      <button onClick={(e) => { e.stopPropagation(); deleteConversation(conv.id); }} style={{
-                        background: "none", border: "none",
-                        color: "#a8e4b8", cursor: "pointer", padding: "4px",
-                        fontSize: "12px", transition: "color 0.2s",
-                      }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#a8e4b8"}>
-                        ✕
-                      </button>
-                    </>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Memory panel */}
-      {showMemory && (
-        <div style={{
-          position: "absolute", bottom: "80px", left: "16px", right: "16px",
-          background: "rgba(3, 7, 18, 0.95)",
-          backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-          borderRadius: "12px",
-          boxShadow: "0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.15)",
-          padding: "20px", zIndex: 20, maxHeight: "60vh", overflowY: "auto",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-            <span style={{ fontSize: "12px", fontWeight: 600, color: "#ffffff", letterSpacing: "2px", textTransform: "uppercase" }}>Memory</span>
-            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-              <button onClick={toggleMemoryEnabled} style={{
-                fontSize: "9px", color: memoryEnabled ? "#ffffff" : "#a8e4b8",
-                background: memoryEnabled ? "rgba(255, 255, 255, 0.08)" : "transparent",
-                border: `1px solid ${memoryEnabled ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.08)"}`,
-                cursor: "pointer", padding: "4px 8px", borderRadius: "4px",
-                letterSpacing: "1px", textTransform: "uppercase",
-                transition: "all 0.2s",
-              }}>{memoryEnabled ? "◉ Enabled" : "○ Disabled"}</button>
-              {memory.length > 0 && (
-                <button onClick={clearMemory} style={{
-                  fontSize: "9px", color: "#ff5050",
-                  background: "none", border: "none", cursor: "pointer",
-                  letterSpacing: "1px", textTransform: "uppercase",
-                }}>Clear All</button>
-              )}
-              <button onClick={() => setShowMemory(false)} style={{
-                background: "rgba(255, 255, 255, 0.08)",
-                border: "1px solid rgba(255, 255, 255, 0.15)",
-                color: "#a8e4b8",
-                fontSize: "12px", width: "28px", height: "28px",
-                borderRadius: "6px", cursor: "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}>✕</button>
-            </div>
-          </div>
-          {memory.length === 0 ? (
-            <p style={{ fontSize: "11px", color: "#a8e4b8", textAlign: "center", padding: "20px 0" }}>No memories saved</p>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              {memory.map(item => (
-                <div key={item.id} style={{
-                  display: "flex", alignItems: "center", justifyContent: "space-between",
-                  padding: "10px 12px", borderRadius: "8px",
-                  background: "rgba(255, 255, 255, 0.02)",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                }}>
-                  <div style={{ fontSize: "11px", color: "#e8e8e8", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {item.text}
-                  </div>
-                  <button onClick={() => removeFromMemory(item.id)} style={{
-                    background: "none", border: "none",
-                    color: "#a8e4b8", cursor: "pointer", padding: "4px",
-                    fontSize: "12px", transition: "color 0.2s",
-                  }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#a8e4b8"}>
-                    ✕
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-          <div style={{ display: "flex", gap: "6px", marginTop: "14px" }}>
-            <input
-              placeholder="Save something to remember..."
-              id="elyra-memory-input"
-              style={{
-                flex: 1, minWidth: 0,
-                background: "rgba(255, 255, 255, 0.04)",
-                border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "6px",
-                padding: "8px 12px", color: "#e8e8e8", fontSize: "12px", outline: "none",
-              }}
-            />
-            <button onClick={() => {
-              const el = document.getElementById("elyra-memory-input") as HTMLInputElement | null;
-              if (el && el.value.trim()) {
-                addToMemory(el.value);
-                el.value = "";
-              }
-            }} style={{
-              padding: "8px 14px", borderRadius: "6px", cursor: "pointer",
-              background: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255, 255, 255, 0.2)",
-              color: "#ffffff", fontSize: "10px", letterSpacing: "1px", textTransform: "uppercase",
-              whiteSpace: "nowrap",
-            }}>Save</button>
-          </div>
-          <p style={{ fontSize: "9px", color: "#a8e4b8", marginTop: "10px", lineHeight: "1.5" }}>
-            {memoryEnabled ? "Luna uses your memories to personalize responses. They're private to you and can be cleared anytime." : "Memory is currently disabled — Luna won't receive these notes."}
-          </p>
-        </div>
-      )}
-
-      {/* Projects panel */}
-      {showProjects && (
-        <div style={{
-          position: "absolute", bottom: "80px", left: "16px", right: "16px",
-          background: "rgba(3, 7, 18, 0.95)",
-          backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
-          borderRadius: "12px",
-          boxShadow: "0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.15)",
-          padding: "20px", zIndex: 20, maxHeight: "60vh", overflowY: "auto",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-            <span style={{ fontSize: "12px", fontWeight: 600, color: "#ffffff", letterSpacing: "2px", textTransform: "uppercase" }}>Projects</span>
-            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-              <button onClick={startNewProject} style={{
-                fontSize: "9px", color: "#ffffff",
-                background: "rgba(255, 255, 255, 0.08)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-                cursor: "pointer", padding: "4px 10px", borderRadius: "4px",
-                letterSpacing: "1px", textTransform: "uppercase",
-              }}>＋ New</button>
-              <button onClick={() => setShowProjects(false)} style={{
-                background: "rgba(255, 255, 255, 0.08)",
-                border: "1px solid rgba(255, 255, 255, 0.15)",
-                color: "#a8e4b8",
-                fontSize: "12px", width: "28px", height: "28px",
-                borderRadius: "6px", cursor: "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-              }}>✕</button>
-            </div>
-          </div>
-
-          {/* New project form */}
-          {newProjectOpen && (
-            <div style={{ marginBottom: "16px", padding: "14px", borderRadius: "8px", background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.12)" }}>
-              {([
-                ["name", "Project name"],
-                ["whatBuilding", "What are you building?"],
-                ["language", "Language (e.g. JavaScript)"],
-                ["framework", "Framework (e.g. React)"],
-              ] as const).map(([field, placeholder]) => (
-                <div key={field} style={{ marginBottom: "8px" }}>
-                  <input
-                    placeholder={placeholder}
-                    value={newProjectDraft[field]}
-                    onChange={e => setNewProjectDraft(d => ({ ...d, [field]: e.target.value }))}
-                    onKeyDown={e => { if (e.key === "Enter") createProject(); }}
-                    style={{
-                      width: "100%", boxSizing: "border-box",
-                      background: "rgba(255, 255, 255, 0.04)",
-                      border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "6px",
-                      padding: "8px 12px", color: "#e8e8e8", fontSize: "12px", outline: "none",
-                    }}
-                  />
-                </div>
-              ))}
-              <button onClick={createProject} style={{
-                width: "100%", padding: "8px", borderRadius: "6px", cursor: "pointer",
-                background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.3)",
-                color: "#ffffff", fontSize: "11px", letterSpacing: "1px", textTransform: "uppercase",
-              }}>Create Project</button>
-            </div>
-          )}
-
-          {projectDetailId && detailProject ? (
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px", flexWrap: "wrap" }}>
-                <button onClick={() => setProjectDetailId(null)} style={{
-                  background: "rgba(255, 255, 255, 0.08)",
-                  border: "1px solid rgba(255, 255, 255, 0.15)",
-                  color: "#a8e4b8", fontSize: "11px", width: "26px", height: "26px",
-                  borderRadius: "6px", cursor: "pointer",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                }}>←</button>
-                <span style={{ fontSize: "12px", color: "#ffffff", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{detailProject.name}</span>
-                {currentProjectId === detailProject.id && (
-                  <span style={{ fontSize: "8px", color: "#22d3ee", letterSpacing: "1px", textTransform: "uppercase" }}>● Active</span>
-                )}
-              </div>
-              {([
-                ["name", "Project name"],
-                ["whatBuilding", "What are you building?"],
-                ["language", "Language"],
-                ["framework", "Framework"],
-                ["files", "Files involved (optional)"],
-                ["decisions", "Decisions made (optional)"],
-                ["progress", "Progress (optional)"],
-                ["instructions", "Instructions for Luna (optional)"],
-              ] as [keyof Pick<ElyraProject, "name" | "whatBuilding" | "language" | "framework" | "files" | "decisions" | "progress" | "instructions">, string][]).map(([field, label]) => (
-                <div key={field} style={{ marginBottom: "8px" }}>
-                  <label style={{ fontSize: "9px", color: "#ffffff", letterSpacing: "1px", textTransform: "uppercase", display: "block", marginBottom: "4px" }}>{label}</label>
-                  <textarea
-                    rows={["whatBuilding", "decisions", "progress", "instructions"].includes(field) ? 2 : 1}
-                    value={String(detailProject[field])}
-                    onChange={e => updateProjectField(detailProject.id, field, e.target.value)}
-                    placeholder={label}
-                    style={{
-                      width: "100%", boxSizing: "border-box", resize: "vertical",
-                      background: "rgba(255, 255, 255, 0.04)",
-                      border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "6px",
-                      padding: "8px 12px", color: "#e8e8e8", fontSize: "12px", outline: "none",
-                      fontFamily: "inherit",
-                    }}
-                  />
-                </div>
-              ))}
-              <div style={{ display: "flex", gap: "8px", marginTop: "12px" }}>
-                <button onClick={() => openProject(detailProject)} style={{
-                  flex: 1, padding: "9px", borderRadius: "6px", cursor: "pointer",
-                  background: "rgba(255, 255, 255, 0.1)", border: "1px solid rgba(255, 255, 255, 0.3)",
-                  color: "#ffffff", fontSize: "10px", letterSpacing: "1px", textTransform: "uppercase",
-                }}>{detailProject.conversationId ? "Continue Chat" : "Start Chat"}</button>
-                <button onClick={() => deleteProject(detailProject.id)} style={{
-                  padding: "9px 16px", borderRadius: "6px", cursor: "pointer",
-                  background: "rgba(255, 80, 80, 0.08)", border: "1px solid rgba(255, 80, 80, 0.25)",
-                  color: "#ff8a8a", fontSize: "10px", letterSpacing: "1px", textTransform: "uppercase",
-                }}>Delete</button>
-              </div>
-            </div>
-          ) : projects.length === 0 ? (
-            <p style={{ fontSize: "11px", color: "#a8e4b8", textAlign: "center", padding: "20px 0", lineHeight: "1.6" }}>
-              {newProjectOpen ? "Fill in the details above to create your first project." : "No projects yet. Start one so Luna stays grounded in what you're building."}
-            </p>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              {projects.map(proj => (
-                <div key={proj.id} style={{
-                  display: "flex", alignItems: "center", justifyContent: "space-between",
-                  padding: "10px 12px", borderRadius: "8px", cursor: "pointer",
-                  background: currentProjectId === proj.id ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.02)",
-                  border: `1px solid ${currentProjectId === proj.id ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.08)"}`,
-                  transition: "all 0.2s",
-                }} onClick={() => setProjectDetailId(proj.id)}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: "12px", color: "#e8e8e8", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{proj.name}</div>
-                    <div style={{ fontSize: "9px", color: "#a8e4b8", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {[proj.language, proj.framework].filter(Boolean).join(" · ") || proj.whatBuilding || "—"}
-                    </div>
-                  </div>
-                  <button onClick={(e) => { e.stopPropagation(); openProject(proj); }} style={{
-                    background: "rgba(255, 255, 255, 0.08)",
-                    border: "1px solid rgba(255, 255, 255, 0.2)",
-                    color: "#ffffff", cursor: "pointer", padding: "4px 10px",
-                    borderRadius: "4px", fontSize: "9px", letterSpacing: "1px", textTransform: "uppercase",
-                    whiteSpace: "nowrap",
-                  }}>Open</button>
-                  <button onClick={(e) => { e.stopPropagation(); deleteProject(proj.id); }} style={{
-                    background: "none", border: "none",
-                    color: "#a8e4b8", cursor: "pointer", padding: "4px",
-                    fontSize: "12px", transition: "color 0.2s",
-                  }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "#a8e4b8"}>
-                    ✕
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
 
       <style>{`
         textarea::placeholder { color: #d9f5e3; letter-spacing: 1px; font-size: 11px; }
@@ -1930,6 +1510,402 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
         .elyra-code-block::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.65); }
       `}</style>
       </div>
+
+      {/* Side panel */}
+      {sidePanelOpen && (
+        <div style={{
+          width: "280px", flexShrink: 0,
+          display: "flex", flexDirection: "column",
+          background: "rgba(3, 7, 18, 0.95)",
+          backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
+          borderLeft: "1px solid rgba(255, 255, 255, 0.06)",
+          overflow: "hidden",
+          transition: "width 0.3s ease",
+        }}>
+          {/* Panel header */}
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            padding: "12px 14px",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
+            flexShrink: 0,
+          }}>
+            <span style={{
+              fontSize: "10px", fontWeight: 600, color: "rgba(255, 255, 255, 0.5)",
+              letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace",
+            }}>Tools</span>
+            <button
+              onClick={() => setSidePanelOpen(false)}
+              style={{
+                background: "rgba(255, 255, 255, 0.06)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                color: "rgba(255, 255, 255, 0.4)",
+                fontSize: "11px", width: "24px", height: "24px",
+                borderRadius: "5px", cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)"; }}
+              onMouseLeave={e => { e.currentTarget.style.color = "rgba(255, 255, 255, 0.4)"; e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)"; }}
+            >✕</button>
+          </div>
+
+          {/* Section tabs */}
+          <div style={{
+            display: "flex", gap: "2px", padding: "8px 10px",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.04)",
+            flexShrink: 0, flexWrap: "wrap",
+          }}>
+            {([
+              { id: "projects" as const, label: "◈ Proj" },
+              { id: "history" as const, label: "◈ Hist" },
+              { id: "memory" as const, label: "◇ Mem" },
+              { id: "settings" as const, label: "◈ Cfg" },
+              { id: "testlab" as const, label: "🧪 Lab" },
+            ]).map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  if (tab.id === "testlab") {
+                    if (sandboxFiles.length === 0) {
+                      send("I'd like to run tests, but there are no files yet. Can you write some code for my project?");
+                      return;
+                    }
+                    setTestLabOpen(true); setSandboxOpen(true);
+                  } else {
+                    setSidePanelSection(tab.id);
+                  }
+                }}
+                style={{
+                  padding: "5px 8px", borderRadius: "4px",
+                  background: sidePanelSection === tab.id && tab.id !== "testlab" ? "rgba(255, 255, 255, 0.08)" : "transparent",
+                  border: `1px solid ${sidePanelSection === tab.id && tab.id !== "testlab" ? "rgba(255, 255, 255, 0.15)" : "transparent"}`,
+                  color: sidePanelSection === tab.id && tab.id !== "testlab" ? "#ffffff" : "rgba(255, 255, 255, 0.3)",
+                  fontSize: "9px", cursor: "pointer",
+                  fontFamily: "monospace", letterSpacing: "0.5px",
+                  transition: "all 0.2s", whiteSpace: "nowrap",
+                }}
+              >{tab.label}</button>
+            ))}
+          </div>
+
+          {/* Panel content */}
+          <div style={{ flex: 1, overflowY: "auto", padding: "12px" }}>
+
+            {/* Projects section */}
+            {sidePanelSection === "projects" && (
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "10px", fontWeight: 600, color: "#ffffff", letterSpacing: "1.5px", textTransform: "uppercase" }}>Projects</span>
+                  <button onClick={startNewProject} style={{
+                    fontSize: "9px", color: "#ffffff",
+                    background: "rgba(255, 255, 255, 0.08)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    cursor: "pointer", padding: "3px 8px", borderRadius: "4px",
+                    letterSpacing: "1px", textTransform: "uppercase",
+                  }}>＋ New</button>
+                </div>
+                {newProjectOpen && (
+                  <div style={{ marginBottom: "12px", padding: "10px", borderRadius: "6px", background: "rgba(255, 255, 255, 0.03)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
+                    {([
+                      ["name", "Project name"],
+                      ["whatBuilding", "What are you building?"],
+                      ["language", "Language"],
+                      ["framework", "Framework"],
+                    ] as const).map(([field, placeholder]) => (
+                      <div key={field} style={{ marginBottom: "6px" }}>
+                        <input
+                          placeholder={placeholder}
+                          value={newProjectDraft[field]}
+                          onChange={e => setNewProjectDraft(d => ({ ...d, [field]: e.target.value }))}
+                          onKeyDown={e => { if (e.key === "Enter") createProject(); }}
+                          style={{
+                            width: "100%", boxSizing: "border-box",
+                            background: "rgba(255, 255, 255, 0.04)",
+                            border: "1px solid rgba(255, 255, 255, 0.12)", borderRadius: "5px",
+                            padding: "7px 10px", color: "#e8e8e8", fontSize: "11px", outline: "none",
+                          }}
+                        />
+                      </div>
+                    ))}
+                    <button onClick={createProject} style={{
+                      width: "100%", padding: "7px", borderRadius: "5px", cursor: "pointer",
+                      background: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255, 255, 255, 0.2)",
+                      color: "#ffffff", fontSize: "10px", letterSpacing: "1px", textTransform: "uppercase",
+                    }}>Create</button>
+                  </div>
+                )}
+                {projectDetailId && detailProject ? (
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "10px" }}>
+                      <button onClick={() => setProjectDetailId(null)} style={{
+                        background: "rgba(255, 255, 255, 0.06)", border: "1px solid rgba(255, 255, 255, 0.12)",
+                        color: "#a8e4b8", fontSize: "10px", width: "22px", height: "22px",
+                        borderRadius: "4px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                      }}>←</button>
+                      <span style={{ fontSize: "11px", color: "#ffffff", flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{detailProject.name}</span>
+                      {currentProjectId === detailProject.id && (
+                        <span style={{ fontSize: "7px", color: "#22d3ee", letterSpacing: "1px", textTransform: "uppercase" }}>● Active</span>
+                      )}
+                    </div>
+                    {([
+                      ["name", "Name"], ["whatBuilding", "Building"], ["language", "Language"],
+                      ["framework", "Framework"], ["files", "Files"], ["decisions", "Decisions"],
+                      ["progress", "Progress"], ["instructions", "Instructions"],
+                    ] as [keyof Pick<ElyraProject, "name" | "whatBuilding" | "language" | "framework" | "files" | "decisions" | "progress" | "instructions">, string][]).map(([field, label]) => (
+                      <div key={field} style={{ marginBottom: "6px" }}>
+                        <label style={{ fontSize: "8px", color: "rgba(255,255,255,0.5)", letterSpacing: "1px", textTransform: "uppercase", display: "block", marginBottom: "3px" }}>{label}</label>
+                        <textarea
+                          rows={["whatBuilding", "decisions", "progress", "instructions"].includes(field) ? 2 : 1}
+                          value={String(detailProject[field])}
+                          onChange={e => updateProjectField(detailProject.id, field, e.target.value)}
+                          style={{
+                            width: "100%", boxSizing: "border-box", resize: "vertical",
+                            background: "rgba(255, 255, 255, 0.04)",
+                            border: "1px solid rgba(255, 255, 255, 0.12)", borderRadius: "5px",
+                            padding: "7px 10px", color: "#e8e8e8", fontSize: "11px", outline: "none",
+                            fontFamily: "inherit",
+                          }}
+                        />
+                      </div>
+                    ))}
+                    <div style={{ display: "flex", gap: "6px", marginTop: "10px" }}>
+                      <button onClick={() => openProject(detailProject)} style={{
+                        flex: 1, padding: "7px", borderRadius: "5px", cursor: "pointer",
+                        background: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255, 255, 255, 0.2)",
+                        color: "#ffffff", fontSize: "9px", letterSpacing: "1px", textTransform: "uppercase",
+                      }}>{detailProject.conversationId ? "Continue Chat" : "Start Chat"}</button>
+                      <button onClick={() => deleteProject(detailProject.id)} style={{
+                        padding: "7px 12px", borderRadius: "5px", cursor: "pointer",
+                        background: "rgba(255, 80, 80, 0.06)", border: "1px solid rgba(255, 80, 80, 0.2)",
+                        color: "#ff8a8a", fontSize: "9px", letterSpacing: "1px", textTransform: "uppercase",
+                      }}>Del</button>
+                    </div>
+                  </div>
+                ) : projects.length === 0 ? (
+                  <p style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)", textAlign: "center", padding: "16px 0", lineHeight: "1.5" }}>
+                    {newProjectOpen ? "Fill in the details above." : "No projects yet."}
+                  </p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                    {projects.map(proj => (
+                      <div key={proj.id} style={{
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        padding: "8px 10px", borderRadius: "6px", cursor: "pointer",
+                        background: currentProjectId === proj.id ? "rgba(255, 255, 255, 0.06)" : "rgba(255, 255, 255, 0.02)",
+                        border: `1px solid ${currentProjectId === proj.id ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.06)"}`,
+                        transition: "all 0.2s",
+                      }} onClick={() => setProjectDetailId(proj.id)}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: "11px", color: "#e8e8e8", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{proj.name}</div>
+                          <div style={{ fontSize: "8px", color: "rgba(255,255,255,0.3)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            {[proj.language, proj.framework].filter(Boolean).join(" · ") || proj.whatBuilding || "—"}
+                          </div>
+                        </div>
+                        <button onClick={(e) => { e.stopPropagation(); openProject(proj); }} style={{
+                          background: "rgba(255, 255, 255, 0.06)", border: "1px solid rgba(255, 255, 255, 0.12)",
+                          color: "#ffffff", cursor: "pointer", padding: "3px 8px",
+                          borderRadius: "4px", fontSize: "8px", letterSpacing: "1px", textTransform: "uppercase",
+                        }}>Open</button>
+                        <button onClick={(e) => { e.stopPropagation(); deleteProject(proj.id); }} style={{
+                          background: "none", border: "none", color: "rgba(255,255,255,0.3)",
+                          cursor: "pointer", padding: "3px", fontSize: "10px", transition: "color 0.2s",
+                        }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "rgba(255,255,255,0.3)"}>✕</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* History section */}
+            {sidePanelSection === "history" && (
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "10px", fontWeight: 600, color: "#ffffff", letterSpacing: "1.5px", textTransform: "uppercase" }}>History</span>
+                </div>
+                {conversations.length === 0 ? (
+                  <p style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)", textAlign: "center", padding: "16px 0" }}>No conversations yet</p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                    {conversations.slice(0, 20).map(conv => (
+                      <div key={conv.id} style={{
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        padding: "8px 10px", borderRadius: "6px",
+                        background: currentConversationId === conv.id ? "rgba(255, 255, 255, 0.06)" : "rgba(255, 255, 255, 0.02)",
+                        border: `1px solid ${currentConversationId === conv.id ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.06)"}`,
+                        transition: "all 0.2s",
+                      }}>
+                        {editingConvId === conv.id ? (
+                          <div style={{ flex: 1, minWidth: 0, display: "flex", gap: "4px", alignItems: "center" }}>
+                            <input
+                              autoFocus
+                              value={convRenameDraft}
+                              onChange={e => setConvRenameDraft(e.target.value)}
+                              onKeyDown={e => {
+                                if (e.key === "Enter") { renameConversation(conv.id, convRenameDraft); setEditingConvId(null); }
+                                if (e.key === "Escape") setEditingConvId(null);
+                              }}
+                              onClick={e => e.stopPropagation()}
+                              style={{
+                                flex: 1, minWidth: 0, boxSizing: "border-box",
+                                background: "rgba(255, 255, 255, 0.04)",
+                                border: "1px solid rgba(255, 255, 255, 0.15)", borderRadius: "4px",
+                                padding: "3px 6px", color: "#e8e8e8", fontSize: "10px", outline: "none",
+                              }}
+                            />
+                            <button onClick={(e) => { e.stopPropagation(); renameConversation(conv.id, convRenameDraft); setEditingConvId(null); }} style={{
+                              background: "none", border: "none", color: "#ffffff", cursor: "pointer",
+                              padding: "2px", fontSize: "10px",
+                            }}>✓</button>
+                          </div>
+                        ) : (
+                          <>
+                            <div style={{ flex: 1, minWidth: 0, cursor: "pointer" }} onClick={() => loadConversation(conv)}>
+                              <div style={{ fontSize: "11px", color: "#e8e8e8", marginBottom: "2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                {conv.title}
+                              </div>
+                              <div style={{ fontSize: "8px", color: "rgba(255,255,255,0.3)" }}>
+                                {new Date(conv.updatedAt).toLocaleDateString()} · {conv.messages.length} msg
+                              </div>
+                            </div>
+                            <button onClick={(e) => { e.stopPropagation(); setEditingConvId(conv.id); setConvRenameDraft(conv.title); }} style={{
+                              background: "none", border: "none", color: "rgba(255,255,255,0.3)", cursor: "pointer", padding: "3px",
+                              fontSize: "10px", transition: "color 0.2s",
+                            }} onMouseOver={e => e.currentTarget.style.color = "#ffffff"} onMouseOut={e => e.currentTarget.style.color = "rgba(255,255,255,0.3)"}>✎</button>
+                            <button onClick={(e) => { e.stopPropagation(); deleteConversation(conv.id); }} style={{
+                              background: "none", border: "none", color: "rgba(255,255,255,0.3)", cursor: "pointer", padding: "3px",
+                              fontSize: "10px", transition: "color 0.2s",
+                            }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "rgba(255,255,255,0.3)"}>✕</button>
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Memory section */}
+            {sidePanelSection === "memory" && (
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "10px", fontWeight: 600, color: "#ffffff", letterSpacing: "1.5px", textTransform: "uppercase" }}>Memory</span>
+                  <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                    <button onClick={toggleMemoryEnabled} style={{
+                      fontSize: "8px", color: memoryEnabled ? "#ffffff" : "rgba(255,255,255,0.4)",
+                      background: memoryEnabled ? "rgba(255, 255, 255, 0.08)" : "transparent",
+                      border: `1px solid ${memoryEnabled ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 0.06)"}`,
+                      cursor: "pointer", padding: "3px 6px", borderRadius: "3px",
+                      letterSpacing: "0.5px", textTransform: "uppercase", transition: "all 0.2s",
+                    }}>{memoryEnabled ? "◉ On" : "○ Off"}</button>
+                    {memory.length > 0 && (
+                      <button onClick={clearMemory} style={{
+                        fontSize: "8px", color: "#ff5050", background: "none", border: "none",
+                        cursor: "pointer", letterSpacing: "0.5px", textTransform: "uppercase",
+                      }}>Clear</button>
+                    )}
+                  </div>
+                </div>
+                {memory.length === 0 ? (
+                  <p style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)", textAlign: "center", padding: "16px 0" }}>No memories saved</p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                    {memory.map(item => (
+                      <div key={item.id} style={{
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        padding: "8px 10px", borderRadius: "6px",
+                        background: "rgba(255, 255, 255, 0.02)",
+                        border: "1px solid rgba(255, 255, 255, 0.06)",
+                      }}>
+                        <div style={{ fontSize: "10px", color: "#e8e8e8", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {item.text}
+                        </div>
+                        <button onClick={() => removeFromMemory(item.id)} style={{
+                          background: "none", border: "none", color: "rgba(255,255,255,0.3)",
+                          cursor: "pointer", padding: "3px", fontSize: "10px", transition: "color 0.2s",
+                        }} onMouseOver={e => e.currentTarget.style.color = "#ff5050"} onMouseOut={e => e.currentTarget.style.color = "rgba(255,255,255,0.3)"}>✕</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div style={{ display: "flex", gap: "4px", marginTop: "10px" }}>
+                  <input
+                    placeholder="Save something..."
+                    id="elyra-memory-input-side"
+                    onKeyDown={e => {
+                      if (e.key === "Enter") {
+                        const el = e.currentTarget;
+                        if (el.value.trim()) { addToMemory(el.value); el.value = ""; }
+                      }
+                    }}
+                    style={{
+                      flex: 1, background: "rgba(255, 255, 255, 0.04)",
+                      border: "1px solid rgba(255, 255, 255, 0.12)", borderRadius: "5px",
+                      padding: "7px 10px", color: "#e8e8e8", fontSize: "11px", outline: "none",
+                    }}
+                  />
+                  <button onClick={() => {
+                    const el = document.getElementById("elyra-memory-input-side") as HTMLInputElement | null;
+                    if (el && el.value.trim()) { addToMemory(el.value); el.value = ""; }
+                  }} style={{
+                    padding: "7px 12px", borderRadius: "5px", cursor: "pointer",
+                    background: "rgba(255, 255, 255, 0.06)", border: "1px solid rgba(255, 255, 255, 0.15)",
+                    color: "#ffffff", fontSize: "9px", letterSpacing: "0.5px", textTransform: "uppercase",
+                    whiteSpace: "nowrap",
+                  }}>Save</button>
+                </div>
+                <p style={{ fontSize: "8px", color: "rgba(255,255,255,0.25)", marginTop: "8px", lineHeight: "1.4" }}>
+                  {memoryEnabled ? "Luna uses your memories to personalize responses." : "Memory disabled — Luna won't receive these notes."}
+                </p>
+              </div>
+            )}
+
+            {/* Settings section */}
+            {sidePanelSection === "settings" && (
+              <div>
+                <div style={{ marginBottom: "14px" }}>
+                  <label style={{ fontSize: "9px", color: "rgba(255,255,255,0.5)", display: "block", marginBottom: "8px", letterSpacing: "1.5px", textTransform: "uppercase" }}>Interface Mode</label>
+                  <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
+                    {PERSONALITIES.map(p => (
+                      <button key={p.id} onClick={() => updateSettings({ personality: p.id })} style={{
+                        padding: "6px 10px", borderRadius: "5px",
+                        border: `1px solid ${settings.personality === p.id ? "rgba(255, 255, 255, 0.5)" : "rgba(255, 255, 255, 0.08)"}`,
+                        background: settings.personality === p.id ? "rgba(255, 255, 255, 0.08)" : "transparent",
+                        color: settings.personality === p.id ? "#ffffff" : "rgba(255,255,255,0.4)",
+                        fontSize: "10px", cursor: "pointer", transition: "all 0.2s",
+                      }}>{p.emoji} {p.name}</button>
+                    ))}
+                  </div>
+                </div>
+                <div style={{ marginBottom: "14px" }}>
+                  <label style={{ fontSize: "9px", color: "rgba(255,255,255,0.5)", display: "block", marginBottom: "8px", letterSpacing: "1.5px", textTransform: "uppercase" }}>Name</label>
+                  <input type="text" value={settings.customName} onChange={e => updateSettings({ customName: e.target.value })} style={{
+                    width: "100%", background: "rgba(255, 255, 255, 0.04)",
+                    border: "1px solid rgba(255, 255, 255, 0.12)", borderRadius: "6px",
+                    padding: "8px 12px", color: "#e8e8e8", fontSize: "12px",
+                    outline: "none", boxSizing: "border-box",
+                  }} />
+                </div>
+                <div>
+                  <label style={{ fontSize: "9px", color: "rgba(255,255,255,0.5)", display: "block", marginBottom: "8px", letterSpacing: "1.5px", textTransform: "uppercase" }}>Response Length</label>
+                  <div style={{ display: "flex", gap: "4px" }}>
+                    {(["short", "medium", "long"] as const).map(l => (
+                      <button key={l} onClick={() => updateSettings({ responseLength: l })} style={{
+                        flex: 1, padding: "6px", borderRadius: "5px",
+                        border: `1px solid ${settings.responseLength === l ? "rgba(255, 255, 255, 0.5)" : "rgba(255, 255, 255, 0.08)"}`,
+                        background: settings.responseLength === l ? "rgba(255, 255, 255, 0.08)" : "transparent",
+                        color: settings.responseLength === l ? "#ffffff" : "rgba(255,255,255,0.4)",
+                        fontSize: "10px", cursor: "pointer", textTransform: "capitalize",
+                        transition: "all 0.2s",
+                      }}>{l}</button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Sandbox + Test Lab panel */}
       {sandboxOpen && sandboxFiles.length > 0 && (
