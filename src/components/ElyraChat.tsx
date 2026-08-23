@@ -5,6 +5,8 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import ElyraCodeBlock from "./ElyraCodeBlock";
 import ElyraSandbox, { type SandboxFile } from "./ElyraSandbox";
+import LunaTestLab from "./LunaTestLab";
+import type { TestResult, TestRun } from "@/lib/test-runner";
 import { useElyraVoice } from "@/lib/useElyraVoice";
 import {
   loadConversations,
@@ -235,6 +237,8 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   const [sandboxFiles, setSandboxFiles] = useState<SandboxFile[]>([]);
   const [sandboxOpen, setSandboxOpen] = useState(false);
   const [sandboxAutoRun, setSandboxAutoRun] = useState(false);
+  const [testLabOpen, setTestLabOpen] = useState(false);
+  const [testHistory, setTestHistory] = useState<TestRun[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -315,6 +319,16 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
     const debugPrompt = `Debug this error from the sandbox:\n\n\`\`\`\n${errorText}\n\`\`\`\n\nPlease identify the cause and fix the relevant file.`;
     send(debugPrompt);
   }, [messages, loading, isPlus, settings, memory, memoryEnabled, currentProjectId, activeMode]);
+
+  const handleFixWithLuna = useCallback((failedTests: TestResult[]) => {
+    const failureSummary = failedTests.map(t => `- **${t.name}**: ${t.message}${t.suggestion ? `\n  Suggestion: ${t.suggestion}` : ""}`).join("\n");
+    const fixPrompt = `The Test Lab found ${failedTests.length} issue(s) in my project:\n\n${failureSummary}\n\nPlease fix the relevant files to resolve these issues.`;
+    send(fixPrompt);
+  }, [messages, loading, isPlus, settings, memory, memoryEnabled, currentProjectId, activeMode]);
+
+  const handleTestHistoryUpdate = useCallback((run: TestRun) => {
+    setTestHistory(prev => [run, ...prev].slice(0, 10));
+  }, []);
 
   async function send(overrideText?: string) {
     const text = overrideText ?? input.trim();
@@ -680,7 +694,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
   return (
     <div style={{ height: "100%", display: "flex", background: "transparent" }}>
       {/* Main chat area */}
-      <div style={{ flex: sandboxOpen ? "0 0 50%" : "1 1 auto", display: "flex", flexDirection: "column", minWidth: 0, transition: "flex 0.3s ease" }}>
+      <div style={{ flex: sandboxOpen ? (testLabOpen ? "0 0 30%" : "0 0 50%") : "1 1 auto", display: "flex", flexDirection: "column", minWidth: 0, transition: "flex 0.3s ease" }}>
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", borderBottom: "1px solid rgba(255, 255, 255, 0.04)", flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -688,20 +702,36 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           {sandboxFiles.length > 0 && (
-            <button
-              onClick={() => setSandboxOpen(o => !o)}
-              style={{
-                padding: "6px 14px", borderRadius: "6px",
-                background: sandboxOpen ? "rgba(0, 255, 136, 0.1)" : "rgba(255, 255, 255, 0.03)",
-                border: `1px solid ${sandboxOpen ? "rgba(0, 255, 136, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
-                color: sandboxOpen ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.3)",
-                fontSize: "9px", cursor: "pointer",
-                fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
-                transition: "all 0.2s",
-              }}
-            >
-              {sandboxOpen ? "Close Sandbox" : "Sandbox"}
-            </button>
+            <>
+              <button
+                onClick={() => { setSandboxOpen(o => !o); if (sandboxOpen) setTestLabOpen(false); }}
+                style={{
+                  padding: "6px 14px", borderRadius: "6px",
+                  background: sandboxOpen && !testLabOpen ? "rgba(0, 255, 136, 0.1)" : "rgba(255, 255, 255, 0.03)",
+                  border: `1px solid ${sandboxOpen && !testLabOpen ? "rgba(0, 255, 136, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
+                  color: sandboxOpen && !testLabOpen ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.3)",
+                  fontSize: "9px", cursor: "pointer",
+                  fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
+                  transition: "all 0.2s",
+                }}
+              >
+                {sandboxOpen && !testLabOpen ? "Close Sandbox" : "Sandbox"}
+              </button>
+              <button
+                onClick={() => { setTestLabOpen(t => !t); if (!testLabOpen) setSandboxOpen(true); }}
+                style={{
+                  padding: "6px 14px", borderRadius: "6px",
+                  background: testLabOpen ? "rgba(168, 85, 247, 0.1)" : "rgba(255, 255, 255, 0.03)",
+                  border: `1px solid ${testLabOpen ? "rgba(168, 85, 247, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
+                  color: testLabOpen ? "#c084fc" : "rgba(255, 255, 255, 0.3)",
+                  fontSize: "9px", cursor: "pointer",
+                  fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
+                  transition: "all 0.2s",
+                }}
+              >
+                {testLabOpen ? "Close Test Lab" : "Test Lab"}
+              </button>
+            </>
           )}
           <button
             onClick={startNewConversation}
@@ -1410,6 +1440,14 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
             <button onClick={() => { setShowSettings(!showSettings); setShowProjects(false); setShowHistory(false); setShowMemory(false); }} style={controlButtonStyle}
               onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
               onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>◈ Configure</button>
+            {sandboxFiles.length > 0 && (
+              <>
+                <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
+                <button onClick={() => { setTestLabOpen(true); setSandboxOpen(true); }} style={controlButtonStyle}
+                  onMouseOver={e => { e.currentTarget.style.color = "#ffffff"; e.currentTarget.style.textShadow = "0 0 8px rgba(255, 255, 255, 0.5)"; }}
+                  onMouseOut={e => { e.currentTarget.style.color = "#d9f5e3"; e.currentTarget.style.textShadow = "none"; }}>🧪 Test Lab</button>
+              </>
+            )}
             {lastUserMessage && !loading && (
               <>
                 <div style={{ width: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
@@ -1881,18 +1919,31 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
       `}</style>
       </div>
 
-      {/* Sandbox panel */}
+      {/* Sandbox + Test Lab panel */}
       {sandboxOpen && sandboxFiles.length > 0 && (
-        <div style={{ flex: "0 0 50%", minWidth: 0 }}>
-          <ElyraSandbox
-            files={sandboxFiles}
-            onUpdateFile={handleUpdateSandboxFile}
-            onReset={handleResetSandbox}
-            onClose={() => setSandboxOpen(false)}
-            onDebugError={handleDebugError}
-            autoRun={sandboxAutoRun}
-          />
-        </div>
+        <>
+          <div style={{ flex: testLabOpen ? "0 0 40%" : "0 0 50%", minWidth: 0, transition: "flex 0.3s ease" }}>
+            <ElyraSandbox
+              files={sandboxFiles}
+              onUpdateFile={handleUpdateSandboxFile}
+              onReset={handleResetSandbox}
+              onClose={() => { setSandboxOpen(false); setTestLabOpen(false); }}
+              onDebugError={handleDebugError}
+              autoRun={sandboxAutoRun}
+            />
+          </div>
+          {testLabOpen && (
+            <div style={{ flex: "0 0 30%", minWidth: 0, transition: "flex 0.3s ease" }}>
+              <LunaTestLab
+                files={sandboxFiles}
+                project={currentProject}
+                onFixWithLuna={handleFixWithLuna}
+                testHistory={testHistory}
+                onHistoryUpdate={handleTestHistoryUpdate}
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
