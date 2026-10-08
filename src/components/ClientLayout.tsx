@@ -9,18 +9,15 @@ import Footer from "@/components/Footer";
 import Starfield from "@/components/Starfield";
 import Nebula from "@/components/Nebula";
 import ArtisticBackground from "@/components/ArtisticBackground";
-import ElyraButton from "@/components/ElyraButton";
 import Navigation from "@/components/Navigation";
 import VisitorTracker from "@/components/VisitorTracker";
 import PresenceMap from "@/components/PresenceMap";
-import SignalNotification from "@/components/human-signal/SignalNotification";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
-const HEAVY_BG_ROUTES = ["/nebula-orb", "/camera", "/mural", "/campfire", "/poetry", "/tarot", "/threads"];
-const NO_ARTISTIC_BG_ROUTES = ["/dream-canvas", "/nebula-orb", "/camera", "/elyra", "/mural", "/campfire", "/poetry", "/tarot", "/threads"];
-const NO_ELYRA_BUTTON_ROUTES = ["/", "/elyra", "/camera", "/mural", "/campfire", "/poetry", "/tarot", "/threads"];
-const NO_FOOTER_ROUTES = ["/elyra", "/mural", "/campfire", "/poetry", "/tarot", "/threads"];
-const DARK_PAGES = ["/campfire", "/poetry", "/tarot", "/threads"];
+const HEAVY_BG_ROUTES = ["/threads"];
+const NO_ARTISTIC_BG_ROUTES = ["/threads"];
+const NO_FOOTER_ROUTES = ["/threads"];
+const DARK_PAGES = ["/threads"];
 
 function BannedScreen() {
   const { banReason, signOut } = useAuth();
@@ -92,31 +89,12 @@ function LayoutInner({ children }: { children: ReactNode }) {
 
   const isHeavyPage = HEAVY_BG_ROUTES.some((r) => pathname?.startsWith(r));
   const hideArtisticBg = NO_ARTISTIC_BG_ROUTES.some((r) => pathname?.startsWith(r));
-  const hideElyraButton = NO_ELYRA_BUTTON_ROUTES.some((r) => pathname?.startsWith(r));
   const hideFooter = NO_FOOTER_ROUTES.some((r) => pathname?.startsWith(r));
   const isDarkPage = DARK_PAGES.some((r) => pathname?.startsWith(r));
   const isHome = pathname === "/";
 
   const pathToActivePage: Record<string, string> = {
-    "/elyra": "elyra ai",
-    "/reflection-room": "reflection",
-    "/tarot": "arcana",
     "/threads": "threads",
-    "/dream-canvas": "canvas",
-    "/camera": "camera",
-    "/mural": "mural",
-    "/campfire": "campfire",
-    "/poetry": "poetry",
-    "/nebula-orb": "nebula orb",
-    "/human-signal": "human signal",
-    "/ideas": "ideas board",
-    "/moderation": "moderation",
-    "/about": "about",
-    "/support": "support",
-    "/faq": "faq",
-    "/account": "account",
-    "/stats": "stats",
-    "/settings": "settings",
   };
   const activePage = pathname ? pathToActivePage[pathname] : undefined;
 
@@ -147,11 +125,9 @@ function LayoutInner({ children }: { children: ReactNode }) {
         </div>
         {!hideFooter && <Footer />}
       </div>
-      {!hideElyraButton && <ElyraButton />}
       <Navigation activePage={activePage} hideToggle={isHome} />
       <VisitorTracker />
       {!isHome && <PresenceMap />}
-      <SignalNotification />
 
     </>
   );

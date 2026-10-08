@@ -6,27 +6,11 @@ import { useState, useEffect, useCallback } from "react";
 import { useIsMobile } from "@/lib/useIsMobile";
 
 const navLinks = [
-  { href: "/elyra", label: "Luna AI", icon: "✦" },
-  { href: "/tarot", label: "Arcana", icon: "☽" },
+  { href: "/", label: "Home", icon: "◈" },
   { href: "/threads", label: "Threads", icon: "🧶" },
-  { href: "/reflection-room", label: "Reflection", icon: "◈" },
-  { href: "/dream-canvas", label: "Canvas", icon: "△" },
-  { href: "/mural", label: "Mural", icon: "◇" },
-  { href: "/poetry", label: "Poetry", icon: "❋" },
-  { href: "/campfire", label: "Campfire", icon: "◆" },
-  { href: "/nebula-orb", label: "Nebula Orb", icon: "●" },
-  { href: "/human-signal", label: "Human Signal", icon: "📡" },
-  { href: "/camera", label: "Camera", icon: "⊡" },
 ];
 
-const bottomLinks = [
-  { href: "/about", label: "About" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/support", label: "Support" },
-  { href: "/share", label: "Share" },
-  { href: "/ideas", label: "Ideas" },
-  { href: "/stats", label: "Stats" },
-];
+const bottomLinks: { href: string; label: string }[] = [];
 
 interface NavigationProps {
   activePage?: string;

@@ -4,10 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 const footerLinks = [
-  { href: "/about", label: "About" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/support", label: "Support" },
-  { href: "/ideas", label: "Ideas" },
+  { href: "/threads", label: "Threads" },
   { href: "https://findahelpline.com", label: "Crisis Support", external: true },
 ];
 

@@ -6,40 +6,12 @@ import { useAllPresence, usePagePresence } from "@/hooks/usePagePresence";
 
 const PAGE_LABELS: Record<string, string> = {
   "/": "Home",
-  "/campfire": "Campfire",
-  "/mural": "Mural",
-  "/human-signal": "Human Signal",
-  "/poetry": "Poetry",
-  "/dream-canvas": "Dream Canvas",
-  "/nebula-orb": "Nebula Orb",
-  "/camera": "Camera",
-  "/tarot": "Tarot",
   "/threads": "Threads",
-  "/reflection-room": "Reflection Room",
-  "/ideas": "Ideas",
-  "/share": "Share",
-  "/elyra": "Luna AI",
-  "/about": "About",
-  "/faq": "FAQ",
-  "/support": "Support",
-  "/stats": "Stats",
 };
 
 const PAGE_ICONS: Record<string, string> = {
   "/": "◈",
-  "/campfire": "◆",
-  "/mural": "◇",
-  "/human-signal": "◎",
-  "/poetry": "❋",
-  "/dream-canvas": "△",
-  "/nebula-orb": "●",
-  "/camera": "⊡",
-  "/tarot": "☽",
-  "/threads": "◈",
-  "/reflection-room": "◈",
-  "/ideas": "◇",
-  "/share": "◈",
-  "/elyra": "☽",
+  "/threads": "🧶",
 };
 
 export default function PresenceMap() {
