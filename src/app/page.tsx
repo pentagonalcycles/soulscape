@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
-import ElovayneLogo from "@/components/ElovayneLogo";
+import CrochetWorldLogo from "@/components/CrochetWorldLogo";
 import GlowingPortal from "@/components/GlowingPortal";
 
 export default function Home() {
@@ -30,7 +30,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col items-center relative z-10">
-          <ElovayneLogo />
+          <CrochetWorldLogo />
 
           <motion.div
             className="text-center max-w-lg mt-6 mb-12"
@@ -98,7 +98,7 @@ export default function Home() {
             transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <h2 className="text-3xl md:text-4xl mb-6" style={{ color: "var(--text-primary)", fontWeight: 300, letterSpacing: "0.02em" }}>
-              What is Elovayne?
+              What is Crochet World?
             </h2>
             <p className="text-base leading-relaxed max-w-md mx-auto" style={{ color: "var(--text-muted)", fontWeight: 300 }}>
               A creative space where you can build, write, draw, play, and explore — with an AI that helps you make things, not just talk.
@@ -118,8 +118,8 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <p className="text-xs leading-relaxed" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
-              Everything on Elovayne is free. The only paid feature is{" "}
-              <span style={{ color: "var(--elovayne-nebula)" }}>Luna AI</span>
+              Everything on Crochet World is free. The only paid feature is{" "}
+              <span style={{ color: "var(--crochetworld-nebula)" }}>Luna AI</span>
               {" "}— your personal AI companion — which costs a small one-time fee.
             </p>
           </motion.div>
@@ -135,7 +135,7 @@ export default function Home() {
           >
             <p className="text-xs leading-relaxed" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
               In crisis? Reach out — you are not alone.{" "}
-              <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--elovayne-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
+              <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--crochetworld-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
                 findahelpline.com
               </a>
               {" "} · US: 988 · UK: 116 123
@@ -220,7 +220,7 @@ export default function Home() {
                       padding: "8px 16px", borderRadius: 10,
                       background: activeCategory === cat.id ? "rgba(0, 255, 136, 0.12)" : "rgba(255, 255, 255, 0.02)",
                       border: `1px solid ${activeCategory === cat.id ? "rgba(0, 255, 136, 0.3)" : "rgba(255, 255, 255, 0.06)"}`,
-                      color: activeCategory === cat.id ? "var(--elovayne-nebula)" : "rgba(240, 255, 245, 0.5)",
+                      color: activeCategory === cat.id ? "var(--crochetworld-nebula)" : "rgba(240, 255, 245, 0.5)",
                       fontSize: 12, fontFamily: "monospace", fontWeight: 500,
                       cursor: "pointer", transition: "all 0.3s ease",
                     }}
@@ -334,7 +334,7 @@ function getStatusColor(status: string) {
     case "TESTING":
       return { bg: "rgba(168, 85, 247, 0.15)", text: "#c084fc", border: "rgba(168, 85, 247, 0.3)" };
     case "NEARLY READY":
-      return { bg: "rgba(0, 255, 136, 0.15)", text: "var(--elovayne-nebula)", border: "rgba(0, 255, 136, 0.3)" };
+      return { bg: "rgba(0, 255, 136, 0.15)", text: "var(--crochetworld-nebula)", border: "rgba(0, 255, 136, 0.3)" };
     default:
       return { bg: "rgba(251, 191, 36, 0.15)", text: "#fbbf24", border: "rgba(251, 191, 36, 0.3)" };
   }
@@ -350,7 +350,7 @@ function getFeatures(category: "luna" | "arcana" | "threads" | "campfire" | "mur
       { name: "Luna Prototype Mode", description: "Turn an idea into a working first prototype.", status: "CONCEPT" },
     ],
     arcana: [
-      { name: "Elovayne Tarot Deck", description: "An original 78-card deck created specifically for Elovayne.", status: "BUILDING" },
+      { name: "Crochet World Tarot Deck", description: "An original 78-card deck created specifically for Crochet World.", status: "BUILDING" },
       { name: "Tarot Reading Intelligence", description: "Deeper readings that understand the whole spread.", status: "CONCEPT" },
       { name: "Arcana Personal Decks", description: "Make Tarot feel more personal with different visual styles.", status: "CONCEPT" },
     ],

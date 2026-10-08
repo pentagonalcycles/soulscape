@@ -1,4 +1,4 @@
--- Elovayne Visitor Stats
+-- Crochet World Visitor Stats
 -- Public analytics for the /stats page.
 -- Run this in Supabase SQL Editor.
 

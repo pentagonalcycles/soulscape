@@ -1,4 +1,4 @@
-const CACHE_NAME = "elovayne-v1";
+const CACHE_NAME = "crochetworld-v1";
 const STATIC_ASSETS = [
   "/",
   "/logo.jpeg",

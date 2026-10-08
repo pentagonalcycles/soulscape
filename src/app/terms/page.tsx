@@ -16,17 +16,17 @@ export default function TermsPage() {
             <div className="space-y-8" style={{ color: "var(--text-secondary)", fontSize: "14px", lineHeight: "1.8" }}>
               <section>
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Acceptance</h2>
-                <p>By using Elovayne, you agree to these terms. If you do not agree, please do not use our services.</p>
+                <p>By using Crochet World, you agree to these terms. If you do not agree, please do not use our services.</p>
               </section>
 
               <section>
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Our Services</h2>
-                <p>Elovayne is a creative community platform offering features like Luna AI, Tarot readings, creative tools, and community spaces. We reserve the right to modify or discontinue features at any time.</p>
+                <p>Crochet World is a creative community platform offering features like Luna AI, Tarot readings, creative tools, and community spaces. We reserve the right to modify or discontinue features at any time.</p>
               </section>
 
               <section>
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Your Content</h2>
-                <p>You retain ownership of content you create on Elovayne. By posting content, you grant us a license to display and distribute it within the Elovayne platform. You are responsible for your content and must not post harmful, illegal, or abusive material.</p>
+                <p>You retain ownership of content you create on Crochet World. By posting content, you grant us a license to display and distribute it within the Crochet World platform. You are responsible for your content and must not post harmful, illegal, or abusive material.</p>
               </section>
 
               <section>
@@ -36,7 +36,7 @@ export default function TermsPage() {
 
               <section>
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Tarot</h2>
-                <p>Tarot readings on Elovayne are designed for reflection, creativity, and personal exploration. They should not be treated as guaranteed prediction or as professional medical, legal, or financial advice.</p>
+                <p>Tarot readings on Crochet World are designed for reflection, creativity, and personal exploration. They should not be treated as guaranteed prediction or as professional medical, legal, or financial advice.</p>
               </section>
 
               <section>
@@ -46,17 +46,17 @@ export default function TermsPage() {
 
               <section>
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Limitation of Liability</h2>
-                <p>Elovayne is provided &ldquo;as is&rdquo; without warranties. We are not liable for any damages arising from your use of our services. We do not guarantee uninterrupted or error-free service.</p>
+                <p>Crochet World is provided &ldquo;as is&rdquo; without warranties. We are not liable for any damages arising from your use of our services. We do not guarantee uninterrupted or error-free service.</p>
               </section>
 
               <section>
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Changes</h2>
-                <p>We may update these terms from time to time. Continued use of Elovayne after changes constitutes acceptance of the new terms.</p>
+                <p>We may update these terms from time to time. Continued use of Crochet World after changes constitutes acceptance of the new terms.</p>
               </section>
 
               <section>
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Contact</h2>
-                <p>For questions about these terms, contact us through our <a href="/support" style={{ color: "var(--elovayne-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 212, 170, 0.3)" }}>Support page</a>.</p>
+                <p>For questions about these terms, contact us through our <a href="/support" style={{ color: "var(--crochetworld-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 212, 170, 0.3)" }}>Support page</a>.</p>
               </section>
 
               <p className="text-xs mt-8" style={{ color: "var(--text-dim)" }}>Last updated: January 2026</p>

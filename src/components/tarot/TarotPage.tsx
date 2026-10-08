@@ -727,7 +727,7 @@ export default function TarotPage() {
                 gap: 12,
               }}>
                 <p style={{ fontSize: 10, color: "rgba(240, 255, 245, 0.6)", margin: 0, lineHeight: 1.5 }}>
-                  Tarot in Elovayne is designed for reflection, creativity and personal exploration. It should not be treated as guaranteed prediction or as professional medical, legal or financial advice.
+                  Tarot in Crochet World is designed for reflection, creativity and personal exploration. It should not be treated as guaranteed prediction or as professional medical, legal or financial advice.
                 </p>
                 <button onClick={() => setShowDisclaimer(false)} style={{
                   background: "none", border: "none", color: "rgba(168, 85, 247, 0.3)",

@@ -28,19 +28,19 @@ export default function Error({
           ✦
         </motion.div>
 
-        <h1 className="text-3xl md:text-4xl font-heading text-elovayne-light mb-4 glow-text-strong">
+        <h1 className="text-3xl md:text-4xl font-heading text-crochetworld-light mb-4 glow-text-strong">
           Something went wrong
         </h1>
 
-        <p className="text-elovayne-muted/60 text-sm mb-8 max-w-md mx-auto">
+        <p className="text-crochetworld-muted/60 text-sm mb-8 max-w-md mx-auto">
           Something went wrong. Your journey continues shortly.
         </p>
 
         <button
           onClick={reset}
           className="px-8 py-3 rounded-xl font-medium text-sm tracking-wider uppercase
-            bg-gradient-to-r from-elovayne-nebula to-elovayne-violet
-            text-white border border-elovayne-violet/30
+            bg-gradient-to-r from-crochetworld-nebula to-crochetworld-violet
+            text-white border border-crochetworld-violet/30
             hover:shadow-[0_0_30px_rgba(157,124,216,0.3)]
             transition-all duration-300"
         >

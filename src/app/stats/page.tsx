@@ -39,10 +39,10 @@ function formatDate(iso: string) {
   });
 }
 
-const PALETTE = ["var(--elovayne-nebula)", "#22d3ee", "#a78bfa", "#f472b6", "#ffd700", "#fb923c", "#34d399", "#60a5fa"];
+const PALETTE = ["var(--crochetworld-nebula)", "#22d3ee", "#a78bfa", "#f472b6", "#ffd700", "#fb923c", "#34d399", "#60a5fa"];
 
 const cardThemes = [
-  { color: "var(--elovayne-nebula)", glow: "rgba(0, 255, 136, 0.5)", icon: "🌌", border: "rgba(0, 255, 136, 0.25)" },
+  { color: "var(--crochetworld-nebula)", glow: "rgba(0, 255, 136, 0.5)", icon: "🌌", border: "rgba(0, 255, 136, 0.25)" },
   { color: "#22d3ee", glow: "rgba(34, 211, 238, 0.5)", icon: "🪐", border: "rgba(34, 211, 238, 0.25)" },
   { color: "#ffd700", glow: "rgba(255, 215, 0, 0.5)", icon: "✨", border: "rgba(255, 215, 0, 0.25)" },
   { color: "#a78bfa", glow: "rgba(167, 139, 250, 0.5)", icon: "🔮", border: "rgba(167, 139, 250, 0.25)" },
@@ -91,7 +91,7 @@ export default function StatsPage() {
   const [nameInput, setNameInput] = useState(() => {
     if (typeof window === "undefined") return "";
     try {
-      return localStorage.getItem("elovayne-visitor-name") || "";
+      return localStorage.getItem("crochetworld-visitor-name") || "";
     } catch {
       return "";
     }
@@ -101,10 +101,10 @@ export default function StatsPage() {
   const getVisitorId = () => {
     if (typeof window === "undefined") return null;
     try {
-      let id = localStorage.getItem("elovayne-visitor-id");
+      let id = localStorage.getItem("crochetworld-visitor-id");
       if (!id) {
         id = crypto.randomUUID ? crypto.randomUUID() : `v-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-        localStorage.setItem("elovayne-visitor-id", id);
+        localStorage.setItem("crochetworld-visitor-id", id);
       }
       return id;
     } catch {
@@ -124,7 +124,7 @@ export default function StatsPage() {
         body: JSON.stringify({ visitor_id: visitorId, name }),
       });
       if (!res.ok) throw new Error("Failed");
-      localStorage.setItem("elovayne-visitor-name", name);
+      localStorage.setItem("crochetworld-visitor-name", name);
       setNameStatus("saved");
       setTimeout(() => setNameStatus(""), 2500);
     } catch {
@@ -203,35 +203,35 @@ export default function StatsPage() {
               <h1
                 className="font-heading text-3xl md:text-5xl mb-3"
                 style={{
-                  background: "linear-gradient(120deg, var(--elovayne-nebula), #22d3ee, #a78bfa, #f472b6, #ffd700)",
+                  background: "linear-gradient(120deg, var(--crochetworld-nebula), #22d3ee, #a78bfa, #f472b6, #ffd700)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundSize: "200% 100%",
                   animation: "stats-gradient 6s ease-in-out infinite",
                 }}
               >
-                Elovayne Statistics
+                Crochet World Statistics
               </h1>
               <p className="text-sm md:text-base" style={{ color: "rgba(240, 255, 245, 0.75)" }}>
                 Who comes, and how many — a window into the community.
               </p>
               <p
                 className="inline-flex items-center gap-2 mt-3 px-3 py-1.5 rounded-full text-[10px] uppercase tracking-wider"
-                style={{ background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.2)", color: "var(--elovayne-nebula)" }}
+                style={{ background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.2)", color: "var(--crochetworld-nebula)" }}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-elovayne-nebula animate-pulse" style={{ boxShadow: "0 0 8px var(--elovayne-nebula)" }} />
+                <span className="w-1.5 h-1.5 rounded-full bg-crochetworld-nebula animate-pulse" style={{ boxShadow: "0 0 8px var(--crochetworld-nebula)" }} />
                 Live · refreshes every 15s
               </p>
             </motion.div>
 
             {loading ? (
               <div className="text-center py-24">
-                <p className="text-elovayne-dim text-sm">Gathering the light…</p>
+                <p className="text-crochetworld-dim text-sm">Gathering the light…</p>
               </div>
             ) : error || !data ? (
               <div className="text-center py-24">
                 <span className="text-4xl block mb-4">◈</span>
-                <p className="text-elovayne-dim text-sm">
+                <p className="text-crochetworld-dim text-sm">
                   Stats are still warming up. Please check back shortly.
                 </p>
               </div>
@@ -265,7 +265,7 @@ export default function StatsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <h2 className="font-heading text-lg text-elovayne-light mb-5">Visits per day · last 14 days</h2>
+                  <h2 className="font-heading text-lg text-crochetworld-light mb-5">Visits per day · last 14 days</h2>
                   <div className="flex items-end gap-1.5 h-40">
                     {data.last14Days.map((d, i) => {
                       const color = PALETTE[i % PALETTE.length];
@@ -325,7 +325,7 @@ export default function StatsPage() {
                         );
                       })}
                     </div>
-                    <div className="flex justify-between mt-2 text-[8px] text-elovayne-muted">
+                    <div className="flex justify-between mt-2 text-[8px] text-crochetworld-muted">
                       <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span>
                     </div>
                   </motion.div>
@@ -354,7 +354,7 @@ export default function StatsPage() {
                               animate={{ height: `${Math.max(4, (d.visits / maxWeekday) * 100)}%` }}
                               transition={{ duration: 0.5, delay: i * 0.05 }}
                             />
-                            <span className="text-[9px] text-elovayne-muted">{d.day}</span>
+                            <span className="text-[9px] text-crochetworld-muted">{d.day}</span>
                           </div>
                         );
                       })}
@@ -376,7 +376,7 @@ export default function StatsPage() {
                     </h2>
                     <div className="space-y-3">
                       {data.topPaths.length === 0 ? (
-                        <p className="text-elovayne-dim text-xs text-center py-6">No visits recorded yet.</p>
+                        <p className="text-crochetworld-dim text-xs text-center py-6">No visits recorded yet.</p>
                       ) : data.topPaths.map((p, i) => {
                         const color = PALETTE[i % PALETTE.length];
                         return (
@@ -384,7 +384,7 @@ export default function StatsPage() {
                             <span className="w-5 text-right text-[10px]" style={{ color }}>{i + 1}</span>
                             <div className="flex-1 min-w-0">
                               <div className="flex justify-between text-xs mb-1">
-                                <span className="text-elovayne-light truncate">{p.path}</span>
+                                <span className="text-crochetworld-light truncate">{p.path}</span>
                                 <span className="ml-2" style={{ color }}>{fmt(p.visits)}</span>
                               </div>
                               <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255, 255, 255, 0.06)" }}>
@@ -418,14 +418,14 @@ export default function StatsPage() {
                       Where they come from · last 30 days
                     </h2>
                     {data.topReferrers.length === 0 ? (
-                      <p className="text-elovayne-dim text-xs text-center py-6">Most visitors arrive directly.</p>
+                      <p className="text-crochetworld-dim text-xs text-center py-6">Most visitors arrive directly.</p>
                     ) : (
                       <div className="space-y-3">
                         {data.topReferrers.map((r, i) => {
                           const color = PALETTE[i % PALETTE.length];
                           return (
                             <div key={r.referrer} className="flex items-center justify-between text-xs py-2 rounded-lg px-2" style={{ background: "rgba(255, 255, 255, 0.02)", borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }}>
-                              <span className="flex items-center gap-2 text-elovayne-light truncate">
+                              <span className="flex items-center gap-2 text-crochetworld-light truncate">
                                 <span className="w-2 h-2 rounded-full" style={{ background: color, boxShadow: `0 0 8px ${color}` }} />
                                 {r.referrer}
                               </span>
@@ -487,7 +487,7 @@ export default function StatsPage() {
                       {nameStatus === "saving" ? "Saving…" : "Set name"}
                     </button>
                     {nameStatus === "saved" && (
-                      <span className="text-xs shrink-0" style={{ color: "var(--elovayne-nebula)", textShadow: "0 0 10px rgba(0, 255, 136, 0.5)" }}>
+                      <span className="text-xs shrink-0" style={{ color: "var(--crochetworld-nebula)", textShadow: "0 0 10px rgba(0, 255, 136, 0.5)" }}>
                         ✓ Saved
                       </span>
                     )}
@@ -498,7 +498,7 @@ export default function StatsPage() {
                     )}
                   </div>
                   {data.recentVisitors.length === 0 ? (
-                    <p className="text-elovayne-dim text-xs text-center py-6">No visitors recorded yet.</p>
+                    <p className="text-crochetworld-dim text-xs text-center py-6">No visitors recorded yet.</p>
                   ) : (
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                       {data.recentVisitors.map((v, i) => {
@@ -520,7 +520,7 @@ export default function StatsPage() {
                               <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: color, boxShadow: `0 0 8px ${color}` }} />
                               <span className="text-sm truncate" style={{ color }}>{v.name || "Anonymous"}</span>
                             </div>
-                            <div className="text-[11px] text-elovayne-muted truncate mb-1">{v.path}</div>
+                            <div className="text-[11px] text-crochetworld-muted truncate mb-1">{v.path}</div>
                             <div className="text-[10px]" style={{ color: "rgba(240, 255, 245, 0.5)" }}>{formatDate(v.created_at)}</div>
                           </motion.div>
                         );

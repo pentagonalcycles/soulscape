@@ -26,7 +26,7 @@ export default function SettingsPage() {
 
   useEffect(() => {
     setCompactMode(localStorage.getItem("compact_mode") === "true");
-    setVisitorName(localStorage.getItem("elovayne-visitor-name") || "");
+    setVisitorName(localStorage.getItem("crochetworld-visitor-name") || "");
     setSignalNotifications(localStorage.getItem("signal_notifications_disabled") !== "true");
     setCampfireSound(localStorage.getItem("campfire_sound_off") !== "true");
     setVoiceVolume(parseInt(localStorage.getItem("elyra_voice_volume") || "90"));
@@ -64,7 +64,7 @@ export default function SettingsPage() {
         padding: "8px 16px", borderRadius: 8,
         background: active ? "rgba(0, 255, 136, 0.12)" : "rgba(255, 255, 255, 0.03)",
         border: `1px solid ${active ? "rgba(0, 255, 136, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
-        color: active ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.4)",
+        color: active ? "var(--crochetworld-nebula)" : "rgba(255, 255, 255, 0.4)",
         fontSize: 11, cursor: "pointer", fontFamily: "monospace",
       }}
     >
@@ -87,7 +87,7 @@ export default function SettingsPage() {
             <h1
               className="text-3xl sm:text-4xl mb-3"
               style={{
-                background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
+                background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 fontWeight: 300,
@@ -97,14 +97,14 @@ export default function SettingsPage() {
               Settings
             </h1>
             <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.65)" }}>
-              Personalise your Elovayne experience
+              Personalise your Crochet World experience
             </p>
             {saved && (
               <motion.p
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="text-xs mt-2"
-                style={{ color: "var(--elovayne-nebula)" }}
+                style={{ color: "var(--crochetworld-nebula)" }}
               >
                 Saved
               </motion.p>
@@ -130,7 +130,7 @@ export default function SettingsPage() {
                       cursor: "pointer",
                     }}
                   >
-                    <div className="text-sm font-medium" style={{ color: userPreferences.text_size === s.id ? "var(--elovayne-nebula)" : "rgba(255,255,255,0.5)" }}>{s.label}</div>
+                    <div className="text-sm font-medium" style={{ color: userPreferences.text_size === s.id ? "var(--crochetworld-nebula)" : "rgba(255,255,255,0.5)" }}>{s.label}</div>
                     <div className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.3)" }}>{s.desc}</div>
                   </button>
                 ))}
@@ -195,12 +195,12 @@ export default function SettingsPage() {
                   }}
                 />
                 <button
-                  onClick={() => { localStorage.setItem("elovayne-visitor-name", visitorName); showSaved(); }}
+                  onClick={() => { localStorage.setItem("crochetworld-visitor-name", visitorName); showSaved(); }}
                   className="px-4 py-2.5 rounded-xl text-sm"
                   style={{
                     background: "rgba(0,255,136,0.08)",
                     border: "1px solid rgba(0,255,136,0.15)",
-                    color: "var(--elovayne-nebula)",
+                    color: "var(--crochetworld-nebula)",
                     cursor: "pointer",
                   }}
                 >
@@ -227,7 +227,7 @@ export default function SettingsPage() {
                     localStorage.setItem("elyra_voice_volume", String(v));
                   }}
                   className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                  style={{ accentColor: "var(--elovayne-nebula)" }}
+                  style={{ accentColor: "var(--crochetworld-nebula)" }}
                 />
               </div>
 
@@ -242,7 +242,7 @@ export default function SettingsPage() {
                     localStorage.setItem("elyra_voice_speed", String(v));
                   }}
                   className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                  style={{ accentColor: "var(--elovayne-nebula)" }}
+                  style={{ accentColor: "var(--crochetworld-nebula)" }}
                 />
               </div>
 
@@ -381,7 +381,7 @@ export default function SettingsPage() {
                   <button
                     onClick={() => {
                       if (clearConfirm === "all") {
-                        const keep = ["elyra-dark-bg", "elovayne-visitor-id", "elovayne-visitor-name"];
+                        const keep = ["elyra-dark-bg", "crochetworld-visitor-id", "crochetworld-visitor-name"];
                         const keys = Object.keys(localStorage);
                         keys.forEach(k => { if (!keep.includes(k)) localStorage.removeItem(k); });
                         setClearConfirm(null);

@@ -104,7 +104,7 @@ export default function SignalReached({ onReturn }: SignalReachedProps) {
               e.currentTarget.style.color = "rgba(224, 231, 255, 0.7)";
             }}
           >
-            Return to Elovayne
+            Return to Crochet World
           </button>
         </motion.div>
       </motion.div>

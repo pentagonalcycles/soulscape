@@ -26,7 +26,7 @@ export default function SignalNotification() {
     if (localStorage.getItem("signal_notifications_disabled") === "true") return;
 
     const client = supabase();
-    const uid = userId || localStorage.getItem("elovayne-visitor-id");
+    const uid = userId || localStorage.getItem("crochetworld-visitor-id");
 
     // Listen for new signals (for receivers)
     const signalChannel = client
@@ -101,7 +101,7 @@ export default function SignalNotification() {
     if (!alert) return;
 
     const client = supabase();
-    const uid = userId || localStorage.getItem("elovayne-visitor-id") || "anonymous";
+    const uid = userId || localStorage.getItem("crochetworld-visitor-id") || "anonymous";
 
     // Claim the signal
     const { data: claimed, error } = await client.rpc("claim_signal", {
@@ -302,7 +302,7 @@ export default function SignalNotification() {
               }}>
                 <span style={{
                   width: 8, height: 8, borderRadius: "50%",
-                  background: "var(--elovayne-nebula)",
+                  background: "var(--crochetworld-nebula)",
                   boxShadow: "0 0 8px rgba(0, 255, 136, 0.6)",
                   animation: "pulse 1.5s ease-in-out infinite",
                 }} />

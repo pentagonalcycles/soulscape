@@ -1,6 +1,6 @@
 import { openDB, type IDBPDatabase } from "idb";
 
-const DB_NAME = "elovayne-offline";
+const DB_NAME = "crochetworld-offline";
 const DB_VERSION = 1;
 
 export interface OfflineEntry {

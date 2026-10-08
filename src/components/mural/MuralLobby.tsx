@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { MuralRoom } from "@/lib/mural/types";
 
 const THEME_COLORS = [
-  "var(--elovayne-nebula)", "var(--elovayne-violet)", "#8b5cf6", "#ec4899",
+  "var(--crochetworld-nebula)", "var(--crochetworld-violet)", "#8b5cf6", "#ec4899",
   "#f97316", "#10b981", "#3b82f6", "#ef4444",
 ];
 
@@ -20,7 +20,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
   const [newName, setNewName] = useState("");
-  const [newTheme, setNewTheme] = useState("var(--elovayne-nebula)");
+  const [newTheme, setNewTheme] = useState("var(--crochetworld-nebula)");
   const [creating, setCreating] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [clearConfirm, setClearConfirm] = useState(false);
@@ -126,7 +126,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
           style={{
             background: "rgba(0, 255, 136, 0.06)",
             border: "1px solid rgba(0, 255, 136, 0.12)",
-            color: "var(--elovayne-nebula)",
+            color: "var(--crochetworld-nebula)",
             textDecoration: "none",
           }}
         >
@@ -136,7 +136,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
           className="text-4xl font-light mb-3"
           style={{
             fontFamily: "var(--font-heading)",
-            background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
+            background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet))",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
@@ -155,7 +155,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
           whileTap={{ scale: 0.98 }}
           className="px-8 py-3 rounded-xl text-white text-sm font-medium cursor-pointer"
           style={{
-            background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
+            background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet))",
             boxShadow: "0 4px 20px rgba(0, 255, 136, 0.3)",
           }}
         >
@@ -325,7 +325,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                 className="text-xl mb-4 font-light"
                 style={{
                   fontFamily: "var(--font-heading)",
-                  background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
+                  background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet))",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -390,7 +390,7 @@ export default function MuralLobby({ onJoinRoom }: MuralLobbyProps) {
                   disabled={!newName.trim() || creating}
                   className="flex-1 px-4 py-2 rounded-lg text-sm text-white cursor-pointer disabled:opacity-50"
                   style={{
-                    background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
+                    background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet))",
                   }}
                 >
                   {creating ? "Creating..." : "Create"}

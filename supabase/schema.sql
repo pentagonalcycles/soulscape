@@ -1,4 +1,4 @@
--- Elovayne Database Schema
+-- Crochet World Database Schema
 -- Run this in Supabase SQL Editor
 
 -- Enable UUID extension

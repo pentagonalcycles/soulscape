@@ -716,7 +716,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               padding: "6px 14px", borderRadius: "6px",
               background: sandboxOpen && !testLabOpen ? "rgba(0, 255, 136, 0.1)" : "rgba(255, 255, 255, 0.03)",
               border: `1px solid ${sandboxOpen && !testLabOpen ? "rgba(0, 255, 136, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
-              color: sandboxOpen && !testLabOpen ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.3)",
+              color: sandboxOpen && !testLabOpen ? "var(--crochetworld-nebula)" : "rgba(255, 255, 255, 0.3)",
               fontSize: "9px", cursor: "pointer",
               fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
               transition: "all 0.2s",
@@ -1182,7 +1182,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
                       ? "rgba(0, 255, 136, 0.15)"
                       : "rgba(255, 255, 255, 0.06)"}`,
                 color: voice.state === "listening"
-                  ? "var(--elovayne-nebula)"
+                  ? "var(--crochetworld-nebula)"
                   : voice.state === "speaking"
                     ? "#c084fc"
                     : voice.voiceEnabled
@@ -1358,7 +1358,7 @@ export default function ElyraChat({ isPlus = false, userId = null }: { isPlus?: 
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{
                   width: 6, height: 6, borderRadius: "50%",
-                  background: "var(--elovayne-nebula)",
+                  background: "var(--crochetworld-nebula)",
                   boxShadow: "0 0 8px rgba(0, 255, 136, 0.5)",
                   animation: "pulse 1s ease-in-out infinite",
                 }} />

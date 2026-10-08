@@ -56,7 +56,7 @@ function generateVariants(hex: string) {
 function loadLocal<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
   try {
-    const raw = localStorage.getItem(`elovayne_${key}`);
+    const raw = localStorage.getItem(`crochetworld_${key}`);
     return raw ? JSON.parse(raw) : fallback;
   } catch {
     return fallback;
@@ -76,7 +76,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const toggleColorScheme = useCallback(() => {
     setColorScheme((prev) => {
       const next = prev === "dark" ? "light" : "dark";
-      localStorage.setItem("elovayne_color_scheme", JSON.stringify(next));
+      localStorage.setItem("crochetworld_color_scheme", JSON.stringify(next));
       return next;
     });
   }, []);
@@ -86,11 +86,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const variants = generateVariants(userPreferences.accent_color);
 
     // Accent color
-    root.style.setProperty("--elovayne-nebula", variants.primary);
-    root.style.setProperty("--elovayne-violet", variants.primary);
-    root.style.setProperty("--elovayne-cosmic-pink", variants.glow);
-    root.style.setProperty("--elovayne-dim", variants.dim);
-    root.style.setProperty("--elovayne-muted", variants.muted);
+    root.style.setProperty("--crochetworld-nebula", variants.primary);
+    root.style.setProperty("--crochetworld-violet", variants.primary);
+    root.style.setProperty("--crochetworld-cosmic-pink", variants.glow);
+    root.style.setProperty("--crochetworld-dim", variants.dim);
+    root.style.setProperty("--crochetworld-muted", variants.muted);
 
     // Glow effects
     root.style.setProperty("--glow-soft", `0 0 20px ${variants.primary}26`);
@@ -125,14 +125,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--font-size-xs", fs.xs);
 
     // Color scheme — always dark (bioluminescent, brightened)
-    root.style.setProperty("--elovayne-bg", "#1f3828");
-    root.style.setProperty("--elovayne-surface", "#244232");
-    root.style.setProperty("--elovayne-surface-alt", "#2a4d3a");
-    root.style.setProperty("--elovayne-text-primary", "#edfcf3");
-    root.style.setProperty("--elovayne-text-secondary", "#cce8d8");
-    root.style.setProperty("--elovayne-border", "rgba(0, 255, 136, 0.18)");
-    root.style.setProperty("--elovayne-gold", "#ffd700");
-    root.style.setProperty("--elovayne-teal", "var(--elovayne-nebula)");
+    root.style.setProperty("--crochetworld-bg", "#1f3828");
+    root.style.setProperty("--crochetworld-surface", "#244232");
+    root.style.setProperty("--crochetworld-surface-alt", "#2a4d3a");
+    root.style.setProperty("--crochetworld-text-primary", "#edfcf3");
+    root.style.setProperty("--crochetworld-text-secondary", "#cce8d8");
+    root.style.setProperty("--crochetworld-border", "rgba(0, 255, 136, 0.18)");
+    root.style.setProperty("--crochetworld-gold", "#ffd700");
+    root.style.setProperty("--crochetworld-teal", "var(--crochetworld-nebula)");
     root.style.setProperty("--bg-color", "#1f3828");
     root.style.setProperty("--text-primary", "#edfcf3");
     root.style.setProperty("--text-secondary", "#cce8d8");

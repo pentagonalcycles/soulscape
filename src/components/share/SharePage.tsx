@@ -106,7 +106,7 @@ export default function SharePage() {
             fontSize: "28px",
             fontWeight: 300,
             letterSpacing: "0.08em",
-            background: "linear-gradient(135deg, var(--elovayne-nebula), #ffd700, var(--elovayne-nebula))",
+            background: "linear-gradient(135deg, var(--crochetworld-nebula), #ffd700, var(--crochetworld-nebula))",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             margin: "0 0 8px",
@@ -119,7 +119,7 @@ export default function SharePage() {
             margin: 0,
             lineHeight: "1.6",
           }}>
-            Share music and art with the Elovayne community
+            Share music and art with the Crochet World community
           </p>
         </motion.div>
 

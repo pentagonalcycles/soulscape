@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
 
-const VISITOR_KEY = "elovayne-visitor-id";
-const VISITOR_NAME_KEY = "elovayne-visitor-name";
+const VISITOR_KEY = "crochetworld-visitor-id";
+const VISITOR_NAME_KEY = "crochetworld-visitor-name";
 
 function getVisitorId(): string {
   if (typeof window === "undefined") return "server";

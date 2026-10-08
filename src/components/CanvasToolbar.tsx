@@ -106,8 +106,8 @@ interface CanvasToolbarProps {
 
 const cosmicColors = [
   "#ffffff", "#1a1a3e", "#2d1b69",
-  "#6b3fa0", "var(--elovayne-nebula)", "#c4b5fd",
-  "var(--elovayne-violet)", "#f472b6",
+  "#6b3fa0", "var(--crochetworld-nebula)", "#c4b5fd",
+  "var(--crochetworld-violet)", "#f472b6",
   "#10b981", "#fbbf24",
   "#60a5fa", "#818cf8",
   "#ffffff", "#e8e0f0",
@@ -115,7 +115,7 @@ const cosmicColors = [
 ];
 
 const recentColorsList = [
-  "#ffffff", "var(--elovayne-violet)", "var(--elovayne-nebula)", "#00e68a", "#10b981", "#60a5fa",
+  "#ffffff", "var(--crochetworld-violet)", "var(--crochetworld-nebula)", "#00e68a", "#10b981", "#60a5fa",
 ];
 
 const blendModes: { value: GlobalCompositeOperation; label: string }[] = [
@@ -298,12 +298,12 @@ const defaultPresets: BrushPreset[] = [
   },
   {
     id: "p4", name: "Nebula Mist", icon: "✧",
-    tool: { type: "airbrush", size: 120, color: "var(--elovayne-nebula)", color2: "var(--elovayne-violet)", opacity: 0.15, hardness: 0, flow: 0.15, scatter: 50, angle: 0, spacing: 30, jitter: { size: 20, opacity: 30, color: 25 }, gradientType: "radial", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
+    tool: { type: "airbrush", size: 120, color: "var(--crochetworld-nebula)", color2: "var(--crochetworld-violet)", opacity: 0.15, hardness: 0, flow: 0.15, scatter: 50, angle: 0, spacing: 30, jitter: { size: 20, opacity: 30, color: 25 }, gradientType: "radial", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
     createdAt: Date.now(),
   },
   {
     id: "p5", name: "Cosmic Spray", icon: "⁂",
-    tool: { type: "spray", size: 80, color: "#10b981", color2: "var(--elovayne-violet)", opacity: 0.5, hardness: 0, flow: 0.4, scatter: 60, angle: 0, spacing: 20, jitter: { size: 30, opacity: 40, color: 35 }, gradientType: "linear", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
+    tool: { type: "spray", size: 80, color: "#10b981", color2: "var(--crochetworld-violet)", opacity: 0.5, hardness: 0, flow: 0.4, scatter: 60, angle: 0, spacing: 20, jitter: { size: 30, opacity: 40, color: 35 }, gradientType: "linear", cloneOffset: { x: 0, y: 0 }, tolerance: 0, magicContiguous: true, polygonSides: 6, starPoints: 5, starInner: 0.5, textFont: "Inter", textSize: 24, textBold: false, textItalic: false },
     createdAt: Date.now(),
   },
   {
@@ -1407,7 +1407,7 @@ export default function CanvasToolbar({
         <div className="panel-label">
           Symmetry
           {!isPlus && (
-            <span className="ml-1 inline-block px-1 py-0.5 rounded text-[8px] bg-elovayne-violet/20 border border-elovayne-violet/30 text-elovayne-violet font-body">PLUS</span>
+            <span className="ml-1 inline-block px-1 py-0.5 rounded text-[8px] bg-crochetworld-violet/20 border border-crochetworld-violet/30 text-crochetworld-violet font-body">PLUS</span>
           )}
         </div>
         <div className="btn-group">

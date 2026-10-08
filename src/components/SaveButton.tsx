@@ -55,7 +55,7 @@ export default function SaveButton({ postId }: SaveButtonProps) {
     <button
       onClick={toggleSave}
       disabled={!userId || loading}
-      className="text-elovayne-dim hover:text-elovayne-gold transition-colors disabled:opacity-30"
+      className="text-crochetworld-dim hover:text-crochetworld-gold transition-colors disabled:opacity-30"
       title={saved ? "Remove from saved" : "Save this post"}
     >
       <svg

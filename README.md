@@ -1,8 +1,8 @@
-# Elovayne
+# Crochet World
 
 An artistic community where people escape everyday reality, express themselves, share their stories, and connect through meaningful creative experiences.
 
-![Elovayne](https://img.shields.io/badge/status-Phase%206%20Complete%20-%20Full%20Platform-0891b2?style=for-the-badge)
+![Crochet World](https://img.shields.io/badge/status-Phase%206%20Complete%20-%20Full%20Platform-0891b2?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-0d9488?style=for-the-badge)
 
 **Live:** [elovayne.com](https://elovayne.com)
@@ -11,7 +11,7 @@ An artistic community where people escape everyday reality, express themselves, 
 
 ## Overview
 
-Elovayne is an immersive digital world designed as an escape from everyday reality. It's a place where people can explore creative experiences, express their emotions, share personal stories, and connect with others through meaningful interactions.
+Crochet World is an immersive digital world designed as an escape from everyday reality. It's a place where people can explore creative experiences, express their emotions, share personal stories, and connect with others through meaningful interactions.
 
 The website feels emotional, dreamlike, welcoming, mysterious, and visually artistic — like floating through a galaxy of human connection.
 
@@ -194,7 +194,7 @@ soulscape/
 │   ├── components/
 │   │   ├── Starfield.tsx             # Canvas particle starfield (toggleable)
 │   │   ├── Nebula.tsx                # Animated nebula (intensity-aware)
-│   │   ├── ElovayneLogo.tsx          # Logo image with glow animation
+│   │   ├── CrochetWorldLogo.tsx          # Logo image with glow animation
 │   │   ├── GlowingPortal.tsx         # Breathing portal with exit transition
 │   │   ├── Navigation.tsx            # Shared navigation header (sidebar)
 │   │   ├── Footer.tsx                # Site-wide footer with links
@@ -257,7 +257,7 @@ soulscape/
 │   ├── migration_unseen.sql
 │   └── migration_wish_lanterns.sql
 ├ public/
-│   ├── logo.jpeg                     # Elovayne logo
+│   ├── logo.jpeg                     # Crochet World logo
 │   └── ...
 ├ ENVIRONMENT.md                    # Environment setup guide
 ├ AGENTS.md                         # AI agent instructions
@@ -286,8 +286,8 @@ soulscape/
 - **Accents**: Caveat — Handwritten feel
 
 ### CSS Classes
-All Tailwind color classes use the `elovayne-*` prefix:
-- `bg-elovayne-void`, `text-elovayne-light`, `border-elovayne-violet`, etc.
+All Tailwind color classes use the `crochetworld-*` prefix:
+- `bg-crochetworld-void`, `text-crochetworld-light`, `border-crochetworld-violet`, etc.
 - `glass` — Glass morphism card style
 - `glow-text` / `glow-text-strong` — Glow text effects
 
@@ -307,7 +307,7 @@ The Supabase database includes:
 | `reports` | Content moderation |
 | `journals` | Private user journals |
 | `user_preferences` | UI personalization (colors, animations, layout, sound) |
-| `memberships` | Elovayne Plus membership status and plan |
+| `memberships` | Crochet World Plus membership status and plan |
 | `admin_users` | Admin role assignments |
 
 Row Level Security (RLS) is enabled on all tables with appropriate policies.

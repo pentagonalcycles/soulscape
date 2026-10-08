@@ -75,7 +75,7 @@ export default function HumanSignal() {
 
   async function checkRateLimits() {
     const client = supabase();
-    const uid = userId || localStorage.getItem("elovayne-visitor-id");
+    const uid = userId || localStorage.getItem("crochetworld-visitor-id");
     if (!uid) return;
 
     // Check cooldown
@@ -119,7 +119,7 @@ export default function HumanSignal() {
 
   async function handleSendSignal(signalType: string) {
     const client = supabase();
-    const uid = userId || localStorage.getItem("elovayne-visitor-id");
+    const uid = userId || localStorage.getItem("crochetworld-visitor-id");
     console.log("[Signal] Sending signal:", { signalType, userId, uid });
     if (!uid) {
       console.error("[Signal] No uid available");

@@ -83,7 +83,7 @@ export default function AccountPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get("upgraded")) setMessage("Welcome to Elovayne Plus! Your membership is now active.");
+    if (params.get("upgraded")) setMessage("Welcome to Crochet World Plus! Your membership is now active.");
     if (params.get("purchased")) setMessage("Purchase complete! Your downloads are available below.");
   }, []);
 
@@ -135,7 +135,7 @@ export default function AccountPage() {
         <div className="relative z-10 min-h-screen flex flex-col">
           <div className="flex-1 pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6">
             <div className="max-w-2xl mx-auto text-center py-20">
-              <div className="text-elovayne-dim text-sm">Loading your account...</div>
+              <div className="text-crochetworld-dim text-sm">Loading your account...</div>
             </div>
           </div>
         </div>
@@ -160,61 +160,61 @@ export default function AccountPage() {
               <h1 className="text-3xl md:text-4xl font-heading glow-text-strong mb-8" style={{ textShadow: "0 0 30px rgba(0, 255, 136, 0.2), 0 0 60px rgba(57, 255, 20, 0.08)" }}>Your Account</h1>
 
               {message && (
-                <div className="mb-6 p-4 rounded-xl text-sm text-elovayne-light" style={{ background: "rgba(45, 212, 168, 0.1)", border: "1px solid rgba(45, 212, 168, 0.2)" }}>
+                <div className="mb-6 p-4 rounded-xl text-sm text-crochetworld-light" style={{ background: "rgba(45, 212, 168, 0.1)", border: "1px solid rgba(45, 212, 168, 0.2)" }}>
                   {message}
                 </div>
               )}
 
               {/* Membership */}
               <div className="glass-elevated rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
-                <h2 className="font-heading text-lg text-elovayne-light mb-4">Membership</h2>
+                <h2 className="font-heading text-lg text-crochetworld-light mb-4">Membership</h2>
                 {membership ? (
                   <div>
                     <div className="flex items-center gap-3 mb-3">
                       <span className={`px-2 py-0.5 rounded-full text-xs ${
-                        membership.status === "active" ? "bg-elovayne-violet/20 text-elovayne-violet" :
-                        membership.status === "cancelled" ? "bg-elovayne-dim/20 text-elovayne-dim" :
-                        "bg-elovayne-cosmic-pink/20 text-elovayne-cosmic-pink"
+                        membership.status === "active" ? "bg-crochetworld-violet/20 text-crochetworld-violet" :
+                        membership.status === "cancelled" ? "bg-crochetworld-dim/20 text-crochetworld-dim" :
+                        "bg-crochetworld-cosmic-pink/20 text-crochetworld-cosmic-pink"
                       }`}>
-                        {membership.status === "active" ? "Elovayne Plus" : membership.status}
+                        {membership.status === "active" ? "Crochet World Plus" : membership.status}
                       </span>
                     </div>
                     {membership.expires_at && (
-                      <p className="text-elovayne-dim text-xs mb-4">
+                      <p className="text-crochetworld-dim text-xs mb-4">
                         {membership.status === "cancelled" ? "Access until" : "Renews"}: {formatDate(membership.expires_at)}
                       </p>
                     )}
                     <button
                       onClick={handleManageMembership}
                       disabled={portalLoading}
-                      className="px-4 py-2 rounded-lg text-xs font-body text-elovayne-muted border border-elovayne-dim/20 hover:border-elovayne-violet/40 transition-all disabled:opacity-40"
+                      className="px-4 py-2 rounded-lg text-xs font-body text-crochetworld-muted border border-crochetworld-dim/20 hover:border-crochetworld-violet/40 transition-all disabled:opacity-40"
                     >
                       {portalLoading ? "Loading..." : "Manage Membership"}
                     </button>
                   </div>
                 ) : (
                   <div>
-                    <p className="text-elovayne-dim text-sm mb-4">You have access to community features.</p>
+                    <p className="text-crochetworld-dim text-sm mb-4">You have access to community features.</p>
                   </div>
                 )}
               </div>
 
               {/* Purchases */}
               <div className="glass-elevated rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
-                <h2 className="font-heading text-lg text-elovayne-light mb-4">Purchase History</h2>
+                <h2 className="font-heading text-lg text-crochetworld-light mb-4">Purchase History</h2>
                 {purchases.length === 0 ? (
-                  <p className="text-elovayne-dim text-sm">No purchases yet.</p>
+                  <p className="text-crochetworld-dim text-sm">No purchases yet.</p>
                 ) : (
                   <div className="space-y-3">
                     {purchases.map((p) => (
                       <div key={p.id} className="flex items-center justify-between p-3 rounded-lg" style={{ background: "rgba(0, 255, 136, 0.04)" }}>
                         <div>
-                          <p className="text-elovayne-light text-sm">{p.products?.title || "Product"}</p>
-                          <p className="text-elovayne-dim text-xs">{formatDate(p.created_at)}</p>
+                          <p className="text-crochetworld-light text-sm">{p.products?.title || "Product"}</p>
+                          <p className="text-crochetworld-dim text-xs">{formatDate(p.created_at)}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-elovayne-gold text-sm">£{(p.amount_cents / 100).toFixed(2)}</p>
-                          <span className={`text-xs ${p.status === "completed" ? "text-elovayne-dim" : "text-elovayne-cosmic-pink"}`}>
+                          <p className="text-crochetworld-gold text-sm">£{(p.amount_cents / 100).toFixed(2)}</p>
+                          <span className={`text-xs ${p.status === "completed" ? "text-crochetworld-dim" : "text-crochetworld-cosmic-pink"}`}>
                             {p.status}
                           </span>
                         </div>
@@ -226,20 +226,20 @@ export default function AccountPage() {
 
               {/* Downloads */}
               <div className="glass-elevated rounded-2xl p-6 mb-6" style={{ boxShadow: "0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.04)", backdropFilter: "blur(8px)" }}>
-                <h2 className="font-heading text-lg text-elovayne-light mb-4">Downloads</h2>
+                <h2 className="font-heading text-lg text-crochetworld-light mb-4">Downloads</h2>
                 {downloads.length === 0 ? (
-                  <p className="text-elovayne-dim text-sm">No downloads available.</p>
+                  <p className="text-crochetworld-dim text-sm">No downloads available.</p>
                 ) : (
                   <div className="space-y-3">
                     {downloads.filter(d => d.purchases?.status === "completed").map((d) => (
                       <div key={d.id} className="flex items-center justify-between p-3 rounded-lg" style={{ background: "rgba(0, 255, 136, 0.04)" }}>
                         <div>
-                          <p className="text-elovayne-light text-sm">{d.products?.title || "Product"}</p>
-                          <p className="text-elovayne-dim text-xs">Downloaded {d.download_count} time{d.download_count !== 1 ? "s" : ""}</p>
+                          <p className="text-crochetworld-light text-sm">{d.products?.title || "Product"}</p>
+                          <p className="text-crochetworld-dim text-xs">Downloaded {d.download_count} time{d.download_count !== 1 ? "s" : ""}</p>
                         </div>
                         <button
                           onClick={() => handleDownload(d.id)}
-                          className="px-3 py-1.5 rounded-lg text-xs text-elovayne-violet border border-elovayne-violet/20 hover:border-elovayne-violet/40 transition-all"
+                          className="px-3 py-1.5 rounded-lg text-xs text-crochetworld-violet border border-crochetworld-violet/20 hover:border-crochetworld-violet/40 transition-all"
                         >
                           Download
                         </button>

@@ -16,7 +16,7 @@ export default function PrivacyPage() {
             <div className="space-y-8" style={{ color: "var(--text-secondary)", fontSize: "14px", lineHeight: "1.8" }}>
               <section>
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>What We Collect</h2>
-                <p>Elovayne collects minimal data necessary to provide our services:</p>
+                <p>Crochet World collects minimal data necessary to provide our services:</p>
                 <ul className="list-disc pl-6 mt-2 space-y-1">
                   <li>Account information (if you create an account)</li>
                   <li>Content you post (reflections, poems, ideas)</li>
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>How We Use Data</h2>
                 <p>We use your data to:</p>
                 <ul className="list-disc pl-6 mt-2 space-y-1">
-                  <li>Provide and improve Elovayne services</li>
+                  <li>Provide and improve Crochet World services</li>
                   <li>Personalize your experience</li>
                   <li>Ensure community safety</li>
                   <li>Analyze usage patterns (anonymized)</li>
@@ -69,7 +69,7 @@ export default function PrivacyPage() {
 
               <section>
                 <h2 className="text-lg mb-3" style={{ color: "var(--text-primary)", fontWeight: 400 }}>Contact</h2>
-                <p>For privacy questions, contact us through our <a href="/support" style={{ color: "var(--elovayne-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 212, 170, 0.3)" }}>Support page</a>.</p>
+                <p>For privacy questions, contact us through our <a href="/support" style={{ color: "var(--crochetworld-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 212, 170, 0.3)" }}>Support page</a>.</p>
               </section>
 
               <p className="text-xs mt-8" style={{ color: "var(--text-dim)" }}>Last updated: January 2026</p>

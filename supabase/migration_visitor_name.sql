@@ -1,4 +1,4 @@
--- Elovayne Visitor Names
+-- Crochet World Visitor Names
 -- Lets anonymous visitors choose a name shown on the /stats "Who came" list.
 -- Run this in Supabase SQL Editor.
 

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-export default function ElovayneLogo() {
+export default function CrochetWorldLogo() {
   return (
     <motion.div
       className="flex flex-col items-center gap-5"
@@ -39,7 +39,7 @@ export default function ElovayneLogo() {
             style={{
               top: "50%",
               left: "-3px",
-              background: "var(--elovayne-nebula)",
+              background: "var(--crochetworld-nebula)",
               boxShadow: "0 0 8px rgba(0, 255, 136, 0.6)",
             }}
           />
@@ -76,16 +76,16 @@ export default function ElovayneLogo() {
           <svg viewBox="0 0 200 200" className="w-full h-full">
             <defs>
               <linearGradient id="logoGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="var(--elovayne-nebula)" />
-                <stop offset="100%" stopColor="var(--elovayne-violet)" />
+                <stop offset="0%" stopColor="var(--crochetworld-nebula)" />
+                <stop offset="100%" stopColor="var(--crochetworld-violet)" />
               </linearGradient>
               <linearGradient id="logoGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="var(--elovayne-cosmic-pink)" />
-                <stop offset="100%" stopColor="var(--elovayne-nebula)" />
+                <stop offset="0%" stopColor="var(--crochetworld-cosmic-pink)" />
+                <stop offset="100%" stopColor="var(--crochetworld-nebula)" />
               </linearGradient>
               <linearGradient id="logoGrad3" x1="50%" y1="0%" x2="50%" y2="100%">
                 <stop offset="0%" stopColor="#74de9a" />
-                <stop offset="100%" stopColor="var(--elovayne-violet)" />
+                <stop offset="100%" stopColor="var(--crochetworld-violet)" />
               </linearGradient>
               <filter id="logoGlow">
                 <feGaussianBlur stdDeviation="2.5" result="blur" />
@@ -114,10 +114,10 @@ export default function ElovayneLogo() {
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <circle cx="100" cy="100" r="6" fill="url(#logoGrad1)" filter="url(#logoGlow)" />
-              <circle cx="86" cy="86" r="2.5" fill="var(--elovayne-nebula)" opacity="0.7" />
-              <circle cx="114" cy="86" r="2.5" fill="var(--elovayne-cosmic-pink)" opacity="0.7" />
-              <circle cx="86" cy="114" r="2.5" fill="var(--elovayne-cosmic-pink)" opacity="0.7" />
-              <circle cx="114" cy="114" r="2.5" fill="var(--elovayne-nebula)" opacity="0.7" />
+              <circle cx="86" cy="86" r="2.5" fill="var(--crochetworld-nebula)" opacity="0.7" />
+              <circle cx="114" cy="86" r="2.5" fill="var(--crochetworld-cosmic-pink)" opacity="0.7" />
+              <circle cx="86" cy="114" r="2.5" fill="var(--crochetworld-cosmic-pink)" opacity="0.7" />
+              <circle cx="114" cy="114" r="2.5" fill="var(--crochetworld-nebula)" opacity="0.7" />
             </motion.g>
 
             {/* Connection lines */}
@@ -169,7 +169,7 @@ export default function ElovayneLogo() {
             {/* Pulsing center */}
             <motion.circle
               cx="100" cy="100" r="4"
-              fill="var(--elovayne-nebula)"
+              fill="var(--crochetworld-nebula)"
               filter="url(#logoGlow)"
               animate={{
                 r: [4, 6, 4],
@@ -185,7 +185,7 @@ export default function ElovayneLogo() {
       <motion.h1
         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
         style={{
-          background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet), var(--elovayne-cosmic-pink))",
+          background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet), var(--crochetworld-cosmic-pink))",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
@@ -196,7 +196,7 @@ export default function ElovayneLogo() {
         animate={{ opacity: 1, letterSpacing: "0.1em" }}
         transition={{ duration: 3, delay: 0.3 }}
       >
-        Elovayne
+        Crochet World
       </motion.h1>
 
       {/* Subtle accent line */}

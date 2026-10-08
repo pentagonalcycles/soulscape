@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const faqItems = [
   {
-    q: "How much does Elovayne cost?",
+    q: "How much does Crochet World cost?",
     a: "Everything is free except Luna AI, which has a small one-time fee of £6.99. All other features — Dream Canvas, Mural, Campfire, Poetry, Tarot, Camera, and more — are completely free.",
   },
   {
@@ -23,7 +23,7 @@ const faqItems = [
   },
   {
     q: "Is this a replacement for therapy?",
-    a: "No. Elovayne is a safe place, not professional care. If you're struggling, please reach out to a licensed professional or crisis service.",
+    a: "No. Crochet World is a safe place, not professional care. If you're struggling, please reach out to a licensed professional or crisis service.",
   },
   {
     q: "How do I report something harmful?",
@@ -51,7 +51,7 @@ const resources = [
     title: "International Association for Suicide Prevention",
     desc: "Crisis centers worldwide",
     link: "https://www.iasp.info/resources/Crisis_Centres/",
-    color: "var(--elovayne-nebula)",
+    color: "var(--crochetworld-nebula)",
   },
   {
     icon: "💜",
@@ -86,7 +86,7 @@ export default function SupportPage() {
             <h1
               className="text-3xl sm:text-4xl font-light tracking-wide mb-3"
               style={{
-                background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
+                background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 textShadow: "0 0 30px rgba(0, 255, 136, 0.2), 0 0 60px rgba(57, 255, 20, 0.08)",
@@ -118,7 +118,7 @@ export default function SupportPage() {
               <div className="text-[10px] mt-1" style={{ color: "rgba(240, 255, 245, 0.65)" }}>Common questions</div>
             </Link>
             <a
-              href="https://discord.gg/elovayne"
+              href="https://discord.gg/crochetworld"
               target="_blank"
               rel="noopener noreferrer"
               className="glass-elevated p-5 text-center transition-all hover:scale-[1.02]"
@@ -186,7 +186,7 @@ export default function SupportPage() {
                       animate={{ rotate: openFaq === i ? 45 : 0 }}
                       transition={{ duration: 0.2 }}
                       className="text-lg flex-shrink-0"
-                      style={{ color: "var(--elovayne-nebula)" }}
+                      style={{ color: "var(--crochetworld-nebula)" }}
                     >
                       +
                     </motion.span>

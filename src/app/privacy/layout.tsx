@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Elovayne",
-  description: "How Elovayne handles your data, conversations, uploads, and privacy.",
-  openGraph: { title: "Privacy Policy | Elovayne", description: "How Elovayne handles your data and privacy.", url: "https://elovayne.com/privacy", siteName: "Elovayne", type: "website" },
+  title: "Privacy Policy | Crochet World",
+  description: "How Crochet World handles your data, conversations, uploads, and privacy.",
+  openGraph: { title: "Privacy Policy | Crochet World", description: "How Crochet World handles your data and privacy.", url: "https://elovayne.com/privacy", siteName: "Crochet World", type: "website" },
   robots: { index: true, follow: true },
 };
 

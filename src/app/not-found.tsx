@@ -41,18 +41,18 @@ export default function NotFound() {
             🌌
           </motion.span>
 
-          <h1 className="font-heading text-6xl md:text-7xl text-elovayne-light glow-text-strong mb-4">
+          <h1 className="font-heading text-6xl md:text-7xl text-crochetworld-light glow-text-strong mb-4">
             You&apos;ve gone somewhere that doesn&apos;t exist yet.
           </h1>
 
-          <p className="font-accent text-xl text-elovayne-muted mb-10 max-w-md mx-auto">
+          <p className="font-accent text-xl text-crochetworld-muted mb-10 max-w-md mx-auto">
             This page doesn&apos;t exist yet.
             But there are plenty of other pages waiting for you.
           </p>
 
           <Link href="/">
             <motion.span
-              className="inline-block px-8 py-4 rounded-full font-heading text-lg tracking-wider text-elovayne-light cursor-pointer"
+              className="inline-block px-8 py-4 rounded-full font-heading text-lg tracking-wider text-crochetworld-light cursor-pointer"
               style={{
                 background:
                   "linear-gradient(135deg, rgba(0, 255, 136, 0.7), rgba(0, 255, 136, 0.8))",

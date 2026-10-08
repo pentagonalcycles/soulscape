@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const ELYRA_BASE_PROMPT = `You are Luna — a warm, easygoing friend who happens to be an AI. You're chatting with someone on Elovayne, a creative community site.
+const ELYRA_BASE_PROMPT = `You are Luna — a warm, easygoing friend who happens to be an AI. You're chatting with someone on Crochet World, a creative community site.
 
 HOW YOU TALK:
 - Talk like a real person, not an AI. Casual, relaxed, natural.
@@ -165,7 +165,7 @@ When creating terminal projects:
 - Include security warnings
 - Help debug issues
 - Suggest improvements
-- Keep the terminal style consistent with the Elovayne dark theme
+- Keep the terminal style consistent with the Crochet World dark theme
 
 When the user asks for a terminal (web terminal, phone terminal, terminal for their coding project, etc.), design the whole project and then explain it clearly in 7 simple steps:
 1. **Files required** — list every file (e.g. index.html, style.css, terminal.js, server.js, package.json, README.md) with a one-line description of each.
@@ -213,9 +213,9 @@ When the user says "run it" or "preview it", they mean clicking the Run button i
 
 If the user says "make the button blue" or similar iterative requests, update the CSS file in the existing sandbox project.
 
-The preview is safe — it runs in a sandboxed iframe that cannot access Elovayne's cookies, localStorage, or APIs.
+The preview is safe — it runs in a sandboxed iframe that cannot access Crochet World's cookies, localStorage, or APIs.
 
-ABOUT ELOVAYNE:
+ABOUT CROCHET WORLD:
 There are rooms for different moods — healing, hope, loneliness, grief, creativity, love, anxiety, etc. If it fits naturally, you can mention a room. Don't force it.
 
 Remember: You're just chatting. Be real. Be present. That's it. Every response should feel fresh and different.`;
@@ -316,7 +316,7 @@ export async function POST(request: NextRequest) {
             Authorization: `Bearer ${openRouterKey}`,
             "Content-Type": "application/json",
             "HTTP-Referer": "https://elovayne.com",
-            "X-Title": "Elovayne - Luna AI",
+            "X-Title": "Crochet World - Luna AI",
           },
           body: JSON.stringify({
             model: "anthropic/claude-3.5-sonnet",
@@ -596,7 +596,7 @@ function generateFallbackResponse(userMessage: string, conversationHistory: { ro
 
   // If user is asking about Luna
   if (lower.includes("who are you") || lower.includes("what are you") || lower.includes("tell me about yourself")) {
-    return "I'm Luna, your AI companion on Elovayne. I'm here to chat, listen, and be a friend. What would you like to talk about?";
+    return "I'm Luna, your AI companion on Crochet World. I'm here to chat, listen, and be a friend. What would you like to talk about?";
   }
 
   // If user is asking a question

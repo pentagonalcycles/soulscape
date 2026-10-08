@@ -30,7 +30,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Elovayne — Where Your Soul Can Rest",
+  title: "Crochet World — Where Your Soul Can Rest",
   description:
     "A quiet place where people share stories, support each other, and find comfort in knowing they are not alone.",
   other: {
@@ -53,12 +53,12 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: `
           try {
             // Clear old dark theme settings on first load
-            localStorage.removeItem('elovayne-dark-bg');
+            localStorage.removeItem('crochetworld-dark-bg');
             localStorage.removeItem('elyra-dark-bg');
           } catch(e) {}
         `}} />
       </head>
-      <body className="min-h-full flex flex-col text-elovayne-light font-body">
+      <body className="min-h-full flex flex-col text-crochetworld-light font-body">
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Threads | Knitting & Crochet in Elovayne",
+  title: "Threads | Knitting & Crochet in Crochet World",
   description: "Make something, one stitch at a time. Track projects, count rows, create patterns, learn stitches, and calculate yarn.",
   openGraph: {
-    title: "Threads | Knitting & Crochet in Elovayne",
+    title: "Threads | Knitting & Crochet in Crochet World",
     description: "Make something, one stitch at a time. Track projects, count rows, create patterns, learn stitches.",
     url: "https://elovayne.com/threads",
-    siteName: "Elovayne",
+    siteName: "Crochet World",
     type: "website",
   },
   twitter: { card: "summary", title: "Threads | Knitting & Crochet", description: "Track projects, count rows, create patterns." },

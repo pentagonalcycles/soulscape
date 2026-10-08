@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const categories = [
-  { value: "improvement", label: "Improvement", icon: "✦", color: "var(--elovayne-nebula)" },
+  { value: "improvement", label: "Improvement", icon: "✦", color: "var(--crochetworld-nebula)" },
   { value: "addition", label: "Addition", icon: "◎", color: "#3b82f6" },
   { value: "change", label: "Change", icon: "◇", color: "#8b5cf6" },
   { value: "bug", label: "Bug", icon: "△", color: "#ef4444" },
@@ -55,7 +55,7 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
             <div className="flex items-center gap-3">
               <span className="text-lg opacity-50">💡</span>
               <span className="text-sm" style={{ color: "var(--text-muted, #64748b)" }}>
-                Share an idea for Elovayne...
+                Share an idea for Crochet World...
               </span>
             </div>
           </motion.button>
@@ -98,7 +98,7 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value.slice(0, 500))}
-              placeholder="Describe your idea... What would make Elovayne better?"
+              placeholder="Describe your idea... What would make Crochet World better?"
               rows={3}
               className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
               style={{
@@ -121,7 +121,7 @@ export default function IdeaCreator({ onSubmit }: IdeaCreatorProps) {
                     className="relative w-9 h-5 rounded-full cursor-pointer transition-all"
                     onClick={() => setIsAnonymous(!isAnonymous)}
                     style={{
-                      background: isAnonymous ? "var(--elovayne-nebula)" : "rgba(0, 255, 136, 0.15)",
+                      background: isAnonymous ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.15)",
                     }}
                   >
                     <div

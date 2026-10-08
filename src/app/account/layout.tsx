@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Account | Elovayne",
-  description: "Manage your Elovayne account, membership, and purchases.",
+  title: "Account | Crochet World",
+  description: "Manage your Crochet World account, membership, and purchases.",
   robots: { index: false, follow: false },
 };
 

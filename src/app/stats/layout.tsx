@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Statistics | Elovayne",
-  description: "Who comes to Elovayne, and how many — public community visitor stats.",
+  title: "Statistics | Crochet World",
+  description: "Who comes to Crochet World, and how many — public community visitor stats.",
   openGraph: {
-    title: "Statistics | Elovayne",
-    description: "Who comes to Elovayne, and how many — public community visitor stats.",
+    title: "Statistics | Crochet World",
+    description: "Who comes to Crochet World, and how many — public community visitor stats.",
     url: "https://elovayne.com/stats",
-    siteName: "Elovayne",
+    siteName: "Crochet World",
     locale: "en_US",
     type: "website",
   },

@@ -6,15 +6,15 @@ import Link from "next/link";
 const sections = [
   {
     icon: "✦",
-    title: "What is Elovayne?",
-    content: `Elovayne is a home for people who need a quiet place. A place where you can share what is in your heart — a story, a feeling, something you have been carrying alone — and know that someone understands. You do not need to be brave here. You just need to be yourself.`,
-    color: "var(--elovayne-nebula)",
+    title: "What is Crochet World?",
+    content: `Crochet World is a home for people who need a quiet place. A place where you can share what is in your heart — a story, a feeling, something you have been carrying alone — and know that someone understands. You do not need to be brave here. You just need to be yourself.`,
+    color: "var(--crochetworld-nebula)",
   },
   {
     icon: "◎",
     title: "Why does this exist?",
-    content: `The internet can be a loud place. Elovayne is the opposite — a quiet corner with no followers, no likes, no algorithms. Just people being real with each other, sharing what matters, and finding comfort in knowing they are not alone.`,
-    color: "var(--elovayne-violet)",
+    content: `The internet can be a loud place. Crochet World is the opposite — a quiet corner with no followers, no likes, no algorithms. Just people being real with each other, sharing what matters, and finding comfort in knowing they are not alone.`,
+    color: "var(--crochetworld-violet)",
   },
   {
     icon: "◇",
@@ -44,7 +44,7 @@ const sections = [
   {
     icon: "✧",
     title: "This is not therapy",
-    content: `Elovayne is a safe place, but it is not a substitute for professional care. If you are struggling, please reach out to someone who can help. You deserve real support.`,
+    content: `Crochet World is a safe place, but it is not a substitute for professional care. If you are struggling, please reach out to someone who can help. You deserve real support.`,
     items: [
       "You can report any post that feels harmful.",
       "Reports are reviewed with care and action is taken.",
@@ -97,14 +97,14 @@ export default function AboutPage() {
             <h1
               className="text-3xl sm:text-4xl mb-4"
               style={{
-                background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
+                background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 fontWeight: 300,
                 letterSpacing: "0.02em",
               }}
             >
-              About Elovayne
+              About Crochet World
             </h1>
             <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.65)", fontWeight: 300 }}>
               A letter to anyone who needs a quiet place to land
@@ -178,7 +178,7 @@ export default function AboutPage() {
               <div className="space-y-2 text-xs">
                 <p style={{ color: "var(--text-dim)" }}>
                   <span style={{ color: "#3b82f6", fontWeight: 400 }}>International:</span>{" "}
-                  <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--elovayne-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
+                  <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer" style={{ color: "var(--crochetworld-nebula)", textDecoration: "none", borderBottom: "1px solid rgba(0, 255, 136, 0.2)" }}>
                     findahelpline.com
                   </a>
                 </p>
@@ -202,7 +202,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
             >
               <p className="text-sm" style={{ color: "rgba(240, 255, 245, 0.75)", fontWeight: 300 }}>
-                Elovayne is <strong style={{ color: "#10b981", fontWeight: 500 }}>free to use</strong>. Everything is free except Luna AI, which has a small one-time fee.
+                Crochet World is <strong style={{ color: "#10b981", fontWeight: 500 }}>free to use</strong>. Everything is free except Luna AI, which has a small one-time fee.
                 No premium walls. No hidden fees. No ads.
               </p>
             </motion.div>

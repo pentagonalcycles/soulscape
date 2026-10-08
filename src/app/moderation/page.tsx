@@ -21,7 +21,7 @@ const statusColors: Record<string, string> = {
   pending: "text-yellow-400",
   reviewed: "text-blue-400",
   resolved: "text-green-400",
-  dismissed: "text-elovayne-dim",
+  dismissed: "text-crochetworld-dim",
 };
 
 export default function ModerationPage() {
@@ -80,7 +80,7 @@ export default function ModerationPage() {
         <div className="relative z-10 min-h-screen flex flex-col">
           <div className="flex-1 pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6">
             <div className="max-w-3xl mx-auto text-center py-20">
-              <div className="text-elovayne-dim text-sm">Checking access...</div>
+              <div className="text-crochetworld-dim text-sm">Checking access...</div>
             </div>
           </div>
         </div>
@@ -96,8 +96,8 @@ export default function ModerationPage() {
           <div className="flex-1 pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6">
             <div className="max-w-2xl mx-auto text-center py-20">
               <div className="text-3xl mb-4">◈</div>
-              <h1 className="text-2xl font-heading text-elovayne-light mb-2">Access Denied</h1>
-              <p className="text-elovayne-dim text-sm">This area is restricted to authorised administrators.</p>
+              <h1 className="text-2xl font-heading text-crochetworld-light mb-2">Access Denied</h1>
+              <p className="text-crochetworld-dim text-sm">This area is restricted to authorised administrators.</p>
             </div>
           </div>
         </div>
@@ -128,10 +128,10 @@ export default function ModerationPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="font-heading text-3xl md:text-4xl text-elovayne-light glow-text-strong mb-2">
+              <h1 className="font-heading text-3xl md:text-4xl text-crochetworld-light glow-text-strong mb-2">
                 Moderation
               </h1>
-              <p className="text-elovayne-dim text-sm">
+              <p className="text-crochetworld-dim text-sm">
                 Review reports from the community.
               </p>
             </motion.div>
@@ -150,8 +150,8 @@ export default function ModerationPage() {
                     onClick={() => setFilter(s)}
                     className={`px-3 py-1.5 rounded-lg text-xs capitalize transition-all ${
                       filter === s
-                        ? "bg-elovayne-violet/20 text-elovayne-light border border-elovayne-violet/30"
-                        : "text-elovayne-dim border border-transparent hover:border-elovayne-dim/20"
+                        ? "bg-crochetworld-violet/20 text-crochetworld-light border border-crochetworld-violet/30"
+                        : "text-crochetworld-dim border border-transparent hover:border-crochetworld-dim/20"
                     }`}
                   >
                     {s}
@@ -165,8 +165,8 @@ export default function ModerationPage() {
                     onClick={() => setTypeFilter(t)}
                     className={`px-3 py-1.5 rounded-lg text-xs capitalize transition-all ${
                       typeFilter === t
-                        ? "bg-elovayne-cosmic-pink/20 text-elovayne-light border border-elovayne-cosmic-pink/30"
-                        : "text-elovayne-dim border border-transparent hover:border-elovayne-dim/20"
+                        ? "bg-crochetworld-cosmic-pink/20 text-crochetworld-light border border-crochetworld-cosmic-pink/30"
+                        : "text-crochetworld-dim border border-transparent hover:border-crochetworld-dim/20"
                     }`}
                   >
                     {t === "all" ? "All" : "Posts"}
@@ -182,7 +182,7 @@ export default function ModerationPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                <p className="text-elovayne-dim text-sm">Loading reports...</p>
+                <p className="text-crochetworld-dim text-sm">Loading reports...</p>
               </motion.div>
             ) : reports.length === 0 ? (
               <motion.div
@@ -191,7 +191,7 @@ export default function ModerationPage() {
                 animate={{ opacity: 1 }}
               >
                 <span className="text-4xl block mb-4">✨</span>
-                <p className="text-elovayne-dim text-sm">
+                <p className="text-crochetworld-dim text-sm">
                   No {filter === "all" ? "" : filter} reports. Everything is peaceful.
                 </p>
               </motion.div>
@@ -208,29 +208,29 @@ export default function ModerationPage() {
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className={`text-xs uppercase tracking-wider ${statusColors[report.status] || "text-elovayne-dim"}`}>
+                          <span className={`text-xs uppercase tracking-wider ${statusColors[report.status] || "text-crochetworld-dim"}`}>
                             {report.status}
                           </span>
-                          <span className="text-xs text-elovayne-dim">·</span>
-                          <span className="px-2 py-0.5 rounded-full text-[10px] bg-elovayne-deep/50 text-elovayne-muted capitalize">
+                          <span className="text-xs text-crochetworld-dim">·</span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] bg-crochetworld-deep/50 text-crochetworld-muted capitalize">
                             {report.source_type === "post" ? "Post" : report.source_type}
                           </span>
-                          <span className="text-xs text-elovayne-dim">· Reason: {report.reason}</span>
+                          <span className="text-xs text-crochetworld-dim">· Reason: {report.reason}</span>
                         </div>
-                        <p className="text-xs text-elovayne-dim">
+                        <p className="text-xs text-crochetworld-dim">
                           Reported {formatDate(report.created_at)} by {report.author_name}
                         </p>
                       </div>
                     </div>
 
-                    <div className="bg-elovayne-deep/30 rounded-xl p-4 mb-4">
-                      <p className="text-elovayne-light text-sm whitespace-pre-wrap">
+                    <div className="bg-crochetworld-deep/30 rounded-xl p-4 mb-4">
+                      <p className="text-crochetworld-light text-sm whitespace-pre-wrap">
                         {report.content_preview}
                       </p>
                     </div>
 
                     {report.details && (
-                      <p className="text-xs text-elovayne-muted mb-3 italic">&quot;{report.details}&quot;</p>
+                      <p className="text-xs text-crochetworld-muted mb-3 italic">&quot;{report.details}&quot;</p>
                     )}
 
                     <div className="flex gap-2">
@@ -244,13 +244,13 @@ export default function ModerationPage() {
                           </button>
                           <button
                             onClick={() => { if (report.content_id) removeContent(report.content_id, report.source_type); updateStatus(report.id, "resolved", report.source_type); }}
-                            className="px-3 py-1.5 text-xs rounded-lg bg-elovayne-cosmic-pink/20 text-elovayne-cosmic-pink hover:bg-elovayne-cosmic-pink/30 transition-colors"
+                            className="px-3 py-1.5 text-xs rounded-lg bg-crochetworld-cosmic-pink/20 text-crochetworld-cosmic-pink hover:bg-crochetworld-cosmic-pink/30 transition-colors"
                           >
                             Remove Content
                           </button>
                           <button
                             onClick={() => updateStatus(report.id, "dismissed", report.source_type)}
-                            className="px-3 py-1.5 text-xs rounded-lg bg-elovayne-deep/50 text-elovayne-muted hover:text-elovayne-light transition-colors"
+                            className="px-3 py-1.5 text-xs rounded-lg bg-crochetworld-deep/50 text-crochetworld-muted hover:text-crochetworld-light transition-colors"
                           >
                             Dismiss
                           </button>
@@ -260,7 +260,7 @@ export default function ModerationPage() {
                         <>
                           <button
                             onClick={() => { if (report.content_id) removeContent(report.content_id, report.source_type); updateStatus(report.id, "resolved", report.source_type); }}
-                            className="px-3 py-1.5 text-xs rounded-lg bg-elovayne-cosmic-pink/20 text-elovayne-cosmic-pink hover:bg-elovayne-cosmic-pink/30 transition-colors"
+                            className="px-3 py-1.5 text-xs rounded-lg bg-crochetworld-cosmic-pink/20 text-crochetworld-cosmic-pink hover:bg-crochetworld-cosmic-pink/30 transition-colors"
                           >
                             Remove Content
                           </button>

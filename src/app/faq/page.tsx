@@ -8,11 +8,11 @@ const faqSections = [
   {
     title: "Getting Started",
     icon: "✦",
-    color: "var(--elovayne-nebula)",
+    color: "var(--crochetworld-nebula)",
     items: [
       {
-        q: "What is Elovayne?",
-        a: "Elovayne is a quiet place where people share feelings, stories, and creative work. A place to be heard without judgment, to connect through empathy, and to find comfort in knowing you are not alone.",
+        q: "What is Crochet World?",
+        a: "Crochet World is a quiet place where people share feelings, stories, and creative work. A place to be heard without judgment, to connect through empathy, and to find comfort in knowing you are not alone.",
       },
       {
         q: "How much does it cost?",
@@ -58,7 +58,7 @@ const faqSections = [
   {
     title: "Features",
     icon: "◇",
-    color: "var(--elovayne-violet)",
+    color: "var(--crochetworld-violet)",
     items: [
       {
         q: "What is Luna AI?",
@@ -92,8 +92,8 @@ const faqSections = [
     color: "#ec4899",
     items: [
       {
-        q: "Is Elovayne a replacement for therapy?",
-        a: "No. Elovayne is a safe place, not professional care. If you're struggling, please reach out to a licensed professional or crisis service.",
+        q: "Is Crochet World a replacement for therapy?",
+        a: "No. Crochet World is a safe place, not professional care. If you're struggling, please reach out to a licensed professional or crisis service.",
       },
       {
         q: "What if I'm in crisis?",
@@ -143,7 +143,7 @@ export default function FAQPage() {
             <h1
               className="text-3xl sm:text-4xl font-light tracking-wide mb-3"
               style={{
-                background: "linear-gradient(135deg, var(--elovayne-nebula), var(--elovayne-violet))",
+                background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 textShadow: "0 0 30px rgba(0, 255, 136, 0.2), 0 0 60px rgba(57, 255, 20, 0.08)",
@@ -257,7 +257,7 @@ export default function FAQPage() {
               <button
                 onClick={() => setSearch("")}
                 className="mt-3 text-xs"
-                style={{ color: "var(--elovayne-nebula)", background: "none", border: "none", cursor: "pointer" }}
+                style={{ color: "var(--crochetworld-nebula)", background: "none", border: "none", cursor: "pointer" }}
               >
                 Clear search
               </button>

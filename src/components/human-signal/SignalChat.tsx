@@ -27,7 +27,7 @@ export default function SignalChat({ signal, onClose }: SignalChatProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const uid = userId || localStorage.getItem("elovayne-visitor-id") || "anonymous";
+  const uid = userId || localStorage.getItem("crochetworld-visitor-id") || "anonymous";
   const signalType = getSignalType(signal.signal_type);
   const signalMessage = SIGNAL_MESSAGES[signal.signal_type];
 

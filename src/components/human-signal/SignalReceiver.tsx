@@ -27,7 +27,7 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
     try {
       // Get user ID (fallback to localStorage)
       const { data: { session } } = await client.auth.getSession();
-      const uid = session?.user?.id || localStorage.getItem("elovayne-visitor-id") || "anonymous";
+      const uid = session?.user?.id || localStorage.getItem("crochetworld-visitor-id") || "anonymous";
       console.log("[Receiver] Finding signals for:", uid);
 
       // Find waiting signals not from this user, not expired
@@ -95,7 +95,7 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
 
     try {
       const { data: { session } } = await client.auth.getSession();
-      const uid = session?.user?.id || localStorage.getItem("elovayne-visitor-id") || "anonymous";
+      const uid = session?.user?.id || localStorage.getItem("crochetworld-visitor-id") || "anonymous";
 
       // Insert acknowledgement
       const { error: ackError } = await client.from("signal_acknowledgements").insert({
@@ -252,7 +252,7 @@ export default function SignalReceiver({ onBack }: SignalReceiverProps) {
               e.currentTarget.style.background = "rgba(255, 255, 255, 0.04)";
             }}
           >
-            Return to Elovayne
+            Return to Crochet World
           </button>
         </motion.div>
       </div>

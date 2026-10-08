@@ -1,8 +1,8 @@
-# Elovayne — Agent Instructions
+# Crochet World — Agent Instructions
 
 ## Project Overview
 
-Elovayne is an immersive artistic community website. It's a dreamlike escape from reality where people share stories, emotions, and creative expressions.
+Crochet World is an immersive artistic community website. It's a dreamlike escape from reality where people share stories, emotions, and creative expressions.
 
 **Core message:** "An artistic community where people escape everyday reality, express themselves, share their stories, and connect through meaningful creative experiences."
 
@@ -100,7 +100,7 @@ Each room has its own atmosphere:
 - `PostCard.tsx` — Post display with 5 meaningful reactions, save, delete, report
 - `SaveButton.tsx` — Bookmark/save toggle on posts
 - `LoadingSkeleton.tsx` — Animated loading placeholders for feeds
-- `ElovayneLogo.tsx` — Logo image with glow animation (CSS mask + mix-blend-mode)
+- `CrochetWorldLogo.tsx` — Logo image with glow animation (CSS mask + mix-blend-mode)
 - `AuthProvider.tsx` — Auth (anonymous + email magic link) + user profile + preferences + admin check
 - `ThemeContext.tsx` — Dynamic CSS variable theming based on user preferences
 - `ClientLayout.tsx` — Client wrapper for AuthProvider + ThemeProvider + Footer + WelcomeModal
@@ -157,7 +157,7 @@ The 5 reactions (not "likes"):
 - `reports` — Content moderation (with reason: spam/inappropriate/harmful/other)
 - `journals` — Private user journals (with mood tracking)
 - `user_preferences` — UI personalization settings (colors, animations, layout, sound)
-- `memberships` — Elovayne Plus membership status and plan
+- `memberships` — Crochet World Plus membership status and plan
 - `admin_users` — Admin role assignments
 
 ### RLS Policies

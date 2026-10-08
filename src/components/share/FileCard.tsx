@@ -141,7 +141,7 @@ export default function FileCard({ file }: FileCardProps) {
               borderRadius: "8px",
               border: "1px solid rgba(0, 255, 136, 0.15)",
               background: "rgba(0, 255, 136, 0.06)",
-              color: "var(--elovayne-nebula)",
+              color: "var(--crochetworld-nebula)",
               fontSize: "11px",
               cursor: "pointer",
               flexShrink: 0,

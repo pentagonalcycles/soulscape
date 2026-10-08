@@ -108,7 +108,7 @@ export default function LunaTestLab({ files, project, onFixWithLuna, testHistory
     borderRadius: 6,
     background: active ? "rgba(0, 255, 136, 0.12)" : "rgba(255, 255, 255, 0.03)",
     border: `1px solid ${active ? "rgba(0, 255, 136, 0.25)" : "rgba(255, 255, 255, 0.06)"}`,
-    color: active ? "var(--elovayne-nebula)" : "rgba(255, 255, 255, 0.4)",
+    color: active ? "var(--crochetworld-nebula)" : "rgba(255, 255, 255, 0.4)",
     fontSize: 10,
     fontFamily: "monospace",
     cursor: "pointer",
@@ -159,7 +159,7 @@ export default function LunaTestLab({ files, project, onFixWithLuna, testHistory
             disabled={isRunning || files.length === 0}
             style={{
               ...btnStyle(),
-              color: isRunning ? "rgba(255,255,255,0.2)" : files.length === 0 ? "rgba(255,255,255,0.15)" : "var(--elovayne-nebula)",
+              color: isRunning ? "rgba(255,255,255,0.2)" : files.length === 0 ? "rgba(255,255,255,0.15)" : "var(--crochetworld-nebula)",
               cursor: isRunning || files.length === 0 ? "default" : "pointer",
             }}
           >
@@ -188,7 +188,7 @@ export default function LunaTestLab({ files, project, onFixWithLuna, testHistory
             <div style={{
               height: "100%",
               width: `${progress.total > 0 ? (progress.done / progress.total) * 100 : 0}%`,
-              background: "var(--elovayne-nebula)",
+              background: "var(--crochetworld-nebula)",
               transition: "width 0.3s ease",
             }} />
           </div>

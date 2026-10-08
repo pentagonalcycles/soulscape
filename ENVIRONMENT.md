@@ -1,6 +1,6 @@
 # Environment Configuration
 
-This document explains how to set up the Elovayne environment variables.
+This document explains how to set up the Crochet World environment variables.
 
 ---
 

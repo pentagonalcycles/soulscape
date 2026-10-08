@@ -1,4 +1,4 @@
--- Tarot readings and favourites for the Elovayne Tarot feature
+-- Tarot readings and favourites for the Crochet World Tarot feature
 
 CREATE TABLE IF NOT EXISTS tarot_readings (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,

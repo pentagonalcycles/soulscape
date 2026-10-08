@@ -2,18 +2,18 @@
 
 :root {
   /* Core palette — bioluminescent dark theme (lighter + more saturated) */
-  --elovayne-void: #1f3828;
-  --elovayne-gradient: #244232;
-  --elovayne-deep: #2a4d3a;
-  --elovayne-midnight: #325842;
-  --elovayne-nebula: #00ff88;
-  --elovayne-violet: #00e676;
-  --elovayne-cosmic-pink: #39ff14;
-  --elovayne-gold: #ffd700;
-  --elovayne-teal: #00e8b0;
-  --elovayne-light: #f0fff5;
-  --elovayne-muted: #1e7a3a;
-  --elovayne-dim: #58e888;
+  --crochetworld-void: #1f3828;
+  --crochetworld-gradient: #244232;
+  --crochetworld-deep: #2a4d3a;
+  --crochetworld-midnight: #325842;
+  --crochetworld-nebula: #00ff88;
+  --crochetworld-violet: #00e676;
+  --crochetworld-cosmic-pink: #39ff14;
+  --crochetworld-gold: #ffd700;
+  --crochetworld-teal: #00e8b0;
+  --crochetworld-light: #f0fff5;
+  --crochetworld-muted: #1e7a3a;
+  --crochetworld-dim: #58e888;
 
   /* Glow — bioluminescent green (boosted saturation) */
   --glow-soft: 0 0 20px rgba(0, 255, 136, 0.3);
@@ -67,16 +67,16 @@
 }
 
 @theme inline {
-  --color-elovayne-void: var(--elovayne-void);
-  --color-elovayne-deep: var(--elovayne-deep);
-  --color-elovayne-midnight: var(--elovayne-midnight);
-  --color-elovayne-nebula: var(--elovayne-nebula);
-  --color-elovayne-violet: var(--elovayne-violet);
-  --color-elovayne-cosmic-pink: var(--elovayne-cosmic-pink);
-  --color-elovayne-gold: var(--elovayne-gold);
-  --color-elovayne-light: var(--elovayne-light);
-  --color-elovayne-muted: var(--elovayne-muted);
-  --color-elovayne-dim: var(--elovayne-dim);
+  --color-crochetworld-void: var(--crochetworld-void);
+  --color-crochetworld-deep: var(--crochetworld-deep);
+  --color-crochetworld-midnight: var(--crochetworld-midnight);
+  --color-crochetworld-nebula: var(--crochetworld-nebula);
+  --color-crochetworld-violet: var(--crochetworld-violet);
+  --color-crochetworld-cosmic-pink: var(--crochetworld-cosmic-pink);
+  --color-crochetworld-gold: var(--crochetworld-gold);
+  --color-crochetworld-light: var(--crochetworld-light);
+  --color-crochetworld-muted: var(--crochetworld-muted);
+  --color-crochetworld-dim: var(--crochetworld-dim);
 
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);

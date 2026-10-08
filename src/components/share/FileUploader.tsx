@@ -172,7 +172,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
               borderRadius: "10px",
               background: "rgba(0, 255, 136, 0.08)",
               border: "1px solid rgba(0, 255, 136, 0.15)",
-              color: "var(--elovayne-nebula)",
+              color: "var(--crochetworld-nebula)",
               fontSize: "13px",
               marginBottom: "16px",
             }}
@@ -184,7 +184,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
                 marginLeft: "12px",
                 background: "none",
                 border: "none",
-                color: "var(--elovayne-nebula)",
+                color: "var(--crochetworld-nebula)",
                 cursor: "pointer",
                 textDecoration: "underline",
                 fontSize: "12px",
@@ -318,7 +318,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
                 type="checkbox"
                 checked={isDownloadable}
                 onChange={(e) => setIsDownloadable(e.target.checked)}
-                style={{ accentColor: "var(--elovayne-nebula)" }}
+                style={{ accentColor: "var(--crochetworld-nebula)" }}
               />
               Allow others to download
             </label>
@@ -338,7 +338,7 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
                     style={{
                       height: "100%",
                       width: "40%",
-                      background: "linear-gradient(90deg, transparent, var(--elovayne-nebula), transparent)",
+                      background: "linear-gradient(90deg, transparent, var(--crochetworld-nebula), transparent)",
                       borderRadius: "2px",
                     }}
                   />
@@ -382,14 +382,14 @@ export default function FileUploader({ onUploadComplete }: FileUploaderProps) {
                 background: uploading
                   ? "rgba(0, 255, 136, 0.05)"
                   : "linear-gradient(135deg, rgba(0, 255, 136, 0.12), rgba(0, 204, 106, 0.12))",
-                color: uploading ? "rgba(240, 255, 245, 0.6)" : "var(--elovayne-nebula)",
+                color: uploading ? "rgba(240, 255, 245, 0.6)" : "var(--crochetworld-nebula)",
                 fontSize: "13px",
                 fontWeight: 500,
                 cursor: uploading ? "wait" : "pointer",
                 letterSpacing: "0.02em",
               }}
             >
-              {uploading ? "Uploading..." : "Share with Elovayne"}
+              {uploading ? "Uploading..." : "Share with Crochet World"}
             </motion.button>
           </motion.div>
         )}

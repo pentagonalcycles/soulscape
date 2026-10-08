@@ -164,7 +164,7 @@ export default function CameraPage() {
 
   const downloadPhoto = useCallback((dataUrl: string) => {
     const link = document.createElement("a");
-    link.download = `elovayne-${Date.now()}.jpg`;
+    link.download = `crochetworld-${Date.now()}.jpg`;
     link.href = dataUrl;
     link.click();
   }, []);

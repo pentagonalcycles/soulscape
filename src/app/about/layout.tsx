@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About | Elovayne",
-  description: "Elovayne is a safe, creative community where people express themselves, share stories, and connect through meaningful experiences. No ads, no tracking, no algorithms.",
+  title: "About | Crochet World",
+  description: "Crochet World is a safe, creative community where people express themselves, share stories, and connect through meaningful experiences. No ads, no tracking, no algorithms.",
   openGraph: {
-    title: "About | Elovayne",
+    title: "About | Crochet World",
     description: "A safe, creative community where people express themselves, share stories, and connect through meaningful experiences.",
     url: "https://elovayne.com/about",
-    siteName: "Elovayne",
+    siteName: "Crochet World",
     type: "website",
   },
-  twitter: { card: "summary", title: "About | Elovayne", description: "A safe, creative community for meaningful expression." },
+  twitter: { card: "summary", title: "About | Crochet World", description: "A safe, creative community for meaningful expression." },
   robots: { index: true, follow: true },
 };
 
