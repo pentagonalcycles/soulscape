@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
@@ -15,7 +16,6 @@ import {
 import type { StitchTechnique } from "@/lib/threads/data";
 
 type Section =
-  | "home"
   | "start"
   | "counter"
   | "projects"
@@ -105,29 +105,42 @@ const Heading: React.FC<{ children?: React.ReactNode; sub?: string }> = ({ child
   </div>
 );
 
-const BackButton: React.FC<{ onClick: () => void; label?: string }> = ({ onClick, label = "Back" }) => (
-  <button
-    onClick={onClick}
-    style={{
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 8,
-      marginBottom: 24,
-      minHeight: 44,
-      padding: "10px 18px",
-      borderRadius: 999,
-      background: "rgba(0, 255, 136, 0.06)",
-      border: "1px solid rgba(0, 255, 136, 0.2)",
-      color: accent,
-      fontSize: 12,
-      letterSpacing: "1.5px",
-      textTransform: "uppercase",
-      cursor: "pointer",
-    }}
-  >
-    ← {label}
-  </button>
-);
+const BackButton: React.FC<{ onClick?: () => void; href?: string; label?: string }> = ({
+  onClick,
+  href,
+  label = "Back",
+}) => {
+  const style: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 24,
+    minHeight: 44,
+    padding: "10px 18px",
+    borderRadius: 999,
+    background: "rgba(0, 255, 136, 0.06)",
+    border: "1px solid rgba(0, 255, 136, 0.2)",
+    color: accent,
+    fontSize: 12,
+    letterSpacing: "1.5px",
+    textTransform: "uppercase",
+    cursor: "pointer",
+  };
+
+  if (href) {
+    return (
+      <Link href={href} style={style}>
+        ← {label}
+      </Link>
+    );
+  }
+
+  return (
+    <button onClick={onClick} style={style}>
+      ← {label}
+    </button>
+  );
+};
 
 const field: React.CSSProperties = {
   display: "block",
@@ -241,7 +254,7 @@ const Counter: React.FC<{
 export default function ThreadsPage() {
   const { userId, loading: authLoading } = useAuth();
 
-  const [section, setSection] = useState<Section>("home");
+  const [section, setSection] = useState<Section>("start");
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [selectedStitch, setSelectedStitch] = useState<StitchTechnique | null>(null);
@@ -409,51 +422,13 @@ export default function ThreadsPage() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.28 }}
           >
-            {/* ------------------------------------------------ HOME */}
-            {section === "home" && (
-              <>
-                <div style={{ textAlign: "center", marginBottom: 40 }}>
-                  <h1
-                    style={{
-                      fontSize: 34, fontWeight: 200, letterSpacing: "12px", textTransform: "uppercase",
-                      background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet))",
-                      WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-                      margin: "0 0 10px",
-                    }}
-                  >
-                    Threads
-                  </h1>
-                  <p style={{ fontSize: 14, color: muted, margin: "0 0 32px" }}>
-                    Everything you need to crochet. One stitch at a time.
-                  </p>
-
-                  <button
-                    onClick={() => go("start")}
-                    style={{
-                      minHeight: 56,
-                      padding: "0 36px",
-                      borderRadius: 999,
-                      border: "none",
-                      background: accent,
-                      color: "#04160c",
-                      fontSize: 16,
-                      fontWeight: 600,
-                      letterSpacing: "0.5px",
-                      cursor: "pointer",
-                      boxShadow: "0 4px 30px rgba(0, 255, 136, 0.25)",
-                    }}
-                  >
-                    Enter Threads
-                  </button>
-                </div>
-              </>
-            )}
-
             {/* ------------------------------------------ BACK */}
-            {section !== "home" && (
+            {section === "start" ? (
+              <BackButton href="/" label="Home" />
+            ) : (
               <BackButton
-                onClick={() => go(section === "project" ? "projects" : section === "stitch" ? "stitches" : "home")}
-                label={section === "project" ? "All projects" : section === "stitch" ? "Stitch library" : "Tools"}
+                onClick={() => go(section === "project" ? "projects" : section === "stitch" ? "stitches" : "start")}
+                label={section === "project" ? "All projects" : section === "stitch" ? "Stitch library" : "Start"}
               />
             )}
 
