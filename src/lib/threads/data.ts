@@ -700,3 +700,18 @@ export const YARN_ESTIMATES: Record<string, Record<string, number>> = {
   bag: { lace: 400, fingering: 350, sport: 300, dk: 250, worsted: 200, chunky: 150, "super-chunky": 120 },
   cardigan: { lace: 1400, fingering: 1100, sport: 900, dk: 700, worsted: 550, chunky: 420, "super-chunky": 350 },
 };
+
+// Crochet-only views. Knitting is temporarily hidden from the UI.
+
+/** Stitch library shown in the app — crochet only. */
+export const CROCHET_ONLY_STITCHES: StitchTechnique[] = CROCHET_STITCHES;
+
+/** Abbreviations that apply to crochet, including the shared "both" terms. */
+export const CROCHET_ONLY_ABBREVIATIONS: Abbreviation[] = ABBREVIATIONS.filter(
+  (a) => a.craft === "crochet" || a.craft === "both"
+);
+
+/** Quick project templates for crochet only. */
+export const CROCHET_ONLY_QUICK_PROJECTS: ProjectTemplate[] = QUICK_PROJECTS.filter(
+  (p) => p.craft === "crochet"
+);

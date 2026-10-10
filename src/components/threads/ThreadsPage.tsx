@@ -5,38 +5,32 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/AuthProvider";
 import { supabase } from "@/lib/supabase";
 import {
-  KNITTING_STITCHES,
-  CROCHET_STITCHES,
-  ABBREVIATIONS,
+  CROCHET_ONLY_STITCHES,
+  CROCHET_ONLY_ABBREVIATIONS,
   YARN_WEIGHTS,
   YARN_FIBERS,
-  QUICK_PROJECTS,
-  CROCHET_TERMS_UK_US,
   YARN_ESTIMATES,
+  CROCHET_TERMS_UK_US,
 } from "@/lib/threads/data";
-import type { StitchTechnique, Abbreviation } from "@/lib/threads/data";
+import type { StitchTechnique } from "@/lib/threads/data";
 
-type ThreadsSection =
+type Section =
   | "home"
+  | "counter"
+  | "projects"
   | "new-project"
-  | "my-projects"
-  | "row-counter"
-  | "stitch-library"
+  | "project"
+  | "stitches"
+  | "stitch"
   | "abbreviations"
   | "yarn-calculator"
-  | "gauge-calculator"
-  | "learn"
-  | "quick-projects"
-  | "project-detail"
-  | "stitch-detail"
-  | "pattern-helper"
-  | "fix-project"
-  | "pattern-creator";
+  | "gauge"
+  | "learn";
 
 interface Project {
   id: string;
   name: string;
-  craft: "knitting" | "crochet";
+  craft: string;
   project_type: string;
   size: string;
   yarn_type: string;
@@ -54,77 +48,232 @@ interface Project {
   updated_at: string;
 }
 
-const glassStyle = {
+/* ---------------------------------------------------------------- styles */
+
+const card: React.CSSProperties = {
   background: "rgba(31, 56, 40, 0.75)",
   backdropFilter: "blur(12px)",
-  border: "1px solid rgba(0, 255, 136, 0.08)",
-  borderRadius: 16,
-  padding: 24,
+  WebkitBackdropFilter: "blur(12px)",
+  border: "1px solid rgba(0, 255, 136, 0.10)",
+  borderRadius: 18,
+  padding: 20,
 };
 
-const sectionTitle = {
-  fontSize: 14,
-  fontWeight: 600,
-  color: "var(--crochetworld-nebula)",
-  letterSpacing: "3px",
-  textTransform: "uppercase" as const,
-  marginBottom: 16,
-  fontFamily: "monospace",
+const accent = "var(--crochetworld-nebula)";
+const dim = "rgba(0, 255, 136, 0.45)";
+const text = "#e0f5e8";
+const muted = "#90c8a8";
+
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  background: "rgba(0, 255, 136, 0.05)",
+  border: "1px solid rgba(0, 255, 136, 0.18)",
+  borderRadius: 12,
+  padding: "14px 16px",
+  color: text,
+  fontSize: 15,
+  outline: "none",
+  boxSizing: "border-box",
+  minHeight: 48,
 };
+
+const label: React.CSSProperties = {
+  display: "block",
+  fontSize: 11,
+  letterSpacing: "1.5px",
+  textTransform: "uppercase",
+  color: accent,
+  marginBottom: 8,
+};
+
+const Heading: React.FC<{ children?: React.ReactNode; sub?: string }> = ({ children, sub }) => (
+  <div style={{ textAlign: "center", marginBottom: 28 }}>
+    <h2
+      style={{
+        fontSize: 22,
+        fontWeight: 500,
+        letterSpacing: "4px",
+        textTransform: "uppercase",
+        color: text,
+        margin: "0 0 6px",
+      }}
+    >
+      {children}
+    </h2>
+    {sub && <p style={{ fontSize: 13, color: muted, margin: 0, lineHeight: 1.6 }}>{sub}</p>}
+  </div>
+);
+
+const BackButton: React.FC<{ onClick: () => void; label?: string }> = ({ onClick, label = "Back" }) => (
+  <button
+    onClick={onClick}
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 8,
+      marginBottom: 24,
+      minHeight: 44,
+      padding: "10px 18px",
+      borderRadius: 999,
+      background: "rgba(0, 255, 136, 0.06)",
+      border: "1px solid rgba(0, 255, 136, 0.2)",
+      color: accent,
+      fontSize: 12,
+      letterSpacing: "1.5px",
+      textTransform: "uppercase",
+      cursor: "pointer",
+    }}
+  >
+    ← {label}
+  </button>
+);
+
+const field: React.CSSProperties = {
+  display: "block",
+  marginBottom: 20,
+};
+
+/* ----------------------------------------------------------------- tools */
+
+const TOOLS: { id: Section; icon: string; label: string; hint: string }[] = [
+  { id: "counter", icon: "🧶", label: "Counter", hint: "Count rounds and repeats" },
+  { id: "projects", icon: "📁", label: "My Projects", hint: "Everything you're making" },
+  { id: "new-project", icon: "✧", label: "Start a Project", hint: "Add something new" },
+  { id: "stitches", icon: "❋", label: "Stitch Library", hint: "Every crochet stitch, step by step" },
+  { id: "abbreviations", icon: "🔤", label: "Abbreviations", hint: "What does dc mean?" },
+  { id: "yarn-calculator", icon: "🧶", label: "Yarn Calculator", hint: "How much yarn do I need?" },
+  { id: "gauge", icon: "📐", label: "Gauge Helper", hint: "Get the right hook size" },
+  { id: "learn", icon: "📘", label: "Learn", hint: "Crochet basics, in order" },
+];
+
+const LESSONS = [
+  "Choosing yarn and hooks",
+  "The slip knot",
+  "Chain stitch",
+  "Working into the second chain",
+  "Single crochet",
+  "Turning and starting new rows",
+  "Working in the round",
+  "Increasing and decreasing",
+  "Finishing and weaving in ends",
+];
+
+const PROJECT_TYPES = [
+  "Amigurumi", "Beanie", "Scarf", "Blanket", "Bag",
+  "Cardigan", "Sweater", "Coasters", "Bonnet", "Other",
+];
+
+const DIFFICULTIES = ["beginner", "intermediate", "advanced"];
+
+/* ------------------------------------------------------------ components */
+
+const Counter: React.FC<{
+  rows: number;
+  setRows: (n: number) => void;
+  repeats: number;
+  setRepeats: (n: number) => void;
+  compact?: boolean;
+}> = ({ rows, setRows, repeats, setRepeats, compact }) => (
+  <div style={{ ...card, textAlign: "center", maxWidth: 420, margin: "0 auto" }}>
+    <div style={{ fontSize: 11, letterSpacing: "2px", textTransform: "uppercase", color: dim, marginBottom: 8 }}>
+      Round
+    </div>
+    <div style={{ fontSize: compact ? 64 : 88, fontWeight: 200, color: text, lineHeight: 1, marginBottom: 24 }}>
+      {rows}
+    </div>
+
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20 }}>
+      <button
+        onClick={() => setRows(Math.max(0, rows - 1))}
+        aria-label="Previous round"
+        style={{
+          width: 64, height: 64, borderRadius: "50%",
+          background: "rgba(0, 255, 136, 0.05)", border: "1px solid rgba(0, 255, 136, 0.2)",
+          color: dim, fontSize: 26, cursor: "pointer", flexShrink: 0,
+        }}
+      >
+        −
+      </button>
+
+      <button
+        onClick={() => setRows(rows + 1)}
+        style={{
+          width: 96, height: 96, borderRadius: "50%",
+          background: "rgba(0, 255, 136, 0.12)", border: "2px solid rgba(0, 255, 136, 0.35)",
+          color: accent, fontSize: 40, cursor: "pointer", flexShrink: 0,
+          boxShadow: "0 0 30px rgba(0, 255, 136, 0.15)",
+        }}
+        aria-label="Next round"
+      >
+        +
+      </button>
+    </div>
+
+    <div style={{ display: "flex", gap: 12, marginTop: 28 }}>
+      <button
+        onClick={() => setRepeats(repeats + 1)}
+        style={{
+          flex: 1, minHeight: 48, borderRadius: 12,
+          background: "rgba(0, 255, 136, 0.05)", border: "1px solid rgba(0, 255, 136, 0.2)",
+          color: accent, fontSize: 13, cursor: "pointer",
+        }}
+      >
+        Repeat {repeats + 1}
+      </button>
+      <button
+        onClick={() => { setRows(0); setRepeats(0); }}
+        style={{
+          minHeight: 48, padding: "0 20px", borderRadius: 12,
+          background: "transparent", border: "1px solid rgba(0, 255, 136, 0.15)",
+          color: dim, fontSize: 12, cursor: "pointer",
+        }}
+      >
+        Reset
+      </button>
+    </div>
+  </div>
+);
+
+/* ------------------------------------------------------------------ page */
 
 export default function ThreadsPage() {
   const { userId, loading: authLoading } = useAuth();
-  const [section, setSection] = useState<ThreadsSection>("home");
+
+  const [section, setSection] = useState<Section>("home");
   const [projects, setProjects] = useState<Project[]>([]);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
-  const [craft, setCraft] = useState<"knitting" | "crochet">("knitting");
-  const [termSystem, setTermSystem] = useState<"us" | "uk">("us");
+  const [selectedStitch, setSelectedStitch] = useState<StitchTechnique | null>(null);
 
-  // Project form state
-  const [projectName, setProjectName] = useState("");
-  const [projectType, setProjectType] = useState("");
-  const [projectSize, setProjectSize] = useState("");
+  // counter
+  const [rows, setRows] = useState(0);
+  const [repeats, setRepeats] = useState(0);
+
+  // new project form
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [size, setSize] = useState("");
   const [yarnType, setYarnType] = useState("");
   const [yarnWeight, setYarnWeight] = useState("");
   const [yarnColor, setYarnColor] = useState("");
-  const [needleHook, setNeedleHook] = useState("");
+  const [hook, setHook] = useState("");
   const [difficulty, setDifficulty] = useState("beginner");
   const [notes, setNotes] = useState("");
 
-  // Row counter state
-  const [rowCount, setRowCount] = useState(0);
-  const [repeatCount, setRepeatCount] = useState(0);
+  // yarn calculator
+  const [calcType, setCalcType] = useState("blanket");
+  const [calcWeight, setCalcWeight] = useState("worsted");
 
-  // Pattern helper state
-  const [patternInput, setPatternInput] = useState("");
-  const [patternQuestion, setPatternQuestion] = useState("");
+  // gauge
+  const [swatchStitches, setSwatchStitches] = useState("");
+  const [swatchInches, setSwatchInches] = useState("");
+  const [targetSpi, setTargetSpi] = useState("");
 
-  // Fix project state
-  const [fixDescription, setFixDescription] = useState("");
-
-  // Yarn calculator state
-  const [yarnCalcProject, setYarnCalcProject] = useState("scarf");
-  const [yarnCalcWeight, setYarnCalcWeight] = useState("worsted");
-
-  // Gauge calculator state
-  const [gaugeStitches, setGaugeStitches] = useState("");
-  const [gaugeRows, setGaugeRows] = useState("");
-  const [gaugeWidth, setGaugeWidth] = useState("");
-  const [gaugeHeight, setGaugeHeight] = useState("");
-  const [targetStitches, setTargetStitches] = useState("");
-  const [targetRows, setTargetRows] = useState("");
-
-  // Abbreviation search
-  const [abbrevSearch, setAbbrevSearch] = useState("");
-
-  // Stitch filter
-  const [stitchCraft, setStitchCraft] = useState<"all" | "knitting" | "crochet">("all");
-  const [selectedStitch, setSelectedStitch] = useState<StitchTechnique | null>(null);
+  // abbreviations
+  const [query, setQuery] = useState("");
 
   const loadProjects = useCallback(async () => {
     if (!userId) return;
-    const client = supabase();
-    const { data } = await client
+    const { data } = await supabase()
       .from("threads_projects")
       .select("*")
       .eq("user_id", userId)
@@ -137,879 +286,633 @@ export default function ThreadsPage() {
   }, [userId, loadProjects]);
 
   const saveProject = async () => {
-    if (!userId || !projectName) return;
-    const client = supabase();
-    const project = {
-      user_id: userId,
-      name: projectName,
-      craft,
-      project_type: projectType,
-      size: projectSize,
-      yarn_type: yarnType,
-      yarn_weight: yarnWeight,
-      yarn_color: yarnColor,
-      needle_hook_size: needleHook,
-      difficulty,
-      notes,
-    };
-    const { data, error } = await client.from("threads_projects").insert(project).select().single();
+    if (!userId || !name.trim()) return;
+    const { data, error } = await supabase()
+      .from("threads_projects")
+      .insert({
+        user_id: userId,
+        name: name.trim(),
+        craft: "crochet",
+        project_type: type,
+        size,
+        yarn_type: yarnType,
+        yarn_weight: yarnWeight,
+        yarn_color: yarnColor,
+        needle_hook_size: hook,
+        difficulty,
+        notes,
+      })
+      .select()
+      .single();
+
     if (!error && data) {
-      setProjects(prev => [data as Project, ...prev]);
-      setProjectName("");
-      setProjectType("");
-      setProjectSize("");
-      setNotes("");
-      setSection("my-projects");
+      setProjects((prev) => [data as Project, ...prev]);
+      setName(""); setType(""); setSize(""); setHook(""); setNotes("");
+      setSection("projects");
     }
   };
 
   const updateProject = async (id: string, updates: Partial<Project>) => {
-    const client = supabase();
-    await client.from("threads_projects").update({ ...updates, updated_at: new Date().toISOString() }).eq("id", id);
-    setProjects(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
-    if (activeProject?.id === id) setActiveProject(prev => prev ? { ...prev, ...updates } : null);
+    const patch = { ...updates, updated_at: new Date().toISOString() };
+    await supabase().from("threads_projects").update(patch).eq("id", id);
+    setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, ...updates } : p)));
+    setActiveProject((prev) => (prev && prev.id === id ? { ...prev, ...updates } : prev));
   };
 
-  const deleteProject = async (id: string) => {
-    const client = supabase();
-    await client.from("threads_projects").delete().eq("id", id);
-    setProjects(prev => prev.filter(p => p.id !== id));
-    if (activeProject?.id === id) {
-      setActiveProject(null);
-      setSection("my-projects");
-    }
+  const removeProject = async (id: string) => {
+    await supabase().from("threads_projects").delete().eq("id", id);
+    setProjects((prev) => prev.filter((p) => p.id !== id));
+    setActiveProject(null);
+    setSection("projects");
   };
 
-  const loadProject = (project: Project) => {
-    setActiveProject(project);
-    setRowCount(project.current_row);
-    setRepeatCount(project.repeat_count);
-    setNotes(project.notes);
-    setSection("project-detail");
+  const openProject = (p: Project) => {
+    setActiveProject(p);
+    setRows(p.current_row ?? 0);
+    setRepeats(p.repeat_count ?? 0);
+    setNotes(p.notes ?? "");
+    setSection("project");
   };
 
-  // Row counter persistence
+  // persist counter against the open project
   useEffect(() => {
-    if (activeProject && rowCount !== activeProject.current_row) {
-      const timer = setTimeout(() => {
-        updateProject(activeProject.id, { current_row: rowCount, repeat_count: repeatCount });
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [rowCount, repeatCount, activeProject]);
+    if (!activeProject) return;
+    if (rows === activeProject.current_row && repeats === activeProject.repeat_count) return;
+    const t = setTimeout(() => {
+      updateProject(activeProject.id, { current_row: rows, repeat_count: repeats });
+    }, 600);
+    return () => clearTimeout(t);
+  }, [rows, repeats, activeProject]);
 
-  const filteredAbbreviations = abbrevSearch
-    ? ABBREVIATIONS.filter(a =>
-        a.term.toLowerCase().includes(abbrevSearch.toLowerCase()) ||
-        a.fullName.toLowerCase().includes(abbrevSearch.toLowerCase())
+  const abbrResults = query.trim()
+    ? CROCHET_ONLY_ABBREVIATIONS.filter(
+        (a) =>
+          a.term.toLowerCase().includes(query.toLowerCase()) ||
+          a.fullName.toLowerCase().includes(query.toLowerCase())
       )
-    : ABBREVIATIONS;
+    : CROCHET_ONLY_ABBREVIATIONS;
 
-  const filteredStitches = stitchCraft === "all"
-    ? [...KNITTING_STITCHES, ...CROCHET_STITCHES]
-    : stitchCraft === "knitting"
-      ? KNITTING_STITCHES
-      : CROCHET_STITCHES;
+  const yarnNeeded = YARN_ESTIMATES[calcType]?.[calcWeight] ?? 0;
 
-  const yarnEstimate = YARN_ESTIMATES[yarnCalcProject]?.[yarnCalcWeight] || 0;
-
-  // Gauge calculation
-  const gaugeResult = (() => {
-    if (!gaugeStitches || !gaugeWidth || !targetStitches) return null;
-    const actualGauge = parseFloat(gaugeStitches) / parseFloat(gaugeWidth);
-    const target = parseFloat(targetStitches);
-    const diff = target - actualGauge;
-    if (Math.abs(diff) < 0.5) return { message: "Your gauge is close to target!", action: "You're good to go." };
-    if (diff > 0) return { message: `You need more stitches per inch.`, action: "Try a smaller needle/hook." };
-    return { message: `You have too many stitches per inch.`, action: "Try a larger needle/hook." };
+  const gauge = (() => {
+    if (!swatchStitches || !swatchInches || !targetSpi) return null;
+    const actual = parseFloat(swatchStitches) / parseFloat(swatchInches);
+    const target = parseFloat(targetSpi);
+    if (actual === target) return { head: "Perfect match", tip: "Use the hook size you already have." };
+    const diff = ((actual - target) / target) * 100;
+    if (diff < 0)
+      return { head: `Your fabric is ${Math.abs(Math.round(diff))}% too loose`, tip: "Go down a hook size to tighten it up." };
+    return { head: `Your fabric is ${Math.round(diff)}% too tight`, tip: "Go up a hook size for a softer drape." };
   })();
+
+  const go = (next: Section) => {
+    setSelectedStitch(null);
+    setSection(next);
+  };
 
   if (authLoading) {
     return (
       <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ color: "rgba(0, 255, 136, 0.5)", fontSize: 11, letterSpacing: "3px", textTransform: "uppercase", fontFamily: "monospace" }}>
-          Loading Threads...
+        <div style={{ color: dim, fontSize: 12, letterSpacing: "3px", textTransform: "uppercase" }}>
+          Loading…
         </div>
       </main>
     );
   }
 
   return (
-    <main style={{
-      minHeight: "100vh",
-      background: "transparent",
-      position: "relative",
-      overflow: "hidden",
-    }}>
-      {/* Magical ambient orbs */}
-      <div style={{
-        position: "fixed", top: "-20%", right: "-10%", width: 600, height: 600,
-        borderRadius: "50%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.15) 0%, transparent 70%)",
-        filter: "blur(80px)", pointerEvents: "none",
-      }} />
-      <div style={{
-        position: "fixed", bottom: "-15%", left: "-10%", width: 500, height: 500,
-        borderRadius: "50%", background: "radial-gradient(circle, rgba(0, 255, 136, 0.12) 0%, transparent 70%)",
-        filter: "blur(60px)", pointerEvents: "none",
-      }} />
-      <div style={{
-        position: "fixed", top: "50%", left: "50%", width: 450, height: 450,
-        borderRadius: "50%", background: "radial-gradient(circle, rgba(57, 255, 20, 0.1) 0%, transparent 70%)",
-        filter: "blur(50px)", pointerEvents: "none",
-      }} />
+    <main style={{ minHeight: "100vh", position: "relative" }}>
+      {/* soft ambient glow */}
+      <div
+        style={{
+          position: "fixed", top: "-15%", right: "-10%", width: 520, height: 520,
+          borderRadius: "50%", background: "radial-gradient(circle, rgba(0, 212, 170, 0.14) 0%, transparent 70%)",
+          filter: "blur(90px)", pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "fixed", bottom: "-10%", left: "-10%", width: 420, height: 420,
+          borderRadius: "50%", background: "radial-gradient(circle, rgba(0, 255, 136, 0.10) 0%, transparent 70%)",
+          filter: "blur(80px)", pointerEvents: "none",
+        }}
+      />
 
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "80px 20px 60px", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: 760, margin: "0 auto", padding: "72px 20px 80px", position: "relative" }}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={section + (activeProject?.id ?? "") + (selectedStitch?.id ?? "")}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.28 }}
+          >
+            {/* ------------------------------------------------ HOME */}
+            {section === "home" && (
+              <>
+                <div style={{ textAlign: "center", marginBottom: 40 }}>
+                  <h1
+                    style={{
+                      fontSize: 34, fontWeight: 200, letterSpacing: "12px", textTransform: "uppercase",
+                      background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet))",
+                      WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                      margin: "0 0 10px",
+                    }}
+                  >
+                    Threads
+                  </h1>
+                  <p style={{ fontSize: 14, color: muted, margin: 0 }}>
+                    Everything you need to crochet. One stitch at a time.
+                  </p>
+                </div>
 
-        {/* HOME */}
-        {section === "home" && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 style={{
-              fontSize: 36, fontWeight: 100, letterSpacing: "16px", textTransform: "uppercase",
-              background: "linear-gradient(135deg, var(--crochetworld-nebula), var(--crochetworld-violet), var(--crochetworld-nebula))",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-              margin: "0 0 12px", textAlign: "center",
-            }}>
-              THREADS
-            </h1>
-            <p style={{ fontSize: 13, color: "rgba(240, 255, 245, 0.65)", textAlign: "center", margin: "0 0 48px", lineHeight: 1.6 }}>
-              Make something, one stitch at a time.
-            </p>
-
-            {/* Craft toggle */}
-            <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 40 }}>
-              {(["knitting", "crochet"] as const).map(c => (
-                <button key={c} onClick={() => setCraft(c)} style={{
-                  padding: "8px 20px", borderRadius: 6,
-                  border: `1px solid ${craft === c ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.1)"}`,
-                  background: craft === c ? "rgba(0, 255, 136, 0.08)" : "transparent",
-                  color: craft === c ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.4)",
-                  fontSize: 11, cursor: "pointer", fontFamily: "monospace",
-                  letterSpacing: "1px", textTransform: "uppercase", transition: "all 0.2s",
-                }}>
-                  {c === "knitting" ? "🧶 Knitting" : "🪝 Crochet"}
-                </button>
-              ))}
-            </div>
-
-            {/* UK/US toggle */}
-            <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 40 }}>
-              {(["us", "uk"] as const).map(t => (
-                <button key={t} onClick={() => setTermSystem(t)} style={{
-                  padding: "6px 14px", borderRadius: 4,
-                  border: `1px solid ${termSystem === t ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                  background: termSystem === t ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                  color: termSystem === t ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.3)",
-                  fontSize: 10, cursor: "pointer", fontFamily: "monospace",
-                  letterSpacing: "1px", textTransform: "uppercase", transition: "all 0.2s",
-                }}>
-                  {t === "us" ? "US Terms" : "UK Terms"}
-                </button>
-              ))}
-            </div>
-
-            {/* Main tools */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
-              {[
-                { id: "new-project" as ThreadsSection, icon: "✧", label: "Start a Project" },
-                { id: "my-projects" as ThreadsSection, icon: "◇", label: "My Projects" },
-                { id: "row-counter" as ThreadsSection, icon: "◎", label: "Row Counter" },
-                { id: "pattern-creator" as ThreadsSection, icon: "✦", label: "Pattern Creator" },
-                { id: "stitch-library" as ThreadsSection, icon: "◈", label: "Stitch Library" },
-                { id: "abbreviations" as ThreadsSection, icon: "📖", label: "Abbreviations" },
-                { id: "yarn-calculator" as ThreadsSection, icon: "◎", label: "Yarn Calculator" },
-                { id: "gauge-calculator" as ThreadsSection, icon: "△", label: "Gauge Calculator" },
-                { id: "pattern-helper" as ThreadsSection, icon: "💬", label: "Pattern Helper" },
-                { id: "fix-project" as ThreadsSection, icon: "🔧", label: "Fix My Project" },
-                { id: "learn" as ThreadsSection, icon: "📘", label: "Learn" },
-                { id: "quick-projects" as ThreadsSection, icon: "⚡", label: "Quick Projects" },
-              ].map(opt => (
-                <motion.button
-                  key={opt.id}
-                  onClick={() => setSection(opt.id)}
-                  style={{ ...glassStyle, cursor: "pointer", textAlign: "center", padding: "20px 12px" }}
-                  whileHover={{ scale: 1.02, borderColor: "rgba(0, 255, 136, 0.25)" }}
-                  whileTap={{ scale: 0.98 }}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))",
+                    gap: 14,
+                  }}
                 >
-                  <div style={{ fontSize: 20, marginBottom: 8 }}>{opt.icon}</div>
-                  <div style={{ fontSize: 11, color: "#e0f5e8", fontWeight: 500, letterSpacing: "0.5px" }}>{opt.label}</div>
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-        )}
+                  {TOOLS.map((t) => (
+                    <motion.button
+                      key={t.id}
+                      onClick={() => go(t.id)}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      style={{ ...card, cursor: "pointer", textAlign: "left", minHeight: 96 }}
+                    >
+                      <div style={{ fontSize: 26, marginBottom: 10 }}>{t.icon}</div>
+                      <div style={{ fontSize: 15, color: text, fontWeight: 500, marginBottom: 4 }}>{t.label}</div>
+                      <div style={{ fontSize: 12, color: muted, lineHeight: 1.45 }}>{t.hint}</div>
+                    </motion.button>
+                  ))}
+                </div>
+              </>
+            )}
 
-        {/* BACK BUTTON (for all sub-sections) */}
-        {section !== "home" && (
-          <button onClick={() => { setSection("home"); setActiveProject(null); }} style={{
-            fontSize: 10, color: "rgba(0, 255, 136, 0.5)", background: "none", border: "none",
-            cursor: "pointer", marginBottom: 24, fontFamily: "monospace", letterSpacing: "2px", textTransform: "uppercase",
-          }}>← Back</button>
-        )}
+            {/* ------------------------------------------ BACK */}
+            {section !== "home" && (
+              <BackButton onClick={() => go("home")} label={section === "project" ? "All projects" : "Tools"} />
+            )}
 
-        {/* NEW PROJECT */}
-        {section === "new-project" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Start a Project</h2>
+            {/* ------------------------------------------ COUNTER */}
+            {section === "counter" && (
+              <>
+                <Heading sub="Tap the big button as you work. It saves automatically." />
+                <Counter rows={rows} setRows={setRows} repeats={repeats} setRepeats={setRepeats} />
+              </>
+            )}
 
-            <div style={{ ...glassStyle, maxWidth: 500, margin: "0 auto" }}>
-              {/* Craft toggle */}
-              <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-                {(["knitting", "crochet"] as const).map(c => (
-                  <button key={c} onClick={() => setCraft(c)} style={{
-                    flex: 1, padding: "10px", borderRadius: 6,
-                    border: `1px solid ${craft === c ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.1)"}`,
-                    background: craft === c ? "rgba(0, 255, 136, 0.08)" : "transparent",
-                    color: craft === c ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.4)",
-                    fontSize: 12, cursor: "pointer", transition: "all 0.2s",
-                  }}>
-                    {c === "knitting" ? "🧶 Knitting" : "🪝 Crochet"}
-                  </button>
-                ))}
-              </div>
+            {/* ------------------------------------------ PROJECTS */}
+            {section === "projects" && (
+              <>
+                <Heading sub="Everything you're currently making." />
 
-              {/* Project name */}
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Project Name</label>
-              <input value={projectName} onChange={e => setProjectName(e.target.value)} placeholder="My project" style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 16, boxSizing: "border-box",
-              }} />
-
-              {/* Project type */}
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>What are you making?</label>
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
-                {["Sweater", "Beanie", "Scarf", "Blanket", "Bag", "Cardigan", "Socks", "Top"].map(t => (
-                  <button key={t} onClick={() => setProjectType(t)} style={{
-                    padding: "6px 12px", borderRadius: 4,
-                    border: `1px solid ${projectType === t ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.08)"}`,
-                    background: projectType === t ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                    color: projectType === t ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.3)",
-                    fontSize: 10, cursor: "pointer", transition: "all 0.2s",
-                  }}>{t}</button>
-                ))}
-                <input value={projectType} onChange={e => setProjectType(e.target.value)} placeholder="Other..." style={{
-                  flex: 1, minWidth: 80, background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                  borderRadius: 4, padding: "6px 10px", color: "#e0f5e8", fontSize: 10, outline: "none",
-                }} />
-              </div>
-
-              {/* Size */}
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Size</label>
-              <input value={projectSize} onChange={e => setProjectSize(e.target.value)} placeholder="Medium / 40 inch / Custom" style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 16, boxSizing: "border-box",
-              }} />
-
-              {/* Yarn weight */}
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Yarn Weight</label>
-              <select value={yarnWeight} onChange={e => setYarnWeight(e.target.value)} style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 16,
-              }}>
-                <option value="">Select yarn weight</option>
-                {YARN_WEIGHTS.map(yw => (
-                  <option key={yw.id} value={yw.id} style={{ background: "#244232" }}>{yw.name} (Category {yw.category})</option>
-                ))}
-              </select>
-
-              {/* Needle/hook size */}
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>
-                {craft === "knitting" ? "Needle Size" : "Hook Size"}
-              </label>
-              <input value={needleHook} onChange={e => setNeedleHook(e.target.value)} placeholder="5mm / US 8" style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 16, boxSizing: "border-box",
-              }} />
-
-              {/* Difficulty */}
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Difficulty</label>
-              <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
-                {["beginner", "intermediate", "advanced"].map(d => (
-                  <button key={d} onClick={() => setDifficulty(d)} style={{
-                    flex: 1, padding: "8px", borderRadius: 4,
-                    border: `1px solid ${difficulty === d ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.08)"}`,
-                    background: difficulty === d ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                    color: difficulty === d ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.3)",
-                    fontSize: 10, cursor: "pointer", textTransform: "capitalize", transition: "all 0.2s",
-                  }}>{d}</button>
-                ))}
-              </div>
-
-              {/* Notes */}
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Notes</label>
-              <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Any notes about your project..." style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none",
-                resize: "vertical", minHeight: 80, marginBottom: 20, boxSizing: "border-box",
-              }} />
-
-              <button onClick={saveProject} disabled={!projectName} style={{
-                width: "100%", padding: "12px", borderRadius: 8,
-                background: projectName ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
-                border: `1px solid ${projectName ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                color: projectName ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.2)",
-                fontSize: 12, cursor: projectName ? "pointer" : "default", fontFamily: "monospace",
-                letterSpacing: "1px", textTransform: "uppercase", transition: "all 0.2s",
-              }}>
-                Save Project
-              </button>
-            </div>
-          </motion.div>
-        )}
-
-        {/* MY PROJECTS */}
-        {section === "my-projects" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>My Projects</h2>
-
-            {!userId ? (
-              <div style={{ ...glassStyle, textAlign: "center", maxWidth: 400, margin: "0 auto" }}>
-                <p style={{ fontSize: 13, color: "#90c8a0", margin: 0 }}>Sign in to save and view your projects.</p>
-              </div>
-            ) : projects.length === 0 ? (
-              <div style={{ ...glassStyle, textAlign: "center", maxWidth: 400, margin: "0 auto" }}>
-                <p style={{ fontSize: 13, color: "#90c8a0", margin: "0 0 16px" }}>No projects yet.</p>
-                <button onClick={() => setSection("new-project")} style={{
-                  padding: "8px 20px", borderRadius: 6,
-                  background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.3)",
-                  color: "var(--crochetworld-nebula)", fontSize: 11, cursor: "pointer", fontFamily: "monospace",
-                  letterSpacing: "1px", textTransform: "uppercase",
-                }}>Start a Project</button>
-              </div>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 600, margin: "0 auto" }}>
-                {projects.map(p => (
-                  <div key={p.id} onClick={() => loadProject(p)} style={{
-                    ...glassStyle, cursor: "pointer", transition: "all 0.2s",
-                  }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
-                      <div>
-                        <div style={{ fontSize: 14, color: "#e0f5e8", fontWeight: 500, marginBottom: 4 }}>{p.name}</div>
-                        <div style={{ fontSize: 11, color: "rgba(0, 255, 136, 0.5)" }}>
-                          {p.craft === "knitting" ? "🧶" : "🪝"} {p.project_type || "Project"} {p.size ? `· ${p.size}` : ""}
-                        </div>
-                      </div>
-                      <div style={{
-                        padding: "4px 8px", borderRadius: 4, fontSize: 9,
-                        background: p.status === "completed" ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)",
-                        border: `1px solid ${p.status === "completed" ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                        color: p.status === "completed" ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.4)",
-                        textTransform: "uppercase", letterSpacing: "1px", fontFamily: "monospace",
-                      }}>
-                        {p.status === "completed" ? "✓ Done" : `Row ${p.current_row}`}
-                      </div>
-                    </div>
-                    {p.yarn_weight && (
-                      <div style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.3)" }}>
-                        {p.yarn_weight} {p.needle_hook_size ? `· ${p.needle_hook_size}` : ""}
-                      </div>
-                    )}
+                {!userId ? (
+                  <div style={{ ...card, textAlign: "center" }}>
+                    <p style={{ fontSize: 14, color: muted, margin: "0 0 16px" }}>Sign in to save your projects.</p>
+                    <button onClick={() => go("new-project")} style={{ minHeight: 48, padding: "0 24px", borderRadius: 999, background: accent, color: "#04160c", fontWeight: 600, fontSize: 14, cursor: "pointer", border: "none" }}>
+                      Start a project
+                    </button>
                   </div>
-                ))}
-              </div>
+                ) : projects.length === 0 ? (
+                  <div style={{ ...card, textAlign: "center" }}>
+                    <div style={{ fontSize: 34, marginBottom: 10 }}>🧶</div>
+                    <p style={{ fontSize: 14, color: muted, margin: "0 0 18px" }}>Nothing on the hook yet.</p>
+                    <button onClick={() => go("new-project")} style={{ minHeight: 48, padding: "0 24px", borderRadius: 999, background: accent, color: "#04160c", fontWeight: 600, fontSize: 14, cursor: "pointer", border: "none" }}>
+                      Start your first project
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    {projects.map((p) => (
+                      <button
+                        key={p.id}
+                        onClick={() => openProject(p)}
+                        style={{ ...card, cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, minHeight: 76 }}
+                      >
+                        <div style={{ minWidth: 0 }}>
+                          <div style={{ fontSize: 16, color: text, fontWeight: 500, marginBottom: 4 }}>{p.name}</div>
+                          <div style={{ fontSize: 12, color: muted }}>
+                            {[p.project_type, p.size, p.yarn_weight].filter(Boolean).join(" · ") || "Crochet project"}
+                          </div>
+                        </div>
+                        <div style={{
+                          flexShrink: 0, padding: "6px 12px", borderRadius: 999, fontSize: 11,
+                          background: p.status === "completed" ? "rgba(0, 255, 136, 0.12)" : "rgba(0, 255, 136, 0.05)",
+                          border: "1px solid rgba(0, 255, 136, 0.2)", color: accent,
+                        }}>
+                          {p.status === "completed" ? "Done" : `Round ${p.current_row ?? 0}`}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* ------------------------------------- NEW PROJECT */}
+            {section === "new-project" && (
+              <>
+                <Heading sub="Tell us what you're making." />
+                <div style={{ ...card, maxWidth: 520, margin: "0 auto" }}>
+                  <div style={field}>
+                    <label style={label}>Project name</label>
+                    <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Amigurumi bunny" style={inputStyle} />
+                  </div>
+
+                  <div style={field}>
+                    <label style={label}>What are you making?</label>
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      {PROJECT_TYPES.map((t) => (
+                        <button
+                          key={t}
+                          onClick={() => setType(t)}
+                          style={{
+                            minHeight: 44, padding: "0 16px", borderRadius: 999,
+                            background: type === t ? "rgba(0, 255, 136, 0.12)" : "transparent",
+                            border: `1px solid ${type === t ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.12)"}`,
+                            color: type === t ? accent : dim, fontSize: 13, cursor: "pointer",
+                          }}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                    <input
+                      value={type}
+                      onChange={(e) => setType(e.target.value)}
+                      placeholder="Something else…"
+                      style={{ ...inputStyle, marginTop: 10 }}
+                    />
+                  </div>
+
+                  <div style={{ ...field, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                    <div>
+                      <label style={label}>Hook size</label>
+                      <input value={hook} onChange={(e) => setHook(e.target.value)} placeholder="5mm" style={inputStyle} />
+                    </div>
+                    <div>
+                      <label style={label}>Size</label>
+                      <input value={size} onChange={(e) => setSize(e.target.value)} placeholder="Medium" style={inputStyle} />
+                    </div>
+                  </div>
+
+                  <div style={field}>
+                    <label style={label}>Yarn weight</label>
+                    <select value={yarnWeight} onChange={(e) => setYarnWeight(e.target.value)} style={{ ...inputStyle, appearance: "none" }}>
+                      <option value="" style={{ background: "#244232" }}>Not sure yet</option>
+                      {YARN_WEIGHTS.map((w) => (
+                        <option key={w.id} value={w.id} style={{ background: "#244232" }}>{w.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div style={{ ...field, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                    <div>
+                      <label style={label}>Yarn</label>
+                      <input value={yarnType} onChange={(e) => setYarnType(e.target.value)} placeholder="Cotton" style={inputStyle} />
+                    </div>
+                    <div>
+                      <label style={label}>Colour</label>
+                      <input value={yarnColor} onChange={(e) => setYarnColor(e.target.value)} placeholder="Blush" style={inputStyle} />
+                    </div>
+                  </div>
+
+                  <div style={field}>
+                    <label style={label}>Difficulty</label>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      {DIFFICULTIES.map((d) => (
+                        <button
+                          key={d}
+                          onClick={() => setDifficulty(d)}
+                          style={{
+                            flex: 1, minHeight: 44, borderRadius: 12,
+                            background: difficulty === d ? "rgba(0, 255, 136, 0.12)" : "transparent",
+                            border: `1px solid ${difficulty === d ? "rgba(0, 255, 136, 0.4)" : "rgba(0, 255, 136, 0.12)"}`,
+                            color: difficulty === d ? accent : dim, fontSize: 13, textTransform: "capitalize", cursor: "pointer",
+                          }}
+                        >
+                          {d}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div style={field}>
+                    <label style={label}>Notes</label>
+                    <textarea
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      placeholder="Anything you want to remember…"
+                      style={{ ...inputStyle, minHeight: 90, resize: "vertical", fontFamily: "inherit" }}
+                    />
+                  </div>
+
+                  <button
+                    onClick={saveProject}
+                    disabled={!userId || !name.trim()}
+                    style={{
+                      width: "100%", minHeight: 54, borderRadius: 999, border: "none",
+                      background: !userId || !name.trim() ? "rgba(0, 255, 136, 0.15)" : accent,
+                      color: !userId || !name.trim() ? dim : "#04160c",
+                      fontSize: 16, fontWeight: 600, cursor: !userId || !name.trim() ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    {userId ? "Save project" : "Sign in to save"}
+                  </button>
+                </div>
+              </>
+            )}
+
+            {/* ------------------------------------- PROJECT DETAIL */}
+            {section === "project" && activeProject && (
+              <>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 24, flexWrap: "wrap" }}>
+                  <div>
+                    <h2 style={{ fontSize: 24, fontWeight: 500, color: text, margin: "0 0 4px" }}>{activeProject.name}</h2>
+                    <p style={{ fontSize: 13, color: muted, margin: 0 }}>
+                      {[activeProject.project_type, activeProject.size].filter(Boolean).join(" · ") || "Crochet project"}
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <button
+                      onClick={() => updateProject(activeProject.id, { status: activeProject.status === "completed" ? "in-progress" : "completed" })}
+                      style={{
+                        minHeight: 44, padding: "0 16px", borderRadius: 999,
+                        background: activeProject.status === "completed" ? "rgba(0, 255, 136, 0.12)" : "transparent",
+                        border: "1px solid rgba(0, 255, 136, 0.25)", color: accent, fontSize: 12, cursor: "pointer",
+                      }}
+                    >
+                      {activeProject.status === "completed" ? "✓ Finished" : "Mark finished"}
+                    </button>
+                    <button
+                      onClick={() => { if (confirm("Delete this project?")) removeProject(activeProject.id); }}
+                      style={{
+                        minHeight: 44, padding: "0 16px", borderRadius: 999,
+                        background: "rgba(255, 90, 90, 0.08)", border: "1px solid rgba(255, 90, 90, 0.22)",
+                        color: "rgba(255, 140, 140, 0.8)", fontSize: 12, cursor: "pointer",
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+
+                <div style={{ marginBottom: 20 }}>
+                  <Counter rows={rows} setRows={setRows} repeats={repeats} setRepeats={setRepeats} compact />
+                </div>
+
+                <div style={{ ...card, marginBottom: 20 }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: 18 }}>
+                    {[
+                      { k: "Hook", v: activeProject.needle_hook_size },
+                      { k: "Yarn", v: activeProject.yarn_weight },
+                      { k: "Colour", v: activeProject.yarn_color },
+                      { k: "Size", v: activeProject.size },
+                      { k: "Level", v: activeProject.difficulty },
+                    ]
+                      .filter((x) => x.v)
+                      .map((x) => (
+                        <div key={x.k}>
+                          <div style={{ fontSize: 10, letterSpacing: "1.5px", textTransform: "uppercase", color: dim, marginBottom: 4 }}>{x.k}</div>
+                          <div style={{ fontSize: 15, color: text, textTransform: x.k === "Level" ? "capitalize" : "none" }}>{x.v}</div>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+
+                <div style={card}>
+                  <label style={label}>Notes</label>
+                  <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    onBlur={() => updateProject(activeProject.id, { notes })}
+                    placeholder="Add notes…"
+                    style={{ ...inputStyle, minHeight: 90, resize: "vertical", fontFamily: "inherit" }}
+                  />
+                </div>
+              </>
+            )}
+
+            {/* ------------------------------------- STITCHES */}
+            {section === "stitches" && (
+              <>
+                <Heading sub={`${CROCHET_ONLY_STITCHES.length} crochet stitches, with the steps for each.`} />
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 }}>
+                  {CROCHET_ONLY_STITCHES.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => { setSelectedStitch(s); setSection("stitch"); }}
+                      style={{ ...card, cursor: "pointer", textAlign: "left", minHeight: 104 }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                        <span style={{ fontSize: 16, color: text, fontWeight: 500 }}>{s.name}</span>
+                        <span style={{
+                          padding: "4px 10px", borderRadius: 999, fontSize: 11, flexShrink: 0,
+                          background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.15)", color: accent,
+                        }}>
+                          {s.abbreviation}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 11, color: dim, textTransform: "capitalize", marginBottom: 6 }}>{s.difficulty}</div>
+                      <p style={{ fontSize: 12, color: muted, margin: 0, lineHeight: 1.55 }}>{s.explanation}</p>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* ------------------------------------- STITCH DETAIL */}
+            {section === "stitch" && selectedStitch && (
+              <>
+                <BackButton onClick={() => go("stitches")} label="Stitch library" />
+                <div style={{ ...card, maxWidth: 620, margin: "0 auto" }}>
+                  <h2 style={{ fontSize: 24, fontWeight: 500, color: text, margin: "0 0 12px" }}>{selectedStitch.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
+                    <span style={{ padding: "5px 12px", borderRadius: 999, fontSize: 12, background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.15)", color: accent }}>{selectedStitch.abbreviation}</span>
+                    <span style={{ padding: "5px 12px", borderRadius: 999, fontSize: 12, background: "transparent", border: "1px solid rgba(0, 255, 136, 0.12)", color: dim, textTransform: "capitalize" }}>{selectedStitch.difficulty}</span>
+                  </div>
+
+                  <p style={{ fontSize: 15, color: muted, lineHeight: 1.75, margin: "0 0 28px" }}>{selectedStitch.explanation}</p>
+
+                  <div style={{ marginBottom: 24 }}>
+                    <div style={{ ...label, marginBottom: 12 }}>Steps</div>
+                    {selectedStitch.steps.map((step, i) => (
+                      <div key={i} style={{ display: "flex", gap: 14, marginBottom: 14 }}>
+                        <span style={{
+                          flexShrink: 0, width: 26, height: 26, borderRadius: "50%",
+                          background: "rgba(0, 255, 136, 0.12)", border: "1px solid rgba(0, 255, 136, 0.2)",
+                          color: accent, fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center",
+                        }}>{i + 1}</span>
+                        <span style={{ fontSize: 15, color: text, lineHeight: 1.6 }}>{step}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {selectedStitch.tips && selectedStitch.tips.length > 0 && (
+                    <div style={{ padding: 18, borderRadius: 14, background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.12)" }}>
+                      <div style={{ ...label, marginBottom: 10 }}>Tips</div>
+                      {selectedStitch.tips.map((tip, i) => (
+                        <p key={i} style={{ fontSize: 14, color: muted, margin: "0 0 8px", lineHeight: 1.6 }}>· {tip}</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+
+            {/* ------------------------------------- ABBREVIATIONS */}
+            {section === "abbreviations" && (
+              <>
+                <Heading sub="Crochet terms, translated." />
+                <div style={{ maxWidth: 520, margin: "0 auto 24px" }}>
+                  <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search… (dc, hdc, mr)"
+                    style={inputStyle}
+                  />
+                </div>
+                <div style={{ maxWidth: 520, margin: "0 auto", display: "flex", flexDirection: "column", gap: 10 }}>
+                  {abbrResults.length === 0 ? (
+                    <p style={{ textAlign: "center", color: muted, fontSize: 14 }}>Nothing found.</p>
+                  ) : (
+                    abbrResults.map((a) => (
+                      <div key={a.term} style={card}>
+                        <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 6, flexWrap: "wrap" }}>
+                          <span style={{ fontSize: 18, fontWeight: 600, color: accent, fontFamily: "monospace" }}>{a.term}</span>
+                          <span style={{ fontSize: 15, color: text }}>{a.fullName}</span>
+                        </div>
+                        <p style={{ fontSize: 13, color: muted, margin: 0, lineHeight: 1.6 }}>{a.explanation}</p>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </>
+            )}
+
+            {/* ------------------------------------- YARN CALCULATOR */}
+            {section === "yarn-calculator" && (
+              <>
+                <Heading sub="A rough guess is better than running out halfway." />
+                <div style={{ ...card, maxWidth: 480, margin: "0 auto" }}>
+                  <div style={field}>
+                    <label style={label}>Making</label>
+                    <select value={calcType} onChange={(e) => setCalcType(e.target.value)} style={{ ...inputStyle, appearance: "none" }}>
+                      {["scarf", "beanie", "sweater", "blanket", "socks", "hat", "bag", "cardigan"].map((t) => (
+                        <option key={t} value={t} style={{ background: "#244232" }}>
+                          {t.charAt(0).toUpperCase() + t.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div style={{ ...field, marginBottom: 24 }}>
+                    <label style={label}>Yarn weight</label>
+                    <select value={calcWeight} onChange={(e) => setCalcWeight(e.target.value)} style={{ ...inputStyle, appearance: "none" }}>
+                      {YARN_WEIGHTS.map((w) => (
+                        <option key={w.id} value={w.id} style={{ background: "#244232" }}>{w.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div style={{ textAlign: "center", padding: 24, borderRadius: 16, background: "rgba(0, 255, 136, 0.05)", border: "1px solid rgba(0, 255, 136, 0.12)" }}>
+                    <div style={{ fontSize: 11, letterSpacing: "2px", textTransform: "uppercase", color: dim, marginBottom: 10 }}>
+                      You&apos;ll need about
+                    </div>
+                    <div style={{ fontSize: 40, fontWeight: 300, color: text, lineHeight: 1 }}>{yarnNeeded}</div>
+                    <div style={{ fontSize: 14, color: accent, marginTop: 6 }}>metres</div>
+                    <div style={{ fontSize: 12, color: dim, marginTop: 4 }}>
+                      ≈ {Math.round(yarnNeeded * 1.094)} yards
+                    </div>
+                  </div>
+                  <p style={{ fontSize: 11, color: dim, textAlign: "center", marginTop: 16, lineHeight: 1.6 }}>
+                    An estimate only — your tension and stitch choice will change this.
+                  </p>
+                </div>
+              </>
+            )}
+
+            {/* ------------------------------------- GAUGE */}
+            {section === "gauge" && (
+              <>
+                <Heading sub="Swatch it, then we'll tell you which hook to use." />
+                <div style={{ ...card, maxWidth: 480, margin: "0 auto" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 20 }}>
+                    <div>
+                      <label style={label}>Stitches in swatch</label>
+                      <input value={swatchStitches} onChange={(e) => setSwatchStitches(e.target.value)} type="number" placeholder="20" style={inputStyle} />
+                    </div>
+                    <div>
+                      <label style={label}>Width (inches)</label>
+                      <input value={swatchInches} onChange={(e) => setSwatchInches(e.target.value)} type="number" placeholder="4" style={inputStyle} />
+                    </div>
+                  </div>
+
+                  <div style={{ ...field, marginBottom: 24 }}>
+                    <label style={label}>Pattern wants (per inch)</label>
+                    <input value={targetSpi} onChange={(e) => setTargetSpi(e.target.value)} type="number" placeholder="5" style={inputStyle} />
+                  </div>
+
+                  {gauge ? (
+                    <div style={{ padding: 20, borderRadius: 16, background: "rgba(0, 255, 136, 0.05)", border: "1px solid rgba(0, 255, 136, 0.12)" }}>
+                      <div style={{ fontSize: 16, color: text, marginBottom: 8 }}>{gauge.head}</div>
+                      <div style={{ fontSize: 14, color: accent }}>{gauge.tip}</div>
+                    </div>
+                  ) : (
+                    <p style={{ fontSize: 13, color: muted, textAlign: "center", margin: 0, lineHeight: 1.6 }}>
+                      Fill in all three and your hook size will appear here.
+                    </p>
+                  )}
+                </div>
+              </>
+            )}
+
+            {/* ------------------------------------- LEARN */}
+            {section === "learn" && (
+              <>
+                <Heading sub="The order to learn them in." />
+                <div style={{ ...card, maxWidth: 480, margin: "0 auto" }}>
+                  {LESSONS.map((l, i) => (
+                    <div key={l} style={{ display: "flex", gap: 16, alignItems: "center", padding: "14px 0", borderBottom: i < LESSONS.length - 1 ? "1px solid rgba(0, 255, 136, 0.07)" : "none" }}>
+                      <span style={{
+                        flexShrink: 0, width: 30, height: 30, borderRadius: "50%",
+                        background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.18)",
+                        color: accent, fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center",
+                      }}>{i + 1}</span>
+                      <span style={{ fontSize: 15, color: text }}>{l}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ ...card, maxWidth: 480, margin: "20px auto 0" }}>
+                  <div style={{ ...label, marginBottom: 14 }}>Yarn fibres</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 10 }}>
+                    {YARN_FIBERS.map((f) => (
+                      <div key={f.id} style={{ padding: 14, borderRadius: 12, background: "rgba(0, 255, 136, 0.03)", border: "1px solid rgba(0, 255, 136, 0.08)" }}>
+                        <div style={{ fontSize: 14, color: text, fontWeight: 500, marginBottom: 4 }}>{f.name}</div>
+                        <div style={{ fontSize: 11, color: muted, lineHeight: 1.5 }}>{f.properties[0]}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ ...card, maxWidth: 480, margin: "20px auto 0" }}>
+                  <div style={{ ...label, marginBottom: 14 }}>UK / US terms</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 16px", fontSize: 13 }}>
+                    {CROCHET_TERMS_UK_US.map((t, i) => (
+                      <React.Fragment key={i}>
+                        <span style={{ color: muted }}>{t.uk}</span>
+                        <span style={{ color: text }}>{t.us}</span>
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              </>
             )}
           </motion.div>
-        )}
-
-        {/* PROJECT DETAIL */}
-        {section === "project-detail" && activeProject && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
-              <div>
-                <h2 style={{ fontSize: 20, fontWeight: 500, color: "#e0f5e8", marginBottom: 4 }}>{activeProject.name}</h2>
-                <div style={{ fontSize: 12, color: "rgba(0, 255, 136, 0.5)" }}>
-                  {activeProject.craft === "knitting" ? "🧶 Knitting" : "🪝 Crochet"} {activeProject.project_type ? `· ${activeProject.project_type}` : ""}
-                </div>
-              </div>
-              <div style={{ display: "flex", gap: 8 }}>
-                <button onClick={() => updateProject(activeProject.id, { status: activeProject.status === "completed" ? "in-progress" : "completed" })} style={{
-                  padding: "6px 12px", borderRadius: 4, fontSize: 10,
-                  background: activeProject.status === "completed" ? "rgba(0, 255, 136, 0.1)" : "rgba(0, 255, 136, 0.04)",
-                  border: `1px solid ${activeProject.status === "completed" ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.1)"}`,
-                  color: activeProject.status === "completed" ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.5)",
-                  cursor: "pointer", fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
-                }}>
-                  {activeProject.status === "completed" ? "✓ Complete" : "Mark Complete"}
-                </button>
-                <button onClick={() => { if (confirm("Delete this project?")) deleteProject(activeProject.id); }} style={{
-                  padding: "6px 12px", borderRadius: 4, fontSize: 10,
-                  background: "rgba(255, 80, 80, 0.08)", border: "1px solid rgba(255, 80, 80, 0.2)",
-                  color: "rgba(255, 120, 120, 0.7)", cursor: "pointer", fontFamily: "monospace",
-                }}>Delete</button>
-              </div>
-            </div>
-
-            {/* Row Counter inline */}
-            <div style={{ ...glassStyle, textAlign: "center", marginBottom: 20 }}>
-              <div style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.5)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 12 }}>Current Row</div>
-              <div style={{ fontSize: 48, fontWeight: 100, color: "#e0f5e8", marginBottom: 16 }}>{rowCount}</div>
-              <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
-                <button onClick={() => setRowCount(Math.max(0, rowCount - 1))} style={{
-                  width: 56, height: 56, borderRadius: "50%",
-                  background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                  color: "rgba(0, 255, 136, 0.6)", fontSize: 20, cursor: "pointer",
-                }}>−</button>
-                <button onClick={() => setRowCount(rowCount + 1)} style={{
-                  width: 72, height: 72, borderRadius: "50%",
-                  background: "rgba(0, 255, 136, 0.08)", border: "2px solid rgba(0, 255, 136, 0.3)",
-                  color: "var(--crochetworld-nebula)", fontSize: 24, cursor: "pointer",
-                }}>+</button>
-                <button onClick={() => setRepeatCount(repeatCount + 1)} style={{
-                  width: 56, height: 56, borderRadius: "50%",
-                  background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                  color: "rgba(0, 255, 136, 0.6)", fontSize: 12, cursor: "pointer",
-                  fontFamily: "monospace",
-                }}>R{repeatCount + 1}</button>
-              </div>
-            </div>
-
-            {/* Project info */}
-            <div style={{ ...glassStyle, marginBottom: 20 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                {activeProject.size && <div><div style={{ fontSize: 9, color: "rgba(0, 255, 136, 0.4)", textTransform: "uppercase", letterSpacing: "1px" }}>Size</div><div style={{ fontSize: 13, color: "#cce8d8" }}>{activeProject.size}</div></div>}
-                {activeProject.yarn_weight && <div><div style={{ fontSize: 9, color: "rgba(0, 255, 136, 0.4)", textTransform: "uppercase", letterSpacing: "1px" }}>Yarn</div><div style={{ fontSize: 13, color: "#cce8d8" }}>{activeProject.yarn_weight}</div></div>}
-                {activeProject.needle_hook_size && <div><div style={{ fontSize: 9, color: "rgba(0, 255, 136, 0.4)", textTransform: "uppercase", letterSpacing: "1px" }}>{activeProject.craft === "knitting" ? "Needles" : "Hook"}</div><div style={{ fontSize: 13, color: "#cce8d8" }}>{activeProject.needle_hook_size}</div></div>}
-                {activeProject.difficulty && <div><div style={{ fontSize: 9, color: "rgba(0, 255, 136, 0.4)", textTransform: "uppercase", letterSpacing: "1px" }}>Difficulty</div><div style={{ fontSize: 13, color: "#cce8d8", textTransform: "capitalize" }}>{activeProject.difficulty}</div></div>}
-              </div>
-            </div>
-
-            {/* Notes */}
-            <div style={{ ...glassStyle }}>
-              <div style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.5)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 }}>Notes</div>
-              <textarea value={notes} onChange={e => setNotes(e.target.value)} onBlur={() => updateProject(activeProject.id, { notes })} placeholder="Add notes..." style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 12, outline: "none",
-                resize: "vertical", minHeight: 80, boxSizing: "border-box",
-              }} />
-            </div>
-          </motion.div>
-        )}
-
-        {/* ROW COUNTER (standalone) */}
-        {section === "row-counter" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Row Counter</h2>
-
-            <div style={{ ...glassStyle, textAlign: "center", maxWidth: 400, margin: "0 auto" }}>
-              <div style={{ fontSize: 72, fontWeight: 100, color: "#e0f5e8", marginBottom: 24 }}>{rowCount}</div>
-              <div style={{ display: "flex", justifyContent: "center", gap: 16, marginBottom: 24 }}>
-                <button onClick={() => setRowCount(Math.max(0, rowCount - 1))} style={{
-                  width: 64, height: 64, borderRadius: "50%",
-                  background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                  color: "rgba(0, 255, 136, 0.6)", fontSize: 24, cursor: "pointer",
-                }}>−</button>
-                <button onClick={() => setRowCount(rowCount + 1)} style={{
-                  width: 80, height: 80, borderRadius: "50%",
-                  background: "rgba(0, 255, 136, 0.08)", border: "2px solid rgba(0, 255, 136, 0.3)",
-                  color: "var(--crochetworld-nebula)", fontSize: 28, cursor: "pointer",
-                }}>+</button>
-              </div>
-              <button onClick={() => setRowCount(0)} style={{
-                padding: "8px 20px", borderRadius: 6,
-                background: "transparent", border: "1px solid rgba(0, 255, 136, 0.15)",
-                color: "rgba(0, 255, 136, 0.4)", fontSize: 10, cursor: "pointer",
-                fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
-              }}>Reset</button>
-            </div>
-          </motion.div>
-        )}
-
-        {/* STITCH LIBRARY */}
-        {section === "stitch-library" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Stitch Library</h2>
-
-            <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 24 }}>
-              {(["all", "knitting", "crochet"] as const).map(c => (
-                <button key={c} onClick={() => setStitchCraft(c)} style={{
-                  padding: "6px 14px", borderRadius: 4,
-                  border: `1px solid ${stitchCraft === c ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                  background: stitchCraft === c ? "rgba(0, 255, 136, 0.06)" : "transparent",
-                  color: stitchCraft === c ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.3)",
-                  fontSize: 10, cursor: "pointer", fontFamily: "monospace",
-                  letterSpacing: "1px", textTransform: "uppercase", transition: "all 0.2s",
-                }}>{c === "all" ? "All" : c === "knitting" ? "🧶 Knitting" : "🪝 Crochet"}</button>
-              ))}
-            </div>
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: 12 }}>
-              {filteredStitches.map(stitch => (
-                <div key={stitch.id} onClick={() => setSelectedStitch(stitch)} style={{ ...glassStyle, cursor: "pointer", padding: "16px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                    <div style={{ fontSize: 13, color: "#e0f5e8", fontWeight: 500 }}>{stitch.name}</div>
-                    <span style={{
-                      padding: "2px 8px", borderRadius: 3, fontSize: 9,
-                      background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.1)",
-                      color: "rgba(0, 255, 136, 0.5)", fontFamily: "monospace",
-                    }}>{stitch.abbreviation}</span>
-                  </div>
-                  <div style={{ fontSize: 11, color: "rgba(0, 255, 136, 0.4)", marginBottom: 4 }}>
-                    {stitch.craft === "knitting" ? "🧶" : "🪝"} {stitch.difficulty}
-                  </div>
-                  <p style={{ fontSize: 11, color: "#90c8a0", margin: 0, lineHeight: 1.5 }}>{stitch.explanation}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* STITCH DETAIL */}
-        {section === "stitch-detail" && selectedStitch && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div style={{ ...glassStyle, maxWidth: 600, margin: "0 auto" }}>
-              <h3 style={{ fontSize: 18, color: "#e0f5e8", fontWeight: 500, marginBottom: 4 }}>{selectedStitch.name}</h3>
-              <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-                <span style={{ padding: "3px 10px", borderRadius: 4, fontSize: 10, background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.1)", color: "rgba(0, 255, 136, 0.6)", fontFamily: "monospace" }}>{selectedStitch.abbreviation}</span>
-                <span style={{ padding: "3px 10px", borderRadius: 4, fontSize: 10, background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.1)", color: "rgba(0, 255, 136, 0.4)" }}>{selectedStitch.craft}</span>
-                <span style={{ padding: "3px 10px", borderRadius: 4, fontSize: 10, background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.1)", color: "rgba(0, 255, 136, 0.4)", textTransform: "capitalize" }}>{selectedStitch.difficulty}</span>
-              </div>
-              <p style={{ fontSize: 13, color: "#cce8d8", lineHeight: 1.7, marginBottom: 20 }}>{selectedStitch.explanation}</p>
-              <div style={{ marginBottom: 16 }}>
-                <div style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 8 }}>Steps</div>
-                <ol style={{ margin: 0, paddingLeft: 20 }}>
-                  {selectedStitch.steps.map((step, i) => (
-                    <li key={i} style={{ fontSize: 12, color: "#cce8d8", marginBottom: 6, lineHeight: 1.6 }}>{step}</li>
-                  ))}
-                </ol>
-              </div>
-              {selectedStitch.tips && (
-                <div>
-                  <div style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 8 }}>Tips</div>
-                  {selectedStitch.tips.map((tip, i) => (
-                    <p key={i} style={{ fontSize: 12, color: "#90c8a0", margin: "0 0 6px", lineHeight: 1.5 }}>• {tip}</p>
-                  ))}
-                </div>
-              )}
-              <button onClick={() => { setSelectedStitch(null); setSection("stitch-library"); }} style={{
-                marginTop: 20, padding: "8px 20px", borderRadius: 6,
-                background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                color: "rgba(0, 255, 136, 0.5)", fontSize: 10, cursor: "pointer",
-                fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
-              }}>← Back to Library</button>
-            </div>
-          </motion.div>
-        )}
-
-        {/* ABBREVIATIONS */}
-        {section === "abbreviations" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Abbreviation Translator</h2>
-
-            <div style={{ maxWidth: 500, margin: "0 auto 24px" }}>
-              <input value={abbrevSearch} onChange={e => setAbbrevSearch(e.target.value)} placeholder="Search abbreviations... (k2tog, dc, yo)" style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 16px", color: "#e0f5e8", fontSize: 13, outline: "none", boxSizing: "border-box",
-              }} />
-            </div>
-
-            <div style={{ maxWidth: 600, margin: "0 auto" }}>
-              {filteredAbbreviations.map(abbr => (
-                <div key={abbr.term} style={{ ...glassStyle, marginBottom: 8, padding: "16px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                    <span style={{ fontSize: 14, fontWeight: 600, color: "#e0f5e8", fontFamily: "monospace" }}>{abbr.term}</span>
-                    <span style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.4)" }}>{abbr.craft}</span>
-                  </div>
-                  <div style={{ fontSize: 12, color: "var(--crochetworld-nebula)", marginBottom: 4 }}>{abbr.fullName}</div>
-                  <div style={{ fontSize: 11, color: "#90c8a0" }}>{abbr.explanation}</div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* YARN CALCULATOR */}
-        {section === "yarn-calculator" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Yarn Calculator</h2>
-
-            <div style={{ ...glassStyle, maxWidth: 500, margin: "0 auto" }}>
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Project Type</label>
-              <select value={yarnCalcProject} onChange={e => setYarnCalcProject(e.target.value)} style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 16,
-              }}>
-                {["scarf", "beanie", "sweater", "blanket", "socks", "hat", "bag", "cardigan"].map(p => (
-                  <option key={p} value={p} style={{ background: "#244232" }}>{p.charAt(0).toUpperCase() + p.slice(1)}</option>
-                ))}
-              </select>
-
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Yarn Weight</label>
-              <select value={yarnCalcWeight} onChange={e => setYarnCalcWeight(e.target.value)} style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 24,
-              }}>
-                {YARN_WEIGHTS.map(yw => (
-                  <option key={yw.id} value={yw.id} style={{ background: "#244232" }}>{yw.name}</option>
-                ))}
-              </select>
-
-              {yarnEstimate > 0 && (
-                <div style={{ textAlign: "center", padding: "16px", borderRadius: 8, background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.1)" }}>
-                  <div style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.5)", letterSpacing: "2px", textTransform: "uppercase", marginBottom: 8 }}>Estimated Yarn</div>
-                  <div style={{ fontSize: 24, fontWeight: 300, color: "#e0f5e8", marginBottom: 4 }}>{yarnEstimate} metres</div>
-                  <div style={{ fontSize: 11, color: "rgba(0, 255, 136, 0.4)" }}>≈ {Math.round(yarnEstimate * 1.094)} yards</div>
-                  <div style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.3)", marginTop: 8 }}>This is an estimate — actual usage may vary.</div>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-
-        {/* GAUGE CALCULATOR */}
-        {section === "gauge-calculator" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Gauge Calculator</h2>
-
-            <div style={{ ...glassStyle, maxWidth: 500, margin: "0 auto" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
-                <div>
-                  <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Stitches</label>
-                  <input value={gaugeStitches} onChange={e => setGaugeStitches(e.target.value)} type="number" placeholder="20" style={{
-                    width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                    borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", boxSizing: "border-box",
-                  }} />
-                </div>
-                <div>
-                  <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Width (inches)</label>
-                  <input value={gaugeWidth} onChange={e => setGaugeWidth(e.target.value)} type="number" placeholder="4" style={{
-                    width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                    borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", boxSizing: "border-box",
-                  }} />
-                </div>
-              </div>
-
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Target Stitches per Inch</label>
-              <input value={targetStitches} onChange={e => setTargetStitches(e.target.value)} type="number" placeholder="5" style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 24, boxSizing: "border-box",
-              }} />
-
-              {gaugeResult && (
-                <div style={{ padding: "16px", borderRadius: 8, background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.1)" }}>
-                  <div style={{ fontSize: 13, color: "#e0f5e8", marginBottom: 4 }}>{gaugeResult.message}</div>
-                  <div style={{ fontSize: 12, color: "var(--crochetworld-nebula)" }}>{gaugeResult.action}</div>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-
-        {/* PATTERN HELPER */}
-        {section === "pattern-helper" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Pattern Helper</h2>
-
-            <div style={{ ...glassStyle, maxWidth: 600, margin: "0 auto" }}>
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Paste your pattern</label>
-              <textarea value={patternInput} onChange={e => setPatternInput(e.target.value)} placeholder="Paste your knitting or crochet pattern here..." style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "12px 16px", color: "#e0f5e8", fontSize: 13, outline: "none",
-                resize: "vertical", minHeight: 150, marginBottom: 16, boxSizing: "border-box", fontFamily: "inherit",
-              }} />
-
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>What do you need help with?</label>
-              <input value={patternQuestion} onChange={e => setPatternQuestion(e.target.value)} placeholder="e.g. What does k2tog mean? Where do I increase?" style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "10px 14px", color: "#e0f5e8", fontSize: 13, outline: "none", marginBottom: 20, boxSizing: "border-box",
-              }} />
-
-              <button onClick={() => {
-                if (patternInput) {
-                  window.open(`/elyra?context=${encodeURIComponent(`I need help with this ${craft} pattern:\n\n${patternInput}\n\nQuestion: ${patternQuestion || "Explain this pattern simply."}`)}`, "_blank");
-                }
-              }} disabled={!patternInput} style={{
-                width: "100%", padding: "12px", borderRadius: 8,
-                background: patternInput ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
-                border: `1px solid ${patternInput ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                color: patternInput ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.2)",
-                fontSize: 12, cursor: patternInput ? "pointer" : "default", fontFamily: "monospace",
-                letterSpacing: "1px", textTransform: "uppercase",
-              }}>
-                Ask Luna
-              </button>
-            </div>
-          </motion.div>
-        )}
-
-        {/* FIX PROJECT */}
-        {section === "fix-project" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Fix My Project</h2>
-
-            <div style={{ ...glassStyle, maxWidth: 600, margin: "0 auto" }}>
-              <label style={{ fontSize: 10, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", display: "block", marginBottom: 6 }}>Describe your problem</label>
-              <textarea value={fixDescription} onChange={e => setFixDescription(e.target.value)} placeholder="e.g. My edges are curling, I have holes appearing, my stitch count is wrong..." style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "12px 16px", color: "#e0f5e8", fontSize: 13, outline: "none",
-                resize: "vertical", minHeight: 120, marginBottom: 16, boxSizing: "border-box",
-              }} />
-
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
-                {["Edges curling", "Holes appearing", "Uneven tension", "Dropped stitch", "Wrong count", "Too wide", "Too narrow"].map(problem => (
-                  <button key={problem} onClick={() => setFixDescription(problem)} style={{
-                    padding: "6px 10px", borderRadius: 4, fontSize: 10,
-                    background: fixDescription === problem ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
-                    border: `1px solid ${fixDescription === problem ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                    color: fixDescription === problem ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.3)",
-                    cursor: "pointer", transition: "all 0.2s",
-                  }}>{problem}</button>
-                ))}
-              </div>
-
-              <button onClick={() => {
-                if (fixDescription) {
-                  window.open(`/elyra?context=${encodeURIComponent(`I'm having a problem with my ${craft} project.\n\nProblem: ${fixDescription}\n\nPlease help me understand what went wrong and how to fix it.`)}`, "_blank");
-                }
-              }} disabled={!fixDescription} style={{
-                width: "100%", padding: "12px", borderRadius: 8,
-                background: fixDescription ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
-                border: `1px solid ${fixDescription ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                color: fixDescription ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.2)",
-                fontSize: 12, cursor: fixDescription ? "pointer" : "default", fontFamily: "monospace",
-                letterSpacing: "1px", textTransform: "uppercase",
-              }}>
-                Ask Luna
-              </button>
-            </div>
-          </motion.div>
-        )}
-
-        {/* PATTERN CREATOR */}
-        {section === "pattern-creator" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Pattern Creator</h2>
-
-            <div style={{ ...glassStyle, maxWidth: 600, margin: "0 auto" }}>
-              <p style={{ fontSize: 12, color: "#90c8a0", marginBottom: 16, lineHeight: 1.6 }}>
-                Describe what you want to make and Luna will help generate a starting pattern.
-              </p>
-
-              <textarea value={patternInput} onChange={e => setPatternInput(e.target.value)} placeholder="e.g. Create a medium oversized knitted sweater with loose sleeves using worsted yarn..." style={{
-                width: "100%", background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                borderRadius: 8, padding: "12px 16px", color: "#e0f5e8", fontSize: 13, outline: "none",
-                resize: "vertical", minHeight: 120, marginBottom: 20, boxSizing: "border-box",
-              }} />
-
-              <button onClick={() => {
-                if (patternInput) {
-                  window.open(`/elyra?context=${encodeURIComponent(`Create a ${craft} pattern based on this description:\n\n${patternInput}\n\nPlease provide a complete pattern with materials, gauge, abbreviations, and step-by-step instructions. Include yarn amount estimates where possible. Remind me that gauge should be checked before starting.`)}`, "_blank");
-                }
-              }} disabled={!patternInput} style={{
-                width: "100%", padding: "12px", borderRadius: 8,
-                background: patternInput ? "rgba(0, 255, 136, 0.08)" : "rgba(0, 255, 136, 0.02)",
-                border: `1px solid ${patternInput ? "rgba(0, 255, 136, 0.3)" : "rgba(0, 255, 136, 0.08)"}`,
-                color: patternInput ? "var(--crochetworld-nebula)" : "rgba(0, 255, 136, 0.2)",
-                fontSize: 12, cursor: patternInput ? "pointer" : "default", fontFamily: "monospace",
-                letterSpacing: "1px", textTransform: "uppercase",
-              }}>
-                Create Pattern with Luna
-              </button>
-            </div>
-          </motion.div>
-        )}
-
-        {/* LEARN */}
-        {section === "learn" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Learn</h2>
-
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, maxWidth: 700, margin: "0 auto" }}>
-              {/* Learn Knitting */}
-              <div style={{ ...glassStyle }}>
-                <h3 style={{ fontSize: 14, color: "#e0f5e8", fontWeight: 500, marginBottom: 16 }}>🧶 Learn Knitting</h3>
-                {["Yarn and needles", "How to hold the needles", "Casting on", "Knit stitch", "Purl stitch", "Basic patterns", "Increasing/decreasing", "Finishing"].map((lesson, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: "1px solid rgba(0, 255, 136, 0.04)" }}>
-                    <span style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.3)", fontFamily: "monospace", width: 20 }}>{i + 1}.</span>
-                    <span style={{ fontSize: 12, color: "#cce8d8" }}>{lesson}</span>
-                  </div>
-                ))}
-                <button onClick={() => setCraft("knitting")} style={{
-                  marginTop: 16, width: "100%", padding: "10px", borderRadius: 6,
-                  background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                  color: "rgba(0, 255, 136, 0.5)", fontSize: 11, cursor: "pointer",
-                  fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
-                }}>Start Learning</button>
-              </div>
-
-              {/* Learn Crochet */}
-              <div style={{ ...glassStyle }}>
-                <h3 style={{ fontSize: 14, color: "#e0f5e8", fontWeight: 500, marginBottom: 16 }}>🪝 Learn Crochet</h3>
-                {["Yarn and hooks", "Slip knot", "Chain stitch", "Basic stitches", "Turning rows", "Working in the round", "Increasing/decreasing", "Finishing"].map((lesson, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: "1px solid rgba(0, 255, 136, 0.04)" }}>
-                    <span style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.3)", fontFamily: "monospace", width: 20 }}>{i + 1}.</span>
-                    <span style={{ fontSize: 12, color: "#cce8d8" }}>{lesson}</span>
-                  </div>
-                ))}
-                <button onClick={() => setCraft("crochet")} style={{
-                  marginTop: 16, width: "100%", padding: "10px", borderRadius: 6,
-                  background: "rgba(0, 255, 136, 0.04)", border: "1px solid rgba(0, 255, 136, 0.15)",
-                  color: "rgba(0, 255, 136, 0.5)", fontSize: 11, cursor: "pointer",
-                  fontFamily: "monospace", letterSpacing: "1px", textTransform: "uppercase",
-                }}>Start Learning</button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* QUICK PROJECTS */}
-        {section === "quick-projects" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 style={{ ...sectionTitle, textAlign: "center", fontSize: 18 }}>Quick Projects</h2>
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12, maxWidth: 700, margin: "0 auto" }}>
-              {QUICK_PROJECTS.filter(p => p.craft === craft).map(project => (
-                <div key={project.id} style={{ ...glassStyle, padding: "16px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                    <div style={{ fontSize: 13, color: "#e0f5e8", fontWeight: 500 }}>{project.name}</div>
-                    <span style={{
-                      padding: "2px 8px", borderRadius: 3, fontSize: 9,
-                      background: "rgba(0, 255, 136, 0.06)", border: "1px solid rgba(0, 255, 136, 0.1)",
-                      color: "rgba(0, 255, 136, 0.4)", textTransform: "capitalize",
-                    }}>{project.difficulty}</span>
-                  </div>
-                  <p style={{ fontSize: 11, color: "#90c8a0", margin: "0 0 12px", lineHeight: 1.5 }}>{project.description}</p>
-                  <div style={{ fontSize: 10, color: "rgba(0, 255, 136, 0.4)", marginBottom: 8 }}>
-                    Materials: {project.materials.slice(0, 3).join(", ")}
-                  </div>
-                  <details style={{ fontSize: 11, color: "#cce8d8" }}>
-                    <summary style={{ cursor: "pointer", color: "rgba(0, 255, 136, 0.5)", marginBottom: 8 }}>View Steps</summary>
-                    <ol style={{ margin: 0, paddingLeft: 20 }}>
-                      {project.steps.map((step, i) => (
-                        <li key={i} style={{ marginBottom: 4, lineHeight: 1.5 }}>{step}</li>
-                      ))}
-                    </ol>
-                  </details>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* YARN INFO (accessible from home) */}
-        {section === "home" && (
-          <div style={{ ...glassStyle, marginTop: 40 }}>
-            <h3 style={{ fontSize: 12, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 16 }}>Yarn Weights</h3>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8 }}>
-              {YARN_WEIGHTS.map(yw => (
-                <div key={yw.id} style={{ padding: "8px 12px", borderRadius: 6, background: "rgba(0, 255, 136, 0.02)", border: "1px solid rgba(0, 255, 136, 0.06)" }}>
-                  <div style={{ fontSize: 11, color: "#e0f5e8", fontWeight: 500, marginBottom: 2 }}>{yw.name}</div>
-                  <div style={{ fontSize: 9, color: "rgba(0, 255, 136, 0.4)" }}>Category {yw.category} · {yw.gaugeRange}</div>
-                </div>
-              ))}
-            </div>
-
-            <h3 style={{ fontSize: 12, color: "var(--crochetworld-nebula)", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "monospace", marginBottom: 16, marginTop: 24 }}>UK/US Crochet Terms</h3>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4, fontSize: 11 }}>
-              <div style={{ color: "rgba(0, 255, 136, 0.5)", padding: "4px 8px", fontWeight: 600 }}>UK</div>
-              <div style={{ color: "rgba(0, 255, 136, 0.5)", padding: "4px 8px", fontWeight: 600 }}>US</div>
-              {CROCHET_TERMS_UK_US.map((t, i) => (
-                <React.Fragment key={i}>
-                  <div style={{ color: "#cce8d8", padding: "4px 8px", borderBottom: "1px solid rgba(0, 255, 136, 0.04)" }}>{t.uk}</div>
-                  <div style={{ color: "#cce8d8", padding: "4px 8px", borderBottom: "1px solid rgba(0, 255, 136, 0.04)" }}>{t.us}</div>
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
-        )}
+        </AnimatePresence>
       </div>
     </main>
   );
