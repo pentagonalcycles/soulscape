@@ -11,7 +11,6 @@ import Nebula from "@/components/Nebula";
 import ArtisticBackground from "@/components/ArtisticBackground";
 import Navigation from "@/components/Navigation";
 import VisitorTracker from "@/components/VisitorTracker";
-import PresenceMap from "@/components/PresenceMap";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 const HEAVY_BG_ROUTES = ["/threads"];
@@ -127,7 +126,6 @@ function LayoutInner({ children }: { children: ReactNode }) {
       </div>
       <Navigation activePage={activePage} hideToggle={isHome} />
       <VisitorTracker />
-      {!isHome && <PresenceMap />}
 
     </>
   );
