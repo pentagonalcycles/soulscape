@@ -16,6 +16,7 @@ import type { StitchTechnique } from "@/lib/threads/data";
 
 type Section =
   | "home"
+  | "start"
   | "counter"
   | "projects"
   | "new-project"
@@ -136,6 +137,7 @@ const field: React.CSSProperties = {
 /* ----------------------------------------------------------------- tools */
 
 const TOOLS: { id: Section; icon: string; label: string; hint: string }[] = [
+  { id: "start", icon: "🌱", label: "Start Crocheting", hint: "New here? Begin here" },
   { id: "counter", icon: "🧶", label: "Counter", hint: "Count rounds and repeats" },
   { id: "projects", icon: "📁", label: "My Projects", hint: "Everything you're making" },
   { id: "new-project", icon: "✧", label: "Start a Project", hint: "Add something new" },
@@ -398,7 +400,7 @@ export default function ThreadsPage() {
         }}
       />
 
-      <div style={{ maxWidth: 760, margin: "0 auto", padding: "72px 20px 80px", position: "relative" }}>
+      <div style={{ maxWidth: 720, margin: "0 auto", padding: "72px 20px 80px", position: "relative" }}>
         <AnimatePresence mode="wait">
           <motion.div
             key={section + (activeProject?.id ?? "") + (selectedStitch?.id ?? "")}
@@ -421,38 +423,166 @@ export default function ThreadsPage() {
                   >
                     Threads
                   </h1>
-                  <p style={{ fontSize: 14, color: muted, margin: 0 }}>
+                  <p style={{ fontSize: 14, color: muted, margin: "0 0 32px" }}>
                     Everything you need to crochet. One stitch at a time.
                   </p>
-                </div>
 
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))",
-                    gap: 14,
-                  }}
-                >
-                  {TOOLS.map((t) => (
-                    <motion.button
-                      key={t.id}
-                      onClick={() => go(t.id)}
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                      style={{ ...card, cursor: "pointer", textAlign: "left", minHeight: 96 }}
-                    >
-                      <div style={{ fontSize: 26, marginBottom: 10 }}>{t.icon}</div>
-                      <div style={{ fontSize: 15, color: text, fontWeight: 500, marginBottom: 4 }}>{t.label}</div>
-                      <div style={{ fontSize: 12, color: muted, lineHeight: 1.45 }}>{t.hint}</div>
-                    </motion.button>
-                  ))}
+                  <button
+                    onClick={() => go("start")}
+                    style={{
+                      minHeight: 56,
+                      padding: "0 36px",
+                      borderRadius: 999,
+                      border: "none",
+                      background: accent,
+                      color: "#04160c",
+                      fontSize: 16,
+                      fontWeight: 600,
+                      letterSpacing: "0.5px",
+                      cursor: "pointer",
+                      boxShadow: "0 4px 30px rgba(0, 255, 136, 0.25)",
+                    }}
+                  >
+                    Enter Threads
+                  </button>
                 </div>
               </>
             )}
 
             {/* ------------------------------------------ BACK */}
             {section !== "home" && (
-              <BackButton onClick={() => go("home")} label={section === "project" ? "All projects" : "Tools"} />
+              <BackButton
+                onClick={() => go(section === "project" ? "projects" : section === "stitch" ? "stitches" : "home")}
+                label={section === "project" ? "All projects" : section === "stitch" ? "Stitch library" : "Tools"}
+              />
+            )}
+
+            {/* ------------------------------------------ START (beginner) */}
+            {section === "start" && (
+              <>
+                <Heading sub="Never picked up a hook? This is where you begin." />
+
+                <div style={{ ...card, marginBottom: 20 }}>
+                  <div style={{ fontSize: 26, marginBottom: 10 }}>🪝</div>
+                  <h3 style={{ fontSize: 18, color: text, fontWeight: 500, margin: "0 0 8px" }}>
+                    You need three things
+                  </h3>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
+                    {[
+                      { k: "A hook", v: "Start with a 5mm. Any yarn works for your first one." },
+                      { k: "Some yarn", v: "A medium-weight cotton or acrylic is easiest to handle." },
+                      { k: "Your hands", v: "That's genuinely it. Everything else you can learn as you go." },
+                    ].map((x) => (
+                      <div key={x.k} style={{ display: "flex", gap: 12 }}>
+                        <span style={{ color: accent, fontSize: 18, lineHeight: 1.4 }}>·</span>
+                        <span style={{ fontSize: 14, color: muted, lineHeight: 1.6 }}>
+                          <strong style={{ color: text, fontWeight: 500 }}>{x.k}</strong> — {x.v}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ ...card, marginBottom: 20 }}>
+                  <div style={{ fontSize: 26, marginBottom: 10 }}>1️⃣</div>
+                  <h3 style={{ fontSize: 18, color: text, fontWeight: 500, margin: "0 0 8px" }}>
+                    Your first chain
+                  </h3>
+                  <p style={{ fontSize: 14, color: muted, lineHeight: 1.7, margin: "0 0 16px" }}>
+                    The chain is the foundation of everything in crochet. Master it and the rest follows.
+                  </p>
+                  {[
+                    "Make a loop with your yarn, and pull a tail through to close it. This is your slip knot.",
+                    "Hold the knot in your left hand. Pinch it tight.",
+                    "With the hook in your right hand, loop the yarn over — from back to front.",
+                    "Pull that loop through the slip knot. One chain done.",
+                    "Keep going until your chain is as long as you like. Aim for 15 to start.",
+                  ].map((step, i) => (
+                    <div key={i} style={{ display: "flex", gap: 14, marginBottom: 14 }}>
+                      <span style={{
+                        flexShrink: 0, width: 26, height: 26, borderRadius: "50%",
+                        background: "rgba(0, 255, 136, 0.12)", border: "1px solid rgba(0, 255, 136, 0.2)",
+                        color: accent, fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center",
+                      }}>{i + 1}</span>
+                      <span style={{ fontSize: 15, color: text, lineHeight: 1.6 }}>{step}</span>
+                    </div>
+                  ))}
+                  <div style={{ marginTop: 18 }}>
+                    <button
+                      onClick={() => go("stitches")}
+                      style={{
+                        minHeight: 48, padding: "0 24px", borderRadius: 999,
+                        background: "rgba(0, 255, 136, 0.08)", border: "1px solid rgba(0, 255, 136, 0.25)",
+                        color: accent, fontSize: 14, cursor: "pointer",
+                      }}
+                    >
+                      See the full chain stitch guide
+                    </button>
+                  </div>
+                </div>
+
+                <div style={{ ...card, marginBottom: 20 }}>
+                  <div style={{ fontSize: 26, marginBottom: 10 }}>2️⃣</div>
+                  <h3 style={{ fontSize: 18, color: text, fontWeight: 500, margin: "0 0 8px" }}>
+                    Your first row
+                  </h3>
+                  <p style={{ fontSize: 14, color: muted, lineHeight: 1.7, margin: "0 0 16px" }}>
+                    Now work back along your chain with single crochet.
+                  </p>
+                  {[
+                    "Yarn over, then push your hook into the second chain from your hook.",
+                    "Pull the yarn through — you should have 2 loops on your hook.",
+                    "Yarn over and pull through both loops. That's one single crochet.",
+                    "Keep going across the whole chain.",
+                    "Turn your work. Make one chain to rise, then work the next row the same way.",
+                  ].map((step, i) => (
+                    <div key={i} style={{ display: "flex", gap: 14, marginBottom: 14 }}>
+                      <span style={{
+                        flexShrink: 0, width: 26, height: 26, borderRadius: "50%",
+                        background: "rgba(0, 255, 136, 0.12)", border: "1px solid rgba(0, 255, 136, 0.2)",
+                        color: accent, fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center",
+                      }}>{i + 1}</span>
+                      <span style={{ fontSize: 15, color: text, lineHeight: 1.6 }}>{step}</span>
+                    </div>
+                  ))}
+                  <div style={{ marginTop: 18 }}>
+                    <button
+                      onClick={() => go("counter")}
+                      style={{
+                        minHeight: 48, padding: "0 24px", borderRadius: 999,
+                        background: accent, color: "#04160c", border: "none",
+                        fontSize: 14, fontWeight: 600, cursor: "pointer",
+                      }}
+                    >
+                      Start counting rows
+                    </button>
+                  </div>
+                </div>
+
+                <div style={card}>
+                  <h3 style={{ fontSize: 18, color: text, fontWeight: 500, margin: "0 0 8px" }}>
+                    Where to go next
+                  </h3>
+                  <p style={{ fontSize: 14, color: muted, lineHeight: 1.7, margin: "0 0 20px" }}>
+                    Once you&apos;ve got a few rows under your belt, these are the tools you&apos;ll reach for most.
+                  </p>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 12 }}>
+                    {TOOLS.filter((t) => t.id !== "start").map((t) => (
+                      <button
+                        key={t.id}
+                        onClick={() => go(t.id)}
+                        style={{
+                          ...card, cursor: "pointer", textAlign: "left", minHeight: 84, padding: 16,
+                        }}
+                      >
+                        <div style={{ fontSize: 20, marginBottom: 8 }}>{t.icon}</div>
+                        <div style={{ fontSize: 14, color: text, fontWeight: 500, marginBottom: 4 }}>{t.label}</div>
+                        <div style={{ fontSize: 12, color: muted, lineHeight: 1.45 }}>{t.hint}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
             )}
 
             {/* ------------------------------------------ COUNTER */}
